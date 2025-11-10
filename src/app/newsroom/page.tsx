@@ -1,0 +1,411 @@
+"use client";
+
+import { ArrowRight, Tag, Calendar, ChevronDown, Rss } from "lucide-react";
+
+// --- Theme Constants (Using Tailwind Classes) ---
+const PRIMARY_BLUE = "#014f86";
+const ACCENT_CYAN = "cyan-600";
+const ACCENT_BG = "bg-cyan-100";
+const NEUTRAL_BG = "bg-gray-50";
+const SECTION_BG = "bg-white";
+
+const SectionHeading = ({ title, subtitle, color = "text-gray-800" }: any) => (
+  <div className="text-left mb-12">
+    <h2
+      className={`text-3xl md:text-4xl font-black ${color} mb-3 border-l-4 border-cyan-500 pl-4`}
+    >
+      {title}
+    </h2>
+    {subtitle && <p className="text-xl text-gray-500 max-w-2xl">{subtitle}</p>}
+  </div>
+);
+
+const NewsCard = ({ type, title, date, image, tags, large = false }: any) => {
+  // Theme colors
+  //   const primaryBlue = "#014f86";
+  //   const accentCyan = "#06b6d4";
+  //   const softPrimary = `text-[${primaryBlue}]`;
+  //   const softSecondary = `text-[${accentCyan}]`;
+
+  // Dynamic styling based on size
+  const cardClasses = large
+    ? "col-span-12 lg:col-span-8 flex flex-col md:flex-row bg-white rounded-3xl shadow-2xl hover:shadow-cyan-400/30 transition-all duration-500 overflow-hidden border border-gray-100 transform hover:scale-[1.01] cursor-pointer group"
+    : "col-span-12 sm:col-span-6 lg:col-span-4 bg-white rounded-3xl shadow-xl hover:shadow-cyan-300/40 transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2 cursor-pointer group";
+
+  const imageClasses = large
+    ? "md:w-1/2 w-full h-72 md:h-auto bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.05]"
+    : "w-full h-60 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.05]";
+
+  const contentClasses = large
+    ? "p-8 md:w-1/2 flex flex-col justify-center"
+    : "p-6 flex flex-col h-full";
+
+  const titleClasses = large
+    ? "text-3xl font-extrabold text-gray-900 mb-4 group-hover:text-cyan-600 transition-colors leading-tight"
+    : "text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors leading-snug";
+
+  return (
+    <a href="#" className={cardClasses}>
+      {/* Card Image */}
+      <div
+        className={imageClasses}
+        style={{ backgroundImage: `url(${image})` }}
+        aria-label={`Image for ${title}`}
+      ></div>
+
+      {/* Card Content */}
+      <div className={contentClasses}>
+        <div className="flex items-center space-x-4 mb-4 text-sm">
+          <div
+            className={`flex items-center font-bold text-xs tracking-widest uppercase text-${ACCENT_CYAN} border-b-2 border-cyan-300 pb-1`}
+          >
+            <Tag className="w-4 h-4 mr-1 opacity-90" />
+            {type}
+          </div>
+          <div className="flex items-center text-gray-500 text-xs font-medium">
+            <Calendar className="w-4 h-4 mr-1 opacity-70" />
+            {date}
+          </div>
+        </div>
+        <h3 className={titleClasses}>{title}</h3>
+        {tags && (
+          <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-gray-100">
+            {tags.map((tag: string, index: string | number) => (
+              <span
+                key={index}
+                className={`text-xs font-medium px-3 py-1 rounded-full bg-cyan-50 text-cyan-700 hover:bg-cyan-100 transition-colors`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </a>
+  );
+};
+
+// --- Mock Data Generator (Sanitized) ---
+// const generateMockNews = (count, baseTitle, type, tags, dateStart) => {
+//   const news = [];
+//   const startYear = parseInt(dateStart.split(" ")[2]);
+//   const monthNames = [
+//     "Jan",
+//     "Feb",
+//     "Mar",
+//     "Apr",
+//     "May",
+//     "Jun",
+//     "Jul",
+//     "Aug",
+//     "Sep",
+//     "Oct",
+//     "Nov",
+//     "Dec",
+//   ];
+//   const startMonthIndex = monthNames.indexOf(dateStart.split(" ")[1]);
+
+//   for (let i = 0; i < count; i++) {
+//     const day = ((29 - i) % 28) + 1; // Simple date variation
+//     const totalMonths = startYear * 12 + startMonthIndex - i;
+//     const year = Math.floor(totalMonths / 12);
+//     const month = monthNames[totalMonths % 12];
+
+//     news.push({
+//       type: type[i % type.length],
+//       title: `${baseTitle} - Lorem ipsum dolor sit amet, consectetur adipiscing elit ${
+//         i + 1
+//       }`,
+//       date: `${day} ${month} ${year}`,
+//       // Using generic image URLs, adding an index to the query for unique image requests
+//       image: `https://images.unsplash.com/photo-1542036440-6d0c75ff39d0?q=80&w=800&auto=format&fit=crop&t=${
+//         i + 1
+//       }`,
+//       tags: tags[i % tags.length],
+//     });
+//   }
+//   return news;
+// };
+
+// const types = [
+//   "PRESS RELEASE",
+//   "BUSINESS",
+//   "RESEARCH",
+//   "EDITORIAL",
+//   "PARTNERSHIP",
+// ];
+// const tagsList = [
+//   ["CORPORATE", "INNOVATION"],
+//   ["FINTECH", "E-COMMERCE"],
+//   ["STRATEGY", "MARKETS"],
+//   ["ESG", "SUSTAINABILITY"],
+//   ["LOGISTICS", "OPERATIONS"],
+//   ["CAMPAIGN", "CUSTOMER_FOCUS"],
+// ];
+
+const mainHeadline = {
+  type: "STRATEGY",
+  title:
+    "Aliquam Tincidunt: Global Platform Integrates Secure Payment Solutions Across Continental Markets",
+  date: "29 Oct 2024",
+  image:
+    "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+};
+
+const latestNews = [
+  {
+    type: "PRESS RELEASE",
+    title:
+      "Vestibulum Ante: Company Strengthens Regional Alliances Through New Memorandum of Understanding",
+    date: "27 Jan 2024",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["CORPORATE", "PARTNERSHIP"],
+  },
+  {
+    type: "BUSINESS",
+    title:
+      "Donec Elementum: Annual Report 2024 Key Performance Indicators Unveiled",
+    date: "27 Jan 2024",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["REPORTS", "INFOGRAPHICS"],
+  },
+  {
+    type: "BUSINESS",
+    title:
+      "Mauris Euismod: New Partnership Enables Streamlined and Secure Digital Transactions Across Asia",
+    date: "29 Oct 2024",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["FINTECH", "PRESS RELEASE"],
+  },
+  {
+    type: "PRESS RELEASE",
+    title:
+      "Nullam Dignissim: Inaugural Safety Campaign Launched in Collaboration with Local Authorities",
+    date: "07 Dec 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["SAFETY", "OPERATIONS"],
+  },
+  {
+    type: "PRESS RELEASE",
+    title:
+      "Curabitur Aliquet: Regional Division Initiates Program for Flexible Income Opportunities",
+    date: "14 Aug 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["WORKFORCE", "REGIONAL"],
+  },
+  {
+    type: "BUSINESS",
+    title:
+      "Praesent Velit: Strategic Initiative Brings Specialty Goods to Local Neighborhoods with Free Delivery Incentives",
+    date: "12 Aug 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["CAMPAIGN", "LOGISTICS"],
+  },
+];
+
+const additionalNews = [
+  {
+    type: "MERCHANTS",
+    title:
+      "Integer Lacinia: Company Collaborates with Regional Telco to Support Partner Vendors",
+    date: "08 Jul 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["PARTNERSHIP", "ECOSYSTEM"],
+  },
+  {
+    type: "PRESS RELEASE",
+    title:
+      "Fusce Quisque: Supporting Community Growth and Welfare for Delivery Partners and their Families",
+    date: "05 Jul 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["CSR", "COMMUNITY"],
+  },
+  {
+    type: "LOGISTICS",
+    title:
+      "Vivamus Ipsum: Driving Partner Expansion to Enhance Customer Choice and Experience",
+    date: "29 Jun 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["CUSTOMER EXPERIENCE"],
+  },
+];
+
+const bottomNews = [
+  {
+    type: "PRODUCT",
+    title:
+      "Sed Dictum: Launch of Optimized Meal Options for Solo Consumers Across Multiple Regions",
+    date: "07 Jul 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["CAMPAIGN", "MARKETING"],
+  },
+  {
+    type: "PRODUCT",
+    title:
+      "Proin Adipiscing: Unveiling Subscription Tier with Unlimited Shipping and Exclusive Promotions",
+    date: "07 Jul 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["SUBSCRIPTION"],
+  },
+  {
+    type: "MERCHANTS",
+    title:
+      "Etiam Commodo: Asia Pacific Division Aids Vendors in Enhancing Digital Presence for Quick-Commerce",
+    date: "04 Jul 2023",
+    image:
+      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    tags: ["E-COMMERCE", "VENDOR_SUPPORT"],
+  },
+];
+
+const NewsroomPage = () => {
+  // Tailwind Class mapping (using constants for consistency)
+  const softNeutralBg = NEUTRAL_BG;
+  const softSectionBg = SECTION_BG;
+
+  return (
+    <div className={`min-h-screen ${softNeutralBg}`}>
+      <section
+        className={`py-24 md:py-32 ${softSectionBg} shadow-md`}
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.8)), url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1800&auto=format&fit=crop')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h1 className="text-6xl md:text-7xl font-black text-gray-900 mb-4 tracking-tighter">
+            📰 Corporate Newsroom
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mb-8">
+            Stay informed with our official press releases, in-depth reports,
+            and company updates.
+          </p>
+          <div className="flex flex-wrap gap-x-8 gap-y-2 text-gray-700 text-lg font-semibold border-t pt-4 border-gray-200">
+            <a
+              href="#"
+              className="hover:text-cyan-600 transition-colors relative after:absolute after:h-0.5 after:bg-cyan-500 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >
+              Press Releases
+            </a>
+            <a
+              href="#"
+              className="hover:text-cyan-600 transition-colors relative after:absolute after:h-0.5 after:bg-cyan-500 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >
+              Research & Insights
+            </a>
+            <a
+              href="#"
+              className="hover:text-cyan-600 transition-colors flex items-center"
+            >
+              Subscribe <Rss className="w-4 h-4 ml-2" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Headline Section (Prominent) */}
+      <section className={`py-16 ${softNeutralBg}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            title="Featured Story"
+            subtitle="The most significant announcement from our organization this quarter."
+          />
+          <NewsCard {...mainHeadline} large={true} />
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <hr className="border-t border-gray-200" />
+      </div>
+
+      {/* All Stories Section */}
+      <section className={`py-16 ${softSectionBg}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            title="All Stories & Archives"
+            color="text-gray-900"
+            subtitle="Browse all official content categorized by topic and date."
+          />
+
+          {/* Filter/Tag Buttons */}
+          <div className="flex flex-wrap gap-3 mb-12">
+            <button
+              className={`px-6 py-2 text-sm font-bold rounded-full bg-gray-900 text-white shadow-lg hover:bg-gray-700 transition-colors flex items-center`}
+            >
+              ALL
+            </button>
+            <button
+              className={`px-6 py-2 text-sm font-semibold rounded-full ${ACCENT_BG} text-cyan-800 border border-cyan-300 hover:bg-cyan-200 transition-colors flex items-center`}
+            >
+              BUSINESS
+            </button>
+            <button
+              className={`px-6 py-2 text-sm font-semibold rounded-full ${ACCENT_BG} text-cyan-800 border border-cyan-300 hover:bg-cyan-200 transition-colors flex items-center`}
+            >
+              CAMPAIGNS
+            </button>
+            <button
+              className={`px-6 py-2 text-sm font-semibold rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex items-center space-x-1`}
+            >
+              <span>FILTER BY</span>{" "}
+              <ChevronDown className="w-4 h-4 opacity-80" />
+            </button>
+          </div>
+
+          {/* News Grid */}
+          <div className="grid grid-cols-12 gap-10">
+            {latestNews.slice(0, 3).map((news, index) => (
+              <NewsCard key={index} {...news} />
+            ))}
+            {latestNews.slice(3, 6).map((news, index) => (
+              <NewsCard key={`add-${index}`} {...news} />
+            ))}
+            {additionalNews.map((news, index) => (
+              <NewsCard key={`add2-${index}`} {...news} />
+            ))}
+          </div>
+
+          {/* Load More/View All Button */}
+          <div className="text-center mt-16">
+            <button
+              className={`group px-10 py-4 text-white font-bold rounded-full bg-[${PRIMARY_BLUE}] transition-all duration-300 shadow-xl shadow-[${PRIMARY_BLUE}]/30 hover:shadow-2xl hover:scale-[1.03] flex items-center justify-center space-x-2 text-lg mx-auto`}
+            >
+              <span>Load More Stories</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Separator / Additional News Section (Different background for contrast) */}
+      <section className={`py-16 ${softNeutralBg}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading title="More Archives" color="text-gray-900" />
+          <div className="grid grid-cols-12 gap-10">
+            {bottomNews.map((news, index) => (
+              <NewsCard key={`bottom-${index}`} {...news} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Space/End of Page */}
+      <div className={`h-16 ${softSectionBg}`}></div>
+    </div>
+  );
+};
+
+export default NewsroomPage;

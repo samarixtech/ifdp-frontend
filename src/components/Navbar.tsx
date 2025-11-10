@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ChevronDown, Globe, Menu, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Country {
   code: string;
@@ -33,7 +34,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-linear-to-r from-blue-600 to-blue-800 shadow-lg sticky top-0 z-50">
+    <nav className="bg-[#003566] shadow-lg sticky top-0 z-50">
       {/* Navbar Container */}
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-5">
         <div className="flex justify-between items-center h-17">
@@ -44,14 +45,14 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {["Home", "About", "Services", "Contact"].map((item) => (
-              <a
+            {["Home", "About", "Newsroom", "Contact"].map((item) => (
+              <Link
                 key={item}
-                href={`#${item.toLowerCase()}`}
+                href={`/${item.toLowerCase()}`}
                 className="text-white hover:text-blue-100 font-medium transition-colors"
               >
                 {item}
-              </a>
+              </Link>
             ))}
 
             {/* Country Selector (Desktop) */}
@@ -112,7 +113,7 @@ const Navbar: React.FC = () => {
 
       {/* Full-Screen Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-gradient-to-b from-blue-700 to-blue-900 backdrop-blur-md text-white animate-fade-in-fast">
+        <div className="fixed inset-0 z-50 bg-linear-to-b from-blue-700 to-blue-900 backdrop-blur-md text-white animate-fade-in-fast">
           <div className="absolute top-5 right-5">
             <button
               onClick={() => setIsMobileMenuOpen(false)}
