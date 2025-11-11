@@ -117,27 +117,52 @@ const Navbar: React.FC = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isDesktopLangOpen, isCountryDropdownOpen, isMobileLangDropdownOpen]);
+const handleNavigationChange = (
+  newCountryCode: string,
+  newLangCode: string,
+  newTime?: string
+) => {
 
-  const handleNavigationChange = (
-    newCountryCode: string,
-    newLangCode: string
-  ) => {
-    const segments = pathname.split("/").filter(Boolean);
-    const remainingPath =
-      segments.length >= 2 ? segments.slice(2).join("/") : "";
-    const newPath =
-      `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/${remainingPath}`.replace(
-        /\/{2,}/g,
-        "/"
-      );
+  let newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/restaurants`;
 
-    console.log("🔹 Navigation updated to:", newPath);
-    setCookie("NEXT_LOCALE", newLangCode, {
-      maxAge: 60 * 60 * 24 * 30,
-      path: "/",
-    });
-    router.replace(newPath);
-  };
+  if (newTime) {
+    newPath += `/${newTime.toLowerCase()}`;
+  }
+
+  console.log("🔹 Navigation updated to:", newPath);
+  setCookie("NEXT_LOCALE", newLangCode, {
+    maxAge: 60 * 60 * 24 * 30, 
+    path: "/",
+  });
+
+  router.replace(newPath);
+};
+
+
+  // const handleNavigationChange = (
+  //   newCountryCode: string,
+  //   newLangCode: string
+  // ) => {
+  //   const segments = pathname.split("/").filter(Boolean);
+
+  //   // Replace first two segments with new values
+  //   const newSegments = [
+  //     newCountryCode.toLowerCase(),
+  //     newLangCode.toLowerCase(),
+  //     ...segments.slice(2) // keep everything after country/lang
+  //   ];
+
+  //   const newPath = "/" + newSegments.join("/");
+
+  //   console.log("🔹 Navigation updated to:", newPath);
+
+  //   setCookie("NEXT_LOCALE", newLangCode, {
+  //     maxAge: 60 * 60 * 24 * 30,
+  //     path: "/",
+  //   });
+
+  //   router.replace(newPath);
+  // };
 
   const changeLanguage = (newLocale: string) => {
     console.log("🔹 changeLanguage called");
