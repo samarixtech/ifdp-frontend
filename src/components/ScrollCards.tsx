@@ -5,35 +5,34 @@ import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import { Globe, Shield, Zap, Users } from "lucide-react";
 
-// --- DATA (KEPT AS IS) ---
 const horizontalCardsRow1 = [
   {
     icon: <Globe className="w-9 h-9 text-blue-600" />,
     title: "Global Reach",
     description:
       "Operating in 50+ countries across 6 continents. This description is intentionally a bit longer to test the ellipsis functionality and ensure it properly clips after three lines of text.",
-    image: "/hero.webp",
+    image: "/delivery1.webp",
   },
   {
     icon: <Zap className="w-9 h-9 text-blue-600" />,
     title: "Lightning Fast",
     description:
       "Rapid delivery times and real-time tracking, powered by our next-generation proprietary routing algorithms. We guarantee speed.",
-    image: "/hero.webp",
+    image: "/delivery2.webp",
   },
   {
     icon: <Shield className="w-9 h-9 text-blue-600" />,
     title: "Secure & Reliable",
     description:
       "99.9% uptime guaranteed and enterprise-grade security. Our infrastructure is fortified against any disruptions to ensure continuous service.",
-    image: "/hero.webp",
+    image: "/delivery3.webp",
   },
   {
     icon: <Users className="w-9 h-9 text-blue-600" />,
     title: "Partner Network",
     description:
       "100,000+ restaurant partners worldwide, offering an unparalleled selection of cuisines from Michelin-starred chefs to local favorites.",
-    image: "/hero.webp",
+    image: "/delivery4.webp",
   },
 ];
 
@@ -43,31 +42,30 @@ const horizontalCardsRow2 = [
     title: "Eco-Friendly",
     description:
       "Sustainable delivery solutions for a greener planet. We are committed to reducing our carbon footprint with electric vehicles and optimized routes.",
-    image: "/hero.webp",
+    image: "/delivery4.webp",
   },
   {
     icon: <Zap className="w-9 h-9 text-blue-600" />,
     title: "24/7 Support",
     description:
       "Dedicated support for all your business needs, available around the clock. Our team is ready to assist you anytime, anywhere.",
-    image: "/hero.webp",
+    image: "/delivery3.webp",
   },
   {
     icon: <Shield className="w-9 h-9 text-blue-600" />,
     title: "Custom Solutions",
     description:
       "Tailored solutions for your unique business model. From corporate catering to complex logistics, we adapt to your requirements.",
-    image: "/hero.webp",
+    image: "/delivery2.webp",
   },
   {
     icon: <Users className="w-9 h-9 text-blue-600" />,
     title: "Advanced Analytics",
     description:
       "Real-time insights for smarter decisions. Leverage our data dashboards to optimize your delivery performance and customer satisfaction.",
-    image: "/hero.webp",
+    image: "/delivery1.webp",
   },
 ];
-// --- END DATA ---
 
 const ScrollCardsEnhanced: React.FC = () => {
   const scrollY = useMotionValue(0);

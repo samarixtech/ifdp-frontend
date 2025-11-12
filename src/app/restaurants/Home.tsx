@@ -1,14 +1,38 @@
 import React from "react";
 
 const cuisines = [
-  { name: "Pizza", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
-  { name: "Biryani", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
-  { name: "Fast Food", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
-  { name: "Burgers", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
-  { name: "Halwa Puri", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
-  { name: "Desserts", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
-  { name: "Paratha", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
-  { name: "Chinese", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
+  {
+    name: "Pizza",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+  },
+  {
+    name: "Biryani",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+  },
+  {
+    name: "Fast Food",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+  },
+  {
+    name: "Burgers",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+  },
+  {
+    name: "Halwa Puri",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+  },
+  {
+    name: "Desserts",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+  },
+  {
+    name: "Paratha",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+  },
+  {
+    name: "Chinese",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+  },
 ];
 
 const sampleItems = [
@@ -117,52 +141,58 @@ const Home: React.FC = () => {
       {/* New on foodpanda */}
       <SectionTitle title="New on foodpanda" />
       <HorizontalScroller>
-        {sampleItems.map(({ title, desc, time, price, rating, img, discount }) => (
-          <FoodCard
-            key={title}
-            title={title}
-            desc={desc}
-            time={time}
-            price={price}
-            rating={rating}
-            img={img}
-            discount={discount}
-          />
-        ))}
+        {sampleItems.map(
+          ({ title, desc, time, price, rating, img, discount }) => (
+            <FoodCard
+              key={title}
+              title={title}
+              desc={desc}
+              time={time}
+              price={price}
+              rating={rating}
+              img={img}
+              discount={discount}
+            />
+          )
+        )}
       </HorizontalScroller>
 
       {/* Homechefs – khaas discounts */}
       <SectionTitle title="Homechefs – khaas discounts" />
       <HorizontalScroller>
-        {sampleItems.map(({ title, desc, time, price, rating, img, discount }) => (
-          <FoodCard
-            key={title + "homechef"}
-            title={title}
-            desc={desc}
-            time={time}
-            price={price}
-            rating={rating}
-            img={img}
-            discount={discount}
-          />
-        ))}
+        {sampleItems.map(
+          ({ title, desc, time, price, rating, img, discount }) => (
+            <FoodCard
+              key={title + "homechef"}
+              title={title}
+              desc={desc}
+              time={time}
+              price={price}
+              rating={rating}
+              img={img}
+              discount={discount}
+            />
+          )
+        )}
       </HorizontalScroller>
 
       {/* Pepsi kamaaal kravings */}
       <SectionTitle title="Pepsi kamaaal kravings" />
       <HorizontalScroller>
-        {sampleItems.map(({ title, desc, time, price, rating, img, discount }) => (
-          <FoodCard
-            key={title + "pepsi"}
-            title={title}
-            desc={desc}
-            time={time}
-            price={price}
-            rating={rating}
-            img={img}
-            discount={discount}
-          />
-        ))}
+        {sampleItems.map(
+          ({ title, desc, time, price, rating, img, discount }) => (
+            <FoodCard
+              key={title + "pepsi"}
+              title={title}
+              desc={desc}
+              time={time}
+              price={price}
+              rating={rating}
+              img={img}
+              discount={discount}
+            />
+          )
+        )}
       </HorizontalScroller>
     </div>
   );
@@ -174,7 +204,9 @@ const SectionTitle: React.FC<{ title: string }> = ({ title }) => (
   </h3>
 );
 
-const HorizontalScroller: React.FC<React.PropsWithChildren> = ({ children }) => (
+const HorizontalScroller: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => (
   <div className="flex overflow-x-auto space-x-6 mb-10 scrollbar-hide py-2">
     {children}
   </div>

@@ -117,27 +117,25 @@ const Navbar: React.FC = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isDesktopLangOpen, isCountryDropdownOpen, isMobileLangDropdownOpen]);
-const handleNavigationChange = (
-  newCountryCode: string,
-  newLangCode: string,
-  newTime?: string
-) => {
+  const handleNavigationChange = (
+    newCountryCode: string,
+    newLangCode: string,
+    newTime?: string
+  ) => {
+    let newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/restaurants`;
 
-  let newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/restaurants`;
+    if (newTime) {
+      newPath += `/${newTime.toLowerCase()}`;
+    }
 
-  if (newTime) {
-    newPath += `/${newTime.toLowerCase()}`;
-  }
+    console.log("🔹 Navigation updated to:", newPath);
+    setCookie("NEXT_LOCALE", newLangCode, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+    });
 
-  console.log("🔹 Navigation updated to:", newPath);
-  setCookie("NEXT_LOCALE", newLangCode, {
-    maxAge: 60 * 60 * 24 * 30, 
-    path: "/",
-  });
-
-  router.replace(newPath);
-};
-
+    router.replace(newPath);
+  };
 
   // const handleNavigationChange = (
   //   newCountryCode: string,

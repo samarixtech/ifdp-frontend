@@ -11,9 +11,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import ScrollCardsEnhanced from "@/components/ScrollCards";
-import { useTranslations } from "next-intl"; // Keep this import
+import { useTranslations } from "next-intl";
 
-// --- Section Heading Component (No change, uses translated content from parent) ---
 const SectionHeading = ({ title, subtitle, color = "text-gray-700" }: any) => (
   <div className="text-center mb-16">
     <h2 className={`text-4xl md:text-5xl font-extrabold ${color} mb-4`}>
@@ -23,7 +22,6 @@ const SectionHeading = ({ title, subtitle, color = "text-gray-700" }: any) => (
   </div>
 );
 
-// --- Trust Card Component (No change, uses translated content from parent) ---
 const TrustCardSoft = ({ icon: Icon, iconColor, title, subtitle }: any) => (
   <div className="bg-white p-8 rounded-2xl text-center shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-1 relative">
     <Icon className={`w-16 h-16 ${iconColor} mx-auto mb-4 opacity-80`} />
@@ -33,7 +31,6 @@ const TrustCardSoft = ({ icon: Icon, iconColor, title, subtitle }: any) => (
 );
 
 const Page = () => {
-  // Initialize translation hook with the "Home" namespace
   const t = useTranslations("Home");
 
   // Oceanic Blue Color Palette Definition (No change)
@@ -43,7 +40,7 @@ const Page = () => {
   const neutralBg = "bg-gray-50"; // Light Gray/Off-White for background
   const sectionBg = "bg-white"; // Pure White for clean separation
 
-  // Tailwind Class mapping for dynamic use (No change)
+  // Tailwind Class mapping for dynamic use
   const softAccent = `bg-[${tertiaryBlue}]`; // Accent button background
   const softAccentText = `text-[${primaryBlue}]`; // Accent button text
   const softNeutralBg = neutralBg;
@@ -51,8 +48,6 @@ const Page = () => {
   const statGradient = "from-blue-400 to-cyan-500";
   const benefitBgGradient = "from-[#012a4a] to-[#01497c]";
   const benefitCheckColor = "text-cyan-300";
-
-  // --- Data structures now use translation keys ---
 
   const features = [
     {
@@ -84,7 +79,6 @@ const Page = () => {
     { number: "500M+", labelKey: "stat_deliveries" },
   ];
 
-  // Benefits list uses keys that can be translated
   const benefitKeys = [
     "benefit_1",
     "benefit_2",
@@ -94,13 +88,11 @@ const Page = () => {
     "benefit_6",
   ];
 
-  // --- Start of JSX with applied translation (t) function ---
-
   return (
     <div className={`min-h-screen ${softNeutralBg}`}>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        {/* Background Image and Overlays (No change) */}
+        {/* Background Image and Overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
@@ -114,32 +106,32 @@ const Page = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 z-30 text-center text-white">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in-up">
-            {t("hero_title_p1")} {/* Translated */}
+            {t("hero_title_p1")}
             <span
               className={`block bg-linear-to-r ${statGradient} bg-clip-text text-transparent`}
             >
-              {t("hero_title_p2")} {/* Translated */}
+              {t("hero_title_p2")}
             </span>
           </h1>
           <p className="text-xl md:text-2xl mb-10 text-white/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
-            {t("hero_subtitle")} {/* Translated */}
+            {t("hero_subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
             {/* Primary Button */}
             <button
               className={`group px-8 py-4 ${softAccent} ${softAccentText} font-semibold rounded-xl hover:bg-[#89c2d9] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2`}
             >
-              <span>{t("hero_cta_explore")}</span> {/* Translated */}
+              <span>{t("hero_cta_explore")}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             {/* Secondary Button */}
             <button className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
-              {t("hero_cta_demo")} {/* Translated */}
+              {t("hero_cta_demo")}
             </button>
           </div>
         </div>
 
-        {/* Wave Divider (No change) */}
+        {/* Wave Divider */}
         <div className="absolute bottom-0 left-0 right-0 z-20">
           <svg
             viewBox="0 0 1440 120"
@@ -165,14 +157,14 @@ const Page = () => {
                 key={index}
                 className="text-center p-6 rounded-xl shadow-sm border border-gray-100 bg-white transform hover:scale-105 transition-transform duration-300"
               >
-                {/* Stats Gradient: Blue/Cyan (No Change) */}
+                {/* Stats Gradient: Blue/Cyan  */}
                 <div
                   className={`text-4xl md:text-5xl font-bold bg-linear-to-r ${statGradient} bg-clip-text text-transparent mb-2`}
                 >
                   {stat.number}
                 </div>
                 <div className="text-gray-500 font-medium">
-                  {t(stat.labelKey)} {/* Translated */}
+                  {t(stat.labelKey)}
                 </div>
               </div>
             ))}
@@ -184,8 +176,8 @@ const Page = () => {
       <section className={`py-20 ${softSectionBg}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            title={t("features_heading")} // Translated
-            subtitle={t("features_subheading")} // Translated
+            title={t("features_heading")}
+            subtitle={t("features_subheading")}
             color="text-gray-800"
           />
 
@@ -199,10 +191,10 @@ const Page = () => {
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-3">
-                  {t(feature.titleKey)} {/* Translated */}
+                  {t(feature.titleKey)}
                 </h3>
                 <p className="text-gray-500 leading-relaxed">
-                  {t(feature.descriptionKey)} {/* Translated */}
+                  {t(feature.descriptionKey)}
                 </p>
               </div>
             ))}
