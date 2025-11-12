@@ -1,7 +1,6 @@
 "use client";
 import { useState, useRef } from "react";
 import {
-  Handshake,
   TrendingUp,
   Shield,
   Globe,
@@ -12,163 +11,91 @@ import {
   ArrowRight,
   Truck,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const Partners = () => {
-  // Color theme from original component
-  const primaryBlue = "#014f86";
+  const t = useTranslations("Partners");
+
+  // Color theme
+  // const primaryBlue = "#014f86";
   const softPrimaryText = "text-[#014f86]";
   const softAccent = "bg-[#61a5c2]";
   const softAccentText = "text-[#014f86]";
   const softNeutralBg = "bg-gray-50";
   const softSectionBg = "bg-white";
 
-  // Filter state for carousel
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("filter_all");
   const carouselRef = useRef(null);
 
   // Partner categories
-  const filters = ["All", "Restaurants", "Delivery", "Technology", "Retail"];
+  const filters = [
+    "filter_all",
+    "filter_restaurants",
+    "filter_delivery",
+    "filter_technology",
+    "filter_retail",
+  ];
 
-  // Partners data
-  const partners = [
+  const benefits = [
     {
-      id: 1,
-      name: "Gourmet Kitchen Co.",
-      category: "Restaurants",
-      logo: "🍽️",
-      description: "Premium dining experiences delivered to your door",
-      image:
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&fit=crop",
-      stats: { orders: "50K+", rating: "4.8" },
+      icon: TrendingUp,
+      title: t("benefit1_title"),
+      description: t("benefit1_description"),
+      color: "text-blue-500",
     },
     {
-      id: 2,
-      name: "Swift Logistics",
-      category: "Delivery",
-      logo: "🚚",
-      description: "Fast and reliable delivery fleet services",
-      image:
-        "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=600&auto=format&fit=crop",
-      stats: { orders: "100K+", rating: "4.9" },
+      icon: Shield,
+      title: t("benefit2_title"),
+      description: t("benefit2_description"),
+      color: "text-cyan-500",
     },
     {
-      id: 3,
-      name: "TechServe Solutions",
-      category: "Technology",
-      logo: "💻",
-      description: "Innovative payment and tracking systems",
-      image:
-        "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&auto=format&fit=crop",
-      stats: { orders: "200K+", rating: "4.7" },
+      icon: Globe,
+      title: t("benefit3_title"),
+      description: t("benefit3_description"),
+      color: softPrimaryText,
     },
     {
-      id: 4,
-      name: "Urban Eats",
-      category: "Restaurants",
-      logo: "🍕",
-      description: "Street food and local favorites network",
-      image:
-        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop",
-      stats: { orders: "75K+", rating: "4.6" },
-    },
-    {
-      id: 5,
-      name: "Market Fresh",
-      category: "Retail",
-      logo: "🛒",
-      description: "Grocery and fresh produce partnerships",
-      image:
-        "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop",
-      stats: { orders: "120K+", rating: "4.8" },
-    },
-    {
-      id: 6,
-      name: "CloudFleet",
-      category: "Delivery",
-      logo: "✈️",
-      description: "Drone and express delivery services",
-      image:
-        "https://images.unsplash.com/photo-1527977966376-6c5d09690574?w=600&auto=format&fit=crop",
-      stats: { orders: "90K+", rating: "4.9" },
-    },
-    {
-      id: 7,
-      name: "AppConnect",
-      category: "Technology",
-      logo: "📱",
-      description: "Mobile integration and API solutions",
-      image:
-        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&auto=format&fit=crop",
-      stats: { orders: "150K+", rating: "4.7" },
-    },
-    {
-      id: 8,
-      name: "Fusion Bistro Network",
-      category: "Restaurants",
-      logo: "🥘",
-      description: "International cuisine partnership program",
-      image:
-        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&auto=format&fit=crop",
-      stats: { orders: "60K+", rating: "4.8" },
+      icon: Users,
+      title: t("benefit4_title"),
+      description: t("benefit4_description"),
+      color: "text-indigo-400",
     },
   ];
 
-  // Filter partners based on active filter
+  // Partners data
+  const partners = t.raw("partners_list") as any[];
+
+  // Filter partners based on active filter key
   const filteredPartners =
-    activeFilter === "All"
+    activeFilter === "filter_all"
       ? partners
-      : partners.filter((p) => p.category === activeFilter);
+      : partners.filter((p: any) => p.category_key === activeFilter);
 
   // Carousel scroll functions
   const scrollLeft = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -400, behavior: "smooth" });
+      (carouselRef.current as HTMLElement).scrollBy({
+        left: -400,
+        behavior: "smooth",
+      });
     }
   };
 
   const scrollRight = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 400, behavior: "smooth" });
+      (carouselRef.current as HTMLElement).scrollBy({
+        left: 400,
+        behavior: "smooth",
+      });
     }
   };
-
-  // Partnership benefits data
-  const benefits = [
-    {
-      icon: TrendingUp,
-      title: "Grow Your Business",
-      description:
-        "Access millions of customers and scale your operations with our proven platform",
-      color: "text-blue-500",
-    },
-    {
-      icon: Shield,
-      title: "Secure & Reliable",
-      description:
-        "Enterprise-grade security and 99.9% uptime guarantee for your peace of mind",
-      color: "text-cyan-500",
-    },
-    {
-      icon: Globe,
-      title: "Global Reach",
-      description:
-        "Expand your presence across multiple markets with our international network",
-      color: softPrimaryText,
-    },
-    {
-      icon: Users,
-      title: "Dedicated Support",
-      description:
-        "24/7 partner success team to help you maximize your potential",
-      color: "text-indigo-400",
-    },
-  ];
 
   return (
     <div className={`min-h-screen ${softNeutralBg}`}>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        {/* Background Image */}
+        {/* Background Image and Overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
@@ -176,36 +103,32 @@ const Partners = () => {
               "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&auto=format&fit=crop')",
           }}
         ></div>
-
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black/25 z-10"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40 z-20 text-center text-white">
           <p className="text-lg font-semibold text-cyan-300 mb-3 uppercase tracking-wider animate-fade-in-up">
-            Partnership Program
+            {t("hero_tagline")}
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
-            Power Your Growth
-            <span className="block bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
-              Together
+            {t("hero_title_p1")}
+            <span className="block bg-linear-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
+              {t("hero_title_p2")}
             </span>
           </h1>
           <p className="text-xl md:text-2xl mb-10 text-white/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
-            Join thousands of businesses thriving on our platform. From
-            restaurants to tech innovators, we are building the future of
-            delivery.
+            {t("hero_subtitle")}
           </p>
           {/* CTA Button */}
           <button
             className={`group px-8 py-4 ${softAccent} ${softAccentText} font-semibold rounded-xl hover:bg-[#89c2d9] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 mx-auto w-max animate-fade-in-up animation-delay-400`}
           >
-            <span>Become a Partner</span>
+            <span>{t("hero_cta")}</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </section>
 
-      {/* Why Partner With Us Section - Screenshot Style */}
+      {/* Why Partner With Us Section */}
       <section className={`py-20 ${softSectionBg}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section 1 - Image Left, Content Right */}
@@ -222,42 +145,38 @@ const Partners = () => {
             {/* Content */}
             <div className="space-y-5 ml-10">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                Access your partner dashboard anytime
+                {t("section1_title")}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Monitor performance, track orders, manage your menu, and access
-                real-time analytics. Our intuitive dashboard gives you completem
-                control over your partnership.
+                {t("section1_subtitle")}
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
                 <button className="px-6 py-3 bg-[#014f86] text-white font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
-                  Log in to your account
+                  {t("section1_cta1")}
                 </button>
                 <button className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg border-2 border-gray-200 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
-                  Create an account
+                  {t("section1_cta2")}
                 </button>
               </div>
             </div>
           </div>
 
           {/* Section 2 - Content Left, Image Right */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-25">
+          <div className="grid lg:grid-cols-2 gap-12 items-center my-24">
             {/* Content */}
             <div className="space-y-5 lg:order-1 ml-10">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                Deliver on your schedule, maximize your earnings
+                {t("section2_title")}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Set your own hours and choose your delivery zones. Whether you
-                want to deliver full-time or part-time, our flexible platform
-                adapts to your lifestyle and helps you earn more.
+                {t("section2_subtitle")}
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
                 <button className="px-6 py-3 bg-[#014f86] text-white font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
-                  Get started
+                  {t("section2_cta1")}
                 </button>
                 <button className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg border-2 border-gray-200 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
-                  Already have an account? Sign in
+                  {t("section2_cta2")}
                 </button>
               </div>
             </div>
@@ -286,19 +205,17 @@ const Partners = () => {
             {/* Content */}
             <div className="space-y-5 ml-10">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                The platform you know, reimagined for business
+                {t("section3_title")}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Our Business Platform provides enterprise-grade tools for
-                managing delivery operations at scale. Built for companies of
-                any size, with dedicated support and seamless integrations.
+                {t("section3_subtitle")}
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
                 <button className="px-6 py-3 bg-[#014f86] text-white font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
-                  Get started
+                  {t("section3_cta1")}
                 </button>
-                <button className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg border-2 border-gray-200 hover:bg-gray-100 transition-all duration-300  cursor-pointer">
-                  Check out our solutions
+                <button className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg border-2 border-gray-200 hover:bg-gray-100 transition-all duration-300  cursor-pointer">
+                  {t("section3_cta2")}
                 </button>
               </div>
             </div>
@@ -311,10 +228,10 @@ const Partners = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-              Partnership Benefits
+              {t("benefits_heading")}
             </h2>
             <p className="text-xl text-gray-500 max-w-2xl mx-auto">
-              Everything you need to succeed in the delivery ecosystem
+              {t("benefits_subheading")}
             </p>
           </div>
 
@@ -344,26 +261,25 @@ const Partners = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-              Our Partner Network
+              {t("network_heading")}
             </h2>
             <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-8">
-              Explore businesses thriving on our platform across different
-              industries
+              {t("network_subheading")}
             </p>
 
             {/* Filter Buttons */}
             <div className="flex flex-wrap justify-center gap-3 mb-8">
-              {filters.map((filter) => (
+              {filters.map((filterKey) => (
                 <button
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
+                  key={filterKey}
+                  onClick={() => setActiveFilter(filterKey)}
                   className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                    activeFilter === filter
+                    activeFilter === filterKey
                       ? "bg-[#014f86] text-white shadow-lg scale-105"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
-                  {filter}
+                  {t(filterKey)}
                 </button>
               ))}
             </div>
@@ -393,10 +309,10 @@ const Partners = () => {
               className="overflow-x-auto scrollbar-hide scroll-smooth pb-4"
             >
               <div className="flex gap-6 px-2">
-                {filteredPartners.map((partner) => (
+                {filteredPartners.map((partner: any) => (
                   <div
                     key={partner.id}
-                    className="flex-shrink-0 w-80 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-blue-300 hover:scale-[1.02]"
+                    className="shrink-0 w-80 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-blue-300 hover:scale-[1.02]"
                   >
                     {/* Partner Image */}
                     <div className="relative h-48 overflow-hidden">
@@ -406,7 +322,7 @@ const Partners = () => {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-gray-700">
-                        {partner.category}
+                        {t(partner.category_key)}
                       </div>
                     </div>
 
@@ -429,7 +345,9 @@ const Partners = () => {
                           <span className="text-sm font-semibold text-gray-700">
                             {partner.stats.orders}
                           </span>
-                          <span className="text-sm text-gray-500">orders</span>
+                          <span className="text-sm text-gray-500">
+                            {t("card_stat_orders")}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
@@ -444,9 +362,9 @@ const Partners = () => {
               </div>
             </div>
 
-            {/* Gradient Overlays */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent z-10 hidden md:block" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent z-10 hidden md:block" />
+            {/* Gradient Overlay */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-linear-to-r from-white to-transparent z-10 hidden md:block" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-linear-to-l from-white to-transparent z-10 hidden md:block" />
           </div>
         </div>
       </section>
@@ -455,19 +373,18 @@ const Partners = () => {
       <section className={`py-20 ${softNeutralBg}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-            Ready to Start Your Journey?
+            {t("cta_heading")}
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Join our partner network today and unlock unlimited growth potential
-            for your business
+            {t("cta_subheading")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button className="px-8 py-4 bg-[#014f86] text-white font-bold rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:bg-[#013f70] flex items-center space-x-2">
-              <span>Apply Now</span>
+              <span>{t("cta_button1")}</span>
               <ArrowRight className="w-5 h-5" />
             </button>
             <button className="px-8 py-4 bg-white text-gray-800 font-bold rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl">
-              Schedule a Demo
+              {t("cta_button2")}
             </button>
           </div>
         </div>

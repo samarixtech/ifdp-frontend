@@ -9,8 +9,8 @@ import {
   TrendingUp,
   ArrowRight,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-// Assuming these components are available in the scope:
 const SectionHeading = ({ title, subtitle, color = "text-gray-700" }: any) => (
   <div className="text-center mb-16">
     <h2 className={`text-4xl md:text-5xl font-extrabold ${color} mb-4`}>
@@ -20,7 +20,6 @@ const SectionHeading = ({ title, subtitle, color = "text-gray-700" }: any) => (
   </div>
 );
 
-// --- 🌟 ENHANCED AND STYLIZED SPLIT CARD COMPONENT 🌟 ---
 const SplitCultureCard = ({
   icon: Icon,
   title,
@@ -66,7 +65,7 @@ const SplitCultureCard = ({
   </div>
 );
 
-// DYNAMIC CARD SLIDER CONTAINER
+// Card Slider Container Component
 const CardSliderContainer = ({ children }: any) => {
   const containerRef = useRef(null);
 
@@ -80,6 +79,7 @@ const CardSliderContainer = ({ children }: any) => {
       const card = container.querySelector(".flex-shrink-0");
       if (!card) return 0;
 
+      // Note: gap-8 is 32px
       return card.offsetWidth + 32;
     };
 
@@ -90,18 +90,18 @@ const CardSliderContainer = ({ children }: any) => {
 
         const nextScrollLeft = container.scrollLeft + cardWidth;
 
-        // Check for loop condition (near the end of content)
+        // Check for loop condition (end of content)
         if (
           nextScrollLeft >
           container.scrollWidth - container.clientWidth + 1
         ) {
-          // Smoothly reset to the beginning
+          // reset to the beginning
           container.scrollTo({ left: 0, behavior: "smooth" });
         } else {
           // Scroll one card width
           container.scrollBy({ left: cardWidth, behavior: "smooth" });
         }
-      }, 5000); // Scroll every 5 seconds
+      }, 2000); // Scroll every 2 seconds
     };
 
     const stopScroll = () => clearInterval(scrollInterval);
@@ -127,7 +127,7 @@ const CardSliderContainer = ({ children }: any) => {
           {children}
         </div>
         <style jsx>{`
-          /* Custom scrollbar hide */
+          /* Custom scrollbar hide (No change) */
           .scrollbar-hide::-webkit-scrollbar {
             display: none;
           }
@@ -142,7 +142,9 @@ const CardSliderContainer = ({ children }: any) => {
 };
 
 const AboutPage = () => {
-  // Oceanic Blue Color Palette Definition
+  const t = useTranslations("About");
+
+  // Color Palette
   const primaryBlue = "#014f86";
   const softPrimaryText = `text-[${primaryBlue}]`;
   const softAccent = `bg-[${"#61a5c2"}]`; // tertiaryBlue
@@ -155,30 +157,26 @@ const AboutPage = () => {
   const coreValues = [
     {
       icon: Lightbulb,
-      title: "Innovation",
-      description:
-        "We constantly push the boundaries of logistics technology to deliver smarter solutions.",
+      title: t("value_innovation_title"),
+      description: t("value_innovation_desc"),
       color: "text-blue-500",
     },
     {
       icon: HeartHandshake,
-      title: "Partnership",
-      description:
-        "Success is mutual. We build strong, transparent relationships with our restaurants and users.",
+      title: t("value_partnership_title"),
+      description: t("value_partnership_desc"),
       color: "text-cyan-500",
     },
     {
       icon: Briefcase,
-      title: "Excellence",
-      description:
-        "Striving for the highest quality in service delivery, security, and platform reliability.",
+      title: t("value_excellence_title"),
+      description: t("value_excellence_desc"),
       color: softPrimaryText,
     },
     {
       icon: Compass,
-      title: "Global Vision",
-      description:
-        "Connecting cultures and cuisines across continents with responsible and scalable growth.",
+      title: t("value_global_title"),
+      description: t("value_global_desc"),
       color: "text-indigo-400",
     },
   ];
@@ -187,62 +185,57 @@ const AboutPage = () => {
   const splitCultureCards = [
     {
       icon: Users,
-      title: "Collaborative Spirit",
-      description:
-        "Work alongside brilliant minds in a supportive and fun environment where every voice matters. We foster a flat hierarchy where open discussion drives the best ideas, ensuring true product ownership.",
+      title: t("slider_1_title"),
+      description: t("slider_1_desc"),
       color: "text-blue-600",
       image:
         "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop",
-      buttonText: "Meet the Teams",
+      buttonText: t("slider_1_button"),
     },
     {
       icon: TrendingUp,
-      title: "Unstoppable Growth",
-      description:
-        "Dedicated budget for professional development, training, and internal promotion paths. Your ambition is our roadmap—we invest heavily in our people's future with clear advancement tracks.",
+      title: t("slider_2_title"),
+      description: t("slider_2_desc"),
       color: "text-cyan-600",
       image:
         "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop",
-      buttonText: "Our Career Paths",
+      buttonText: t("slider_2_button"),
     },
     {
       icon: Lightbulb,
-      title: "Empowered Innovation",
-      description:
-        "We encourage daring ideas and provide the resources for you to bring your most ambitious projects to life, backed by a culture that embraces smart risk-taking and learning from failures.",
+      title: t("slider_3_title"),
+      description: t("slider_3_desc"),
       color: softPrimaryText,
       image:
         "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop",
-      buttonText: "Submit Your Idea",
+      buttonText: t("slider_3_button"),
     },
     {
       icon: HeartHandshake,
-      title: "True Flexibility",
-      description:
-        "Enjoy hybrid and remote options that respect your life outside of work, ensuring true work-life balance and prioritizing output over clock-watching. We trust our team.",
+      title: t("slider_4_title"),
+      description: t("slider_4_desc"),
       color: softPrimaryText,
       image:
         "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop",
-      buttonText: "See Benefits",
+      buttonText: t("slider_4_button"),
     },
-    // Duplicating the first card to ensure seamless loop visual continuity
+    // Duplicating the first card to ensure seamless loop visual continuity (using t() for content)
     {
       icon: Users,
-      title: "Collaborative Spirit",
-      description:
-        "Work alongside brilliant minds in a supportive and fun environment where every voice matters. We foster a flat hierarchy where open discussion drives the best ideas, ensuring true product ownership.",
+      title: t("slider_1_title"),
+      description: t("slider_1_desc"),
       color: softPrimaryText,
       image:
         "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop",
-      buttonText: "Meet the Teams",
+      buttonText: t("slider_1_button"),
     },
   ];
 
   return (
     <div className={`min-h-screen ${softNeutralBg}`}>
-      {/* 🚀 Hero Section */}
+      {/* Hero Section */}
       <section className="relative overflow-hidden">
-        {/* Background Image */}
+        {/* Background Image and Overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
@@ -251,37 +244,34 @@ const AboutPage = () => {
           }}
         ></div>
 
-        {/* Overlay - Darker for readability */}
         <div className="absolute inset-0 bg-black/25 z-10"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40 z-20 text-center text-white">
           <p className="text-lg font-semibold text-cyan-300 mb-3 uppercase tracking-wider animate-fade-in-up">
-            Our Mission
+            {t("hero_tagline")}
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
-            The Engine Behind
+            {t("hero_title_p1")}
             <span
               className={`block bg-linear-to-r ${statGradient} bg-clip-text text-transparent`}
             >
-              Global Cuisine
+              {t("hero_title_p2")}
             </span>
           </h1>
           <p className="text-xl md:text-2xl mb-10 text-white/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
-            Connecting every craving to every kitchen, seamlessly, securely, and
-            at lightning speed.
+            {t("hero_subtitle")}
           </p>
           {/* CTA Button */}
           <button
             className={`group px-8 py-4 ${softAccent} ${softAccentText} font-semibold rounded-xl hover:bg-[#89c2d9] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 mx-auto w-max animate-fade-in-up animation-delay-400`}
           >
-            <span>See Our Journey</span>
+            <span>{t("hero_cta")}</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </section>
 
-      {/* --- */}
-      {/* 📖 About Story Section */}
+      {/* About Story Section */}
       <section className={`py-20 ${softSectionBg}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -299,36 +289,24 @@ const AboutPage = () => {
             {/* Text Content */}
             <div className="space-y-6">
               <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-                Our Origin Story
+                {t("story_title")}
               </h2>
-              <p className="text-lg text-gray-600">
-                Founded in 2018 by a team of logistics experts and food-tech
-                enthusiasts, our company was born out of a simple idea: **food
-                delivery should be seamless, reliable, and truly global.** We
-                noticed the fragmentation in the market and built a platform to
-                bridge that gap.
-              </p>
+              <p className="text-lg text-gray-600">{t("story_p1")}</p>
               <p className="text-lg font-medium text-gray-700 border-l-4 border-cyan-400 pl-4">
-                We dont just move meals; we connect communities, empower local
-                businesses, and define the future of food logistics.
+                {t("story_quote")}
               </p>
-              <p className="text-lg text-gray-600">
-                Today, were a leading enterprise solution, trusted by thousands
-                of restaurants to handle millions of transactions, continuously
-                innovating to make delivery faster, greener, and more efficient.
-              </p>
+              <p className="text-lg text-gray-600">{t("story_p2")}</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- */}
-      {/* ✨ Core Values/Features Section */}
+      {/* Core Values/Features Section */}
       <section className={`py-20 ${softNeutralBg}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            title="Defining Our Culture: Core Values"
-            subtitle="The principles that guide our innovation and our commitment to our partners and users."
+            title={t("values_heading")}
+            subtitle={t("values_subheading")}
             color="text-gray-800"
           />
 
@@ -353,13 +331,12 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* --- */}
-      {/* 🤝 Why Join Our Team Section (Split Card Slider - CENTERED and ENHANCED) */}
+      {/* Why Join Our Team Section */}
       <section className={`py-20 ${softSectionBg}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            title="Build the Future with Us"
-            subtitle="Explore the culture and benefits that make our company a great place to grow your career."
+            title={t("careers_heading")}
+            subtitle={t("careers_subheading")}
             color="text-gray-800"
           />
         </div>
@@ -367,20 +344,15 @@ const AboutPage = () => {
         <div className="relative">
           <CardSliderContainer>
             {splitCultureCards.map((card, index) => (
-              // The w-full md:w-[70rem] class on this div dictates the size
               <div key={index} className="w-full md:w-[70rem] flex-shrink-0">
                 <SplitCultureCard {...card} />
               </div>
             ))}
           </CardSliderContainer>
-          {/* Fading overlay for scroll effect hint (optional) */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white/90 to-transparent z-10 hidden sm:block" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white/90 to-transparent z-10 hidden sm:block" />
         </div>
       </section>
 
-      {/* --- */}
-      {/* 💼 Join The Team CTA (Image on Right, Description on Left) */}
+      {/* Join The Team CTA (Image on Right, Description on Left) */}
       <section className={`py-20 ${softNeutralBg}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -389,22 +361,19 @@ const AboutPage = () => {
               <p
                 className={`text-lg font-semibold ${softPrimaryText} uppercase tracking-wider`}
               >
-                Career Opportunities
+                {t("cta_tagline")}
               </p>
               <h2 className="text-5xl font-extrabold text-gray-900 leading-tight">
-                Ready to make an impact?
+                {t("cta_title")}
               </h2>
               <p className="text-xl text-gray-600 max-w-lg">
-                Join a dynamic team that values **innovation, excellence, and
-                bold thinking**. We are looking for passionate individuals ready
-                to tackle complex challenges and redefine global delivery. Check
-                out our open positions.
+                {t("cta_subtitle")}{" "}
               </p>
               {/* CTA Button */}
               <button
                 className={`group px-8 py-4 text-white font-bold rounded-xl bg-[${primaryBlue}] transition-all duration-300 shadow-xl hover:shadow-2xl hover:bg-[#013f70] flex items-center justify-center space-x-2 text-lg w-max`}
               >
-                <span>View Open Roles</span>
+                <span>{t("cta_button")}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -421,7 +390,7 @@ const AboutPage = () => {
                 {/* Subtle dark overlay */}
                 <div className="p-4 bg-black/15 h-full flex items-end justify-start">
                   <p className="text-4xl font-bold text-white/95 drop-shadow-lg backdrop-blur-sm p-3 rounded-lg border-2 border-white/30">
-                    Your Next Chapter
+                    {t("cta_image_label")}
                   </p>
                 </div>
               </div>
@@ -430,8 +399,8 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Reusing existing animations from the provided code for the Hero section */}
       <style jsx>{`
+        /* ... CSS Animations (No Change) ... */
         @keyframes fade-in-up {
           from {
             opacity: 0;

@@ -1,5 +1,6 @@
 "use client";
 import { Send, MapPin, Phone, MessageSquare } from "lucide-react";
+import Link from "next/link";
 
 const primaryBlue = "#014f86"; // Dark Blue for main accent (Primary)
 const secondaryBlue = "#2a6f97"; // Mid Blue for features/stats (Secondary)
@@ -70,7 +71,7 @@ const Footer = () => {
           <FooterSection title="Quick Links">
             <FooterLink href="/about">About Us</FooterLink>
             <FooterLink href="/features">Our Features</FooterLink>
-            <FooterLink href="/careers">Careers</FooterLink>
+            <FooterLink href="/privacyPolicy">Privacy & Policy</FooterLink>
             <FooterLink href="/press">Press & Media</FooterLink>
           </FooterSection>
 
@@ -97,13 +98,13 @@ const Footer = () => {
               <span className="text-white">support@deliverynow.com</span>
             </div>
             <div className="mt-5">
-              <a
+              <Link
                 href="/contact"
                 className={`inline-flex items-center px-5 py-2 text-sm font-semibold rounded-full bg-[${secondaryBlue}] hover:bg-[${tertiaryBlue}] transition-colors duration-300 shadow-md`}
               >
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Live Chat
-              </a>
+              </Link>
             </div>
           </FooterSection>
         </div>
@@ -115,15 +116,21 @@ const Footer = () => {
             reserved.
           </p>
           <div className="flex space-x-6">
-            <a href="/privacy" className="hover:text-white transition-colors">
+            <Link
+              href="/privacyPolicy"
+              className="hover:text-white transition-colors"
+            >
               Privacy Policy
-            </a>
-            <a href="/terms" className="hover:text-white transition-colors">
+            </Link>
+            <Link href="/terms" className="hover:text-white transition-colors">
               Terms of Service
-            </a>
-            <a href="/cookies" className="hover:text-white transition-colors">
+            </Link>
+            <Link
+              href="/cookies"
+              className="hover:text-white transition-colors"
+            >
               Cookie Settings
-            </a>
+            </Link>
           </div>
         </div>
       </div>

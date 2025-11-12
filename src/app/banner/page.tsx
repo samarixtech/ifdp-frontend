@@ -11,7 +11,9 @@ import {
   ArrowRight,
 } from "lucide-react";
 import ScrollCardsEnhanced from "@/components/ScrollCards";
+import { useTranslations } from "next-intl"; // Keep this import
 
+// --- Section Heading Component (No change, uses translated content from parent) ---
 const SectionHeading = ({ title, subtitle, color = "text-gray-700" }: any) => (
   <div className="text-center mb-16">
     <h2 className={`text-4xl md:text-5xl font-extrabold ${color} mb-4`}>
@@ -21,6 +23,7 @@ const SectionHeading = ({ title, subtitle, color = "text-gray-700" }: any) => (
   </div>
 );
 
+// --- Trust Card Component (No change, uses translated content from parent) ---
 const TrustCardSoft = ({ icon: Icon, iconColor, title, subtitle }: any) => (
   <div className="bg-white p-8 rounded-2xl text-center shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-1 relative">
     <Icon className={`w-16 h-16 ${iconColor} mx-auto mb-4 opacity-80`} />
@@ -30,16 +33,17 @@ const TrustCardSoft = ({ icon: Icon, iconColor, title, subtitle }: any) => (
 );
 
 const Page = () => {
-  // --- Oceanic Blue Color Palette Definition ---
+  // Initialize translation hook with the "Home" namespace
+  const t = useTranslations("Home");
+
+  // Oceanic Blue Color Palette Definition (No change)
   const primaryBlue = "#014f86"; // Dark Blue for main accent (Primary)
   const secondaryBlue = "#2a6f97"; // Mid Blue for features/stats (Secondary)
   const tertiaryBlue = "#61a5c2"; // Light Blue for lighter accents/hovers
   const neutralBg = "bg-gray-50"; // Light Gray/Off-White for background
   const sectionBg = "bg-white"; // Pure White for clean separation
 
-  // Tailwind Class mapping for dynamic use
-  // const softPrimary = `text-[${primaryBlue}]`; // Primary text color
-  // const softPrimaryBg = `bg-[${primaryBlue}]`; // Primary background color
+  // Tailwind Class mapping for dynamic use (No change)
   const softAccent = `bg-[${tertiaryBlue}]`; // Accent button background
   const softAccentText = `text-[${primaryBlue}]`; // Accent button text
   const softNeutralBg = neutralBg;
@@ -48,54 +52,55 @@ const Page = () => {
   const benefitBgGradient = "from-[#012a4a] to-[#01497c]";
   const benefitCheckColor = "text-cyan-300";
 
+  // --- Data structures now use translation keys ---
+
   const features = [
     {
       icon: <Globe className={`w-12 h-12 text-[${secondaryBlue}]`} />,
-      title: "Global Reach",
-      description:
-        "Operating in 50+ countries across 6 continents, connecting millions of users worldwide.",
+      titleKey: "feature_global_title",
+      descriptionKey: "feature_global_desc",
     },
     {
       icon: <Zap className={`w-12 h-12 text-[${secondaryBlue}]`} />,
-      title: "Lightning Fast",
-      description:
-        "Advanced logistics technology ensuring rapid delivery times and real-time tracking.",
+      titleKey: "feature_fast_title",
+      descriptionKey: "feature_fast_desc",
     },
     {
       icon: <Shield className={`w-12 h-12 text-[${secondaryBlue}]`} />,
-      title: "Secure & Reliable",
-      description:
-        "Enterprise-grade security with 99.9% uptime guaranteed for seamless operations.",
+      titleKey: "feature_secure_title",
+      descriptionKey: "feature_secure_desc",
     },
     {
       icon: <Users className={`w-12 h-12 text-[${secondaryBlue}]`} />,
-      title: "Partner Network",
-      description:
-        "Connected with 100,000+ restaurant partners delivering quality food experiences.",
+      titleKey: "feature_network_title",
+      descriptionKey: "feature_network_desc",
     },
   ];
 
   const stats = [
-    { number: "50M+", label: "Active Users" },
-    { number: "100K+", label: "Restaurant Partners" },
-    { number: "150+", label: "Cities Covered" },
-    { number: "500M+", label: "Deliveries Completed" },
+    { number: "50M+", labelKey: "stat_users" },
+    { number: "100K+", labelKey: "stat_partners" },
+    { number: "150+", labelKey: "stat_cities" },
+    { number: "500M+", labelKey: "stat_deliveries" },
   ];
 
-  const benefits = [
-    "Multi-platform integration capabilities",
-    "Real-time analytics and reporting",
-    "Scalable infrastructure for growth",
-    "24/7 dedicated support team",
-    "Customizable delivery solutions",
-    "Advanced route optimization",
+  // Benefits list uses keys that can be translated
+  const benefitKeys = [
+    "benefit_1",
+    "benefit_2",
+    "benefit_3",
+    "benefit_4",
+    "benefit_5",
+    "benefit_6",
   ];
+
+  // --- Start of JSX with applied translation (t) function ---
 
   return (
     <div className={`min-h-screen ${softNeutralBg}`}>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        {/* Background Image */}
+        {/* Background Image and Overlays (No change) */}
         <div
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
@@ -104,41 +109,37 @@ const Page = () => {
           }}
         ></div>
 
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black/20 z-10"></div>
-
-        {/* Light Particles */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjYwMCIgd2lkdGg9IjYwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjQiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjEiLz48Y2lyY2xlIGN4PSI1MDAiIGN5PSIyMDAiIHI9IjYiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjEyIi8+PC9zdmc+')] opacity-40 z-20"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,...')] opacity-40 z-20"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 z-30 text-center text-white">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in-up">
-            Seamless Global
+            {t("hero_title_p1")} {/* Translated */}
             <span
               className={`block bg-linear-to-r ${statGradient} bg-clip-text text-transparent`}
             >
-              Food Delivery Platform
+              {t("hero_title_p2")} {/* Translated */}
             </span>
           </h1>
           <p className="text-xl md:text-2xl mb-10 text-white/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
-            Empowering businesses worldwide with cutting-edge delivery
-            technology and unmatched reliability
+            {t("hero_subtitle")} {/* Translated */}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
-            {/* Primary Button: Tertiary Blue Accent Color */}
+            {/* Primary Button */}
             <button
               className={`group px-8 py-4 ${softAccent} ${softAccentText} font-semibold rounded-xl hover:bg-[#89c2d9] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2`}
             >
-              <span>Explore Our Platform</span>
+              <span>{t("hero_cta_explore")}</span> {/* Translated */}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            {/* Secondary Button: White/Transparent */}
+            {/* Secondary Button */}
             <button className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
-              Watch Demo
+              {t("hero_cta_demo")} {/* Translated */}
             </button>
           </div>
         </div>
 
-        {/* Wave Divider */}
+        {/* Wave Divider (No change) */}
         <div className="absolute bottom-0 left-0 right-0 z-20">
           <svg
             viewBox="0 0 1440 120"
@@ -164,13 +165,15 @@ const Page = () => {
                 key={index}
                 className="text-center p-6 rounded-xl shadow-sm border border-gray-100 bg-white transform hover:scale-105 transition-transform duration-300"
               >
-                {/* Stats Gradient: Blue/Cyan */}
+                {/* Stats Gradient: Blue/Cyan (No Change) */}
                 <div
                   className={`text-4xl md:text-5xl font-bold bg-linear-to-r ${statGradient} bg-clip-text text-transparent mb-2`}
                 >
                   {stat.number}
                 </div>
-                <div className="text-gray-500 font-medium">{stat.label}</div>
+                <div className="text-gray-500 font-medium">
+                  {t(stat.labelKey)} {/* Translated */}
+                </div>
               </div>
             ))}
           </div>
@@ -181,8 +184,8 @@ const Page = () => {
       <section className={`py-20 ${softSectionBg}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            title="Why Leading Businesses Choose Us"
-            subtitle="Cutting-edge technology meets unparalleled service excellence"
+            title={t("features_heading")} // Translated
+            subtitle={t("features_subheading")} // Translated
             color="text-gray-800"
           />
 
@@ -196,10 +199,10 @@ const Page = () => {
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-3">
-                  {feature.title}
+                  {t(feature.titleKey)} {/* Translated */}
                 </h3>
                 <p className="text-gray-500 leading-relaxed">
-                  {feature.description}
+                  {t(feature.descriptionKey)} {/* Translated */}
                 </p>
               </div>
             ))}
@@ -211,40 +214,39 @@ const Page = () => {
       <section
         className={`py-20 bg-linear-to-br ${benefitBgGradient} text-white relative overflow-hidden`}
       >
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDEzNGg3djFoLTd6bTAtNWg3djFoLTd6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,...')] opacity-30"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Enterprise-Grade Solutions
+                {t("benefits_heading")} {/* Translated */}
               </h2>
               <p className="text-xl text-blue-100 mb-8">
-                Built for scale, designed for excellence. Our platform delivers
-                everything your business needs to thrive in the competitive food
-                delivery landscape.
+                {t("benefits_subheading")} {/* Translated */}
               </p>
               {/* Primary Button: White/Primary Blue */}
               <button
                 className={`group px-8 py-4 bg-white text-[${primaryBlue}] font-semibold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center space-x-2`}
               >
-                <span>Learn More</span>
+                <span>{t("benefits_cta_learn")}</span> {/* Translated */}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
             <div className="space-y-4">
-              {benefits.map((benefit, index) => (
+              {benefitKeys.map((key, index) => (
                 <div
                   key={index}
                   className="flex items-start space-x-3 bg-white/10 backdrop-blur-sm p-4 rounded-xl hover:bg-white/20 transition-all duration-300 animate-slide-in-right"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  {/* Benefit Checkmark: Cyan */}
+                  {/* Benefit Checkmark: Cyan (No change) */}
                   <CheckCircle
                     className={`w-6 h-6 ${benefitCheckColor} shrink-0 mt-0.5`}
                   />
-                  <span className="text-lg font-medium">{benefit}</span>
+                  <span className="text-lg font-medium">{t(key)}</span>{" "}
+                  {/* Translated */}
                 </div>
               ))}
             </div>
@@ -256,8 +258,8 @@ const Page = () => {
       <section className={`py-20 ${softNeutralBg}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            title="Trusted by Industry Leaders"
-            subtitle="Powering growth for businesses worldwide"
+            title={t("trust_heading")} // Translated
+            subtitle={t("trust_subheading")} // Translated
             color="text-gray-800"
           />
 
@@ -265,22 +267,22 @@ const Page = () => {
             <TrustCardSoft
               icon={Award}
               iconColor="text-blue-400"
-              title="Industry Recognition"
-              subtitle="Awarded Best Delivery Platform 2024"
+              title={t("trust_card_1_title")} // Translated
+              subtitle={t("trust_card_1_subtitle")} // Translated
             />
 
             <TrustCardSoft
               icon={TrendingUp}
               iconColor="text-[#2c7da0]"
-              title="Proven Growth"
-              subtitle="300% average partner revenue increase"
+              title={t("trust_card_2_title")} // Translated
+              subtitle={t("trust_card_2_subtitle")} // Translated
             />
 
             <TrustCardSoft
               icon={Shield}
               iconColor="text-blue-400"
-              title="Secure Platform"
-              subtitle="ISO 27001 certified infrastructure"
+              title={t("trust_card_3_title")} // Translated
+              subtitle={t("trust_card_3_subtitle")} // Translated
             />
           </div>
         </div>
@@ -292,18 +294,16 @@ const Page = () => {
             {/* Text Content */}
             <div className="space-y-6">
               <h2 className="text-5xl font-extrabold text-gray-900 leading-tight">
-                Feed your team.
+                {t("corporate_heading")} {/* Translated */}
               </h2>
               <p className="text-xl text-gray-600 max-w-lg">
-                Treat your talented team to their favourite meals. Let them
-                pick! Explore **flexible corporate food delivery options** and
-                tasty employee perks.
+                {t("corporate_subtitle")} {/* Translated */}
               </p>
               {/* CTA Button */}
               <button
                 className={`group px-8 py-4 text-white font-bold rounded-xl bg-[${primaryBlue}] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 text-lg w-max`}
               >
-                <span>Explore</span>
+                <span>{t("corporate_cta")}</span> {/* Translated */}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -320,7 +320,7 @@ const Page = () => {
                 {/* overlay a soft brand logo/text here */}
                 <div className="p-4 bg-black/10 h-full flex items-center justify-center">
                   <p className="text-4xl font-bold text-white/90 drop-shadow-lg backdrop-blur-sm p-2 rounded">
-                    Meals for Business
+                    {t("corporate_image_label")} {/* Translated */}
                   </p>
                 </div>
               </div>
@@ -329,10 +329,9 @@ const Page = () => {
         </div>
       </section>
 
+      {/* Style block (No change) */}
       <style jsx>{`
-        /* Note: Tailwind CSS arbitrary values [color_value] require a slight adjustment to the default format if they are complex. 
-           For simplicity and to avoid common issues, I've used direct hex values in the template literal for background/text. */
-
+        /* ... CSS Animations (No Change) ... */
         @keyframes fade-in-up {
           from {
             opacity: 0;
