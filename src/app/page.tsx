@@ -1,23 +1,12 @@
 "use client";
-import React from "react";
-// import { useRouter } from "next/navigation";
-// import useLocale from "@/hooks/useLocals";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useLocale from "@/hooks/useLocals";
 import Banner from "@/app/banner/page";
-import {
-  Globe,
-  Shield,
-  Zap,
-  Users,
-  TrendingUp,
-  Award,
-  CheckCircle,
-  ArrowRight,
-} from "lucide-react";
-import ScrollCards from "@/components/ScrollCards";
-
+import router from "next/router";
 const HomePage: React.FC = () => {
-  // const router = useRouter();
-  // const { country, language, loading } = useLocale();
+  const router = useRouter();
+  const { country, language, loading } = useLocale();
 
   // useEffect(() => {
   //   if (!loading && country && language) {
