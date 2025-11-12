@@ -34,8 +34,10 @@ const Navbar: React.FC = () => {
   const localeFromNext = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-console.log(localeFromNext,"localeFromNext")
-const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "en");
+  console.log(localeFromNext, "localeFromNext");
+  const [currentLocaleState, setCurrentLocaleState] = useState(
+    localeFromNext || "en"
+  );
   const [activeLangState, setActiveLangState] = useState(
     languages.find((l) => l.code === currentLocaleState) || languages[0]
   );
@@ -45,11 +47,26 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
 
   const [isDesktopLangOpen, setIsDesktopLangOpen] = useState(false);
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobileLangDropdownOpen, setIsMobileLangDropdownOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const [isMobileLangDropdownOpen, setIsMobileLangDropdownOpen] =
+    useState(false);
 
   const desktopLangRef = useRef<HTMLDivElement | null>(null);
   const desktopCountryRef = useRef<HTMLDivElement | null>(null);
+
+  // HANDLER FOR MOBILE SIDEBAR OPEN/CLOSE
+  const handleCloseMobileMenu = () => {
+    setIsClosing(true);
+    // Duration matches the CSS animation time (0.3s)
+    setTimeout(() => {
+      setIsMobileMenuOpen(false);
+      setIsClosing(false); // Reset closing state for the next open
+      setIsMobileLangDropdownOpen(false);
+    }, 300);
+  };
 
   // Populate countries on mount
   useEffect(() => {
@@ -63,8 +80,9 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
 
     const initialCountryCode = params?.country || "US";
     const initialCountry =
-      allCountries.find((c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()) ||
-      allCountries[0];
+      allCountries.find(
+        (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
+      ) || allCountries[0];
 
     setSelectedCountry(initialCountry);
   }, [params?.country]);
@@ -84,9 +102,15 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
       const target = event.target as Node;
       if (desktopLangRef.current && !desktopLangRef.current.contains(target))
         setIsDesktopLangOpen(false);
-      if (desktopCountryRef.current && !desktopCountryRef.current.contains(target))
+      if (
+        desktopCountryRef.current &&
+        !desktopCountryRef.current.contains(target)
+      )
         setIsCountryDropdownOpen(false);
-      if (isMobileLangDropdownOpen && !(event.target as HTMLElement).closest("#mobile-lang"))
+      if (
+        isMobileLangDropdownOpen &&
+        !(event.target as HTMLElement).closest("#mobile-lang")
+      )
         setIsMobileLangDropdownOpen(false);
     };
 
@@ -94,16 +118,24 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isDesktopLangOpen, isCountryDropdownOpen, isMobileLangDropdownOpen]);
 
-  const handleNavigationChange = (newCountryCode: string, newLangCode: string) => {
+  const handleNavigationChange = (
+    newCountryCode: string,
+    newLangCode: string
+  ) => {
     const segments = pathname.split("/").filter(Boolean);
-    const remainingPath = segments.length >= 2 ? segments.slice(2).join("/") : "";
-    const newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/${remainingPath}`.replace(
-      /\/{2,}/g,
-      "/"
-    );
+    const remainingPath =
+      segments.length >= 2 ? segments.slice(2).join("/") : "";
+    const newPath =
+      `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/${remainingPath}`.replace(
+        /\/{2,}/g,
+        "/"
+      );
 
     console.log("🔹 Navigation updated to:", newPath);
-    setCookie("NEXT_LOCALE", newLangCode, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+    setCookie("NEXT_LOCALE", newLangCode, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+    });
     router.replace(newPath);
   };
 
@@ -138,6 +170,8 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
     { label: t("about"), to: "/about" },
     { label: t("services"), to: "/services" },
     { label: t("contact"), to: "/contact" },
+    { label: t("newsroom"), to: "/newsroom" },
+    { label: t("partners"), to: "/partners" },
   ];
 
   return (
@@ -192,9 +226,13 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
                       >
                         <div className="flex items-center gap-2">
                           <span className="text-xl">{lng.flag}</span>
-                          <span className="text-sm font-medium text-gray-800">{lng.name}</span>
+                          <span className="text-sm font-medium text-gray-800">
+                            {lng.name}
+                          </span>
                         </div>
-                        {activeLangState.code === lng.code && <Check size={16} className="text-blue-600" />}
+                        {activeLangState.code === lng.code && (
+                          <Check size={16} className="text-blue-600" />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -204,10 +242,14 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
               {/* Desktop Country */}
               <div ref={desktopCountryRef} className="relative">
                 <button
-                  onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
+                  onClick={() =>
+                    setIsCountryDropdownOpen(!isCountryDropdownOpen)
+                  }
                   className="flex items-center gap-2 px-3 py-2 rounded-md border border-blue-500 bg-white text-black hover:bg-blue-50 transition-all shadow-sm"
                 >
-                  <span className="text-xl">{selectedCountry?.flag || "🌐"}</span>
+                  <span className="text-xl">
+                    {selectedCountry?.flag || "🌐"}
+                  </span>
                   <span className="font-semibold">{selectedCountry?.code}</span>
                   <ChevronDown
                     size={16}
@@ -233,7 +275,9 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
                           <span className="text-xl">{country.flag}</span>
                           <span className="text-sm">{country.name}</span>
                         </div>
-                        {selectedCountry?.code === country.code && <Check size={16} className="text-blue-600" />}
+                        {selectedCountry?.code === country.code && (
+                          <Check size={16} className="text-blue-600" />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -244,7 +288,10 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button onClick={() => setIsMobileMenuOpen(true)} className="text-white hover:text-blue-100 p-2">
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="text-white hover:text-blue-100 p-2"
+            >
               <Menu className="w-6 h-6" />
             </button>
           </div>
@@ -253,65 +300,143 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-gradient-to-b from-blue-700 to-blue-900 backdrop-blur-md text-white animate-fade-in-fast">
-          <div className="absolute top-5 right-5">
-            <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg hover:bg-white/10 transition">
-              <X className="w-7 h-7 text-white" />
-            </button>
-          </div>
+        <>
+          {/* Backdrop */}
+          <div
+            className={`fixed inset-0 bg-black/50 z-40 ${
+              isClosing ? "animate-fade-out-fast" : "animate-fade-in-fast"
+            }`}
+            onClick={handleCloseMobileMenu}
+          ></div>
 
-          <div className="flex flex-col items-center justify-center h-full space-y-5 text-lg font-medium px-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.to}
-                href={item.to}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="hover:text-blue-200 transition-colors text-2xl font-semibold tracking-wide"
-              >
-                {item.label}
-              </Link>
-            ))}
-
-            <div className="w-1/2 border-t border-blue-300/40 pt-2"></div>
-
-            {/* Mobile Language Selector */}
-            <div className="relative" id="mobile-lang">
+          {/* Sidebar */}
+          <div
+            className={`fixed top-0 right-0 h-full w-[30%] min-w-[250px] bg-linear-to-b from-[#014f86] to-blue-900 text-white z-50 shadow-2xl overflow-y-auto ${
+              isClosing ? "animate-slide-out-right" : "animate-slide-in-right"
+            }`}
+          >
+            <div className="flex justify-between items-center p-4 border-b border-white/20">
+              <h2 className="text-lg font-semibold">Menu</h2>
               <button
-                onClick={() => setIsMobileLangDropdownOpen(!isMobileLangDropdownOpen)}
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 transition-all duration-200 text-sm"
+                onClick={handleCloseMobileMenu}
+                className="p-2 rounded-lg hover:bg-white/10 transition"
               >
-                <Globe className="w-4 h-4 text-white" />
-                <span className="text-xl">{activeLangState.flag}</span>
-                <span className="text-sm font-medium text-white">{activeLangState.name}</span>
-                <ChevronDown
-                  className={`w-4 h-4 text-white transition-transform duration-200 ${
-                    isMobileLangDropdownOpen ? "rotate-180" : ""
-                  }`}
-                />
+                <X className="w-6 h-6 text-white" />
               </button>
+            </div>
 
-              {isMobileLangDropdownOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-52 bg-white rounded-lg shadow-lg border border-gray-100 py-2 max-h-48 overflow-y-auto animate-dropdown-fade">
-                  {languages.map((lng) => (
-                    <button
-                      key={lng.code}
-                      onClick={() => changeLanguage(lng.code)}
-                      className={`w-full flex items-center space-x-3 px-3 py-2 hover:bg-blue-50 transition-colors ${
-                        currentLocaleState === lng.code ? "bg-blue-50" : ""
-                      }`}
-                    >
-                      <span className="text-xl">{lng.flag}</span>
-                      <span className="text-sm font-medium text-gray-700">{lng.name}</span>
-                      {currentLocaleState === lng.code && <span className="ml-auto text-blue-600">✓</span>}
-                    </button>
-                  ))}
-                </div>
-              )}
+            <div className="flex flex-col space-y-1 p-4">
+              {navItems.map((item) => (
+                <Link
+                  key={item.to}
+                  href={item.to}
+                  onClick={handleCloseMobileMenu}
+                  className="hover:bg-white/10 px-3 py-3 rounded-lg transition-colors text-base font-medium"
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              <div className="border-t border-white/20 my-3"></div>
+
+              {/* Mobile Language Selector */}
+              <div className="relative" id="mobile-lang">
+                <button
+                  onClick={() =>
+                    setIsMobileLangDropdownOpen(!isMobileLangDropdownOpen)
+                  }
+                  className="w-full flex items-center justify-between px-3 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-200"
+                >
+                  <div className="flex items-center space-x-2">
+                    <Globe className="w-4 h-4 text-white" />
+                    <span className="text-lg">{activeLangState.flag}</span>
+                    <span className="text-sm font-medium text-white">
+                      {activeLangState.name}
+                    </span>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-white transition-transform duration-200 ${
+                      isMobileLangDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {isMobileLangDropdownOpen && (
+                  <div className="mt-2 bg-white rounded-lg shadow-lg border border-gray-100 py-1 max-h-48 overflow-y-auto">
+                    {languages.map((lng) => (
+                      <button
+                        key={lng.code}
+                        onClick={() => changeLanguage(lng.code)}
+                        className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition-colors ${
+                          currentLocaleState === lng.code ? "bg-blue-50" : ""
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg">{lng.flag}</span>
+                          <span className="text-sm font-medium text-gray-700">
+                            {lng.name}
+                          </span>
+                        </div>
+                        {currentLocaleState === lng.code && (
+                          <Check size={16} className="text-blue-600" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Country Selector */}
+              <div className="relative">
+                <button
+                  onClick={() =>
+                    setIsCountryDropdownOpen(!isCountryDropdownOpen)
+                  }
+                  className="w-full flex items-center justify-between px-3 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-200"
+                >
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg">
+                      {selectedCountry?.flag || "🌐"}
+                    </span>
+                    <span className="text-sm font-medium text-white">
+                      {selectedCountry?.name}
+                    </span>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-white transition-transform duration-200 ${
+                      isCountryDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {isCountryDropdownOpen && (
+                  <div className="mt-2 bg-white rounded-lg shadow-lg border border-gray-100 py-1 max-h-48 overflow-y-auto">
+                    {countries.map((country) => (
+                      <button
+                        key={country.code}
+                        onClick={() => handleCountrySelect(country)}
+                        className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition-colors ${
+                          selectedCountry?.code === country.code
+                            ? "bg-blue-100 text-blue-700 font-semibold"
+                            : "text-gray-800"
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg">{country.flag}</span>
+                          <span className="text-xs">{country.name}</span>
+                        </div>
+                        {selectedCountry?.code === country.code && (
+                          <Check size={16} className="text-blue-600" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
-
       <style jsx>{`
         @keyframes fade-in {
           from {
@@ -331,6 +456,10 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
             opacity: 1;
           }
         }
+        .animate-fade-out-fast {
+          animation: fade-in-fast 0.3s reverse forwards;
+        }
+
         .animate-fade-in {
           animation: fade-in 0.25s ease-out;
         }
@@ -349,6 +478,32 @@ const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "
         }
         .animate-dropdown-fade {
           animation: dropdown-fade 0.2s ease-out;
+        }
+
+        @keyframes slide-in-right {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+        .animate-slide-in-right {
+          animation: slide-in-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+            forwards;
+        }
+
+        @keyframes slide-out-right {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(100%);
+          }
+        }
+        .animate-slide-out-right {
+          animation: slide-out-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+            forwards;
         }
       `}</style>
     </nav>

@@ -1,8 +1,10 @@
 {
-    "Navbar": {
-        "home": "Home",
-        "about": "About",
-        "services": "Services",
-        "contact": "Contact"
-    }
+  "Navbar": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact",
+    "newsroom": "Newsroom",
+    "partners": "Partners"
+  }
 }
