@@ -17,20 +17,21 @@ interface Country {
 }
 
 const languages = [
-  { code: "en", name: "English", flag: "🇬🇧", dir: "ltr" },
-  { code: "it", name: "Italiano", flag: "🇮🇹", dir: "ltr" },
-  { code: "fr", name: "Français", flag: "🇫🇷", dir: "ltr" },
-  { code: "es", name: "Español", flag: "🇪🇸", dir: "ltr" },
-  { code: "pt", name: "Português", flag: "🇵🇹", dir: "ltr" },
-  { code: "zh", name: "中文", flag: "🇨🇳", dir: "ltr" },
-  { code: "ja", name: "日本語", flag: "🇯🇵", dir: "ltr" },
-  { code: "ar", name: "العربية", flag: "🇸🇦", dir: "rtl" },
-  { code: "ru", name: "Русский", flag: "🇷🇺", dir: "ltr" },
+{ code: "en", name: "English", flag: "🇺🇸", dir: "ltr" },
+  // { code: "it", name: "Italiano", flag: "🇮🇹", dir: "ltr" },
+  // { code: "fr", name: "Français", flag: "🇫🇷", dir: "ltr" },
+  // { code: "es", name: "Español", flag: "🇪🇸", dir: "ltr" },
+  // { code: "pt", name: "Português", flag: "🇵🇹", dir: "ltr" },
+  // { code: "zh", name: "中文", flag: "🇨🇳", dir: "ltr" },
+  // { code: "ja", name: "日本語", flag: "🇯🇵", dir: "ltr" },
+{ code: "ar", name: "العربية (العراقية)", flag: "🇮🇶", dir: "rtl" }
+  // { code: "ru", name: "Русский", flag: "🇷🇺", dir: "ltr" },
 ];
 
 const Navbar: React.FC = () => {
   const params = useParams();
   const t = useTranslations("Navbar");
+  
   const localeFromNext = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -56,6 +57,13 @@ const Navbar: React.FC = () => {
 
   const desktopLangRef = useRef<HTMLDivElement | null>(null);
   const desktopCountryRef = useRef<HTMLDivElement | null>(null);
+useEffect(() => {
+  const lang = languages.find(l => l.code === localeFromNext);
+  if (lang) {
+    setCurrentLocaleState(lang.code);
+    setActiveLangState(lang);
+  }
+}, [localeFromNext]);
 
   // HANDLER FOR MOBILE SIDEBAR OPEN/CLOSE
   const handleCloseMobileMenu = () => {
@@ -68,37 +76,29 @@ const Navbar: React.FC = () => {
     }, 300);
   };
 
-  // Populate countries on mount
-  useEffect(() => {
-    const names = getNames();
-    const allCountries = names.map((name) => {
-      const code = getCode(name);
-      const flag = emojiFlags.countryCode(code || "")?.emoji || "🏳️";
-      return { code: code || "", name, flag };
-    });
-    setCountries(allCountries);
+useEffect(() => {
+  const names = getNames();
 
-    // 💡 FIX START: Handle params?.country being string | string[] | undefined
-    const rawCountryParam = params?.country;
-    let initialCountryCode: string;
+  const allCountries = names.map((name) => {
+    const rawCode = getCode(name);
+    const code: string = Array.isArray(rawCode) ? rawCode[0] : rawCode || "";
+    const flag = emojiFlags.countryCode(code)?.emoji || "🏳️";
+    return { code, name, flag };
+  });
 
-    if (Array.isArray(rawCountryParam)) {
-      // For catch-all routes, take the first segment
-      initialCountryCode = rawCountryParam[0] || "US";
-    } else {
-      // If it's a single string, use it (or default to "US")
-      initialCountryCode = (rawCountryParam as string) || "US";
-    }
-    // 💡 FIX END
+  setCountries(allCountries);
 
-    const initialCountry =
-      allCountries.find(
-        // initialCountryCode is now guaranteed to be a string
-        (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
-      ) || allCountries[0];
+  const initialCountryCode = (params?.country || "US").toString();
 
-    setSelectedCountry(initialCountry);
-  }, [params?.country]);
+  const initialCountry =
+    allCountries.find(
+      (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
+    ) || allCountries[0];
+
+  setSelectedCountry(initialCountry);
+}, [params?.country]);
+
+
 
   // Update active language and document attributes
   useEffect(() => {
@@ -175,25 +175,51 @@ const Navbar: React.FC = () => {
   //   router.replace(newPath);
   // };
 
-  const changeLanguage = (newLocale: string) => {
-    console.log("🔹 changeLanguage called");
-    const currentCountryCode = selectedCountry?.code || "US";
-    console.log("Current Country Code:", currentCountryCode);
-    console.log("New Locale:", newLocale);
 
-    handleNavigationChange(currentCountryCode.toUpperCase(), newLocale);
+ const storedLocale = sessionStorage.getItem("locale");
+console.log(storedLocale,"storedLocale")
+const changeLanguage = (newLocale: string) => {
+  const currentCountryCode = selectedCountry?.code || "US";
 
-    const newLang = languages.find((l) => l.code === newLocale);
-    if (newLang) {
-      setActiveLangState(newLang);
-      setCurrentLocaleState(newLocale);
-      console.log("Active language updated:", newLang);
+  // Navigate to new locale (update URL)
+  handleNavigationChange(currentCountryCode.toUpperCase(), newLocale);
+
+  // Update state immediately
+  const newLang = languages.find(l => l.code === newLocale);
+  if (newLang) {
+    setActiveLangState(newLang);
+    setCurrentLocaleState(newLocale);
+  }
+
+  // Save locale in session storage (browser-only)
+  if (typeof window !== "undefined") {
+    sessionStorage.setItem("locale", newLocale);
+  }
+};
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const storedLocale = sessionStorage.getItem("locale");
+
+    if (storedLocale) {
+      const lang = languages.find(l => l.code === storedLocale);
+      if (lang) {
+        setActiveLangState(lang);
+        setCurrentLocaleState(storedLocale);
+      }
+    } else {
+      // fallback to NextIntl locale
+      const lang = languages.find(l => l.code === localeFromNext);
+      if (lang) {
+        setActiveLangState(lang);
+        setCurrentLocaleState(localeFromNext);
+      }
     }
+  }
+}, [localeFromNext]);
 
-    setIsDesktopLangOpen(false);
-    setIsMobileLangDropdownOpen(false);
-    console.log("Dropdowns closed");
-  };
+
+
 
   const handleCountrySelect = (country: Country) => {
     setSelectedCountry(country);
@@ -238,7 +264,7 @@ const Navbar: React.FC = () => {
                 >
                   <Globe size={18} className="text-blue-600" />
                   <span className="flex items-center gap-1 font-semibold">
-                    {activeLangState.flag} {activeLangState.code.toUpperCase()}
+                    {activeLangState.code.toUpperCase()}
                   </span>
                   <ChevronDown
                     size={16}
@@ -283,9 +309,9 @@ const Navbar: React.FC = () => {
                   }
                   className="flex items-center gap-2 px-3 py-2 rounded-md border border-blue-500 bg-white text-black hover:bg-blue-50 transition-all shadow-sm"
                 >
-                  <span className="text-xl">
+                  {/* <span className="text-xl">
                     {selectedCountry?.flag || "🌐"}
-                  </span>
+                  </span> */}
                   <span className="font-semibold">{selectedCountry?.code}</span>
                   <ChevronDown
                     size={16}

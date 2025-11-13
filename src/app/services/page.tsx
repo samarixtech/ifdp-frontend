@@ -91,45 +91,45 @@ const ServicesPage: React.FC = () => {
     { name: "Enterprise", price: "Custom", features: ["Dedicated servers", "24/7 SLA", "Custom branding"], color: "from-blue-500 to-blue-700" },
   ];
 
-  // **NEW FOOD DATA WITH DYNAMIC UNSPLASH LINKS**
-  const foodSpecials = [
-    {
-      title: "Spicy Chicken Tacos",
-      description: "Authentic street tacos with grilled chicken and fresh salsa.",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
-      icon: "🌮",
-    },
-    {
-      title: "Artisan Margherita Pizza",
-      description: "Hand-tossed crust, fresh basil, mozzarella, and San Marzano tomatoes.",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
-      icon: "🍕",
-    },
-    {
-      title: "Gourmet Lamb Biryani",
-      description: "Aromatic basmati rice cooked with tender lamb and rich spices.",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
-      icon: "🥘",
-    },
-    {
-      title: "Fresh Salmon Sushi Set",
-      description: "Premium cuts of salmon, tuna, and fresh avocado rolls.",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
-      icon: "🍣",
-    },
-    {
-      title: "Loaded Veggie Burger",
-      description: "Plant-based patty, all the fixings, on a toasted brioche bun.",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
-      icon: "🍔",
-    },
-    {
-      title: "Decadent Chocolate Cake",
-      description: "Rich layered chocolate cake with dark ganache frosting.",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
-      icon: "🍰",
-    },
-  ];
+  // // **NEW FOOD DATA WITH DYNAMIC UNSPLASH LINKS**
+  // const foodSpecials = [
+  //   {
+  //     title: "Spicy Chicken Tacos",
+  //     description: "Authentic street tacos with grilled chicken and fresh salsa.",
+  //     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+  //     icon: "🌮",
+  //   },
+  //   {
+  //     title: "Artisan Margherita Pizza",
+  //     description: "Hand-tossed crust, fresh basil, mozzarella, and San Marzano tomatoes.",
+  //     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+  //     icon: "🍕",
+  //   },
+  //   {
+  //     title: "Gourmet Lamb Biryani",
+  //     description: "Aromatic basmati rice cooked with tender lamb and rich spices.",
+  //     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+  //     icon: "🥘",
+  //   },
+  //   {
+  //     title: "Fresh Salmon Sushi Set",
+  //     description: "Premium cuts of salmon, tuna, and fresh avocado rolls.",
+  //     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+  //     icon: "🍣",
+  //   },
+  //   {
+  //     title: "Loaded Veggie Burger",
+  //     description: "Plant-based patty, all the fixings, on a toasted brioche bun.",
+  //     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+  //     icon: "🍔",
+  //   },
+  //   {
+  //     title: "Decadent Chocolate Cake",
+  //     description: "Rich layered chocolate cake with dark ganache frosting.",
+  //     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+  //     icon: "🍰",
+  //   },
+  // ];
 
   return (
     // Main Container with Soft linear Background
@@ -207,7 +207,7 @@ const ServicesPage: React.FC = () => {
             Handpicked dishes from our top restaurants, delivered hot and fresh to your doorstep.
           </p>
         </div>
-
+{/* 
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-6">
           {foodSpecials.map((food, i) => (
             <motion.div
@@ -219,7 +219,7 @@ const ServicesPage: React.FC = () => {
               whileHover={{ scale: 1.05, boxShadow: "0 25px 50px -12px rgba(239, 68, 68, 0.25)" }}
               className="group relative bg-white rounded-3xl shadow-xl overflow-hidden border border-red-100 transition-all duration-500 cursor-pointer"
             >
-              {/* Food Image with Zoom effect */}
+              
               <div className="overflow-hidden">
                 <img
                   src={food.image}
@@ -229,7 +229,7 @@ const ServicesPage: React.FC = () => {
                 />
               </div>
 
-              {/* Content */}
+       
               <div className="p-6 text-center">
                 <div className="text-5xl mb-3">{food.icon}</div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">{food.title}</h3>
@@ -245,7 +245,7 @@ const ServicesPage: React.FC = () => {
               </div>
             </motion.div>
           ))}
-        </div>
+        </div> */}
       </section>
 
       {/* 🛡️ DIFFERENTIATORS SECTION */}
