@@ -66,8 +66,10 @@ const SplitCultureCard = ({
 );
 
 // Card Slider Container Component
+
 const CardSliderContainer = ({ children }: any) => {
-  const containerRef = useRef(null);
+  // FIX 1: Specify the ref type as HTMLDivElement
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -79,8 +81,9 @@ const CardSliderContainer = ({ children }: any) => {
       const card = container.querySelector(".flex-shrink-0");
       if (!card) return 0;
 
-      // Note: gap-8 is 32px
-      return card.offsetWidth + 32;
+      const cardElement = card as HTMLElement;
+
+      return cardElement.offsetWidth + 32;
     };
 
     const startScroll = () => {
@@ -344,7 +347,7 @@ const AboutPage = () => {
         <div className="relative">
           <CardSliderContainer>
             {splitCultureCards.map((card, index) => (
-              <div key={index} className="w-full md:w-[70rem] flex-shrink-0">
+              <div key={index} className="w-full md:w-280 shrink-0">
                 <SplitCultureCard {...card} />
               </div>
             ))}

@@ -78,9 +78,22 @@ const Navbar: React.FC = () => {
     });
     setCountries(allCountries);
 
-    const initialCountryCode = params?.country || "US";
+    // 💡 FIX START: Handle params?.country being string | string[] | undefined
+    const rawCountryParam = params?.country;
+    let initialCountryCode: string;
+
+    if (Array.isArray(rawCountryParam)) {
+      // For catch-all routes, take the first segment
+      initialCountryCode = rawCountryParam[0] || "US";
+    } else {
+      // If it's a single string, use it (or default to "US")
+      initialCountryCode = (rawCountryParam as string) || "US";
+    }
+    // 💡 FIX END
+
     const initialCountry =
       allCountries.find(
+        // initialCountryCode is now guaranteed to be a string
         (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
       ) || allCountries[0];
 

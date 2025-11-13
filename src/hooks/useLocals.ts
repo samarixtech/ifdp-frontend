@@ -10,8 +10,16 @@ interface Locale {
   loading: boolean;
 }
 
+interface IPApiData {
+  status: "success" | "fail";
+  countryCode: string;
+  query: string; // The IP address
+  message?: string; // Only present if status is 'fail'
+  country: string;
+}
+
 export default function useLocale(): Locale {
-  const [language, setLanguage] = useState<string>("en"); 
+  const [language, setLanguage] = useState<string>("en");
   const [ip, setIP] = useState<string | null>(null);
   const [country, setCountry] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -20,9 +28,9 @@ export default function useLocale(): Locale {
     async function fetchLocale() {
       try {
         const browserLang = navigator.language?.split("-")[0] || "en";
-        console.log(browserLang,"browserLang")
+        console.log(browserLang, "browserLang");
         setLanguage(browserLang);
-        const res = await axios.get("http://ip-api.com/json");
+        const res = await axios.get<IPApiData>("http://ip-api.com/json");
         if (res.data?.status === "success") {
           setIP(res.data.query || null);
           setCountry(res.data.countryCode || "");
