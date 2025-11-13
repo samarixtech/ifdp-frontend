@@ -1,3 +1,4 @@
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 const cuisines = [
@@ -10,9 +11,19 @@ const cuisines = [
   { name: "Paratha", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
   { name: "Chinese", img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600" },
 ];
-
-const sampleItems = [
+export interface FoodItem {
+  id: string;   
+  title: string;
+  desc: string;
+  time: string;
+  price: string;
+  rating: number;
+  img: string;
+  discount?: string;
+}
+export const sampleItems: FoodItem[] = [
   {
+     id: 'Karahi-Tikka',
     title: "Karahi & Tikka",
     desc: "Pakistani",
     time: "15-30 min",
@@ -22,6 +33,7 @@ const sampleItems = [
     discount: "10% off",
   },
   {
+    id:"house-chilli",
     title: "House Of Chilli",
     desc: "Pakistani",
     time: "20-35 min",
@@ -31,6 +43,7 @@ const sampleItems = [
     discount: "10% cashback",
   },
   {
+id:"Eggspectation",
     title: "Eggspectation Rest.",
     desc: "Continental",
     time: "15-30 min",
@@ -40,6 +53,7 @@ const sampleItems = [
     discount: "10% cashback",
   },
   {
+    id:"Fredarios-pizza",
     title: "Fredarios pizza",
     desc: "Pakistani",
     time: "10-25 min",
@@ -49,8 +63,25 @@ const sampleItems = [
     discount: "15% off",
   },
 ];
+interface RestaurantPageParams {
+  params: {
+    country: string;
+    langauge: string; 
+    id: string; 
+  };
+}
 
+interface DynamicParams {
+  country: string;
+  langauge: string;
+  id: string; 
+  [key: string]: string | string[] | undefined; 
+}
 const Home: React.FC = () => {
+  const router = useRouter();
+  const params = useParams<DynamicParams>();
+  const country = params.country || 'pk'; 
+  const langauge = params.langauge || 'en';
   return (
     <div className="bg-white min-h-screen text-black px-4 md:px-16 py-8">
       {/* Search Bar */}
@@ -116,25 +147,37 @@ const Home: React.FC = () => {
 
       {/* New on foodpanda */}
       <SectionTitle title="New on foodpanda" />
-      <HorizontalScroller>
-        {sampleItems.map(({ title, desc, time, price, rating, img, discount }) => (
-          <FoodCard
-            key={title}
-            title={title}
-            desc={desc}
-            time={time}
-            price={price}
-            rating={rating}
-            img={img}
-            discount={discount}
-          />
-        ))}
-      </HorizontalScroller>
+ {/* New on foodpanda */}
+<SectionTitle title="New on foodpanda" />
+<HorizontalScroller>
+       {sampleItems.map(({ id, title, desc, time, price, rating, img, discount }) => (
+    <div
+      key={id}
+    onClick={() => router.push(`/${country}/${langauge}/restaurants/${id}`)}
+      className="cursor-pointer">
+      <FoodCard
+        title={title}
+        desc={desc}
+        time={time}
+        price={price}
+        rating={rating}
+        img={img}
+        discount={discount ?? ""}
+      />
+    </div>
+  ))}
+</HorizontalScroller>
+
 
       {/* Homechefs – khaas discounts */}
       <SectionTitle title="Homechefs – khaas discounts" />
       <HorizontalScroller>
-        {sampleItems.map(({ title, desc, time, price, rating, img, discount }) => (
+       {sampleItems.map(({ id, title, desc, time, price, rating, img, discount }) => (
+    <div
+      key={id}
+    onClick={() => router.push(`/${country}/${langauge}/restaurants/${id}`)}
+      className="cursor-pointer">
+    
           <FoodCard
             key={title + "homechef"}
             title={title}
@@ -143,15 +186,20 @@ const Home: React.FC = () => {
             price={price}
             rating={rating}
             img={img}
-            discount={discount}
+                discount={discount ?? ""}
           />
+          </div>
         ))}
       </HorizontalScroller>
 
       {/* Pepsi kamaaal kravings */}
       <SectionTitle title="Pepsi kamaaal kravings" />
       <HorizontalScroller>
-        {sampleItems.map(({ title, desc, time, price, rating, img, discount }) => (
+       {sampleItems.map(({ id, title, desc, time, price, rating, img, discount }) => (
+    <div
+      key={id}
+    onClick={() => router.push(`/${country}/${langauge}/restaurants/${id}`)}
+      className="cursor-pointer">
           <FoodCard
             key={title + "pepsi"}
             title={title}
@@ -160,8 +208,9 @@ const Home: React.FC = () => {
             price={price}
             rating={rating}
             img={img}
-            discount={discount}
+             discount={discount ?? ""}
           />
+          </div>
         ))}
       </HorizontalScroller>
     </div>

@@ -169,7 +169,7 @@ interface DropdownProps {
   label: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   content: React.ReactNode;
-  isLocation?: boolean; // For specific styling needs like full-width overlay on mobile
+  isLocation?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -181,7 +181,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Close when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -193,14 +192,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [ref]);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
-
-  // Base classes for the button
   const buttonClasses =
     "flex items-center p-2 rounded-lg border border-gray-200 hover:border-blue-400 transition bg-white relative z-10";
-  // Responsive display logic for the location dropdown
-  const locationButtonClasses = isLocation
-    ? "hidden lg:flex max-w-sm" // Desktop: show
-    : "flex"; // Default: always show (e.g., Language)
+  const locationButtonClasses = isLocation ? "hidden lg:flex max-w-sm" : "flex";
 
   return (
     <div
