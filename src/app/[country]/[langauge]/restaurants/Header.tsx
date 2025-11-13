@@ -1,4 +1,4 @@
-import { User } from "lucide-react";
+import { BarChart, User } from "lucide-react";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
@@ -324,7 +324,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
     </div>
   );
 
-  // Content for the NEW Profile Dropdown
+  // Content for Profile Dropdown
   const profileContent = (
     <div className="flex flex-col space-y-1">
       <div className="py-2 px-3">
@@ -332,6 +332,13 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         <p className="text-sm text-gray-500">johndoe@example.com</p>
       </div>
       <hr className="border-gray-100" />
+      <Link
+        href="/dashboard"
+        className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+      >
+        <BarChart className="w-5 h-5 mr-3" />
+        Dashboard
+      </Link>
       <Link
         href="/profile"
         className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"

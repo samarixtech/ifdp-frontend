@@ -17,21 +17,21 @@ interface Country {
 }
 
 const languages = [
-{ code: "en", name: "English", flag: "🇺🇸", dir: "ltr" },
+  { code: "en", name: "English", flag: "🇺🇸", dir: "ltr" },
   // { code: "it", name: "Italiano", flag: "🇮🇹", dir: "ltr" },
   // { code: "fr", name: "Français", flag: "🇫🇷", dir: "ltr" },
   // { code: "es", name: "Español", flag: "🇪🇸", dir: "ltr" },
   // { code: "pt", name: "Português", flag: "🇵🇹", dir: "ltr" },
   // { code: "zh", name: "中文", flag: "🇨🇳", dir: "ltr" },
   // { code: "ja", name: "日本語", flag: "🇯🇵", dir: "ltr" },
-{ code: "ar", name: "العربية (العراقية)", flag: "🇮🇶", dir: "rtl" }
+  { code: "ar", name: "العربية (العراقية)", flag: "🇮🇶", dir: "rtl" },
   // { code: "ru", name: "Русский", flag: "🇷🇺", dir: "ltr" },
 ];
 
 const Navbar: React.FC = () => {
   const params = useParams();
   const t = useTranslations("Navbar");
-  
+
   const localeFromNext = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -57,13 +57,13 @@ const Navbar: React.FC = () => {
 
   const desktopLangRef = useRef<HTMLDivElement | null>(null);
   const desktopCountryRef = useRef<HTMLDivElement | null>(null);
-useEffect(() => {
-  const lang = languages.find(l => l.code === localeFromNext);
-  if (lang) {
-    setCurrentLocaleState(lang.code);
-    setActiveLangState(lang);
-  }
-}, [localeFromNext]);
+  useEffect(() => {
+    const lang = languages.find((l) => l.code === localeFromNext);
+    if (lang) {
+      setCurrentLocaleState(lang.code);
+      setActiveLangState(lang);
+    }
+  }, [localeFromNext]);
 
   // HANDLER FOR MOBILE SIDEBAR OPEN/CLOSE
   const handleCloseMobileMenu = () => {
@@ -76,29 +76,27 @@ useEffect(() => {
     }, 300);
   };
 
-useEffect(() => {
-  const names = getNames();
+  useEffect(() => {
+    const names = getNames();
 
-  const allCountries = names.map((name) => {
-    const rawCode = getCode(name);
-    const code: string = Array.isArray(rawCode) ? rawCode[0] : rawCode || "";
-    const flag = emojiFlags.countryCode(code)?.emoji || "🏳️";
-    return { code, name, flag };
-  });
+    const allCountries = names.map((name) => {
+      const rawCode = getCode(name);
+      const code: string = Array.isArray(rawCode) ? rawCode[0] : rawCode || "";
+      const flag = emojiFlags.countryCode(code)?.emoji || "🏳️";
+      return { code, name, flag };
+    });
 
-  setCountries(allCountries);
+    setCountries(allCountries);
 
-  const initialCountryCode = (params?.country || "US").toString();
+    const initialCountryCode = (params?.country || "US").toString();
 
-  const initialCountry =
-    allCountries.find(
-      (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
-    ) || allCountries[0];
+    const initialCountry =
+      allCountries.find(
+        (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
+      ) || allCountries[0];
 
-  setSelectedCountry(initialCountry);
-}, [params?.country]);
-
-
+    setSelectedCountry(initialCountry);
+  }, [params?.country]);
 
   // Update active language and document attributes
   useEffect(() => {
@@ -175,51 +173,47 @@ useEffect(() => {
   //   router.replace(newPath);
   // };
 
+  //  const storedLocale = sessionStorage.getItem("locale");
+  // console.log(storedLocale,"storedLocale")
+  const changeLanguage = (newLocale: string) => {
+    const currentCountryCode = selectedCountry?.code || "US";
 
- const storedLocale = sessionStorage.getItem("locale");
-console.log(storedLocale,"storedLocale")
-const changeLanguage = (newLocale: string) => {
-  const currentCountryCode = selectedCountry?.code || "US";
+    // Navigate to new locale (update URL)
+    handleNavigationChange(currentCountryCode.toUpperCase(), newLocale);
 
-  // Navigate to new locale (update URL)
-  handleNavigationChange(currentCountryCode.toUpperCase(), newLocale);
+    // Update state immediately
+    const newLang = languages.find((l) => l.code === newLocale);
+    if (newLang) {
+      setActiveLangState(newLang);
+      setCurrentLocaleState(newLocale);
+    }
 
-  // Update state immediately
-  const newLang = languages.find(l => l.code === newLocale);
-  if (newLang) {
-    setActiveLangState(newLang);
-    setCurrentLocaleState(newLocale);
-  }
+    // Save locale in session storage (browser-only)
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("locale", newLocale);
+    }
+  };
 
-  // Save locale in session storage (browser-only)
-  if (typeof window !== "undefined") {
-    sessionStorage.setItem("locale", newLocale);
-  }
-};
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedLocale = sessionStorage.getItem("locale");
 
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    const storedLocale = sessionStorage.getItem("locale");
-
-    if (storedLocale) {
-      const lang = languages.find(l => l.code === storedLocale);
-      if (lang) {
-        setActiveLangState(lang);
-        setCurrentLocaleState(storedLocale);
-      }
-    } else {
-      // fallback to NextIntl locale
-      const lang = languages.find(l => l.code === localeFromNext);
-      if (lang) {
-        setActiveLangState(lang);
-        setCurrentLocaleState(localeFromNext);
+      if (storedLocale) {
+        const lang = languages.find((l) => l.code === storedLocale);
+        if (lang) {
+          setActiveLangState(lang);
+          setCurrentLocaleState(storedLocale);
+        }
+      } else {
+        // fallback to NextIntl locale
+        const lang = languages.find((l) => l.code === localeFromNext);
+        if (lang) {
+          setActiveLangState(lang);
+          setCurrentLocaleState(localeFromNext);
+        }
       }
     }
-  }
-}, [localeFromNext]);
-
-
-
+  }, [localeFromNext]);
 
   const handleCountrySelect = (country: Country) => {
     setSelectedCountry(country);
