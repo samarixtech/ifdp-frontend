@@ -1,0 +1,106 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { ChevronDown, Check } from "lucide-react";
+import { setCookie, getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+
+// Shared Country Type that includes currencySymbol
+interface Country {
+  code: string;
+  name: string;
+  flag: string;
+  currencySymbol: string; // Added currencySymbol to match the updated type
+}
+
+interface CountrySelectorProps {
+  countries: Country[];
+  selectedCountry: Country | null;
+  onSelectCountry: (country: Country) => void;
+}
+
+const CountrySelector: React.FC<CountrySelectorProps> = ({
+  countries,
+  selectedCountry,
+  onSelectCountry,
+}) => {
+  const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const desktopCountryRef = useRef<HTMLDivElement | null>(null);
+
+  // Filter countries based on search query
+  const filteredCountries = countries.filter(
+    (country) =>
+      country.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      country.code.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleCountrySelect = (country: Country) => {
+    onSelectCountry(country);
+
+    setCookie("NEXT_COUNTRY", country.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+    setCookie("NEXT_CURRENCY", country.currencySymbol, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+
+    setIsCountryDropdownOpen(false);
+  };
+
+  return (
+    <div ref={desktopCountryRef} className="relative">
+      <button
+        onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
+        className="flex items-center gap-2 px-3 py-2 rounded-md border border-blue-500 bg-white text-black hover:bg-blue-50 transition-all shadow-sm"
+      >
+        <span className="text-xl">{selectedCountry?.flag || "🌐"}</span>
+        <span className="font-semibold">{selectedCountry?.code.toUpperCase()}</span>
+        <ChevronDown
+          size={16}
+          className={`text-blue-600 transition-transform duration-200 ${
+            isCountryDropdownOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {isCountryDropdownOpen && (
+        <div className="absolute right-0 mt-2 w-64 bg-white border border-blue-100 rounded-lg shadow-xl py-2 max-h-64 overflow-y-auto z-50 animate-fade-in">
+          {/* Search Input */}
+          <div className="px-3 py-2">
+            <input
+              type="text"
+              placeholder="Search country..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-3 py-2 border border-blue-200 rounded-md text-sm mb-2"
+            />
+          </div>
+
+          {/* Filtered Countries List */}
+          {filteredCountries.length > 0 ? (
+            filteredCountries.map((country) => (
+              <button
+                key={country.code}
+                onClick={() => handleCountrySelect(country)}
+                className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition ${
+                  selectedCountry?.code === country.code
+                    ? "bg-blue-100 text-blue-700 font-semibold"
+                    : "text-gray-800"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">{country.flag}</span>
+                  <span className="text-sm">{country.name}</span>
+                </div>
+                {selectedCountry?.code === country.code && (
+                  <Check size={16} className="text-blue-600" />
+                )}
+              </button>
+            ))
+          ) : (
+            <div className="text-center text-gray-500 py-2">No countries found</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CountrySelector;

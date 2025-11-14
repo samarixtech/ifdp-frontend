@@ -9,6 +9,8 @@ import emojiFlags from "emoji-flags";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname, useParams } from "next/navigation";
 import { setCookie, getCookie } from "cookies-next";
+import { countryCurrencyMap } from "@/app/utils/country";
+import CountrySelector from "./ui/CountrySelector";
 
 interface Language {
   code: string;
@@ -29,27 +31,23 @@ const languages: Language[] = [
   { code: "ar", name: "العربية", flag: "🇮🇶", dir: "rtl" },
 ];
 
-const countryCurrencyMap: { [key: string]: string } = {
-  US: "$",
-  PK: "Rs", 
-  IN: "₹",
-};
-
 const getDefaultCountryData = (code: string): Country => {
-  const countryName = getNames().find(name => getCode(name) === code) || code;
+  const countryName = getNames().find((name) => getCode(name) === code) || code;
   const flag = emojiFlags.countryCode(code)?.emoji || "🌐";
   const currencySymbol = countryCurrencyMap[code] || "$";
   return { code, name: countryName, flag, currencySymbol };
 };
 
-const fetchIPBasedDefaults = async (): Promise<{ ipCountry: string; ipLocale: string }> => {
+const fetchIPBasedDefaults = async (): Promise<{
+  ipCountry: string;
+  ipLocale: string;
+}> => {
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
-  await new Promise(resolve => setTimeout(resolve, 100));
-
-  const defaultCountry = getCookie("NEXT_COUNTRY") as string || "US";
-  const defaultLocale = getCookie("NEXT_LOCALE") as string || "en";
-console.log(defaultCountry,"defaultCountry")
-console.log(defaultLocale,"defaultLocale")
+  const defaultCountry = (getCookie("NEXT_COUNTRY") as string) || "US";
+  const defaultLocale = (getCookie("NEXT_LOCALE") as string) || "en";
+  console.log(defaultCountry, "defaultCountry");
+  console.log(defaultLocale, "defaultLocale");
 
   return { ipCountry: defaultCountry, ipLocale: defaultLocale };
 };
@@ -59,9 +57,11 @@ const Navbar: React.FC = () => {
   const localeFromNext = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const params = useParams(); 
+  const params = useParams();
 
-  const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "en");
+  const [currentLocaleState, setCurrentLocaleState] = useState(
+    localeFromNext || "en"
+  );
   const [activeLangState, setActiveLangState] = useState(
     languages.find((l) => l.code === localeFromNext) || languages[0]
   );
@@ -73,7 +73,8 @@ const Navbar: React.FC = () => {
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [isMobileLangDropdownOpen, setIsMobileLangDropdownOpen] = useState(false);
+  const [isMobileLangDropdownOpen, setIsMobileLangDropdownOpen] =
+    useState(false);
 
   const desktopLangRef = useRef<HTMLDivElement | null>(null);
   const desktopCountryRef = useRef<HTMLDivElement | null>(null);
@@ -84,95 +85,148 @@ const Navbar: React.FC = () => {
       setIsMobileMenuOpen(false);
       setIsClosing(false);
       setIsMobileLangDropdownOpen(false);
-    }, 300); 
+    }, 300);
   }, []);
 
-const getNewPath = useCallback((newCountryCode: string, newLangCode: string, subPath = "") => {
-  const pathSegments = pathname.split("/").filter(Boolean);
+  const getNewPath = useCallback(
+    (newCountryCode: string, newLangCode: string, subPath = "") => {
+      const pathSegments = pathname.split("/").filter(Boolean);
 
-  const remainingSegments =
-    pathSegments.length >= 2 && languages.some(l => l.code === pathSegments[1].toLowerCase())
-      ? pathSegments.slice(2)
-      : pathSegments;
+      const remainingSegments =
+        pathSegments.length >= 2 &&
+        languages.some((l) => l.code === pathSegments[1].toLowerCase())
+          ? pathSegments.slice(2)
+          : pathSegments;
 
-  const fullPath = [newCountryCode.toLowerCase(), newLangCode.toLowerCase(), ...remainingSegments, subPath]
-    .filter(Boolean)
-    .join("/");
+      const fullPath = [
+        newCountryCode.toLowerCase(),
+        newLangCode.toLowerCase(),
+        ...remainingSegments,
+        subPath,
+      ]
+        .filter(Boolean)
+        .join("/");
 
-  return "/" + fullPath;
-}, [pathname]);
+      return "/" + fullPath;
+    },
+    [pathname]
+  );
 
+  const handleCountrySelect = useCallback(
+    (country: Country) => {
+      setSelectedCountry(country);
+      setIsCountryDropdownOpen(false);
+      setCookie("NEXT_COUNTRY", country.code, {
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
+      setCookie("NEXT_CURRENCY", country.currencySymbol, {
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
+      const newPath = getNewPath(country.code, currentLocaleState);
+      router.replace(newPath);
 
-  const handleCountrySelect = useCallback((country: Country) => {
-    setSelectedCountry(country);
-    setIsCountryDropdownOpen(false);
-    setCookie("NEXT_COUNTRY", country.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
-    const newPath = getNewPath(country.code, currentLocaleState);
-    router.replace(newPath);
+      // 4. Close mobile menu if open
+      if (isMobileMenuOpen) {
+        handleCloseMobileMenu();
+      }
+      handleNavigationChange(country.code, currentLocaleState);
+    },
+    [
+      currentLocaleState,
+      getNewPath,
+      router,
+      isMobileMenuOpen,
+      handleCloseMobileMenu,
+    ]
+  );
 
-    // 4. Close mobile menu if open
-    if (isMobileMenuOpen) {
-      handleCloseMobileMenu();
-    }
-       handleNavigationChange(country.code, currentLocaleState);
-  }, [currentLocaleState, getNewPath, router, isMobileMenuOpen, handleCloseMobileMenu]);
+  const changeLanguage = useCallback(
+    (newLocale: string) => {
+      const newLang = languages.find((l) => l.code === newLocale);
+      setCurrentLocaleState(newLocale);
+      setActiveLangState(newLang || languages[0]);
+      setIsDesktopLangOpen(false);
+      setIsMobileLangDropdownOpen(false);
 
-const changeLanguage = useCallback((newLocale: string) => {
-  const newLang = languages.find((l) => l.code === newLocale);
-  setCurrentLocaleState(newLocale);
-  setActiveLangState(newLang || languages[0]);
-  setIsDesktopLangOpen(false);
-  setIsMobileLangDropdownOpen(false);
+      setCookie("NEXT_LOCALE", newLocale, {
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("locale", newLocale);
+      }
+      if (selectedCountry) {
+        const newPath = getNewPath(selectedCountry.code, newLocale);
 
-  setCookie("NEXT_LOCALE", newLocale, { maxAge: 60 * 60 * 24 * 30, path: "/" });
-  if (typeof window !== "undefined") {
-    sessionStorage.setItem("locale", newLocale);
-  }
-  if (selectedCountry) {
-    const newPath = getNewPath(selectedCountry.code, newLocale);
+        router.replace(newPath);
+      } else {
+        window.location.reload();
+      }
 
-    router.replace(newPath);
-  } else {
-    window.location.reload();
-  }
-
-  if (isMobileMenuOpen) {
-    handleCloseMobileMenu();
-  }
-}, [selectedCountry, getNewPath, router, isMobileMenuOpen, handleCloseMobileMenu]);
-
-
-
+      if (isMobileMenuOpen) {
+        handleCloseMobileMenu();
+      }
+    },
+    [
+      selectedCountry,
+      getNewPath,
+      router,
+      isMobileMenuOpen,
+      handleCloseMobileMenu,
+    ]
+  );
 
   useEffect(() => {
     const initialize = async () => {
       const { ipCountry, ipLocale } = await fetchIPBasedDefaults();
-      const initialCountryCode = (params?.country as string || getCookie("NEXT_COUNTRY") as string || ipCountry).toUpperCase();
-      const initialLocale = (params?.locale as string || getCookie("NEXT_LOCALE") as string || ipLocale).toLowerCase();
-      const allCountries: Country[] = getNames().map((name) => {
-        const code = getCode(name) as string;
-        return getDefaultCountryData(code);
-      }).filter(c => c.code.length === 2); 
+      const initialCountryCode = (
+        (params?.country as string) ||
+        (getCookie("NEXT_COUNTRY") as string) ||
+        ipCountry
+      ).toUpperCase();
+      const initialLocale = (
+        (params?.locale as string) ||
+        (getCookie("NEXT_LOCALE") as string) ||
+        ipLocale
+      ).toLowerCase();
+      const allCountries: Country[] = getNames()
+        .map((name) => {
+          const code = getCode(name) as string;
+          return getDefaultCountryData(code);
+        })
+        .filter((c) => c.code.length === 2);
 
       setCountries(allCountries);
-      const initialCountry = allCountries.find(
-        (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
-      ) || getDefaultCountryData(initialCountryCode) || allCountries[0];
+      const initialCountry =
+        allCountries.find(
+          (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
+        ) ||
+        getDefaultCountryData(initialCountryCode) ||
+        allCountries[0];
       setSelectedCountry(initialCountry);
-      const lang = languages.find((l) => l.code === initialLocale) || languages[0];
+      const lang =
+        languages.find((l) => l.code === initialLocale) || languages[0];
       setCurrentLocaleState(lang.code);
       setActiveLangState(lang);
       if (!getCookie("NEXT_COUNTRY")) {
-         setCookie("NEXT_COUNTRY", initialCountry.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+        setCookie("NEXT_COUNTRY", initialCountry.code, {
+          maxAge: 60 * 60 * 24 * 30,
+          path: "/",
+        });
       }
       if (!getCookie("NEXT_LOCALE")) {
-         setCookie("NEXT_LOCALE", lang.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+        setCookie("NEXT_LOCALE", lang.code, {
+          maxAge: 60 * 60 * 24 * 30,
+          path: "/",
+        });
       }
     };
-    
+
     initialize();
-    console.log(params?.locale,"params?.locale")
-  }, [params?.country, params?.locale]); 
+    console.log(params?.locale, "params?.locale");
+  }, [params?.country, params?.locale]);
   useEffect(() => {
     document.documentElement.lang = activeLangState.code;
     document.documentElement.dir = activeLangState.dir;
@@ -183,9 +237,15 @@ const changeLanguage = useCallback((newLocale: string) => {
       const target = event.target as Node;
       if (desktopLangRef.current && !desktopLangRef.current.contains(target))
         setIsDesktopLangOpen(false);
-      if (desktopCountryRef.current && !desktopCountryRef.current.contains(target))
+      if (
+        desktopCountryRef.current &&
+        !desktopCountryRef.current.contains(target)
+      )
         setIsCountryDropdownOpen(false);
-      if (isMobileLangDropdownOpen && !(event.target as HTMLElement).closest("#mobile-lang"))
+      if (
+        isMobileLangDropdownOpen &&
+        !(event.target as HTMLElement).closest("#mobile-lang")
+      )
         setIsMobileLangDropdownOpen(false);
     };
 
@@ -193,17 +253,15 @@ const changeLanguage = useCallback((newLocale: string) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isDesktopLangOpen, isCountryDropdownOpen, isMobileLangDropdownOpen]);
 
-
   // --- Nav Items ---
-const navItems = [
-  { label: t("home"),to:"/" },
-  { label: t("about"), to: '/about' },
-  { label: t("services"), to: '/services' },
-  { label: t("contact"), to:  '/contact' },
-  { label: t("newsroom"), to: '/newsroom' },
-  { label: t("partners"), to:  '/partners' },
-];
-
+  const navItems = [
+    { label: t("home"), to: "/" },
+    { label: t("about"), to: "/about" },
+    { label: t("services"), to: "/services" },
+    { label: t("contact"), to: "/contact" },
+    { label: t("newsroom"), to: "/newsroom" },
+    { label: t("partners"), to: "/partners" },
+  ];
 
   if (!selectedCountry) {
     return (
@@ -212,7 +270,6 @@ const navItems = [
       </nav>
     );
   }
-
 
   const handleNavigationChange = (
     newCountryCode: string,
@@ -234,14 +291,13 @@ const navItems = [
     window.open(newPath, "_blank");
   };
 
- 
   return (
     <nav className="bg-[#003566] shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href={getNewPath(selectedCountry.code, activeLangState.code)}>
-             <Image src="/logo.jpg" alt="Logo" width={110} height={110} />
+            <Image src="/logo.jpg" alt="Logo" width={110} height={110} />
           </Link>
 
           {/* Desktop Menu */}
@@ -257,8 +313,6 @@ const navItems = [
             ))}
 
             <div className="flex items-center gap-3">
-          
-              
               <div ref={desktopLangRef} className="relative">
                 <button
                   onClick={() => setIsDesktopLangOpen(!isDesktopLangOpen)}
@@ -304,50 +358,12 @@ const navItems = [
               </div>
 
               {/* Desktop Country */}
-              <div ref={desktopCountryRef} className="relative">
-                <button
-                  onClick={() =>
-                    setIsCountryDropdownOpen(!isCountryDropdownOpen)
-                  }
-                  className="flex items-center gap-2 px-3 py-2 rounded-md border border-blue-500 bg-white text-black hover:bg-blue-50 transition-all shadow-sm"
-                >
-                  <span className="text-xl">
-                    {selectedCountry.flag || "🌐"}
-                  </span>
-                  <span className="font-semibold">
-                    {selectedCountry.code.toUpperCase()}
-                  </span>
-                  <ChevronDown
-                    size={16}
-                    className={`text-blue-600 transition-transform duration-200 ${
-                      isCountryDropdownOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-
-                {isCountryDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white border border-blue-100 rounded-lg shadow-xl py-2 max-h-64 overflow-y-auto z-50 animate-fade-in">
-                    {countries.map((country) => (
-                      <button
-                        key={country.code}
-                        onClick={() => handleCountrySelect(country)}
-                        className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition ${
-                          selectedCountry.code === country.code
-                            ? "bg-blue-100 text-blue-700 font-semibold"
-                            : "text-gray-800"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-xl">{country.flag}</span>
-                          <span className="text-sm">{country.name} </span>
-                        </div>
-                        {selectedCountry.code === country.code && (
-                          <Check size={16} className="text-blue-600" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                )}
+              <div className="flex items-center gap-6">
+                <CountrySelector
+                  countries={countries}
+                  selectedCountry={selectedCountry}
+                  onSelectCountry={handleCountrySelect}
+                />
               </div>
             </div>
           </div>
@@ -392,12 +408,6 @@ const navItems = [
             </div>
 
             <div className="flex flex-col space-y-1 p-4">
-               {/* Currency Display in Mobile */}
-              {/* <div className="flex items-center gap-1 text-white text-lg font-bold border-b border-white/20 pb-3 mb-3">
-                 <DollarSign size={18} className="text-yellow-400" />
-                 <span className="text-sm font-medium">Current Currency: {selectedCountry.currencySymbol}</span>
-              </div> */}
-              
               {navItems.map((item) => (
                 <Link
                   key={item.to}
