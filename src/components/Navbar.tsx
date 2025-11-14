@@ -87,25 +87,21 @@ const Navbar: React.FC = () => {
     }, 300); 
   }, []);
 
-  const getNewPath = useCallback((newCountryCode: string, newLangCode: string) => {
-    const pathSegments = pathname.split('/').filter(Boolean);
-  
-    let remainingPath = pathSegments.filter(
-      (segment, index) => index !== 0 && index !== 1
-    ).join('/');
-    
-    if (pathSegments.length > 0 && pathSegments[0].toLowerCase() === (selectedCountry?.code || 'pk').toLowerCase()) {
-        remainingPath = pathSegments.slice(2).join('/');
-    } else if (pathSegments.length > 0 && languages.some(l => l.code === pathSegments[0])) {
-        remainingPath = pathSegments.slice(1).join('/');
-    } else {
-        remainingPath = pathSegments.join('/');
-    }
+const getNewPath = useCallback((newCountryCode: string, newLangCode: string, subPath = "") => {
+  const pathSegments = pathname.split("/").filter(Boolean);
 
-    const newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/${remainingPath}`;
-  
-    return newPath.replace(/\/+/g, '/').replace(/\/$/, '');
-  }, [pathname, selectedCountry?.code]);
+  const remainingSegments =
+    pathSegments.length >= 2 && languages.some(l => l.code === pathSegments[1].toLowerCase())
+      ? pathSegments.slice(2)
+      : pathSegments;
+
+  const fullPath = [newCountryCode.toLowerCase(), newLangCode.toLowerCase(), ...remainingSegments, subPath]
+    .filter(Boolean)
+    .join("/");
+
+  return "/" + fullPath;
+}, [pathname]);
+
 
   const handleCountrySelect = useCallback((country: Country) => {
     setSelectedCountry(country);
@@ -200,12 +196,12 @@ const changeLanguage = useCallback((newLocale: string) => {
 
   // --- Nav Items ---
 const navItems = [
-  { label: t("home"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) },
-  { label: t("about"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/about' },
-  { label: t("services"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/services' },
-  { label: t("contact"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/contact' },
-  { label: t("newsroom"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/newsroom' },
-  { label: t("partners"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/partners' },
+  { label: t("home"),to:"/" },
+  { label: t("about"), to: '/about' },
+  { label: t("services"), to: '/services' },
+  { label: t("contact"), to:  '/contact' },
+  { label: t("newsroom"), to: '/newsroom' },
+  { label: t("partners"), to:  '/partners' },
 ];
 
 
