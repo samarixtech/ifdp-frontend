@@ -150,7 +150,7 @@ const SidebarFilters: React.FC = () => {
                   : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
               }`}
             >
-              {filter === 'Super restaurant' && <StarIcon className="w-4 h-4 mr-1 text-pink-300" />}
+              {filter === 'Super restaurant' && <StarIcon className="w-4 h-4 mr-1 text-blue-300" />}
               {filter}
             </button>
           ))}

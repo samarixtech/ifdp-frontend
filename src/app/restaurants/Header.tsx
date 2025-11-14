@@ -1,124 +1,25 @@
+import CartDrawer from "@/components/CartDrawer";
+import { RootState } from "@/redux/store/store";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 
-// --- Inline SVG Icons (Lucide-React equivalents) ---
-const MapPin: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-    <circle cx="12" cy="10" r="3" />
-  </svg>
-);
-const ChevronDown: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="m6 9 6 6 6-6" />
-  </svg>
-);
-const ShoppingBag: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M6 2L3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5Z" />
-    <line x1="3" x2="21" y1="7" y2="7" />
-    <path d="M12 22v-3" />
-    <path d="M12 7V2" />
-  </svg>
-);
-const Globe: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-    <line x1="2" x2="22" y1="12" y2="12" />
-  </svg>
-);
-const Bike: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="12" cy="18" r="4" />
-    <path d="M19 18a2 2 0 0 0 0-4H7a2 2 0 0 0 0 4" />
-    <path d="M22 18h-2l-1-4h-2" />
-    <path d="m14 14 1 4h5" />
-    <path d="m5 18-1-4h-2" />
-    <path d="m3 7 3 2 4-5 5 5 1-2" />
-    <path d="M13 10V4" />
-  </svg>
-);
-const Package: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="m7.5 4.27 9.5.5c.42 0 .78-.35.8-.76V2.5A.5.5 0 0 0 18 2h-9c-.48 0-.82.3-.87.72V4.2c0-.06-.02-.12-.02-.18" />
-    <path d="m20 10-8-5-8 5V21l8-4 8 4Z" />
-    <path d="m12 17 8 4M12 17 4 21M4 21V10M20 10v11" />
-  </svg>
-);
+// ✅ Import React Icons
+import {
+  FiMapPin,
+  FiChevronDown,
+  FiShoppingBag,
+  FiGlobe,
+  FiTruck,
+  FiPackage,
+} from "react-icons/fi";
 
 // --- Dropdown Component ---
 interface DropdownProps {
   label: string;
-  icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<{ className?: string }>;
   content: React.ReactNode;
-  isLocation?: boolean; // For specific styling needs like full-width overlay on mobile
+  isLocation?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -143,18 +44,17 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  // Base classes for the button
   const buttonClasses =
     "flex items-center p-2 rounded-lg border border-gray-200 hover:border-blue-400 transition bg-white relative z-10";
-  // Responsive display logic for the location dropdown
+
   const locationButtonClasses = isLocation
-    ? "hidden lg:flex max-w-sm" // Desktop: show
-    : "flex"; // Default: always show (e.g., Language)
+    ? "hidden lg:flex max-w-sm"
+    : "flex";
 
   return (
     <div
       ref={ref}
-      className={` text-black relative ${locationButtonClasses} ${
+      className={`text-black relative ${locationButtonClasses} ${
         isLocation ? "w-full" : "w-auto"
       }`}
     >
@@ -169,7 +69,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <span className="text-sm font-semibold text-gray-700 max-w-[200px] truncate">
           {label}
         </span>
-        <ChevronDown
+        <FiChevronDown
           className={`w-4 h-4 text-gray-400 ml-2 transform transition-transform ${
             isOpen ? "rotate-180" : "rotate-0"
           }`}
@@ -179,22 +79,17 @@ const Dropdown: React.FC<DropdownProps> = ({
       {/* Dropdown Content */}
       <div
         className={`absolute top-full mt-2 rounded-xl shadow-2xl bg-white p-4 transition-all duration-300 origin-top z-50 overflow-hidden 
-          ${
-            isLocation
-              ? "w-[350px] right-0 lg:left-0" // Location: wider, fixed size
-              : "w-40 right-0" // Language: smaller, aligned right
-          }
+          ${isLocation ? "w-[350px] right-0 lg:left-0" : "w-40 right-0"}
           ${
             isOpen
               ? "scale-y-100 opacity-100 max-h-[300px]"
               : "scale-y-0 opacity-0 max-h-0"
-          }
-        `}
+          }`}
       >
         {content}
       </div>
 
-      {/* Mobile/Small Screen Location Modal (Full width) */}
+      {/* Mobile Location Modal */}
       {isLocation && (
         <div
           className={`lg:hidden fixed inset-0 bg-white z-40 transition-transform duration-300 ease-in-out ${
@@ -220,7 +115,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 };
 
 // --- Main Header Component ---
-
 interface IFDPHeaderProps {
   currentCountryCode?: string;
   currentLangCode?: string;
@@ -232,11 +126,13 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   currentLangCode = "en",
   currentAddress = "New address PTCL Telephone Exchange Service Road W Islamabad",
 }) => {
-  const [activeTab, setActiveTab] = useState<
-    "delivery" | "pickup" | "IFDPmart" | "shops" | "caterers"
-  >("delivery");
+  const totalItems = useSelector((state: RootState) =>
+    state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
 
-  // Content for the Language Dropdown
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Language Dropdown
   const languageContent = (
     <div className="flex flex-col space-y-2">
       <h3 className="text-sm font-semibold text-gray-500 mb-1">
@@ -250,9 +146,6 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
               ? "text-[#003566] font-bold bg-blue-50"
               : "text-gray-800"
           }`}
-          onClick={() => {
-            /* Handle language change logic here */
-          }}
         >
           {lang}
         </button>
@@ -260,7 +153,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
     </div>
   );
 
-  // Content for the Location Dropdown
+  // Location Dropdown
   const locationContent = (
     <div className="flex flex-col space-y-4">
       <h3 className="text-lg font-bold text-gray-800">Search Delivery Area</h3>
@@ -279,21 +172,13 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
     </div>
   );
 
-  const navTabs = [
-    { key: "delivery", label: "Delivery", icon: Bike },
-    { key: "pickup", label: "Pick-up", icon: MapPin },
-    { key: "IFDPmart", label: "IFDPmart", icon: ShoppingBag },
-    { key: "shops", label: "Shops", icon: Package },
-    { key: "caterers", label: "Caterers", icon: Globe },
-  ] as const;
-
   return (
     <header className="fixed top-0 left-0 w-full z-50 pb-20">
-      {/* 1. Top Bar (Partner Links) - Blue Top Bar */}
+      {/* Top Bar */}
       <div className="hidden sm:block bg-[#003566] text-white text-sm py-2 px-4 shadow-md">
         <div className="max-w-7xl mx-auto flex justify-end items-center space-x-4">
           <span className="flex items-center space-x-1 font-semibold">
-            <ShoppingBag className="w-4 h-4" />
+            <FiShoppingBag className="w-4 h-4" />
             <span>IDFP</span>
           </span>
           <a
@@ -311,31 +196,28 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         </div>
       </div>
 
-      {/* 2. Main Navigation Bar (White/Blue) */}
+      {/* Main Nav */}
       <nav className="bg-white shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex justify-between items-center h-16">
-            {/* Left Section: Logo and Location Dropdown */}
+            {/* Left: Logo + Location */}
             <div className="flex items-center space-x-3 lg:space-x-12 w-full lg:w-auto">
-              {/* Logo (Visible on all screens) */}
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl font-extrabold text-[#003566] tracking-tight">
-                  IFDP<span className="text-black text-lg sm:text-xl"></span>
+                  IFDP
                 </span>
               </div>
 
-              {/* Location Dropdown (Visible on all screens) */}
               <Dropdown
                 label={currentAddress}
-                icon={MapPin}
+                icon={FiMapPin}
                 content={locationContent}
                 isLocation={true}
               />
             </div>
 
-            {/* Right Section: Auth, Language, Cart (Hidden on small screens when location dropdown is focused) */}
+            {/* Right: Auth + Language + Cart */}
             <div className="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
-              {/* Log In Button (Outline) */}
               <Link
                 href={"/login"}
                 className="hidden sm:block px-4 py-2 border border-black text-black font-semibold rounded-lg hover:bg-gray-100 transition duration-150 text-sm"
@@ -343,30 +225,41 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
                 Log in
               </Link>
 
-              {/* Sign Up Button (Solid Blue) */}
               <button className="hidden sm:block px-4 py-2 bg-[#003566] text-white font-semibold rounded-lg hover:bg-[#003566] transition duration-150 text-sm">
                 Sign up for free delivery
               </button>
 
-              {/* Language Dropdown */}
               <Dropdown
                 label={currentLangCode.toUpperCase()}
-                icon={Globe}
+                icon={FiGlobe}
                 content={languageContent}
               />
 
-              {/* Cart Icon */}
+              {/* Cart Button */}
               <button
-                className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150"
+                onClick={() => setIsDrawerOpen(true)}
+                className="relative p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150"
                 aria-label="Cart"
               >
-                <ShoppingBag className="w-6 h-6 text-black" />
+                <FiShoppingBag className="w-6 h-6 text-black" />
+                {totalItems > 0 && (
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
+                    {totalItems > 9 ? "9+" : totalItems}
+                  </span>
+                )}
               </button>
             </div>
+
+        
           </div>
         </div>
-      </nav>
+      </nav>    <CartDrawer
+              isOpen={isDrawerOpen}
+              onClose={() => setIsDrawerOpen(false)}
+            />
+
     </header>
+    
   );
 };
 

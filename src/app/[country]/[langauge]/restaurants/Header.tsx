@@ -1,6 +1,10 @@
+import CartDrawer from "@/components/CartDrawer";
+import { RootState } from "@/redux/store/store";
 import { BarChart, User } from "lucide-react";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
+import { FiShoppingBag } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 // --- Inline SVG Icons (Lucide-React equivalents) ---
 const MapPin: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
@@ -280,7 +284,11 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const [activeTab, setActiveTab] = useState<
     "delivery" | "pickup" | "IFDPmart" | "shops" | "caterers"
   >("delivery");
+  const totalItems = useSelector((state: RootState) =>
+    state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
+  );
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   // Content for the Language Dropdown
   const languageContent = (
     <div className="flex flex-col space-y-2">
@@ -436,13 +444,24 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
                 content={languageContent}
               />
 
-              {/* Cart Icon */}
+                    {/* Cart Button */}
               <button
-                className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150"
+                onClick={() => setIsDrawerOpen(true)}
+                className="relative p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150"
                 aria-label="Cart"
               >
-                <ShoppingBag className="w-6 h-6 text-black" />
+                <FiShoppingBag className="w-6 h-6 text-black" />
+                {totalItems > 0 && (
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
+                    {totalItems > 9 ? "9+" : totalItems}
+                  </span>
+                )}
               </button>
+
+            <CartDrawer
+              isOpen={isDrawerOpen}
+              onClose={() => setIsDrawerOpen(false)}
+            />
               <ProfileDropdown profileContent={profileContent} />
             </div>
           </div>

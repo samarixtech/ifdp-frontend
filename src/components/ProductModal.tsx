@@ -177,7 +177,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ item, isOpen, onClose,onAdd
 
                     {/* --- 1. Variation Section --- */}
                     <div className="mb-4">
-                        <h3 className="font-bold text-gray-800 mb-2 flex items-center">Size/Variation<span className="text-xs font-normal text-pink-600 ml-1.5 flex items-center">(Required) <Info size={12} className="ml-1 text-pink-400" /></span></h3>
+                        <h3 className="font-bold text-gray-800 mb-2 flex items-center">Size/Variation<span className="text-xs font-normal text-blue-600 ml-1.5 flex items-center">(Required) <Info size={12} className="ml-1 text-blue-400" /></span></h3>
                         <div className="space-y-2">
                             {mockVariations.map(variation => (
                                 <div key={variation.id} className={`flex justify-between items-center p-2 border rounded-lg cursor-pointer transition ${selectedVariation?.id === variation.id ? 'border-green-500 bg-green-50 shadow-sm' : 'border-gray-200 hover:bg-gray-50'}`}

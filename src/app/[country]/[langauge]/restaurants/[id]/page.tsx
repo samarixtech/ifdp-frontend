@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store/store";
 import { addToCart } from "@/redux/slices/cartSlice";
@@ -41,6 +41,54 @@ const mockSimilarRestaurants: SimilarRestaurant[] = [
       "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
     promoText: "Free Delivery",
   },
+    {
+    id: "Q2",
+    name: "Quattro Uno",
+    rating: 4.5,
+    ratingCount: 1100,
+    deliveryTime: "45 min",
+    deliveryFee: 189,
+    cuisine: ["Pizza", "Italian", "Desserts"],
+    imageUrl:
+      "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
+    promoText: "Free Delivery",
+  },
+    {
+    id: "Q3",
+    name: "Quattro Uno",
+    rating: 4.5,
+    ratingCount: 1100,
+    deliveryTime: "45 min",
+    deliveryFee: 189,
+    cuisine: ["Pizza", "Italian", "Desserts"],
+    imageUrl:
+      "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
+    promoText: "Free Delivery",
+  },
+    {
+    id: "Q4",
+    name: "Quattro Uno",
+    rating: 4.5,
+    ratingCount: 1100,
+    deliveryTime: "45 min",
+    deliveryFee: 189,
+    cuisine: ["Pizza", "Italian", "Desserts"],
+    imageUrl:
+      "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
+    promoText: "Free Delivery",
+  },
+    {
+    id: "Q5",
+    name: "Quattro Uno",
+    rating: 4.5,
+    ratingCount: 1100,
+    deliveryTime: "45 min",
+    deliveryFee: 189,
+    cuisine: ["Pizza", "Italian", "Desserts"],
+    imageUrl:
+      "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
+    promoText: "Free Delivery",
+  },
 ];
 
 // --- Tabs ---
@@ -57,9 +105,8 @@ interface DynamicParams {
   country: string;
   langauge: string;
   id: string;
-  [key: string]: string; 
+  [key: string]: string;
 }
-
 
 const FoodCard: React.FC<{
   item: MenuItem;
@@ -90,8 +137,12 @@ const FoodCard: React.FC<{
 
     {/* Content */}
     <div className="p-4 flex flex-col justify-between flex-grow">
-      <h4 className="font-semibold text-gray-900 text-sm truncate">{item.name}</h4>
-      <p className="text-gray-500 text-xs mt-1 line-clamp-3">{item.description}</p>
+      <h4 className="font-semibold text-gray-900 text-sm truncate">
+        {item.name}
+      </h4>
+      <p className="text-gray-500 text-xs mt-1 line-clamp-3">
+        {item.description}
+      </p>
       <p className="text-green-600 font-bold mt-2 text-sm">
         Rs. {item.price.toLocaleString()}
       </p>
@@ -99,8 +150,8 @@ const FoodCard: React.FC<{
   </div>
 );
 
-
 export default function RestaurantPage() {
+  const router = useRouter();
   const params = useParams<DynamicParams>();
   const dispatch = useDispatch<AppDispatch>();
   const cart = useSelector((state: RootState) => state.cart.items);
@@ -130,7 +181,7 @@ export default function RestaurantPage() {
           imageUrl:
             "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
         },
-           {
+        {
           id: "3",
           name: "Veggie Delight",
           description: "Crisp veggies and sauces on a soft sub roll.",
@@ -138,7 +189,7 @@ export default function RestaurantPage() {
           imageUrl:
             "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
         },
-           {
+        {
           id: "4",
           name: "Veggie Delight",
           description: "Crisp veggies and sauces on a soft sub roll.",
@@ -146,7 +197,7 @@ export default function RestaurantPage() {
           imageUrl:
             "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
         },
-           {
+        {
           id: "5",
           name: "Veggie Delight",
           description: "Crisp veggies and sauces on a soft sub roll.",
@@ -154,7 +205,7 @@ export default function RestaurantPage() {
           imageUrl:
             "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
         },
-           {
+        {
           id: "6",
           name: "Veggie Delight",
           description: "Crisp veggies and sauces on a soft sub roll.",
@@ -173,6 +224,7 @@ export default function RestaurantPage() {
 
   const handleCheckout = () => {
     alert("Proceeding to checkout!");
+    router.push("/checkout");
   };
 
   // --- Filter Items ---
@@ -208,7 +260,9 @@ export default function RestaurantPage() {
           />
           <div>
             <h1 className="text-3xl font-extrabold text-gray-900">Subway</h1>
-            <p className="text-base text-gray-600 mt-1">Sandwiches • Fast Food</p>
+            <p className="text-base text-gray-600 mt-1">
+              Sandwiches • Fast Food
+            </p>
             <div className="flex items-center text-sm text-gray-500 mt-3 space-x-6">
               <span className="text-green-600 font-semibold">★ 4.7 Rating</span>
               <span className="flex items-center">
@@ -257,19 +311,18 @@ export default function RestaurantPage() {
         {/* Menu + Cart */}
         <div className="flex flex-col lg:flex-row lg:space-x-8 mt-6">
           {/* Menu */}
-        <div className="max-w-4xl mx-auto px-4 py-6">
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    {filteredMenu.map((item) => (
-      <FoodCard
-        key={item.id}
-        item={item}
-        onAddItem={handleAddToCart}
-        onClick={() => setSelectedItem(item)}
-      />
-    ))}
-  </div>
-</div>
-
+          <div className="max-w-4xl mx-auto px-4 py-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {filteredMenu.map((item) => (
+                <FoodCard
+                  key={item.id}
+                  item={item}
+                  onAddItem={handleAddToCart}
+                  onClick={() => setSelectedItem(item)}
+                />
+              ))}
+            </div>
+          </div>
 
           {/* Sticky Cart Sidebar */}
           <div className="lg:w-4/12 xl:w-3/12 mt-8 lg:mt-0">
