@@ -128,6 +128,7 @@ const Navbar: React.FC = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isDesktopLangOpen, isCountryDropdownOpen, isMobileLangDropdownOpen]);
+
   const handleNavigationChange = (
     newCountryCode: string,
     newLangCode: string,
@@ -145,7 +146,7 @@ const Navbar: React.FC = () => {
       path: "/",
     });
 
-    router.replace(newPath);
+    window.open(newPath, "_blank");
   };
 
   // const handleNavigationChange = (
@@ -179,7 +180,7 @@ const Navbar: React.FC = () => {
     const currentCountryCode = selectedCountry?.code || "US";
 
     // Navigate to new locale (update URL)
-    handleNavigationChange(currentCountryCode.toUpperCase(), newLocale);
+    // handleNavigationChange(currentCountryCode.toUpperCase(), newLocale);
 
     // Update state immediately
     const newLang = languages.find((l) => l.code === newLocale);
