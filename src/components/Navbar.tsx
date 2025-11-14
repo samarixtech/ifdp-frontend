@@ -1,46 +1,69 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, Globe, Menu, X } from "lucide-react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { Check, ChevronDown, Globe, Menu, X, DollarSign } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getNames, getCode } from "country-list";
 import emojiFlags from "emoji-flags";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname, useParams } from "next/navigation";
-import { setCookie } from "cookies-next";
+import { setCookie, getCookie } from "cookies-next";
+
+interface Language {
+  code: string;
+  name: string;
+  flag: string;
+  dir: "ltr" | "rtl";
+}
 
 interface Country {
   code: string;
   name: string;
   flag: string;
+  currencySymbol: string;
 }
 
-const languages = [
+const languages: Language[] = [
   { code: "en", name: "English", flag: "🇺🇸", dir: "ltr" },
-  // { code: "it", name: "Italiano", flag: "🇮🇹", dir: "ltr" },
-  // { code: "fr", name: "Français", flag: "🇫🇷", dir: "ltr" },
-  // { code: "es", name: "Español", flag: "🇪🇸", dir: "ltr" },
-  // { code: "pt", name: "Português", flag: "🇵🇹", dir: "ltr" },
-  // { code: "zh", name: "中文", flag: "🇨🇳", dir: "ltr" },
-  // { code: "ja", name: "日本語", flag: "🇯🇵", dir: "ltr" },
-  { code: "ar", name: "العربية (العراقية)", flag: "🇮🇶", dir: "rtl" },
-  // { code: "ru", name: "Русский", flag: "🇷🇺", dir: "ltr" },
+  { code: "ar", name: "العربية", flag: "🇮🇶", dir: "rtl" },
 ];
 
-const Navbar: React.FC = () => {
-  const params = useParams();
-  const t = useTranslations("Navbar");
+const countryCurrencyMap: { [key: string]: string } = {
+  US: "$",
+  PK: "Rs", 
+  IN: "₹",
+};
 
+const getDefaultCountryData = (code: string): Country => {
+  const countryName = getNames().find(name => getCode(name) === code) || code;
+  const flag = emojiFlags.countryCode(code)?.emoji || "🌐";
+  const currencySymbol = countryCurrencyMap[code] || "$";
+  return { code, name: countryName, flag, currencySymbol };
+};
+
+const fetchIPBasedDefaults = async (): Promise<{ ipCountry: string; ipLocale: string }> => {
+
+  await new Promise(resolve => setTimeout(resolve, 100));
+
+  const defaultCountry = getCookie("NEXT_COUNTRY") as string || "US";
+  const defaultLocale = getCookie("NEXT_LOCALE") as string || "en";
+console.log(defaultCountry,"defaultCountry")
+console.log(defaultLocale,"defaultLocale")
+
+  return { ipCountry: defaultCountry, ipLocale: defaultLocale };
+};
+
+const Navbar: React.FC = () => {
+  const t = useTranslations("Navbar");
   const localeFromNext = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  console.log(localeFromNext, "localeFromNext");
-  const [currentLocaleState, setCurrentLocaleState] = useState(
-    localeFromNext || "en"
-  );
+  const params = useParams(); 
+
+  const [currentLocaleState, setCurrentLocaleState] = useState(localeFromNext || "en");
   const [activeLangState, setActiveLangState] = useState(
-    languages.find((l) => l.code === currentLocaleState) || languages[0]
+    languages.find((l) => l.code === localeFromNext) || languages[0]
   );
 
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
@@ -48,86 +71,152 @@ const Navbar: React.FC = () => {
 
   const [isDesktopLangOpen, setIsDesktopLangOpen] = useState(false);
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-
-  const [isMobileLangDropdownOpen, setIsMobileLangDropdownOpen] =
-    useState(false);
+  const [isMobileLangDropdownOpen, setIsMobileLangDropdownOpen] = useState(false);
 
   const desktopLangRef = useRef<HTMLDivElement | null>(null);
   const desktopCountryRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const lang = languages.find((l) => l.code === localeFromNext);
-    if (lang) {
-      setCurrentLocaleState(lang.code);
-      setActiveLangState(lang);
-    }
-  }, [localeFromNext]);
 
-  // HANDLER FOR MOBILE SIDEBAR OPEN/CLOSE
-  const handleCloseMobileMenu = () => {
+  const handleCloseMobileMenu = useCallback(() => {
     setIsClosing(true);
-    // Duration matches the CSS animation time (0.3s)
     setTimeout(() => {
       setIsMobileMenuOpen(false);
-      setIsClosing(false); // Reset closing state for the next open
+      setIsClosing(false);
       setIsMobileLangDropdownOpen(false);
-    }, 300);
-  };
+    }, 300); 
+  }, []);
+
+  const getNewPath = useCallback((newCountryCode: string, newLangCode: string) => {
+    const pathSegments = pathname.split('/').filter(Boolean);
+  
+    let remainingPath = pathSegments.filter(
+      (segment, index) => index !== 0 && index !== 1
+    ).join('/');
+    
+    if (pathSegments.length > 0 && pathSegments[0].toLowerCase() === (selectedCountry?.code || 'pk').toLowerCase()) {
+        remainingPath = pathSegments.slice(2).join('/');
+    } else if (pathSegments.length > 0 && languages.some(l => l.code === pathSegments[0])) {
+        remainingPath = pathSegments.slice(1).join('/');
+    } else {
+        remainingPath = pathSegments.join('/');
+    }
+
+    const newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/${remainingPath}`;
+  
+    return newPath.replace(/\/+/g, '/').replace(/\/$/, '');
+  }, [pathname, selectedCountry?.code]);
+
+  const handleCountrySelect = useCallback((country: Country) => {
+    setSelectedCountry(country);
+    setIsCountryDropdownOpen(false);
+    setCookie("NEXT_COUNTRY", country.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+    const newPath = getNewPath(country.code, currentLocaleState);
+    router.replace(newPath);
+
+    // 4. Close mobile menu if open
+    if (isMobileMenuOpen) {
+      handleCloseMobileMenu();
+    }
+       handleNavigationChange(country.code, currentLocaleState);
+  }, [currentLocaleState, getNewPath, router, isMobileMenuOpen, handleCloseMobileMenu]);
+
+const changeLanguage = useCallback((newLocale: string) => {
+  const newLang = languages.find((l) => l.code === newLocale);
+  setCurrentLocaleState(newLocale);
+  setActiveLangState(newLang || languages[0]);
+  setIsDesktopLangOpen(false);
+  setIsMobileLangDropdownOpen(false);
+
+  setCookie("NEXT_LOCALE", newLocale, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+  if (typeof window !== "undefined") {
+    sessionStorage.setItem("locale", newLocale);
+  }
+  if (selectedCountry) {
+    const newPath = getNewPath(selectedCountry.code, newLocale);
+
+    router.replace(newPath);
+  } else {
+    window.location.reload();
+  }
+
+  if (isMobileMenuOpen) {
+    handleCloseMobileMenu();
+  }
+}, [selectedCountry, getNewPath, router, isMobileMenuOpen, handleCloseMobileMenu]);
+
+
+
 
   useEffect(() => {
-    const names = getNames();
+    const initialize = async () => {
+      const { ipCountry, ipLocale } = await fetchIPBasedDefaults();
+      const initialCountryCode = (params?.country as string || getCookie("NEXT_COUNTRY") as string || ipCountry).toUpperCase();
+      const initialLocale = (params?.locale as string || getCookie("NEXT_LOCALE") as string || ipLocale).toLowerCase();
+      const allCountries: Country[] = getNames().map((name) => {
+        const code = getCode(name) as string;
+        return getDefaultCountryData(code);
+      }).filter(c => c.code.length === 2); 
 
-    const allCountries = names.map((name) => {
-      const rawCode = getCode(name);
-      const code: string = Array.isArray(rawCode) ? rawCode[0] : rawCode || "";
-      const flag = emojiFlags.countryCode(code)?.emoji || "🏳️";
-      return { code, name, flag };
-    });
-
-    setCountries(allCountries);
-
-    const initialCountryCode = (params?.country || "US").toString();
-
-    const initialCountry =
-      allCountries.find(
+      setCountries(allCountries);
+      const initialCountry = allCountries.find(
         (c) => c.code.toLowerCase() === initialCountryCode.toLowerCase()
-      ) || allCountries[0];
-
-    setSelectedCountry(initialCountry);
-  }, [params?.country]);
-
-  // Update active language and document attributes
+      ) || getDefaultCountryData(initialCountryCode) || allCountries[0];
+      setSelectedCountry(initialCountry);
+      const lang = languages.find((l) => l.code === initialLocale) || languages[0];
+      setCurrentLocaleState(lang.code);
+      setActiveLangState(lang);
+      if (!getCookie("NEXT_COUNTRY")) {
+         setCookie("NEXT_COUNTRY", initialCountry.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+      }
+      if (!getCookie("NEXT_LOCALE")) {
+         setCookie("NEXT_LOCALE", lang.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+      }
+    };
+    
+    initialize();
+    console.log(params?.locale,"params?.locale")
+  }, [params?.country, params?.locale]); 
   useEffect(() => {
-    const lang = languages.find((l) => l.code === currentLocaleState);
-    if (lang) setActiveLangState(lang);
+    document.documentElement.lang = activeLangState.code;
+    document.documentElement.dir = activeLangState.dir;
+  }, [activeLangState]);
 
-    document.documentElement.lang = lang?.code || "en";
-    document.documentElement.dir = lang?.dir || "ltr";
-  }, [currentLocaleState]);
-
-  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       if (desktopLangRef.current && !desktopLangRef.current.contains(target))
         setIsDesktopLangOpen(false);
-      if (
-        desktopCountryRef.current &&
-        !desktopCountryRef.current.contains(target)
-      )
+      if (desktopCountryRef.current && !desktopCountryRef.current.contains(target))
         setIsCountryDropdownOpen(false);
-      if (
-        isMobileLangDropdownOpen &&
-        !(event.target as HTMLElement).closest("#mobile-lang")
-      )
+      if (isMobileLangDropdownOpen && !(event.target as HTMLElement).closest("#mobile-lang"))
         setIsMobileLangDropdownOpen(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isDesktopLangOpen, isCountryDropdownOpen, isMobileLangDropdownOpen]);
+
+
+  // --- Nav Items ---
+const navItems = [
+  { label: t("home"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) },
+  { label: t("about"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/about' },
+  { label: t("services"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/services' },
+  { label: t("contact"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/contact' },
+  { label: t("newsroom"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/newsroom' },
+  { label: t("partners"), to: getNewPath(selectedCountry?.code || 'US', currentLocaleState) + '/partners' },
+];
+
+
+  if (!selectedCountry) {
+    return (
+      <nav className="bg-[#003566] h-20 flex items-center justify-center">
+        {/* <p className="text-white">Loading Navigation...</p> */}
+      </nav>
+    );
+  }
+
 
   const handleNavigationChange = (
     newCountryCode: string,
@@ -149,93 +238,15 @@ const Navbar: React.FC = () => {
     window.open(newPath, "_blank");
   };
 
-  // const handleNavigationChange = (
-  //   newCountryCode: string,
-  //   newLangCode: string
-  // ) => {
-  //   const segments = pathname.split("/").filter(Boolean);
-
-  //   // Replace first two segments with new values
-  //   const newSegments = [
-  //     newCountryCode.toLowerCase(),
-  //     newLangCode.toLowerCase(),
-  //     ...segments.slice(2) // keep everything after country/lang
-  //   ];
-
-  //   const newPath = "/" + newSegments.join("/");
-
-  //   console.log("🔹 Navigation updated to:", newPath);
-
-  //   setCookie("NEXT_LOCALE", newLangCode, {
-  //     maxAge: 60 * 60 * 24 * 30,
-  //     path: "/",
-  //   });
-
-  //   router.replace(newPath);
-  // };
-
-  //  const storedLocale = sessionStorage.getItem("locale");
-  // console.log(storedLocale,"storedLocale")
-  const changeLanguage = (newLocale: string) => {
-    const currentCountryCode = selectedCountry?.code || "US";
-
-    // Navigate to new locale (update URL)
-    // handleNavigationChange(currentCountryCode.toUpperCase(), newLocale);
-
-    // Update state immediately
-    const newLang = languages.find((l) => l.code === newLocale);
-    if (newLang) {
-      setActiveLangState(newLang);
-      setCurrentLocaleState(newLocale);
-    }
-
-    // Save locale in session storage (browser-only)
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("locale", newLocale);
-    }
-  };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedLocale = sessionStorage.getItem("locale");
-
-      if (storedLocale) {
-        const lang = languages.find((l) => l.code === storedLocale);
-        if (lang) {
-          setActiveLangState(lang);
-          setCurrentLocaleState(storedLocale);
-        }
-      } else {
-        // fallback to NextIntl locale
-        const lang = languages.find((l) => l.code === localeFromNext);
-        if (lang) {
-          setActiveLangState(lang);
-          setCurrentLocaleState(localeFromNext);
-        }
-      }
-    }
-  }, [localeFromNext]);
-
-  const handleCountrySelect = (country: Country) => {
-    setSelectedCountry(country);
-    setIsCountryDropdownOpen(false);
-    handleNavigationChange(country.code, currentLocaleState);
-  };
-
-  const navItems = [
-    { label: t("home"), to: "/" },
-    { label: t("about"), to: "/about" },
-    { label: t("services"), to: "/services" },
-    { label: t("contact"), to: "/contact" },
-    { label: t("newsroom"), to: "/newsroom" },
-    { label: t("partners"), to: "/partners" },
-  ];
-
+ 
   return (
     <nav className="bg-[#003566] shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="flex justify-between items-center h-20">
-          <Image src="/logo.jpg" alt="Logo" width={110} height={110} />
+          {/* Logo */}
+          <Link href={getNewPath(selectedCountry.code, activeLangState.code)}>
+             <Image src="/logo.jpg" alt="Logo" width={110} height={110} />
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
@@ -249,9 +260,9 @@ const Navbar: React.FC = () => {
               </Link>
             ))}
 
-            {/* Language & Country Selectors */}
             <div className="flex items-center gap-3">
-              {/* Desktop Language */}
+          
+              
               <div ref={desktopLangRef} className="relative">
                 <button
                   onClick={() => setIsDesktopLangOpen(!isDesktopLangOpen)}
@@ -304,10 +315,12 @@ const Navbar: React.FC = () => {
                   }
                   className="flex items-center gap-2 px-3 py-2 rounded-md border border-blue-500 bg-white text-black hover:bg-blue-50 transition-all shadow-sm"
                 >
-                  {/* <span className="text-xl">
-                    {selectedCountry?.flag || "🌐"}
-                  </span> */}
-                  <span className="font-semibold">{selectedCountry?.code}</span>
+                  <span className="text-xl">
+                    {selectedCountry.flag || "🌐"}
+                  </span>
+                  <span className="font-semibold">
+                    {selectedCountry.code.toUpperCase()}
+                  </span>
                   <ChevronDown
                     size={16}
                     className={`text-blue-600 transition-transform duration-200 ${
@@ -323,16 +336,16 @@ const Navbar: React.FC = () => {
                         key={country.code}
                         onClick={() => handleCountrySelect(country)}
                         className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition ${
-                          selectedCountry?.code === country.code
+                          selectedCountry.code === country.code
                             ? "bg-blue-100 text-blue-700 font-semibold"
                             : "text-gray-800"
                         }`}
                       >
                         <div className="flex items-center gap-3">
                           <span className="text-xl">{country.flag}</span>
-                          <span className="text-sm">{country.name}</span>
+                          <span className="text-sm">{country.name} </span>
                         </div>
-                        {selectedCountry?.code === country.code && (
+                        {selectedCountry.code === country.code && (
                           <Check size={16} className="text-blue-600" />
                         )}
                       </button>
@@ -368,7 +381,7 @@ const Navbar: React.FC = () => {
 
           {/* Sidebar */}
           <div
-            className={`fixed top-0 right-0 h-full w-[30%] min-w-[250px] bg-linear-to-b from-[#014f86] to-blue-900 text-white z-50 shadow-2xl overflow-y-auto ${
+            className={`fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-linear-to-b from-[#014f86] to-blue-900 text-white z-50 shadow-2xl overflow-y-auto ${
               isClosing ? "animate-slide-out-right" : "animate-slide-in-right"
             }`}
           >
@@ -383,6 +396,12 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className="flex flex-col space-y-1 p-4">
+               {/* Currency Display in Mobile */}
+              {/* <div className="flex items-center gap-1 text-white text-lg font-bold border-b border-white/20 pb-3 mb-3">
+                 <DollarSign size={18} className="text-yellow-400" />
+                 <span className="text-sm font-medium">Current Currency: {selectedCountry.currencySymbol}</span>
+              </div> */}
+              
               {navItems.map((item) => (
                 <Link
                   key={item.to}
@@ -453,10 +472,10 @@ const Navbar: React.FC = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <span className="text-lg">
-                      {selectedCountry?.flag || "🌐"}
+                      {selectedCountry.flag || "🌐"}
                     </span>
                     <span className="text-sm font-medium text-white">
-                      {selectedCountry?.name}
+                      {selectedCountry.name}
                     </span>
                   </div>
                   <ChevronDown
@@ -473,16 +492,16 @@ const Navbar: React.FC = () => {
                         key={country.code}
                         onClick={() => handleCountrySelect(country)}
                         className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition-colors ${
-                          selectedCountry?.code === country.code
+                          selectedCountry.code === country.code
                             ? "bg-blue-100 text-blue-700 font-semibold"
                             : "text-gray-800"
                         }`}
                       >
                         <div className="flex items-center space-x-2">
                           <span className="text-lg">{country.flag}</span>
-                          <span className="text-xs">{country.name}</span>
+                          <span className="text-sm">{country.name} </span>
                         </div>
-                        {selectedCountry?.code === country.code && (
+                        {selectedCountry.code === country.code && (
                           <Check size={16} className="text-blue-600" />
                         )}
                       </button>
@@ -495,6 +514,7 @@ const Navbar: React.FC = () => {
         </>
       )}
       <style jsx>{`
+        /* ... (Your existing CSS animations here) ... */
         @keyframes fade-in {
           from {
             opacity: 0;
