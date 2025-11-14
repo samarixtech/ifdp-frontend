@@ -1,4 +1,7 @@
+import { SignInForm, SignUpForm } from "@/components/AuthForms";
+import AuthModal from "@/components/AuthModal";
 import CartDrawer from "@/components/CartDrawer";
+import useLocale from "@/hooks/useLocals";
 import { RootState } from "@/redux/store/store";
 import { BarChart, User } from "lucide-react";
 import Link from "next/link";
@@ -6,7 +9,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FiShoppingBag } from "react-icons/fi";
 import { useSelector } from "react-redux";
 
-// --- Inline SVG Icons (Lucide-React equivalents) ---
+// Inline SVG Icons
 const MapPin: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     {...props}
@@ -284,6 +287,22 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const [activeTab, setActiveTab] = useState<
     "delivery" | "pickup" | "IFDPmart" | "shops" | "caterers"
   >("delivery");
+
+  const { country, language, loading } = useLocale();
+
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+
+  const openLogin = () => {
+    setAuthMode("login");
+    setAuthModalOpen(true);
+  };
+
+  const openSignup = () => {
+    setAuthMode("signup");
+    setAuthModalOpen(true);
+  };
+
   const totalItems = useSelector((state: RootState) =>
     state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
   );
@@ -348,14 +367,14 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         Dashboard
       </Link>
       <Link
-        href="/profile"
+        href={`/${country.toLowerCase()}/${language.toLowerCase()}/account-settings`}
         className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
       >
         <User className="w-5 h-5 mr-3" />
         Account Settings
       </Link>
       <Link
-        href="/orders"
+        href={`/${country.toLowerCase()}/${language.toLowerCase()}/myorders`}
         className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
       >
         <ShoppingBag className="w-5 h-5 mr-3" />
@@ -377,97 +396,108 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   ] as const;
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 pb-20">
-      {/* 1. Top Bar (Partner Links) - Blue Top Bar */}
-      <div className="hidden sm:block bg-[#003566] text-white text-sm py-2 px-4 shadow-md">
-        <div className="max-w-7xl mx-auto flex justify-end items-center space-x-4">
-          <span className="flex items-center space-x-1 font-semibold">
-            <ShoppingBag className="w-4 h-4" />
-            <span>IDFP</span>
-          </span>
-          <a
-            href="#"
-            className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
-          >
-            SIGN UP TO BE A RESTAURANT PARTNER
-          </a>
-          <a
-            href="#"
-            className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
-          >
-            SIGN UP FOR A BUSINESS ACCOUNT
-          </a>
-        </div>
-      </div>
-
-      {/* 2. Main Navigation Bar (White/Blue) */}
-      <nav className="bg-white shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex justify-between items-center h-16">
-            {/* Left Section: Logo and Location Dropdown */}
-            <div className="flex items-center space-x-3 lg:space-x-12 w-full lg:w-auto">
-              {/* Logo (Visible on all screens) */}
-              <div className="flex-shrink-0">
-                <span className="text-2xl sm:text-3xl font-extrabold text-[#003566] tracking-tight">
-                  IFDP<span className="text-black text-lg sm:text-xl"></span>
-                </span>
-              </div>
-
-              {/* Location Dropdown (Visible on all screens) */}
-              <Dropdown
-                label={currentAddress}
-                icon={MapPin}
-                content={locationContent}
-                isLocation={true}
-              />
-            </div>
-
-            {/* Right Section: Auth, Language, Cart (Hidden on small screens when location dropdown is focused) */}
-            <div className="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
-              {/* Log In Button (Outline) */}
-              <Link
-                href={"/login"}
-                className="hidden sm:block px-4 py-2 border border-black text-black font-semibold rounded-lg hover:bg-gray-100 transition duration-150 text-sm"
-              >
-                Log in
-              </Link>
-
-              {/* Sign Up Button (Solid Blue) */}
-              <button className="hidden sm:block px-4 py-2 bg-[#003566] text-white font-semibold rounded-lg hover:bg-[#003566] transition duration-150 text-sm">
-                Sign up for free delivery
-              </button>
-
-              {/* Language Dropdown */}
-              <Dropdown
-                label={currentLangCode.toUpperCase()}
-                icon={Globe}
-                content={languageContent}
-              />
-
-                    {/* Cart Button */}
-              <button
-                onClick={() => setIsDrawerOpen(true)}
-                className="relative p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150"
-                aria-label="Cart"
-              >
-                <FiShoppingBag className="w-6 h-6 text-black" />
-                {totalItems > 0 && (
-                  <span className="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
-                    {totalItems > 9 ? "9+" : totalItems}
-                  </span>
-                )}
-              </button>
-
-            <CartDrawer
-              isOpen={isDrawerOpen}
-              onClose={() => setIsDrawerOpen(false)}
-            />
-              <ProfileDropdown profileContent={profileContent} />
-            </div>
+    <>
+      <header className="fixed top-0 left-0 w-full z-50 pb-20">
+        {/* 1. Top Bar (Partner Links) - Blue Top Bar */}
+        <div className="hidden sm:block bg-[#003566] text-white text-sm py-2 px-4 shadow-md">
+          <div className="max-w-7xl mx-auto flex justify-end items-center space-x-4">
+            <span className="flex items-center space-x-1 font-semibold">
+              <ShoppingBag className="w-4 h-4" />
+              <span>IDFP</span>
+            </span>
+            <a
+              href="#"
+              className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
+            >
+              SIGN UP TO BE A RESTAURANT PARTNER
+            </a>
+            <a
+              href="#"
+              className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
+            >
+              SIGN UP FOR A BUSINESS ACCOUNT
+            </a>
           </div>
         </div>
-      </nav>
-    </header>
+
+        {/* 2. Main Navigation Bar (White/Blue) */}
+        <nav className="bg-white shadow-xl">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div className="flex justify-between items-center h-16">
+              {/* Left Section: Logo and Location Dropdown */}
+              <div className="flex items-center space-x-3 lg:space-x-12 w-full lg:w-auto">
+                {/* Logo (Visible on all screens) */}
+                <div className="flex-shrink-0">
+                  <span className="text-2xl sm:text-3xl font-extrabold text-[#003566] tracking-tight">
+                    IFDP<span className="text-black text-lg sm:text-xl"></span>
+                  </span>
+                </div>
+
+                {/* Location Dropdown (Visible on all screens) */}
+                <Dropdown
+                  label={currentAddress}
+                  icon={MapPin}
+                  content={locationContent}
+                  isLocation={true}
+                />
+              </div>
+
+              {/* Right Section: Auth, Language, Cart (Hidden on small screens when location dropdown is focused) */}
+              <div className="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
+                {/* Log In Button (Outline) */}
+                <button
+                  onClick={openLogin}
+                  className="hidden sm:block px-4 py-2 border border-black text-black font-semibold rounded-lg hover:bg-gray-100 transition duration-150 text-sm"
+                >
+                  Log in
+                </button>
+
+                <button
+                  onClick={openSignup}
+                  className="hidden sm:block px-4 py-2 bg-[#003566] text-white font-semibold rounded-lg hover:bg-[#002a47] transition duration-150 text-sm"
+                >
+                  Sign up for free delivery
+                </button>
+
+                {/* Language Dropdown */}
+                <Dropdown
+                  label={currentLangCode.toUpperCase()}
+                  icon={Globe}
+                  content={languageContent}
+                />
+
+                {/* Cart Button */}
+                <button
+                  onClick={() => setIsDrawerOpen(true)}
+                  className="relative p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150"
+                  aria-label="Cart"
+                >
+                  <FiShoppingBag className="w-6 h-6 text-black" />
+                  {totalItems > 0 && (
+                    <span className="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
+                      {totalItems > 9 ? "9+" : totalItems}
+                    </span>
+                  )}
+                </button>
+
+                <CartDrawer
+                  isOpen={isDrawerOpen}
+                  onClose={() => setIsDrawerOpen(false)}
+                />
+                <ProfileDropdown profileContent={profileContent} />
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+      {/* Modals */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        mode={authMode}
+        switchMode={(mode) => setAuthMode(mode)}
+      />
+    </>
   );
 };
 

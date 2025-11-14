@@ -149,7 +149,7 @@ const Page = () => {
       <ScrollCardsEnhanced />
 
       {/* Stats Section */}
-      <section className={`py-16 ${softNeutralBg}`}>
+      {/* <section className={`py-16 ${softNeutralBg}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -157,7 +157,6 @@ const Page = () => {
                 key={index}
                 className="text-center p-6 rounded-xl shadow-sm border border-gray-100 bg-white transform hover:scale-105 transition-transform duration-300"
               >
-                {/* Stats Gradient: Blue/Cyan  */}
                 <div
                   className={`text-4xl md:text-5xl font-bold bg-linear-to-r ${statGradient} bg-clip-text text-transparent mb-2`}
                 >
@@ -170,7 +169,7 @@ const Page = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features Section */}
       <section className={`py-20 ${softSectionBg}`}>
