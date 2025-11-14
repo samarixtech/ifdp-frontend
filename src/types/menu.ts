@@ -50,3 +50,14 @@ export interface SimilarRestaurant {
     imageUrl: string;
     promoText?: string; 
 }
+
+
+export interface CartItem {
+    id: string; 
+    productId: string; 
+    name: string;
+    quantity: number;
+    price: number; 
+    imageUrl: string;
+    description: string; 
+}

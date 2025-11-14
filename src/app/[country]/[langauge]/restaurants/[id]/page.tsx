@@ -1,193 +1,205 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { MenuItem, MenuSection, RestaurantData, CartItem, SimilarRestaurant } from "../../../../../types/menu";
-import MenuItemCard from "../../../../../components/MenuItemCard";
-import CartSidebar from "../../../../../components/CartSidebar";
-import HorizontalScroller from "../../../../../components/HorizontalScroller";
-import { Search, ShoppingBag, Clock } from "lucide-react";
 import { useParams } from "next/navigation";
-import ProductModal from "../../../../../components/ProductModal"; // Make sure this exists
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store/store";
+import { addToCart } from "@/redux/slices/cartSlice";
+
+import { MenuItem, CartItem, SimilarRestaurant } from "@/types/menu";
+import MenuItemCard from "@/components/MenuItemCard";
+import CartSidebar from "@/components/CartSidebar";
+import HorizontalScroller from "@/components/HorizontalScroller";
+import ProductModal from "@/components/ProductModal";
 import SimilarRestaurantsSection from "@/components/SimilarRestaurant";
 import Header from "../Header";
 
-// --- MOCK DATA ---
-const mockRestaurantData: RestaurantData = {
-  id: "F8",
-  name: "Subway - F8",
-  cuisine: ["Sandwiches", "American", "Healthy Food", "Western"],
-  location: "Islamabad",
-  rating: 4.5,
-  deliveryFee: 129,
-  minOrder: 149,
-  menu: [
-    {
-      title: "Popular",
-      items: [
-        { id: "1", name: "Cookie", price: 80, description: "Soft and chewy cookies.", imageUrl: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", isPopular: true },
-        { id: "2", name: "Chicken Teriyaki", price: 860, description: "Teriyaki sauce pickle your taste buds.", imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", isPopular: true },
-        { id: "3", name: "Roasted Chicken Breast", price: 730, description: "Tender chicken patty on bread.", imageUrl: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", isPopular: true },
-        { id: "4", name: "Chicken Fajita", price: 805, description: "Savory strips tossed in fajita seasoning.", imageUrl: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", isPopular: true },
-        { id: "5", name: "Chicken Tikka", price: 805, description: "All-time favorite Chicken Tikka.", imageUrl: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", isPopular: true },
-      ] as MenuItem[],
-    },
-    {
-      title: "Cricket Deals",
-      items: [
-        { id: "7", name: "Cricket Deal 2", price: 699, description: "Enjoy Chicken Sub (Selected Flavor).", imageUrl: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", isPopular: false, isDeal: true },
-      ] as MenuItem[],
-    },
-    {
-      title: "Sandwiches",
-      items: [
-        { id: "9", name: "Veggie Delite", price: 580, description: "Healthy veggie bouquet.", imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", isPopular: false },
-      ] as MenuItem[],
-    },
-  ],
-};
+import { Search, Plus, Clock, ShoppingBag } from "lucide-react";
 
+const mockSimilarRestaurants: SimilarRestaurant[] = [
+  {
+    id: "H1",
+    name: "Hardee's - Centaurus",
+    rating: 4.8,
+    ratingCount: 3000,
+    deliveryTime: "45 min",
+    deliveryFee: 189,
+    cuisine: ["Fast Food", "Burgers"],
+    imageUrl:
+      "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
+    promoText: "20% off Rs. 199",
+  },
+  {
+    id: "Q1",
+    name: "Quattro Uno",
+    rating: 4.5,
+    ratingCount: 1100,
+    deliveryTime: "45 min",
+    deliveryFee: 189,
+    cuisine: ["Pizza", "Italian", "Desserts"],
+    imageUrl:
+      "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
+    promoText: "Free Delivery",
+  },
+];
+
+// --- Tabs ---
 const topMenuTabs = [
   "Popular (5)",
-  "Cricket Deals (1)",
-  "Dil Dil Pepsi Deals (1)",
-  "All New Mini Sub (1)",
-  "Celebration Deals & Discounts (2)",
-  "Sandwiches (10)",
+  "Signature Subs",
+  "Cricket Deals",
+  "Value Meals",
+  "Wraps",
 ];
 
 interface DynamicParams {
+  slug: string;
   country: string;
   langauge: string;
   id: string;
-  [key: string]: string | string[] | undefined;
+  [key: string]: string; 
 }
 
-// --- FoodCard for Deals ---
-const FoodCard: React.FC<{ item: MenuItem; onAddItem: (item: MenuItem) => void; onClick?: () => void }> = ({ item, onAddItem, onClick }) => (
+
+const FoodCard: React.FC<{
+  item: MenuItem;
+  onAddItem: (item: MenuItem) => void;
+  onClick: () => void;
+}> = ({ item, onAddItem, onClick }) => (
   <div
     onClick={onClick}
-    className="w-60 flex-shrink-0 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden cursor-pointer group hover:shadow-2xl transition duration-300"
+    className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer max-w-sm flex"
   >
-    <div className="h-36 relative">
-      {item.imageUrl && <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />}
-      {item.isDeal && <div className="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full font-bold">DEAL</div>}
+    {/* Image */}
+    <div className="relative w-28 h-28 overflow-hidden rounded-l-xl flex-shrink-0">
+      <img
+        src={item.imageUrl}
+        alt={item.name}
+        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+      />
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onAddItem(item);
+        }}
+        className="absolute bottom-2 right-2 bg-green-600 hover:bg-green-700 text-white rounded-full p-2 shadow-lg flex items-center justify-center transition-colors duration-200"
+      >
+        <Plus size={16} />
+      </button>
     </div>
-    <div className="p-4 flex flex-col justify-between h-40">
-      <div>
-        <h4 className="font-bold text-gray-900 truncate">{item.name}</h4>
-        <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.description}</p>
-      </div>
-      <div className="flex justify-between items-center mt-3">
-        <p className="text-lg font-bold text-green-600">Rs. {item.price.toLocaleString()}</p>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onAddItem(item);
-          }}
-          className="p-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition"
-          aria-label={`Add ${item.name} to cart`}
-        >
-          <ShoppingBag size={16} />
-        </button>
-      </div>
+
+    {/* Content */}
+    <div className="p-4 flex flex-col justify-between flex-grow">
+      <h4 className="font-semibold text-gray-900 text-sm truncate">{item.name}</h4>
+      <p className="text-gray-500 text-xs mt-1 line-clamp-3">{item.description}</p>
+      <p className="text-green-600 font-bold mt-2 text-sm">
+        Rs. {item.price.toLocaleString()}
+      </p>
     </div>
   </div>
 );
-const mockSimilarRestaurants: SimilarRestaurant[] = [
-    {
-        id: "H1", name: "Hardee's - Centaurus", rating: 4.8, ratingCount: 3000,
-        deliveryTime: "45 min", deliveryFee: 189, cuisine: ["Fast Food", "Burgers"],
-        imageUrl: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", promoText: "20% off Rs. 199"
-    },
-    {
-        id: "Q1", name: "Quattro Uno", rating: 4.5, ratingCount: 1100,
-        deliveryTime: "45 min", deliveryFee: 189, cuisine: ["Pizza", "Italian", "Desserts"],
-        imageUrl: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", promoText: "20% off Rs. 199"
-    },
-    {
-        id: "R1", name: "RUSTIC", rating: 4.7, ratingCount: 97,
-        deliveryTime: "45 min", deliveryFee: 189, cuisine: ["Steak", "Burgers", "In-Store Prices"],
-        imageUrl: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", promoText: "20% off Rs. 199"
-    },
-    {
-        id: "B1", name: "BRIM Burgers", rating: 4.6, ratingCount: 100,
-        deliveryTime: "45 min", deliveryFee: 189, cuisine: ["Burgers", "In-Store Prices"],
-        imageUrl: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", promoText: "25% off Rs. 199"
-    },
-    {
-        id: "C1", name: "BABES HOT CHICKEN", rating: 4.3, ratingCount: 120,
-        deliveryTime: "45 min", deliveryFee: 189, cuisine: ["Fast Food", "Fried Chicken"],
-        imageUrl: "https://plus.unsplash.com/premium_photo-1675252369719-dd52bc69c3df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", promoText: "20% off Rs. 199"
-    },
-];
+
+
 export default function RestaurantPage() {
   const params = useParams<DynamicParams>();
-  const restaurant = mockRestaurantData;
+  const dispatch = useDispatch<AppDispatch>();
+  const cart = useSelector((state: RootState) => state.cart.items);
 
   const [activeTab, setActiveTab] = useState("Popular (5)");
-  const [cart, setCart] = useState<CartItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedItemForModal, setSelectedItemForModal] = useState<MenuItem | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
-  const allMenuItems = useMemo(() => restaurant.menu.flatMap((section) => section.items), [restaurant.menu]);
+  // --- Mock Menu Items ---
+  const menuSections = [
+    {
+      title: "Popular (5)",
+      items: [
+        {
+          id: "1",
+          name: "Chicken Teriyaki Sub",
+          description: "Juicy chicken with teriyaki glaze and fresh veggies.",
+          price: 520,
+          imageUrl:
+            "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
+        },
+        {
+          id: "2",
+          name: "Veggie Delight",
+          description: "Crisp veggies and sauces on a soft sub roll.",
+          price: 430,
+          imageUrl:
+            "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
+        },
+           {
+          id: "3",
+          name: "Veggie Delight",
+          description: "Crisp veggies and sauces on a soft sub roll.",
+          price: 430,
+          imageUrl:
+            "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
+        },
+           {
+          id: "4",
+          name: "Veggie Delight",
+          description: "Crisp veggies and sauces on a soft sub roll.",
+          price: 430,
+          imageUrl:
+            "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
+        },
+           {
+          id: "5",
+          name: "Veggie Delight",
+          description: "Crisp veggies and sauces on a soft sub roll.",
+          price: 430,
+          imageUrl:
+            "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
+        },
+           {
+          id: "6",
+          name: "Veggie Delight",
+          description: "Crisp veggies and sauces on a soft sub roll.",
+          price: 430,
+          imageUrl:
+            "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=600&auto=format",
+        },
+      ],
+    },
+  ];
 
-  // --- Cart Functions ---
-  const handleAddItem = (item: MenuItem) => {
-    setCart((prev) => {
-      const existing = prev.find((c) => c.id === item.id);
-      return existing
-        ? prev.map((c) => (c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c))
-        : [...prev, { ...item, quantity: 1 }];
-    });
-  };
-
-  const handleUpdateQuantity = (id: string, newQuantity: number) => {
-    setCart((prev) =>
-      newQuantity <= 0 ? prev.filter((i) => i.id !== id) : prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i))
-    );
+  const handleAddToCart = (item: MenuItem) => {
+    const cartItem: CartItem = { ...item, quantity: 1, productId: item.id };
+    dispatch(addToCart(cartItem));
   };
 
   const handleCheckout = () => {
-    alert(`Proceeding to checkout with ${cart.length} items!`);
+    alert("Proceeding to checkout!");
   };
 
-  // --- Modal Functions ---
-  const handleMenuItemClick = (item: MenuItem) => {
-    setSelectedItemForModal(item);
-    setIsModalOpen(true);
-  };
-
-  const handleAddItemWithCustomization = (item: MenuItem) => {
-    handleAddItem(item);
-    setIsModalOpen(false);
-  };
-
-  const handleSimpleAddItem = (item: MenuItem) => handleAddItem(item);
-
-  // --- Filtering ---
+  // --- Filter Items ---
   const filteredMenu = useMemo(() => {
     const cleanTab = activeTab.split("(")[0].trim();
-    const section = restaurant.menu.find((s) => s.title.startsWith(cleanTab));
+    const section = menuSections.find((s) => s.title.startsWith(cleanTab));
     if (!section) return [];
     return section.items.filter(
-      (item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.description.toLowerCase().includes(searchTerm.toLowerCase())
+      (i) =>
+        i.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        i.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [activeTab, searchTerm, restaurant.menu]);
+  }, [activeTab, searchTerm]);
 
   return (
     <div className="min-h-screen bg-gray-50">
-        
-
       <Header />
-      {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 text-sm text-gray-500 hidden md:block md:pt-20">
-        {(params.country as string)?.toUpperCase() || "COUNTRY"} &gt; {(params.langauge as string)?.toUpperCase() || "LANGUAGE"} &gt; Restaurant List &gt;{" "}
-        <span className="font-semibold">{restaurant.name}</span>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        {/* Restaurant Info */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-20">
+        {/* Breadcrumb */}
+        <div className="text-sm text-gray-500 mb-4 hidden md:block">
+          {(params.country as string)?.toUpperCase()} &gt;{" "}
+          {(params.langauge as string)?.toUpperCase()} &gt;{" "}
+          <span className="font-semibold text-gray-700">Subway</span>
+        </div>
+
+        {/* Restaurant Header */}
         <div className="flex items-start pb-4">
           <img
             src="/images/subway-logo.png"
@@ -195,12 +207,12 @@ export default function RestaurantPage() {
             className="w-24 h-24 rounded-full mr-4 object-cover ring-4 ring-green-100 shadow-md"
           />
           <div>
-            <h1 className="text-4xl font-extrabold text-gray-900">{restaurant.name}</h1>
-            <p className="text-base text-gray-600 mt-1">{restaurant.cuisine.join(" • ")}</p>
+            <h1 className="text-3xl font-extrabold text-gray-900">Subway</h1>
+            <p className="text-base text-gray-600 mt-1">Sandwiches • Fast Food</p>
             <div className="flex items-center text-sm text-gray-500 mt-3 space-x-6">
-              <span className="flex items-center text-green-600 font-semibold">★ {restaurant.rating.toFixed(1)} Rating</span>
+              <span className="text-green-600 font-semibold">★ 4.7 Rating</span>
               <span className="flex items-center">
-                <ShoppingBag size={14} className="mr-1" /> Rs. {restaurant.deliveryFee} delivery fee
+                <ShoppingBag size={14} className="mr-1" /> Rs. 189 delivery fee
               </span>
               <span className="flex items-center">
                 <Clock size={14} className="mr-1" /> 30 Min
@@ -217,12 +229,11 @@ export default function RestaurantPage() {
             {topMenuTabs.map((tab) => (
               <button
                 key={tab}
-                onClick={() => {
-                  setActiveTab(tab);
-                  setSearchTerm("");
-                }}
+                onClick={() => setActiveTab(tab)}
                 className={`py-2 px-4 text-sm font-medium rounded-xl transition duration-150 whitespace-nowrap ${
-                  tab === activeTab ? "bg-green-600 text-white shadow-md" : "text-gray-700 hover:bg-gray-100"
+                  tab === activeTab
+                    ? "bg-green-600 text-white shadow-md"
+                    : "text-gray-700 hover:bg-gray-100"
                 }`}
               >
                 {tab}
@@ -243,49 +254,45 @@ export default function RestaurantPage() {
           />
         </div>
 
-        {/* Main Content */}
+        {/* Menu + Cart */}
         <div className="flex flex-col lg:flex-row lg:space-x-8 mt-6">
           {/* Menu */}
-          <div className="lg:w-8/12 xl:w-9/12">
-            {activeTab.includes("Deals") || activeTab.includes("Mini Sub") ? (
-              <HorizontalScroller>
-                {filteredMenu.map((item) => (
-                  <FoodCard key={item.id} item={item} onAddItem={handleSimpleAddItem} onClick={() => handleMenuItemClick(item)} />
-                ))}
-              </HorizontalScroller>
-            ) : (
-              <div className="divide-y divide-gray-100 bg-white border border-gray-200 rounded-xl shadow-lg">
-                {filteredMenu.length > 0 ? (
-                  filteredMenu.map((item) => (
-                    <MenuItemCard key={item.id} item={item} onItemClick={handleMenuItemClick} onAddItem={handleSimpleAddItem} />
-                  ))
-                ) : (
-                  <p className="p-6 text-center text-gray-500">No items found.</p>
-                )}
-              </div>
-            )}
-          </div>
+        <div className="max-w-4xl mx-auto px-4 py-6">
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    {filteredMenu.map((item) => (
+      <FoodCard
+        key={item.id}
+        item={item}
+        onAddItem={handleAddToCart}
+        onClick={() => setSelectedItem(item)}
+      />
+    ))}
+  </div>
+</div>
 
-          {/* Cart */}
+
+          {/* Sticky Cart Sidebar */}
           <div className="lg:w-4/12 xl:w-3/12 mt-8 lg:mt-0">
-            <CartSidebar cart={cart} onUpdateQuantity={handleUpdateQuantity} onCheckout={handleCheckout} />
+            <div className="sticky top-20">
+              <CartSidebar onCheckout={handleCheckout} />
+            </div>
           </div>
         </div>
-               
-            <div className="bg-white py-10">
-                <div className="max-w-7xl mx-auto px-4 lg:px-4">
-                    <SimilarRestaurantsSection restaurants={mockSimilarRestaurants} />
-                </div>
-            </div>
 
+        {/* Similar Restaurants */}
+        <div className="bg-white py-10 mt-10">
+          <div className="max-w-7xl mx-auto px-4 lg:px-4">
+            <SimilarRestaurantsSection restaurants={mockSimilarRestaurants} />
+          </div>
+        </div>
 
         {/* Product Modal */}
-        {selectedItemForModal && (
+        {selectedItem && (
           <ProductModal
-            item={selectedItemForModal}
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            onAddToCart={handleAddItemWithCustomization}
+            item={selectedItem}
+            isOpen={!!selectedItem}
+            onClose={() => setSelectedItem(null)}
+            onAddToCart={handleAddToCart}
           />
         )}
       </div>

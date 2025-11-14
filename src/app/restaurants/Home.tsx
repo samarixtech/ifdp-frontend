@@ -98,7 +98,7 @@ const Home: React.FC = () => {
         </div>
         <img
           src="https://images.unsplash.com/photo-1536329639134-ade172b2fea0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170"
-          alt="Panda mascot"
+          alt="IFDP mascot"
           className="w-36 ml-auto"
           loading="lazy"
         />
@@ -138,8 +138,8 @@ const Home: React.FC = () => {
         ))}
       </div>
 
-      {/* New on foodpanda */}
-      <SectionTitle title="New on foodpanda" />
+      {/* New on IFDP */}
+      <SectionTitle title="New on IFDP" />
       <HorizontalScroller>
         {sampleItems.map(
           ({ title, desc, time, price, rating, img, discount }) => (

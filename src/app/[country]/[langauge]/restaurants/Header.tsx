@@ -278,7 +278,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   currentAddress = "New address PTCL Telephone Exchange Service Road W Islamabad",
 }) => {
   const [activeTab, setActiveTab] = useState<
-    "delivery" | "pickup" | "pandamart" | "shops" | "caterers"
+    "delivery" | "pickup" | "IFDPmart" | "shops" | "caterers"
   >("delivery");
 
   // Content for the Language Dropdown
@@ -363,7 +363,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const navTabs = [
     { key: "delivery", label: "Delivery", icon: Bike },
     { key: "pickup", label: "Pick-up", icon: MapPin },
-    { key: "pandamart", label: "pandamart", icon: ShoppingBag },
+    { key: "IFDPmart", label: "IFDPmart", icon: ShoppingBag },
     { key: "shops", label: "Shops", icon: Package },
     { key: "caterers", label: "Caterers", icon: Globe },
   ] as const;
