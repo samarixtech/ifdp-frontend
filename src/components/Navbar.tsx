@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Check, ChevronDown, Globe, Menu, X, DollarSign } from "lucide-react";
+import { Check, ChevronDown, Globe, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getNames, getCode } from "country-list";

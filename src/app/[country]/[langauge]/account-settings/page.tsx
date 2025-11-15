@@ -10,7 +10,6 @@ import {
   Save,
   Trash2,
   Bell,
-  Globe,
   Upload, // Changed from Mail, ChevronRight for better relevance
   Edit, // Used for edit button
   X, // Used for remove button
@@ -46,7 +45,7 @@ const SettingsMenuItem = ({ icon: Icon, title, isSelected, onClick }: any) => {
         isSelected ? selectedClasses : defaultClasses
       } transform hover:scale-[1.01]`}
     >
-      <Icon className="w-5 h-5 mr-3 flex-shrink-0" />
+      <Icon className="w-5 h-5 mr-3 shrink-0" />
       <span>{title}</span>
     </div>
   );
@@ -81,9 +80,7 @@ const InputField = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      // *** ADD THIS LINE ***
       readOnly={readOnly}
-      // ... rest of the classes
     />
   </div>
 );
@@ -110,7 +107,7 @@ const DangerButton = ({ children, onClick, icon: Icon = Trash2 }: any) => (
   </button>
 );
 
-// --- Settings Page Sections ---
+// Settings Page Sections
 
 const ProfileSettings = () => (
   <SettingsSectionCard
@@ -119,8 +116,8 @@ const ProfileSettings = () => (
   >
     <div className="space-y-8">
       <div className="flex items-center space-x-8">
-        {/* Enhanced Avatar and border */}
-        <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 text-2xl font-bold border-4 border-white shadow-lg overflow-hidden flex-shrink-0">
+        {/* Avatar and border */}
+        <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 text-2xl font-bold border-4 border-white shadow-lg overflow-hidden shrink-0">
           <span className={primaryText}>JD</span>
         </div>
         <div>
@@ -211,7 +208,7 @@ const BillingSettings = () => (
     <div className="space-y-8">
       <h4 className={`text-xl font-bold ${darkText}`}>Current Subscription</h4>
       {/* Enhanced Plan Card */}
-      <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-2xl border-l-8 border-[${secondaryBlue}] flex justify-between items-center shadow-md">
+      <div className="bg-linear-to-r from-blue-50 to-blue-100 p-6 rounded-2xl border-l-8 border-[${secondaryBlue}] flex justify-between items-center shadow-md">
         <div>
           <p className="text-2xl font-extrabold text-blue-900">Pro Plan</p>
           <p className="text-blue-700 text-lg mt-1">
@@ -282,7 +279,7 @@ const SettingsPage = () => {
         return <SecuritySettings />;
       case "billing":
         return <BillingSettings />;
-      // Add other sections here later if needed
+      // ADD OTHER SECTIONS IF NEEDED
       default:
         return <ProfileSettings />;
     }
@@ -291,7 +288,7 @@ const SettingsPage = () => {
   return (
     <div className={`py-16 ${neutralBg} min-h-screen font-sans`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header - Larger, bolder text */}
+        {/* Header */}
         <div className="mb-14">
           <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-2 tracking-tight">
             Account Settings ⚙️
@@ -303,8 +300,8 @@ const SettingsPage = () => {
 
         {/* Layout */}
         <div className="flex flex-col lg:flex-row gap-12">
-          {/* Sidebar Navigation - Sticky and enhanced shadow */}
-          <nav className="lg:w-[280px] p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 h-max sticky top-8 flex-shrink-0">
+          {/* Sidebar Navigation */}
+          <nav className="lg:w-[280px] p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 h-max sticky top-8 shrink-0">
             <div className="space-y-3">
               {navItems.map((item) => (
                 <SettingsMenuItem
@@ -317,21 +314,20 @@ const SettingsPage = () => {
               ))}
             </div>
 
-            {/* Logout/Danger Zone - Clear visual separation */}
+            {/* Logout/Danger Zone */}
             <div className="mt-8 pt-6 border-t border-gray-200 space-y-3">
               <div className="flex items-center p-3 text-red-600 font-semibold rounded-xl hover:bg-red-50 cursor-pointer transition-colors duration-200">
                 <LogOut className="w-5 h-5 mr-3" />
                 <span>Log Out</span>
               </div>
-              {/* Removed Delete Account from menu to push it only to Danger Zone Card */}
             </div>
           </nav>
 
-          {/* Main Content Area - Wider for content */}
-          <main className="lg:flex-grow space-y-12">
+          {/* Main Content Area */}
+          <main className="lg:grow space-y-12">
             {renderSection()}
 
-            {/* Danger Zone: Example of a separate section */}
+            {/* Danger Zone: */}
             <SettingsSectionCard
               title="Danger Zone ⚠️"
               subtitle="Actions that are irreversible and should be taken with caution."

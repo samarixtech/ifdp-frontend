@@ -4,6 +4,7 @@ import CartDrawer from "@/components/CartDrawer";
 import useLocale from "@/hooks/useLocals";
 import { RootState } from "@/redux/store/store";
 import { BarChart, User } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 import { FiShoppingBag } from "react-icons/fi";
@@ -130,6 +131,7 @@ interface ProfileDropdownProps {
 const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   profileContent,
 }) => {
+  const t = useTranslations("profile.button");
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -149,7 +151,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150 relative z-10"
-        aria-label="User Profile"
+        aria-label={t("label")}
         aria-expanded={isOpen}
       >
         <User className="w-6 h-6 text-black" />
@@ -171,7 +173,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   );
 };
 
-// --- Dropdown Component ---
+// Dropdown Component
 interface DropdownProps {
   label: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -185,6 +187,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   content,
   isLocation = false,
 }) => {
+  const t = useTranslations("location.modal");
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -254,9 +257,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           }`}
         >
           <div className="p-4 border-b flex justify-between items-center">
-            <h2 className="text-xl font-bold text-gray-800">
-              Select Delivery Location
-            </h2>
+            <h2 className="text-xl font-bold text-gray-800">{t("title")}</h2>
             <button
               onClick={() => setIsOpen(false)}
               className="text-gray-500 hover:text-gray-900 font-bold text-2xl"
@@ -271,7 +272,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 };
 
-// --- Main Header Component ---
+// Main Header Component
 
 interface IFDPHeaderProps {
   currentCountryCode?: string;
@@ -284,6 +285,13 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   currentLangCode = "en",
   currentAddress = "New address PTCL Telephone Exchange Service Road W Islamabad",
 }) => {
+  // Separate hooks for Translation
+  const tHeader = useTranslations("idfpHeader");
+  const tLocation = useTranslations("location.dropdown");
+  const tLanguage = useTranslations("language.dropdown");
+  const tProfile = useTranslations("profile");
+  const tProfileLink = useTranslations("profile.link");
+
   const [activeTab, setActiveTab] = useState<
     "delivery" | "pickup" | "IFDPmart" | "shops" | "caterers"
   >("delivery");
@@ -312,7 +320,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const languageContent = (
     <div className="flex flex-col space-y-2">
       <h3 className="text-sm font-semibold text-gray-500 mb-1">
-        Select Language
+        {tLanguage("title")}
       </h3>
       {["English", "Iraq"].map((lang, index) => (
         <button
@@ -335,17 +343,17 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   // Content for the Location Dropdown
   const locationContent = (
     <div className="flex flex-col space-y-4">
-      <h3 className="text-lg font-bold text-gray-800">Search Delivery Area</h3>
+      <h3 className="text-lg font-bold text-gray-800">{tLocation("title")}</h3>
       <input
         type="text"
-        placeholder="Enter your street name or landmark"
+        placeholder={tLocation("placeholder")}
         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
       />
       <button className="w-full p-3 bg-[#003566] text-white font-bold rounded-lg hover:bg-[#003566] transition shadow-md">
-        Find Food
+        {tLocation("findFoodButton")}
       </button>
       <div className="text-sm text-gray-500 mt-2">
-        Current:{" "}
+        {tLocation("currentLabel")}{" "}
         <span className="font-semibold text-gray-700">{currentAddress}</span>
       </div>
     </div>
@@ -355,7 +363,9 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const profileContent = (
     <div className="flex flex-col space-y-1">
       <div className="py-2 px-3">
-        <p className="text-base font-bold text-gray-900">John Doe</p>
+        <p className="text-base font-bold text-gray-900">
+          {tProfile("placeholder.name")}
+        </p>
         <p className="text-sm text-gray-500">johndoe@example.com</p>
       </div>
       <hr className="border-gray-100" />

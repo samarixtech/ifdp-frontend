@@ -274,5 +274,61 @@
     "cta_subheading": "Join our partner network today and unlock unlimited growth potential for your business",
     "cta_button1": "Apply Now",
     "cta_button2": "Schedule a Demo"
+  },
+
+  "idfpHeader": {
+    "topBar": {
+      "appName": "IDFP",
+      "partnerSignup": "SIGN UP TO BE A RESTAURANT PARTNER",
+      "businessSignup": "SIGN UP FOR A BUSINESS ACCOUNT"
+    },
+    "nav": {
+      "delivery": "Delivery",
+      "pickup": "Pick-up",
+      "ifdpMart": "IFDPmart",
+      "shops": "Shops",
+      "caterers": "Caterers"
+    },
+    "logo": {
+      "ifdp": "IFDP"
+    },
+    "auth": {
+      "login": "Log in",
+      "signup": "Sign up for free delivery"
+    },
+    "cart": {
+      "label": "Cart"
+    }
+  },
+  "location": {
+    "modal": {
+      "title": "Select Delivery Location"
+    },
+    "dropdown": {
+      "title": "Search Delivery Area",
+      "placeholder": "Enter your street name or landmark",
+      "findFoodButton": "Find Food",
+      "currentLabel": "Current:"
+    }
+  },
+  "language": {
+    "dropdown": {
+      "title": "Select Language"
+    }
+  },
+  "profile": {
+    "button": {
+      "label": "User Profile"
+    },
+    "placeholder": {
+      "name": "John Doe",
+      "email": "johndoe@example.com"
+    },
+    "link": {
+      "dashboard": "Dashboard",
+      "accountSettings": "Account Settings",
+      "myOrders": "My Orders",
+      "logout": "Log Out"
+    }
   }
 }

@@ -35,6 +35,11 @@ export const SignUpForm = () => (
       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
     />
     <input
+      type="text"
+      placeholder="Enter Your Name"
+      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
+    />
+    <input
       type="email"
       placeholder="Email"
       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"

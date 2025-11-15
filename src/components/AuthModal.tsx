@@ -59,7 +59,7 @@ export default function AuthModal({
           />
 
           {/* CENTERED MODAL */}
-          <motion.div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <motion.div className="fixed inset-0 z-60 flex items-center justify-center p-4">
             <motion.div
               ref={modalRef} // attach ref here
               className="relative w-full max-w-md p-8 rounded-3xl bg-white/30 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/20"
@@ -85,18 +85,36 @@ export default function AuthModal({
               </div>
 
               {/* Auth Form */}
+              {/* Auth Form */}
               <div className="space-y-5">
+                {/* NAME FIELD — Signup Only */}
+                {mode === "signup" && (
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    className="w-full p-4 rounded-xl border border-white/30 bg-white/30 backdrop-blur-md 
+                 focus:ring-2 focus:ring-[#003566] outline-none placeholder-gray-500 transition"
+                  />
+                )}
+
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full p-4 rounded-xl border border-white/30 bg-white/30 backdrop-blur-md focus:ring-2 focus:ring-[#003566] outline-none placeholder-gray-500 transition"
+                  className="w-full p-4 rounded-xl border border-white/30 bg-white/30 backdrop-blur-md 
+               focus:ring-2 focus:ring-[#003566] outline-none placeholder-gray-500 transition"
                 />
+
                 <input
                   type="password"
                   placeholder="Password"
-                  className="w-full p-4 rounded-xl border border-white/30 bg-white/30 backdrop-blur-md focus:ring-2 focus:ring-[#003566] outline-none placeholder-gray-500 transition"
+                  className="w-full p-4 rounded-xl border border-white/30 bg-white/30 backdrop-blur-md 
+               focus:ring-2 focus:ring-[#003566] outline-none placeholder-gray-500 transition"
                 />
-                <button className="w-full py-3 bg-[#003566] text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:bg-[#002a47] transition duration-300 text-lg">
+
+                <button
+                  className="w-full py-3 bg-[#003566] text-white font-bold rounded-xl shadow-lg 
+                     hover:shadow-xl hover:bg-[#002a47] transition duration-300 text-lg"
+                >
                   {mode === "login" ? "Log In" : "Create Account"}
                 </button>
 
@@ -126,8 +144,8 @@ export default function AuthModal({
               </div>
 
               {/* Decorative Gradient Circles */}
-              <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-gradient-to-tr from-[#003566]/60 to-[#61a5c2]/50 blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-12 -left-12 w-36 h-36 rounded-full bg-gradient-to-tr from-[#61a5c2]/40 to-[#003566]/40 blur-3xl pointer-events-none" />
+              <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-linear-to-tr from-[#003566]/60 to-[#61a5c2]/50 blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-12 -left-12 w-36 h-36 rounded-full bg-linear-to-tr from-[#61a5c2]/40 to-[#003566]/40 blur-3xl pointer-events-none" />
             </motion.div>
           </motion.div>
         </>
