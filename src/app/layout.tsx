@@ -6,6 +6,8 @@ import "./globals.css";
 import { ReduxProvider } from "@/components/ReduxProvider";
 import NavbarHider from "@/components/NavbarHider";
 import { cookies } from "next/headers";
+import { CLCProvider } from "./context/CLCContext.tsx";
+
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -38,11 +40,13 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   return (
     <html lang={currentLocale} dir={dir}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+         <CLCProvider>
         <ReduxProvider>
           <NextIntlClientProvider locale={currentLocale} messages={messages}>
-            <NavbarHider>{children}</NavbarHider>
+            <NavbarHider>    {children}</NavbarHider>
           </NextIntlClientProvider>
         </ReduxProvider>
+        </CLCProvider>
       </body>
     </html>
   );

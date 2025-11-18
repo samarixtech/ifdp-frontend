@@ -4,6 +4,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import ChatWidget from "./ai/ChatWidget";
 
 export default function NavbarHider({
   children,
@@ -11,7 +12,7 @@ export default function NavbarHider({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const hideLayout = pathname?.startsWith("/dashboard"); // hide for dashboard routes
+  const hideLayout = pathname?.startsWith("/dashboard"); 
 
   return (
     <>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store/store";
@@ -15,6 +15,8 @@ import SimilarRestaurantsSection from "@/components/SimilarRestaurant";
 import Header from "../Header";
 
 import { Search, Plus, Clock, ShoppingBag } from "lucide-react";
+import { useCLC } from "@/app/context/CLCContext.tsx";
+import { getCookie } from "cookies-next";
 
 const mockSimilarRestaurants: SimilarRestaurant[] = [
   {
@@ -105,60 +107,75 @@ interface DynamicParams {
   country: string;
   langauge: string;
   id: string;
+  currency:any;
   [key: string]: string;
 }
-
-const FoodCard: React.FC<{
+interface FoodCardProps {
   item: MenuItem;
   onAddItem: (item: MenuItem) => void;
   onClick: () => void;
-}> = ({ item, onAddItem, onClick }) => (
-  <div
-    onClick={onClick}
-    className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer max-w-sm flex"
-  >
-    {/* Image */}
-    <div className="relative w-28 h-28 overflow-hidden rounded-l-xl flex-shrink-0">
-      <img
-        src={item.imageUrl}
-        alt={item.name}
-        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-      />
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onAddItem(item);
-        }}
-        className="absolute bottom-2 right-2 bg-green-600 hover:bg-green-700 text-white rounded-full p-2 shadow-lg flex items-center justify-center transition-colors duration-200"
-      >
-        <Plus size={16} />
-      </button>
-    </div>
+}
 
-    {/* Content */}
-    <div className="p-4 flex flex-col justify-between flex-grow">
-      <h4 className="font-semibold text-gray-900 text-sm truncate">
-        {item.name}
-      </h4>
-      <p className="text-gray-500 text-xs mt-1 line-clamp-3">
-        {item.description}
-      </p>
-      <p className="text-green-600 font-bold mt-2 text-sm">
-        Rs. {item.price.toLocaleString()}
-      </p>
+const FoodCard: React.FC<FoodCardProps> = ({ item, onAddItem, onClick }) => {
+  const { currency } = useCLC();
+
+  return (
+    <div
+      onClick={onClick}
+      className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer max-w-sm flex"
+    >
+      {/* Image */}
+      <div className="relative w-28 h-28 overflow-hidden rounded-l-xl flex-shrink-0">
+        <img
+          src={item.imageUrl}
+          alt={item.name}
+          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+        />
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddItem(item);
+          }}
+          className="absolute bottom-2 right-2 bg-green-600 hover:bg-green-700 text-white rounded-full p-2 shadow-lg flex items-center justify-center transition-colors duration-200"
+        >
+          <Plus size={16} />
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="p-4 flex flex-col justify-between flex-grow">
+        <h4 className="font-semibold text-gray-900 text-sm truncate">
+          {item.name}
+        </h4>
+        <p className="text-gray-500 text-xs mt-1 line-clamp-3">{item.description}</p>
+        <p className="text-green-600 font-bold mt-2 text-sm">
+          {`${currency} ${item.price}`}
+        </p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
 
 export default function RestaurantPage() {
   const router = useRouter();
-  const params = useParams<DynamicParams>();
+  const {id} = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const cart = useSelector((state: RootState) => state.cart.items);
-
   const [activeTab, setActiveTab] = useState("Popular (5)");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const { setCLC, country, currency, language } = useCLC();
+const params = useParams();
+
+useEffect(() => {
+  let c = Array.isArray(params?.country) ? params.country[0] : params?.country || (getCookie("NEXT_COUNTRY") as string) || "US";
+  let l = Array.isArray(params?.language) ? params.language[0] : params?.language || (getCookie("NEXT_LOCALE") as string) || "en";
+  const cur = (getCookie("NEXT_CURRENCY") as string) || "$";
+
+  setCLC({ country: c.toUpperCase(), currency: cur, language: l });
+}, [params?.country, params?.language]);
+
 
   // --- Mock Menu Items ---
   const menuSections = [
@@ -245,11 +262,11 @@ export default function RestaurantPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-20">
         {/* Breadcrumb */}
-        <div className="text-sm text-gray-500 mb-4 hidden md:block">
-          {(params.country as string)?.toUpperCase()} &gt;{" "}
-          {(params.langauge as string)?.toUpperCase()} &gt;{" "}
-          <span className="font-semibold text-gray-700">Subway</span>
-        </div>
+     <div className="text-sm text-gray-500 mb-4 hidden md:block">
+  {country?.toUpperCase()} &gt; {language?.toUpperCase()} &gt; 
+  <span className="font-semibold text-gray-700">{id}</span>
+</div>
+
 
         {/* Restaurant Header */}
         <div className="flex items-start pb-4">
@@ -259,14 +276,14 @@ export default function RestaurantPage() {
             className="w-24 h-24 rounded-full mr-4 object-cover ring-4 ring-green-100 shadow-md"
           />
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-900">Subway</h1>
+            <h1 className="text-3xl font-extrabold text-gray-900">{id}</h1>
             <p className="text-base text-gray-600 mt-1">
               Sandwiches • Fast Food
             </p>
             <div className="flex items-center text-sm text-gray-500 mt-3 space-x-6">
               <span className="text-green-600 font-semibold">★ 4.7 Rating</span>
               <span className="flex items-center">
-                <ShoppingBag size={14} className="mr-1" /> Rs. 189 delivery fee
+                <ShoppingBag size={14} className="mr-1" /> {currency} 189 delivery fee
               </span>
               <span className="flex items-center">
                 <Clock size={14} className="mr-1" /> 30 Min
@@ -313,14 +330,15 @@ export default function RestaurantPage() {
           {/* Menu */}
           <div className="max-w-4xl mx-auto px-4 py-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {filteredMenu.map((item) => (
+              {filteredMenu.map((item:any) => (
                 <FoodCard
                   key={item.id}
-                  item={item}
+                   item={{ ...item, currency }}
                   onAddItem={handleAddToCart}
                   onClick={() => setSelectedItem(item)}
                 />
               ))}
+              
             </div>
           </div>
 

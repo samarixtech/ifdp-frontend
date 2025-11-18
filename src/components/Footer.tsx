@@ -1,6 +1,8 @@
 "use client";
 import { Send, MapPin, Phone, MessageSquare } from "lucide-react";
 import Link from "next/link";
+import ChatWidgetPortal from "./ai/ChatWidgetPortal";
+
 
 const primaryBlue = "#014f86"; // Dark Blue for main accent (Primary)
 const secondaryBlue = "#2a6f97"; // Mid Blue for features/stats (Secondary)
@@ -30,7 +32,8 @@ const Footer = () => {
   return (
     <footer
       className={`${softPrimaryBg} text-white pt-16 pb-8 border-t border-blue-500/20`}
-    >
+    >  <ChatWidgetPortal />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 border-b border-white/20 pb-12">
           <div className="col-span-2 md:col-span-2 pr-8">

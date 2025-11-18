@@ -6,12 +6,14 @@ import { RootState, AppDispatch } from "@/redux/store/store";
 import { updateQuantity } from "@/redux/slices/cartSlice";
 import { Minus, Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
 import { CartItem } from "@/types/menu";
+import { useCLC } from "@/app/context/CLCContext.tsx";
 
 interface CartSidebarProps {
   onCheckout: () => void;
 }
 
 const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
+    const { currency } = useCLC(); 
   const cart = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -118,7 +120,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
                   {item.description?.split(". ")[0] || "Standard"}
                 </p>
                 <p className="text-sm font-bold text-gray-900">
-                  Rs. {(item.price * item.quantity).toLocaleString()}
+                  {currency}. {(item.price * item.quantity).toLocaleString()}
                 </p>
               </div>
             </div>
@@ -160,7 +162,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
             <span className="text-xs text-gray-500">(incl. fees & tax)</span>
           </span>
           <span>
-            Rs.{" "}
+            {currency}.{" "}
             {total.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
@@ -184,15 +186,15 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
           <div className="space-y-1 text-xs text-gray-600 mb-2 border-t pt-1">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>Rs. {subtotal.toLocaleString()}</span>
+              <span>{currency}. {subtotal.toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
               <span>Delivery Fee {isDelivery ? "" : "(N/A)"}</span>
-              <span>{isDelivery ? `Rs. ${deliveryFee}` : "Rs. 0"}</span>
+              <span>{isDelivery ? `${currency}. ${deliveryFee}` : `${currency}. 0`}</span>
             </div>
             <div className="flex justify-between">
               <span>Tax (5%)</span>
-              <span>Rs. {tax.toFixed(2)}</span>
+              <span>{currency}. {tax.toFixed(2)}</span>
             </div>
           </div>
         )}

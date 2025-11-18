@@ -42,6 +42,7 @@ export const countryCurrencyMap: { [key: string]: string } = {
   INR: "₹",
   AED: "د.إ",
   IQ: "ع.د", 
+   AF: "؋",
 };
 
 

@@ -215,18 +215,28 @@ const Dropdown: React.FC<DropdownProps> = ({
     >
       <button
         onClick={toggleDropdown}
-        className={`${buttonClasses} ${
-          isOpen ? "ring-2 ring-blue-500 border-blue-500" : ""
-        } ${isLocation ? "w-full" : ""}`}
         aria-expanded={isOpen}
+        className={`
+    flex items-center w-full p-3 rounded-lg 
+    border transition-all duration-200 
+    bg-white shadow-sm hover:shadow-md
+  
+    ${
+      isOpen
+        ? "border-blue-500 ring-2 ring-blue-300"
+        : "border-gray-200 hover:border-blue-300"
+    }
+    ${isLocation ? "w-full" : ""}
+  `}
       >
         <Icon className="w-5 h-5 text-[#003566] mr-2 shrink-0" />
         <span className="text-sm font-semibold text-gray-700 max-w-[200px] truncate">
           {label}
         </span>
+
         <ChevronDown
-          className={`w-4 h-4 text-gray-400 ml-2 transform transition-transform ${
-            isOpen ? "rotate-180" : "rotate-0"
+          className={`w-4 h-4 text-gray-400 ml-auto transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
@@ -283,13 +293,15 @@ interface IFDPHeaderProps {
 const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   currentCountryCode = "PK",
   currentLangCode = "en",
-  currentAddress = "New address PTCL Telephone Exchange Service Road W Islamabad",
+  // currentAddress = "New address PTCL Telephone Exchange Service Road W Islamabad",
 }) => {
   // Separate hooks for Translation
   const tHeader = useTranslations("idfpHeader");
   const tLocation = useTranslations("location.dropdown");
   const tLanguage = useTranslations("language.dropdown");
   const tProfile = useTranslations("profile");
+  const tProfileLink = useTranslations("profile.link");
+  const [currentAddress, setCurrentAddress] = useState("Detecting location...");
 
   const [activeTab, setActiveTab] = useState<
     "delivery" | "pickup" | "IFDPmart" | "shops" | "caterers"
@@ -339,20 +351,54 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
     </div>
   );
 
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Your browser does not support geolocation!");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        const apiKey = "AIzaSyDVjBcvY8diVAT0qU4H3il9n0HUylntByI";
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        console.log(data, "data");
+        if (data.results && data.results[0]) {
+          setCurrentAddress(data.results[0].formatted_address);
+        } else {
+          setCurrentAddress("Address not found");
+        }
+      },
+      () => {
+        alert("Location permission denied!");
+      }
+    );
+  };
+
   // Content for the Location Dropdown
   const locationContent = (
     <div className="flex flex-col space-y-4">
       <h3 className="text-lg font-bold text-gray-800">{tLocation("title")}</h3>
+
+      <button
+        onClick={getCurrentLocation}
+        className="w-full p-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition"
+      >
+        Use Current Location
+      </button>
+
       <input
         type="text"
         placeholder={tLocation("placeholder")}
         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
       />
-      <button className="w-full p-3 bg-[#003566] text-white font-bold rounded-lg hover:bg-[#003566] transition shadow-md">
-        {tLocation("findFoodButton")}
-      </button>
+
       <div className="text-sm text-gray-500 mt-2">
-        {tLocation("currentLabel")}{" "}
+        Current:{" "}
         <span className="font-semibold text-gray-700">{currentAddress}</span>
       </div>
     </div>
@@ -407,7 +453,6 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-50 pb-20">
-        {/* 1. Top Bar (Partner Links) - Blue Top Bar */}
         <div className="hidden sm:block bg-[#003566] text-white text-sm py-2 px-4 shadow-md">
           <div className="max-w-7xl mx-auto flex justify-end items-center space-x-4">
             <span className="flex items-center space-x-1 font-semibold">
@@ -415,7 +460,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
               <span>IDFP</span>
             </span>
             <a
-              href="#"
+              href="/partner"
               className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
             >
               {tHeader("topBar.partnerSignup")}
@@ -426,6 +471,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
             >
               {tHeader("topBar.businessSignup")}
             </a>
+            
           </div>
         </div>
 

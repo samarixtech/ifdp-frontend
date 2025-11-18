@@ -1,7 +1,6 @@
-// components/AuthForms.tsx
+
 "use client";
 
-import React from "react";
 
 export const SignInForm = () => (
   <form className="flex flex-col space-y-4">

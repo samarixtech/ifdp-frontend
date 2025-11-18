@@ -4,9 +4,10 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateQuantity, clearCart } from "@/redux/slices/cartSlice";
 
-import { X, Trash2, Plus, Minus } from "lucide-react";
+import { X, Trash2, Plus, Minus, Currency } from "lucide-react";
 import { AppDispatch, RootState } from "@/redux/store/store";
 import { useRouter } from "next/navigation";
+import { useCLC } from "@/app/context/CLCContext.tsx";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
+    const { currency } = useCLC(); 
   const cart = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
@@ -72,6 +74,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <div className="bg-white p-4 border border-gray-200 rounded-xl shadow-md">
               {/* RESTAURANT INFO */}
               <div className="flex justify-between items-start mb-3">
+                
                 <div className="flex items-center space-x-3">
                   <div className="flex -space-x-2">
                     <img
@@ -108,7 +111,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
                       <div>
                         <p className="font-semibold">{item.name}</p>
-                        <p className="text-gray-500 text-sm">Rs {item.price}</p>
+                        <p className="text-gray-500 text-sm">{currency} {item.price}</p>
                       </div>
                     </div>
 

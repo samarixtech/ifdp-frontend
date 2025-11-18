@@ -1,3 +1,4 @@
+import { useCLC } from "@/app/context/CLCContext.tsx";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
@@ -79,11 +80,10 @@ interface DynamicParams {
 }
 const Home: React.FC = () => {
   const router = useRouter();
-  const params = useParams<DynamicParams>();
-  const country = params.country || 'pk'; 
-  const langauge = params.langauge || 'en';
+const { country, currency, language } = useCLC();
   return (
     <div className="bg-white min-h-screen text-black px-4 md:px-16 py-8">
+  
       {/* Search Bar */}
       <div className="mb-6">
         <input
@@ -151,16 +151,17 @@ const Home: React.FC = () => {
        {sampleItems.map(({ id, title, desc, time, price, rating, img, discount }) => (
     <div
       key={id}
-    onClick={() => router.push(`/${country}/${langauge}/restaurants/${id}`)}
+    onClick={() => router.push(`/${country}/${language}/restaurants/${id}`)}
       className="cursor-pointer">
       <FoodCard
         title={title}
         desc={desc}
         time={time}
-        price={price}
+      price={`${currency}. ${price.replace(/[^0-9]/g, "")}`}
         rating={rating}
         img={img}
         discount={discount ?? ""}
+        currency={currency}   
       />
     </div>
   ))}
@@ -173,7 +174,7 @@ const Home: React.FC = () => {
        {sampleItems.map(({ id, title, desc, time, price, rating, img, discount }) => (
     <div
       key={id}
-    onClick={() => router.push(`/${country}/${langauge}/restaurants/${id}`)}
+    onClick={() => router.push(`/${country}/${language}/restaurants/${id}`)}
       className="cursor-pointer">
     
           <FoodCard
@@ -181,10 +182,11 @@ const Home: React.FC = () => {
             title={title}
             desc={desc}
             time={time}
-            price={price}
+            price={`${currency}. ${price.replace(/[^0-9]/g, "")}`}
             rating={rating}
             img={img}
                 discount={discount ?? ""}
+                currency={currency}   
           />
           </div>
         ))}
@@ -196,18 +198,17 @@ const Home: React.FC = () => {
        {sampleItems.map(({ id, title, desc, time, price, rating, img, discount }) => (
     <div
       key={id}
-    onClick={() => router.push(`/${country}/${langauge}/restaurants/${id}`)}
+    onClick={() => router.push(`/${country}/${language}/restaurants/${id}`)}
       className="cursor-pointer">
           <FoodCard
-            key={title + "pepsi"}
-            title={title}
-            desc={desc}
-            time={time}
-            price={price}
-            rating={rating}
-            img={img}
-             discount={discount ?? ""}
-          />
+             key={title + "pepsi"}
+             title={title}
+             desc={desc}
+             time={time}
+             price={`${currency}. ${price.replace(/[^0-9]/g, "")}`}
+             rating={rating}
+             img={img}
+             discount={discount ?? ""} currency={currency}          />
           </div>
         ))}
       </HorizontalScroller>
@@ -251,10 +252,11 @@ const FoodCard: React.FC<{
   desc: string;
   time: string;
   price: string;
+  currency:any;
   rating: number;
   img: string;
   discount: string;
-}> = ({ title, desc, time, price, rating, img, discount }) => (
+}> = ({ title, desc, time, price, rating, img, discount,currency }) => (
   <div className="min-w-[220px] bg-white rounded-lg shadow-md cursor-pointer hover:shadow-lg transition relative">
     <img
       src={img}
@@ -270,7 +272,7 @@ const FoodCard: React.FC<{
       <p className="text-gray-700 text-sm">{desc}</p>
       <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
         <span>{time}</span>
-        <span>{price}</span>
+        <span>{`${currency}. ${price.replace(/[^0-9]/g, "")}`}</span>
       </div>
       <div className="mt-2 flex items-center gap-1 text-yellow-500 font-semibold">
         {"★".repeat(Math.floor(rating))}

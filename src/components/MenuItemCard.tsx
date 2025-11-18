@@ -1,7 +1,8 @@
 // src/components/MenuItemCard.tsx (Updated to support Modal click)
 import React from 'react';
 import { MenuItem } from '@/types/menu';
-import { Plus } from 'lucide-react';
+import { Currency, Plus } from 'lucide-react';
+import { useCLC } from '@/app/context/CLCContext.tsx';
 
 interface MenuItemCardProps {
   item: MenuItem;
@@ -12,6 +13,7 @@ interface MenuItemCardProps {
 }
 
 const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onItemClick, onAddItem }) => {
+    const { currency } = useCLC(); 
   return (
     // Wrap the entire card content with the modal opener
     <div 
@@ -23,7 +25,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onItemClick, onAddIte
       <div className="flex-1 pr-4">
         <h3 className="text-xl font-bold text-gray-900">{item.name}</h3>
         <p className="text-xl font-extrabold text-green-500 mt-1">
-          Rs. {item.price.toLocaleString()}
+        {currency}. {item.price.toLocaleString()}
         </p>
         <p className="text-xs text-gray-400 mt-2 line-clamp-2">
           {item.description}

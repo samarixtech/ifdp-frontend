@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { ShoppingBag, AlertTriangle, ArrowRight } from 'lucide-react';
+import { useCLC } from '@/app/context/CLCContext.tsx';
 
 interface CartItem {
     id: string;
@@ -25,8 +26,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     tax, 
     total 
 }) => {
-    
-    const formatPrice = (price: number) => `Rs. ${price.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+      const { currency } = useCLC(); 
+    const formatPrice = (price: number) => `${currency} ${price.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
 
     const handlePlaceOrder = () => {
         alert("Placing Order for " + formatPrice(total));

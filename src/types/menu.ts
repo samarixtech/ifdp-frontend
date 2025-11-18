@@ -10,6 +10,7 @@ export interface AddOn extends Variation {}
 
 
 export interface MenuItem {
+  currency: any;
   id: string;
   name: string;
   price: number;

@@ -1,42 +1,32 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import SidebarFilters from "./SidebarFilters";
 import Home from "./Home";
 import { useRouter, useParams } from "next/navigation";
 import { getCookie } from "cookies-next";
+import { CLCProvider, useCLC } from "@/app/context/CLCContext.tsx";
 
-const IndexPage: React.FC = () => {
+
+const IndexPageContent: React.FC = () => {
   const router = useRouter();
   const params = useParams();
-
-  const [countryData, setCountryData] = useState<{ name: string; currency: string } | null>(null);
-  const [language, setLanguage] = useState<string | null>(null);
+  const { setCLC } = useCLC();
 
   useEffect(() => {
     const fetchData = () => {
-      // Normalize country
-      let country = params?.country;
-      if (Array.isArray(country)) country = country[0];
-      if (!country) country = getCookie("NEXT_COUNTRY") as string || "US";
+      let c = params?.country;
+      if (Array.isArray(c)) c = c[0];
+      if (!c) c = (getCookie("NEXT_COUNTRY") as string) || "US";
 
-      // Normalize language
-      let lang = params?.language;
-      if (Array.isArray(lang)) lang = lang[0];
-      if (!lang) lang = getCookie("NEXT_LOCALE") as string || "en";
+      let l = params?.language;
+      if (Array.isArray(l)) l = l[0];
+      if (!l) l = (getCookie("NEXT_LOCALE") as string) || "en";
 
-      // ✅ GET CURRENCY FROM COOKIE
-      const currency = (getCookie("NEXT_CURRENCY") as string) || "$";
+      const cur = (getCookie("NEXT_CURRENCY") as string) || "$";
 
-      // Save info
-      const data = { 
-        name: country.toString().toUpperCase(),
-        currency: currency 
-      };
-
-      setCountryData(data);
-      setLanguage(lang);
+      setCLC({ country: c.toUpperCase(), currency: cur, language: l });
     };
 
     fetchData();
@@ -57,16 +47,15 @@ const IndexPage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* SHOW COUNTRY + LANGUAGE + CURRENCY */}
-      <footer className="bg-gray-200 py-4 mt-12">
-        <div className="container mx-auto text-center">
-          <p>
-            Country: {countryData?.name} | Language: {language} | Currency: {countryData?.currency}
-          </p>
-        </div>
-      </footer>
     </div>
+  );
+};
+
+const IndexPage: React.FC = () => {
+  return (
+    <CLCProvider>
+      <IndexPageContent />
+    </CLCProvider>
   );
 };
 
