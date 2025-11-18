@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useRef, useEffect } from "react";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export default function AuthModal({
 }: AuthModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
+  const t = useTranslations("authModal");
   // Close modal on click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,11 +41,8 @@ export default function AuthModal({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, onClose]);
 
-  const title = mode === "login" ? "Welcome Back" : "Create an Account";
-  const subtitle =
-    mode === "login"
-      ? "Log in to continue ordering"
-      : "Sign up to enjoy free delivery";
+  const title = mode === "login" ? t("welcome") : t("createAccount");
+  const subtitle = mode === "login" ? t("continue") : t("freeDelivery");
 
   return (
     <AnimatePresence>
@@ -121,22 +120,22 @@ export default function AuthModal({
                 <p className="text-sm text-center text-gray-700 mt-2">
                   {mode === "login" ? (
                     <>
-                      Don’t have an account?{" "}
+                      {t("newAccount")}{" "}
                       <button
                         onClick={() => switchMode("signup")}
                         className="text-[#003566] font-semibold hover:underline"
                       >
-                        Sign Up
+                        {t("signup")}
                       </button>
                     </>
                   ) : (
                     <>
-                      Already have an account?{" "}
+                      {t("existingAccount")}{" "}
                       <button
                         onClick={() => switchMode("login")}
                         className="text-[#003566] font-semibold hover:underline"
                       >
-                        Log In
+                        {t("login")}
                       </button>
                     </>
                   )}

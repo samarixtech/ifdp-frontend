@@ -10,7 +10,7 @@ import {
   CheckCircle,
   ArrowRight,
 } from "lucide-react";
-import ScrollCardsEnhanced from "@/components/ScrollCards";
+import ScrollCards from "@/components/ScrollCards";
 import { useTranslations } from "next-intl";
 
 const SectionHeading = ({ title, subtitle, color = "text-gray-700" }: any) => (
@@ -146,7 +146,7 @@ const Page = () => {
         </div>
       </section>
 
-      <ScrollCardsEnhanced />
+      <ScrollCards />
 
       {/* Stats Section */}
       {/* <section className={`py-16 ${softNeutralBg}`}>

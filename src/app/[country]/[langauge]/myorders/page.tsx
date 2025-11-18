@@ -13,6 +13,7 @@ import {
   MapPin,
   Phone,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface OrderItem {
   id: string;
@@ -96,6 +97,8 @@ const MyOrders: React.FC = () => {
   const [expandedOrders, setExpandedOrders] = useState<Set<string>>(new Set());
   const [filterStatus, setFilterStatus] = useState<string>("All");
 
+  const t = useTranslations("myOrders");
+
   const toggleOrderExpansion = (orderId: string) => {
     const newExpanded = new Set(expandedOrders);
     newExpanded.has(orderId)
@@ -121,23 +124,26 @@ const MyOrders: React.FC = () => {
       : sampleOrders.filter((order) => order.status === filterStatus);
 
   return (
-    <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen px-4 md:px-16 py-10">
+    <div className="bg-linear-to-br from-gray-100 to-gray-200 min-h-screen px-4 md:px-16 py-10">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
           <Package className="w-9 h-9 text-[#003566]" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
-            My Orders
+            {t("header")}
           </h2>
         </div>
-        <p className="text-gray-600 text-lg">
-          Manage and track all your orders
-        </p>
+        <p className="text-gray-600 text-lg">{t("subheader")}</p>
       </div>
 
       {/* Filters */}
       <div className="flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-        {["All", "In Progress", "Delivered", "Cancelled"].map((status) => (
+        {[
+          t("filter.all"),
+          t("filter.in_progress"),
+          t("filter.delivered"),
+          t("filter.cancelled"),
+        ].map((status) => (
           <button
             key={status}
             onClick={() => setFilterStatus(status)}
@@ -163,7 +169,7 @@ const MyOrders: React.FC = () => {
               className="rounded-3xl bg-white/70 backdrop-blur-xl border border-gray-200 shadow-xl hover:shadow-2xl transition-all overflow-hidden"
             >
               {/* Header */}
-              <div className="p-6 bg-gradient-to-r from-white to-gray-50">
+              <div className="p-6 bg-linear-to-r from-white to-gray-50">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="flex items-center gap-3 mb-2">
@@ -187,7 +193,8 @@ const MyOrders: React.FC = () => {
 
                     <p className="text-gray-500 text-sm flex items-center gap-2">
                       <Clock className="w-4 h-4" />
-                      {order.date} • Delivered in {order.deliveryTime}
+                      {order.date} • {t("order.delivered_in")}{" "}
+                      {order.deliveryTime}
                     </p>
                   </div>
 
@@ -245,14 +252,14 @@ const MyOrders: React.FC = () => {
                     <div>
                       <h5 className="font-semibold text-gray-900 flex items-center gap-2 mb-2">
                         <MapPin className="w-4 h-4" />
-                        Delivery Address
+                        {t("details.delivery_address")}
                       </h5>
                       <p className="text-gray-600">{order.deliveryAddress}</p>
                     </div>
 
                     <div>
                       <h5 className="font-semibold text-gray-900 mb-2">
-                        Payment Method
+                        {t("details.payment_method")}
                       </h5>
                       <p className="text-gray-600">{order.paymentMethod}</p>
                     </div>
@@ -261,7 +268,7 @@ const MyOrders: React.FC = () => {
                   {order.rider && (
                     <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6">
                       <h5 className="font-semibold text-gray-900 mb-2">
-                        Rider Details
+                        {t("details.rider_details")}
                       </h5>
                       <div className="flex items-center justify-between">
                         <div>
@@ -272,7 +279,7 @@ const MyOrders: React.FC = () => {
                           </p>
                         </div>
                         <button className="px-5 py-2 bg-[#003566] text-white rounded-lg text-sm hover:bg-[#002a47] transition">
-                          Call Rider
+                          {t("actions.call_rider")}
                         </button>
                       </div>
                     </div>
@@ -280,7 +287,7 @@ const MyOrders: React.FC = () => {
 
                   <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                     <span className="text-gray-800 font-semibold text-lg">
-                      Total
+                      {t("order.total_label")}
                     </span>
                     <span className="text-[#003566] font-extrabold text-2xl tracking-wide">
                       {order.total}
@@ -290,14 +297,14 @@ const MyOrders: React.FC = () => {
               )}
 
               {/* Actions */}
-              <div className="p-6 bg-gradient-to-r from-gray-50 to-gray-100 border-t flex gap-3 justify-end">
+              <div className="p-6 bg-linear-to-r from-gray-50 to-gray-100 border-t flex gap-3 justify-end">
                 {order.status === "In Progress" && (
                   <>
                     <button className="px-5 py-3 bg-[#003566] text-white rounded-xl font-semibold hover:bg-[#002a47] transition shadow-md">
-                      Track Order
+                      {t("actions.track_order")}
                     </button>
                     <button className="px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition">
-                      Help
+                      {t("actions.help")}
                     </button>
                   </>
                 )}
@@ -305,18 +312,18 @@ const MyOrders: React.FC = () => {
                 {order.status === "Delivered" && (
                   <>
                     <button className="px-5 py-3 bg-[#003566] text-white rounded-xl font-semibold hover:bg-[#002a47] transition shadow-md">
-                      Reorder
+                      {t("actions.reorder")}
                     </button>
                     <button className="px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition flex items-center gap-2">
                       <Star className="w-4 h-4" />
-                      Rate
+                      {t("actions.rate")}
                     </button>
                   </>
                 )}
 
                 {order.status === "Cancelled" && (
                   <button className="px-5 py-3 bg-[#003566] text-white rounded-xl font-semibold hover:bg-[#002a47] transition shadow-md">
-                    Order Again
+                    {t("actions.order_again")}
                   </button>
                 )}
               </div>

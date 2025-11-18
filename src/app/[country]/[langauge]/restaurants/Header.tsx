@@ -1,4 +1,4 @@
-import { SignInForm, SignUpForm } from "@/components/AuthForms";
+// import { SignInForm, SignUpForm } from "@/components/AuthForms";  // delete the component if not used
 import AuthModal from "@/components/AuthModal";
 import CartDrawer from "@/components/CartDrawer";
 import useLocale from "@/hooks/useLocals";
@@ -147,7 +147,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   }, []);
 
   return (
-    <div ref={ref} className="relative flex-shrink-0">
+    <div ref={ref} className="relative shrink-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150 relative z-10"
@@ -220,7 +220,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         } ${isLocation ? "w-full" : ""}`}
         aria-expanded={isOpen}
       >
-        <Icon className="w-5 h-5 text-[#003566] mr-2 flex-shrink-0" />
+        <Icon className="w-5 h-5 text-[#003566] mr-2 shrink-0" />
         <span className="text-sm font-semibold text-gray-700 max-w-[200px] truncate">
           {label}
         </span>
@@ -290,7 +290,6 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const tLocation = useTranslations("location.dropdown");
   const tLanguage = useTranslations("language.dropdown");
   const tProfile = useTranslations("profile");
-  const tProfileLink = useTranslations("profile.link");
 
   const [activeTab, setActiveTab] = useState<
     "delivery" | "pickup" | "IFDPmart" | "shops" | "caterers"
@@ -366,7 +365,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         <p className="text-base font-bold text-gray-900">
           {tProfile("placeholder.name")}
         </p>
-        <p className="text-sm text-gray-500">johndoe@example.com</p>
+        <p className="text-sm text-gray-500">{tProfile("placeholder.email")}</p>
       </div>
       <hr className="border-gray-100" />
       <Link
@@ -374,25 +373,25 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
       >
         <BarChart className="w-5 h-5 mr-3" />
-        Dashboard
+        {tProfile("link.dashboard")}
       </Link>
       <Link
         href={`/${country.toLowerCase()}/${language.toLowerCase()}/account-settings`}
         className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
       >
         <User className="w-5 h-5 mr-3" />
-        Account Settings
+        {tProfile("link.accountSettings")}
       </Link>
       <Link
         href={`/${country.toLowerCase()}/${language.toLowerCase()}/myorders`}
         className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
       >
         <ShoppingBag className="w-5 h-5 mr-3" />
-        My Orders
+        {tProfile("link.myOrders")}
       </Link>
       <hr className="border-gray-100" />
       <button className="flex items-center p-3 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition w-full text-left">
-        Log Out
+        {tProfile("link.logout")}
       </button>
     </div>
   );
@@ -419,13 +418,13 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
               href="#"
               className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
             >
-              SIGN UP TO BE A RESTAURANT PARTNER
+              {tHeader("topBar.partnerSignup")}
             </a>
             <a
               href="#"
               className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
             >
-              SIGN UP FOR A BUSINESS ACCOUNT
+              {tHeader("topBar.businessSignup")}
             </a>
           </div>
         </div>
@@ -437,7 +436,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
               {/* Left Section: Logo and Location Dropdown */}
               <div className="flex items-center space-x-3 lg:space-x-12 w-full lg:w-auto">
                 {/* Logo (Visible on all screens) */}
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <span className="text-2xl sm:text-3xl font-extrabold text-[#003566] tracking-tight">
                     IFDP<span className="text-black text-lg sm:text-xl"></span>
                   </span>
@@ -453,20 +452,20 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
               </div>
 
               {/* Right Section: Auth, Language, Cart (Hidden on small screens when location dropdown is focused) */}
-              <div className="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
+              <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
                 {/* Log In Button (Outline) */}
                 <button
                   onClick={openLogin}
                   className="hidden sm:block px-4 py-2 border border-black text-black font-semibold rounded-lg hover:bg-gray-100 transition duration-150 text-sm"
                 >
-                  Log in
+                  {tHeader("auth.login")}
                 </button>
 
                 <button
                   onClick={openSignup}
                   className="hidden sm:block px-4 py-2 bg-[#003566] text-white font-semibold rounded-lg hover:bg-[#002a47] transition duration-150 text-sm"
                 >
-                  Sign up for free delivery
+                  {tHeader("auth.signup")}
                 </button>
 
                 {/* Language Dropdown */}

@@ -14,6 +14,47 @@
     "hero_cta_explore": "Explore Our Platform",
     "hero_cta_demo": "Watch Demo",
 
+    "scroll_cards": {
+      "header": {
+        "title_accent": "Global",
+        "title_static": "Excellence, Delivered 🌐"
+      },
+      "cards": {
+        "reach": {
+          "title": "Global Reach",
+          "description": "Operating in 50+ countries across 6 continents. This description is intentionally a bit longer to test the ellipsis functionality and ensure it properly clips after three lines of text."
+        },
+        "fast": {
+          "title": "Lightning Fast",
+          "description": "Rapid delivery times and real-time tracking, powered by our next-generation proprietary routing algorithms. We guarantee speed."
+        },
+        "secure": {
+          "title": "Secure & Reliable",
+          "description": "99.9% uptime guaranteed and enterprise-grade security. Our infrastructure is fortified against any disruptions to ensure continuous service."
+        },
+        "network": {
+          "title": "Partner Network",
+          "description": "100,000+ restaurant partners worldwide, offering an unparalleled selection of cuisines from Michelin-starred chefs to local favorites."
+        },
+        "eco_friendly": {
+          "title": "Eco-Friendly",
+          "description": "Sustainable delivery solutions for a greener planet. We are committed to reducing our carbon footprint with electric vehicles and optimized routes."
+        },
+        "support": {
+          "title": "24/7 Support",
+          "description": "Dedicated support for all your business needs, available around the clock. Our team is ready to assist you anytime, anywhere."
+        },
+        "custom": {
+          "title": "Custom Solutions",
+          "description": "Tailored solutions for your unique business model. From corporate catering to complex logistics, we adapt to your requirements."
+        },
+        "analytics": {
+          "title": "Advanced Analytics",
+          "description": "Real-time insights for smarter decisions. Leverage our data dashboards to optimize your delivery performance and customer satisfaction."
+        }
+      }
+    },
+
     "stat_users": "Active Users",
     "stat_partners": "Restaurant Partners",
     "stat_cities": "Cities Covered",
@@ -289,9 +330,6 @@
       "shops": "Shops",
       "caterers": "Caterers"
     },
-    "logo": {
-      "ifdp": "IFDP"
-    },
     "auth": {
       "login": "Log in",
       "signup": "Sign up for free delivery"
@@ -329,6 +367,94 @@
       "accountSettings": "Account Settings",
       "myOrders": "My Orders",
       "logout": "Log Out"
+    }
+  },
+  "authModal": {
+    "login": "Log in",
+    "signup": "Signup",
+    "newAccount": "Don’t have an account?",
+    "existingAccount": "Already have an account?",
+    "welcome": "Welcome Back",
+    "createAccount": "Create an Account",
+    "continue": "Log in to continue ordering",
+    "freeDelivery": "Sign up to enjoy free delivery"
+  },
+  "myOrders": {
+    "header": "My Orders",
+    "subheader": "Manage and track all your orders",
+    "filter": {
+      "all": "All",
+      "in_progress": "In Progress",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "order": {
+      "delivered_in": "Delivered in",
+      "total_label": "Total"
+    },
+    "details": {
+      "delivery_address": "Delivery Address",
+      "payment_method": "Payment Method",
+      "rider_details": "Rider Details"
+    },
+    "actions": {
+      "call_rider": "Call Rider",
+      "track_order": "Track Order",
+      "help": "Help",
+      "reorder": "Reorder",
+      "rate": "Rate",
+      "order_again": "Order Again"
+    }
+  },
+  "settings": {
+    "header": "Account Settings ⚙️",
+    "subheader": "Manage your personal information, security, and billing details",
+    "navigation": {
+      "profile": "My Profile",
+      "security": "Security",
+      "billing": "Billing",
+      "logout": "Log Out"
+    },
+    "profile": {
+      "title": "Public Profile",
+      "subtitle": "Update your photo, name, and location",
+      "upload_photo": "Upload New Photo",
+      "upload_info": "PNG or JPG up to 5MB. Must be a square",
+      "label_name": "Full Name",
+      "label_email": "Email Address",
+      "label_location": "Location",
+      "button_save": "Save Profile Changes"
+    },
+    "security": {
+      "title": "Security & Access",
+      "subtitle": "Manage your password and two-factor authentication",
+      "password_header": "Change Password",
+      "label_current_pw": "Current Password",
+      "label_new_pw": "New Password",
+      "label_confirm_pw": "Confirm New Password",
+      "button_update_pw": "Update Password",
+      "two_factor_header": "Two-Factor Authentication (2FA)",
+      "two_factor_status": "2FA is currently Enabled",
+      "button_manage_2fa": "Manage 2FA Settings"
+    },
+    "billing": {
+      "title": "Billing & Plan",
+      "subtitle": "View and manage your subscription plan and payment methods",
+      "subscription_header": "Current Subscription",
+      "plan_cost": "$49/month Billed Annually",
+      "button_change_plan": "Upgrade / Change Plan",
+      "payment_method_header": "Payment Methods",
+      "button_edit": "Edit",
+      "button_remove": "Remove",
+      "button_add_new": "Add New Payment Method",
+      "pro_plan": "Pro Plan"
+    },
+    "danger_zone": {
+      "title": "Danger Zone ⚠️",
+      "subtitle": "Actions that are irreversible and should be taken with caution",
+      "delete_header": "Permanently Delete Account",
+      "delete_info": "This action cannot be undone. All your data will be immediately and permanently removed",
+      "button_delete": "Delete My Account"
     }
   }
 }

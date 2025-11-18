@@ -1,73 +1,78 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, JSX } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import { Globe, Shield, Zap, Users } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-const horizontalCardsRow1 = [
-  {
-    icon: <Globe className="w-9 h-9 text-blue-600" />,
-    title: "Global Reach",
-    description:
-      "Operating in 50+ countries across 6 continents. This description is intentionally a bit longer to test the ellipsis functionality and ensure it properly clips after three lines of text.",
-    image: "/delivery1.webp",
-  },
-  {
-    icon: <Zap className="w-9 h-9 text-blue-600" />,
-    title: "Lightning Fast",
-    description:
-      "Rapid delivery times and real-time tracking, powered by our next-generation proprietary routing algorithms. We guarantee speed.",
-    image: "/delivery2.webp",
-  },
-  {
-    icon: <Shield className="w-9 h-9 text-blue-600" />,
-    title: "Secure & Reliable",
-    description:
-      "99.9% uptime guaranteed and enterprise-grade security. Our infrastructure is fortified against any disruptions to ensure continuous service.",
-    image: "/delivery3.webp",
-  },
-  {
-    icon: <Users className="w-9 h-9 text-blue-600" />,
-    title: "Partner Network",
-    description:
-      "100,000+ restaurant partners worldwide, offering an unparalleled selection of cuisines from Michelin-starred chefs to local favorites.",
-    image: "/delivery4.webp",
-  },
-];
+// TYPE INTERFACE FOR CARD COMPOPNENT
+interface CardData {
+  icon: JSX.Element;
+  title: string;
+  description: string;
+  image: string;
+}
 
-const horizontalCardsRow2 = [
-  {
-    icon: <Globe className="w-9 h-9 text-blue-600" />,
-    title: "Eco-Friendly",
-    description:
-      "Sustainable delivery solutions for a greener planet. We are committed to reducing our carbon footprint with electric vehicles and optimized routes.",
-    image: "/delivery4.webp",
-  },
-  {
-    icon: <Zap className="w-9 h-9 text-blue-600" />,
-    title: "24/7 Support",
-    description:
-      "Dedicated support for all your business needs, available around the clock. Our team is ready to assist you anytime, anywhere.",
-    image: "/delivery3.webp",
-  },
-  {
-    icon: <Shield className="w-9 h-9 text-blue-600" />,
-    title: "Custom Solutions",
-    description:
-      "Tailored solutions for your unique business model. From corporate catering to complex logistics, we adapt to your requirements.",
-    image: "/delivery2.webp",
-  },
-  {
-    icon: <Users className="w-9 h-9 text-blue-600" />,
-    title: "Advanced Analytics",
-    description:
-      "Real-time insights for smarter decisions. Leverage our data dashboards to optimize your delivery performance and customer satisfaction.",
-    image: "/delivery1.webp",
-  },
-];
+const ScrollCards: React.FC = () => {
+  const t = useTranslations("Home.scroll_cards");
 
-const ScrollCardsEnhanced: React.FC = () => {
+  // DATA FOR ROW 1 CARDS
+  const horizontalCardsRow1 = [
+    {
+      icon: <Globe className="w-9 h-9 text-blue-600" />,
+      title: t("cards.reach.title"),
+      description: t("cards.reach.description"),
+      image: "/delivery1.webp",
+    },
+    {
+      icon: <Zap className="w-9 h-9 text-blue-600" />,
+      title: t("cards.fast.title"),
+      description: t("cards.fast.description"),
+      image: "/delivery2.webp",
+    },
+    {
+      icon: <Shield className="w-9 h-9 text-blue-600" />,
+      title: t("cards.secure.title"),
+      description: t("cards.secure.description"),
+      image: "/delivery3.webp",
+    },
+    {
+      icon: <Users className="w-9 h-9 text-blue-600" />,
+      title: t("cards.network.title"),
+      description: t("cards.network.description"),
+      image: "/delivery4.webp",
+    },
+  ];
+
+  // DATA FOR ROW 2 CARDS
+  const horizontalCardsRow2 = [
+    {
+      icon: <Globe className="w-9 h-9 text-blue-600" />,
+      title: t("cards.eco_friendly.title"),
+      description: t("cards.eco_friendly.description"),
+      image: "/delivery4.webp",
+    },
+    {
+      icon: <Zap className="w-9 h-9 text-blue-600" />,
+      title: t("cards.support.title"),
+      description: t("cards.support.description"),
+      image: "/delivery3.webp",
+    },
+    {
+      icon: <Shield className="w-9 h-9 text-blue-600" />,
+      title: t("cards.custom.title"),
+      description: t("cards.custom.description"),
+      image: "/delivery2.webp",
+    },
+    {
+      icon: <Users className="w-9 h-9 text-blue-600" />,
+      title: t("cards.analytics.title"),
+      description: t("cards.analytics.description"),
+      image: "/delivery1.webp",
+    },
+  ];
+
   const scrollY = useMotionValue(0);
   const containerRef1 = useRef<HTMLDivElement>(null);
   const containerRef2 = useRef<HTMLDivElement>(null);
@@ -124,13 +129,13 @@ const ScrollCardsEnhanced: React.FC = () => {
   const x1 = useSpring(rawX1, SPRING_CONFIG);
   const x2 = useSpring(rawX2, SPRING_CONFIG);
 
-  // --- Card Component ---
-  const renderCard = (card: any) => (
+  // Card Component
+  const renderCard = (card: CardData) => (
     <motion.div
       key={card.title}
-      className="w-full sm:w-[360px] h-[380px] bg-white rounded-2xl transition-all duration-500 border-2 border-blue-100 flex-shrink-0 overflow-hidden group hover:border-blue-600"
+      className="w-full sm:w-[360px] h-[380px] bg-white rounded-2xl transition-all duration-500 border-2 border-blue-100 shrink-0 overflow-hidden group hover:border-blue-600"
     >
-      {/* Image Section - Constrained height (Next/Image implementation) */}
+      {/* Image Section */}
       <div className="h-40 overflow-hidden relative">
         <Image
           src={card.image}
@@ -143,15 +148,14 @@ const ScrollCardsEnhanced: React.FC = () => {
         />
       </div>
 
-      {/* Content Section - FIX: Increased padding on Icon wrapper for better visual balance */}
+      {/* Content Section */}
       <div className="p-6 h-[180px] flex flex-col justify-start">
         <div className="mb-3">
-          {/* FIX: Increased icon container padding from p-1 back to p-3 for better visual hierarchy */}
           <div className="p-3 bg-blue-50 rounded-full inline-block transition-colors duration-300 group-hover:bg-blue-200">
             {card.icon}
           </div>
         </div>
-        {/* Heading remains bold and large */}
+        {/* Heading*/}
         <h3 className="text-2xl font-black mb-1 text-blue-900 transition-colors duration-300 group-hover:text-blue-700">
           {card.title}
         </h3>
@@ -177,11 +181,12 @@ const ScrollCardsEnhanced: React.FC = () => {
     <section className="py-32 bg-gray-50 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-5xl font-extrabold text-center mb-20 text-blue-900">
-          <span className="text-blue-600">Global</span> Excellence, Delivered 🌐
+          <span className="text-blue-600">{t("header.title_accent")}</span>{" "}
+          {t("header.title_static")}
         </h2>
       </div>
 
-      {/* Row 1: Scrolls Left (Normal) */}
+      {/* Row 1: Scrolls Left */}
       <div className="relative overflow-hidden mb-12">
         <motion.div
           ref={containerRef1}
@@ -192,7 +197,7 @@ const ScrollCardsEnhanced: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Row 2: Scrolls Right (Reverse) */}
+      {/* Row 2: Scrolls Right */}
       <div className="relative overflow-hidden">
         <motion.div
           ref={containerRef2}
@@ -206,4 +211,4 @@ const ScrollCardsEnhanced: React.FC = () => {
   );
 };
 
-export default ScrollCardsEnhanced;
+export default ScrollCards;

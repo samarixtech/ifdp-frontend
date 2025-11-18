@@ -19,13 +19,15 @@ const NotFoundPage = () => {
         transition={{ duration: 0.8 }}
         className="mb-8"
       >
-        <Image
-          src="/404-illustration.png"
-          alt="Delicious Food Illustration"
-          width={280}
-          height={280}
-          className="rounded-2xl drop-shadow-lg"
-        />
+        <Link href={"/game"}>
+          <Image
+            src="/404-illustration.png"
+            alt="Delicious Food Illustration"
+            width={280}
+            height={280}
+            className="rounded-2xl drop-shadow-lg"
+          />
+        </Link>
       </motion.div>
 
       {/* 404 Heading */}
