@@ -15,8 +15,12 @@ import {
 
 const navItems = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Users", href: "/dashboard/user", icon: Users },
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart },
+  { name: "Order History", href: "/dashboard/orderHistory", icon: Users },
+  {
+    name: "Payment History",
+    href: "/dashboard/paymentHistory",
+    icon: BarChart,
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
