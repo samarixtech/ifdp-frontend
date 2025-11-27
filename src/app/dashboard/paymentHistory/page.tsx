@@ -411,46 +411,52 @@ export default function PaymentHistoryPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-8" aria-labelledby="page-title">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <header className="text-center space-y-6">
+    <main
+      className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8"
+      aria-labelledby="page-title"
+    >
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 space-y-6 sm:space-y-8">
+        {/* Header Section */}
+        <header className="text-center space-y-4 sm:space-y-6">
           <div className="space-y-2">
             <h1
               id="page-title"
-              className="text-2xl font-semibold text-gray-900"
+              className="text-xl sm:text-2xl font-semibold text-gray-900"
             >
               Payment History
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-sm sm:text-base">
               View and manage your payment transactions
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 max-w-4xl mx-auto">
-            <div className="relative flex-1">
+          {/* Search and Filter Section */}
+          <div className="flex flex-col sm:flex-row gap-3 max-w-4xl mx-auto w-full">
+            <div className="relative flex-1 min-w-0">
               <Search
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={20}
+                size={18}
               />
               <input
                 type="text"
                 placeholder="Search payments..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
               />
             </div>
 
-            <div className="relative" ref={statusDropdownRef}>
+            {/* Status Filter Dropdown */}
+            <div className="relative w-full sm:w-auto" ref={statusDropdownRef}>
               <button
                 onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
-                className="pl-10 pr-10 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[180px] w-full sm:w-auto"
+                className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
               >
                 <Filter
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={18}
+                  size={16}
                 />
-                <span className="flex-1 text-left text-gray-700 font-medium">
+                <span className="flex-1 text-left text-gray-700 font-medium text-sm sm:text-base truncate">
                   {
                     statusFilterOptions.find(
                       (opt) => opt.value === statusFilter
@@ -461,12 +467,12 @@ export default function PaymentHistoryPage() {
                   className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-transform duration-300 ${
                     isStatusDropdownOpen ? "rotate-180" : ""
                   }`}
-                  size={18}
+                  size={16}
                 />
               </button>
 
               <div
-                className={`absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
+                className={`absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
                   isStatusDropdownOpen
                     ? "opacity-100 scale-y-100 translate-y-0"
                     : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
@@ -476,7 +482,7 @@ export default function PaymentHistoryPage() {
                   <button
                     key={option.value}
                     onClick={() => handleStatusFilterChange(option.value)}
-                    className={`w-full px-4 py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
                       index !== statusFilterOptions.length - 1
                         ? "border-b border-gray-100"
                         : ""
@@ -487,9 +493,9 @@ export default function PaymentHistoryPage() {
                         : "0ms",
                     }}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <div
-                        className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                        className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center transition-all ${
                           statusFilter === option.value
                             ? "border-blue-600 bg-blue-600"
                             : "border-gray-300 group-hover:border-blue-400"
@@ -497,14 +503,14 @@ export default function PaymentHistoryPage() {
                       >
                         {statusFilter === option.value && (
                           <Check
-                            size={14}
+                            size={12}
                             className="text-white"
                             strokeWidth={3}
                           />
                         )}
                       </div>
                       <span
-                        className={`font-medium transition-colors ${
+                        className={`font-medium transition-colors text-sm sm:text-base ${
                           statusFilter === option.value
                             ? "text-blue-700"
                             : "text-gray-700 group-hover:text-blue-600"
@@ -514,7 +520,7 @@ export default function PaymentHistoryPage() {
                       </span>
                     </div>
                     <span
-                      className={`text-sm px-2 py-1 rounded-full transition-all ${
+                      className={`text-xs sm:text-sm px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full transition-all ${
                         statusFilter === option.value
                           ? "bg-blue-200 text-blue-700"
                           : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
@@ -527,16 +533,17 @@ export default function PaymentHistoryPage() {
               </div>
             </div>
 
-            <div className="relative" ref={typeDropdownRef}>
+            {/* Type Filter Dropdown */}
+            <div className="relative w-full sm:w-auto" ref={typeDropdownRef}>
               <button
                 onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
-                className="pl-10 pr-10 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[180px] w-full sm:w-auto"
+                className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
               >
                 <Filter
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={18}
+                  size={16}
                 />
-                <span className="flex-1 text-left text-gray-700 font-medium">
+                <span className="flex-1 text-left text-gray-700 font-medium text-sm sm:text-base truncate">
                   {
                     typeFilterOptions.find((opt) => opt.value === typeFilter)
                       ?.label
@@ -546,12 +553,12 @@ export default function PaymentHistoryPage() {
                   className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-transform duration-300 ${
                     isTypeDropdownOpen ? "rotate-180" : ""
                   }`}
-                  size={18}
+                  size={16}
                 />
               </button>
 
               <div
-                className={`absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
+                className={`absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
                   isTypeDropdownOpen
                     ? "opacity-100 scale-y-100 translate-y-0"
                     : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
@@ -561,7 +568,7 @@ export default function PaymentHistoryPage() {
                   <button
                     key={option.value}
                     onClick={() => handleTypeFilterChange(option.value)}
-                    className={`w-full px-4 py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
                       index !== typeFilterOptions.length - 1
                         ? "border-b border-gray-100"
                         : ""
@@ -572,9 +579,9 @@ export default function PaymentHistoryPage() {
                         : "0ms",
                     }}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <div
-                        className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                        className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center transition-all ${
                           typeFilter === option.value
                             ? "border-blue-600 bg-blue-600"
                             : "border-gray-300 group-hover:border-blue-400"
@@ -582,14 +589,14 @@ export default function PaymentHistoryPage() {
                       >
                         {typeFilter === option.value && (
                           <Check
-                            size={14}
+                            size={12}
                             className="text-white"
                             strokeWidth={3}
                           />
                         )}
                       </div>
                       <span
-                        className={`font-medium transition-colors ${
+                        className={`font-medium transition-colors text-sm sm:text-base ${
                           typeFilter === option.value
                             ? "text-blue-700"
                             : "text-gray-700 group-hover:text-blue-600"
@@ -599,7 +606,7 @@ export default function PaymentHistoryPage() {
                       </span>
                     </div>
                     <span
-                      className={`text-sm px-2 py-1 rounded-full transition-all ${
+                      className={`text-xs sm:text-sm px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full transition-all ${
                         typeFilter === option.value
                           ? "bg-blue-200 text-blue-700"
                           : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
@@ -614,41 +621,45 @@ export default function PaymentHistoryPage() {
           </div>
         </header>
 
+        {/* Payment Statistics Section */}
         <section aria-label="Payment statistics">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {paymentStats.map((stat, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg border border-gray-200 p-4"
+                className="bg-white rounded-lg border border-gray-200 p-3 sm:p-4"
               >
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-1 sm:mb-2">
                   <div
-                    className={`inline-flex p-2 rounded-lg bg-gray-50 ${stat.color}`}
+                    className={`inline-flex p-1.5 sm:p-2 rounded-lg bg-gray-50 ${stat.color}`}
                   >
-                    <stat.icon size={20} />
+                    <stat.icon size={16} className="sm:w-5 sm:h-5" />
                   </div>
                   <span
-                    className={`text-sm font-medium ${
+                    className={`text-xs sm:text-sm font-medium ${
                       stat.trend === "up" ? "text-green-600" : "text-red-600"
                     }`}
                   >
                     {stat.change}
                   </span>
                 </div>
-                <div className="text-lg font-semibold text-gray-900">
+                <div className="text-base sm:text-lg font-semibold text-gray-900 truncate">
                   {stat.value}
                 </div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
+                <div className="text-xs sm:text-sm text-gray-600 truncate">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
         </section>
 
+        {/* Payment History Section */}
         <section
           aria-labelledby="payment-history-heading"
           className="space-y-4"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h2
                 id="payment-history-heading"
@@ -667,7 +678,7 @@ export default function PaymentHistoryPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium self-start sm:self-auto"
               >
                 Clear search
               </button>
@@ -675,12 +686,15 @@ export default function PaymentHistoryPage() {
           </div>
 
           {currentPayments.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
-              <Search className="mx-auto text-gray-400 mb-3" size={32} />
-              <div className="text-gray-900 font-medium mb-1">
+            <div className="text-center py-8 sm:py-12 bg-white rounded-xl border border-gray-200">
+              <Search
+                className="mx-auto text-gray-400 mb-2 sm:mb-3"
+                size={28}
+              />
+              <div className="text-gray-900 font-medium mb-1 text-sm sm:text-base">
                 No transactions found
               </div>
-              <div className="text-gray-600 text-sm">
+              <div className="text-gray-600 text-xs sm:text-sm">
                 {searchQuery
                   ? "Try different search terms"
                   : "No payment history yet"}
@@ -695,45 +709,45 @@ export default function PaymentHistoryPage() {
                 return (
                   <div
                     key={payment.id}
-                    className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-sm transition-shadow"
+                    className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 hover:shadow-sm transition-shadow"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                      <div className="flex items-start gap-3 sm:gap-4 min-w-0">
                         <div
-                          className={`p-3 rounded-lg ${getTypeColor(
+                          className={`p-2 sm:p-3 rounded-lg ${getTypeColor(
                             payment.type
-                          )}`}
+                          )} shrink-0`}
                         >
-                          <PaymentIcon size={20} />
+                          <PaymentIcon size={18} className="sm:w-5 sm:h-5" />
                         </div>
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-3">
-                            <h3 className="font-semibold text-gray-900">
+                        <div className="space-y-1 min-w-0 flex-1">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-1">
+                            <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">
                               {payment.description}
                             </h3>
                             <span
                               className={`px-2 py-1 rounded-full text-xs ${getTypeColor(
                                 payment.type
-                              )}`}
+                              )} self-start sm:self-auto shrink-0`}
                             >
                               {getTypeLabel(payment.type)}
                             </span>
                           </div>
-                          <div className="flex items-center gap-4 text-sm text-gray-600">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-gray-600">
                             <div className="flex items-center gap-1">
-                              <Calendar size={14} />
+                              <Calendar size={12} />
                               <time>{payment.date}</time>
                             </div>
                             <div className="flex items-center gap-1">
-                              <CreditCard size={14} />
-                              <span>{payment.method}</span>
+                              <CreditCard size={12} />
+                              <span className="truncate">{payment.method}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <StatusIcon size={14} />
+                              <StatusIcon size={12} />
                               <span
                                 className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
                                   payment.status
-                                )}`}
+                                )} shrink-0`}
                               >
                                 {payment.status.charAt(0).toUpperCase() +
                                   payment.status.slice(1)}
@@ -743,9 +757,9 @@ export default function PaymentHistoryPage() {
                         </div>
                       </div>
 
-                      <div className="text-right space-y-2">
+                      <div className="flex flex-col sm:flex-row lg:flex-col lg:items-end gap-2 sm:gap-3 lg:gap-2 lg:text-right">
                         <div
-                          className={`text-lg font-semibold ${
+                          className={`text-base sm:text-lg font-semibold ${
                             payment.amount.startsWith("-")
                               ? "text-green-600"
                               : "text-gray-900"
@@ -753,16 +767,16 @@ export default function PaymentHistoryPage() {
                         >
                           {payment.amount}
                         </div>
-                        <div className="flex items-center gap-2 justify-end">
+                        <div className="flex items-center gap-1 sm:gap-2 justify-start sm:justify-end">
                           {payment.receiptAvailable && (
-                            <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center gap-1">
-                              <Download size={14} />
-                              Receipt
+                            <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm font-medium flex items-center gap-1 shrink-0">
+                              <Download size={12} />
+                              <span className="hidden xs:inline">Receipt</span>
                             </button>
                           )}
-                          <button className="px-3 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 text-sm font-medium flex items-center gap-1">
-                            Details
-                            <ChevronRight size={14} />
+                          <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 text-xs sm:text-sm font-medium flex items-center gap-1 shrink-0">
+                            <span className="hidden xs:inline">Details</span>
+                            <ChevronRight size={12} />
                           </button>
                         </div>
                       </div>
@@ -773,37 +787,38 @@ export default function PaymentHistoryPage() {
             </div>
           )}
 
+          {/* Pagination */}
           {filteredPayments.length > ordersPerPage && (
-            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
-              <div className="text-sm text-gray-700">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 sm:pt-6 border-t border-gray-200">
+              <div className="text-sm text-gray-700 order-2 sm:order-1">
                 Page {currentPage} of {totalPages}
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 order-1 sm:order-2">
                 <button
                   onClick={goToFirstPage}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="First page"
                 >
-                  <ChevronsLeft size={16} />
+                  <ChevronsLeft size={14} />
                 </button>
 
                 <button
                   onClick={goToPrevPage}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Previous page"
                 >
-                  <ChevronLeft size={16} />
+                  <ChevronLeft size={14} />
                 </button>
 
-                <div className="flex items-center gap-1 mx-2">
+                <div className="flex items-center gap-1 mx-1 sm:mx-2">
                   {getPageNumbers().map((pageNumber) => (
                     <button
                       key={pageNumber}
                       onClick={() => paginate(pageNumber)}
-                      className={`min-w-10 px-3 py-2 rounded-lg border transition-colors ${
+                      className={`min-w-8 sm:min-w-10 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border transition-colors text-xs sm:text-sm ${
                         currentPage === pageNumber
                           ? "bg-blue-600 text-white border-blue-600"
                           : "border-gray-200 hover:bg-gray-50 text-gray-700"
@@ -817,19 +832,19 @@ export default function PaymentHistoryPage() {
                 <button
                   onClick={goToNextPage}
                   disabled={currentPage === totalPages}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Next page"
                 >
-                  <ChevronRight size={16} />
+                  <ChevronRight size={14} />
                 </button>
 
                 <button
                   onClick={goToLastPage}
                   disabled={currentPage === totalPages}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Last page"
                 >
-                  <ChevronsRight size={16} />
+                  <ChevronsRight size={14} />
                 </button>
               </div>
             </div>

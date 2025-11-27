@@ -631,33 +631,35 @@ const MyOrders: React.FC = () => {
               </div>
             </div>
 
-            {/* Modal Footer */}
-            <div className="flex items-center justify-between p-6 border-t border-gray-200 bg-gray-50">
-              <div className="flex gap-3">
+            {/* Modal Footer - Compact Version */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 border-t border-gray-200 bg-gray-50">
+              {/* Left side - Print and Download buttons */}
+              <div className="flex gap-2 justify-center sm:justify-start">
                 <button
                   onClick={handlePrintReceipt}
-                  className="flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition"
+                  className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition text-sm"
                 >
                   <Printer className="w-4 h-4" />
-                  {t("actions.print_receipt")}
+                  <span>Print</span>
                 </button>
-                <button className="flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition">
+                <button className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition text-sm">
                   <Download className="w-4 h-4" />
-                  {t("actions.download_receipt")}
+                  <span>Download</span>
                 </button>
               </div>
 
-              <div className="flex gap-3">
+              {/* Right side - Action buttons */}
+              <div className="flex gap-2 justify-center sm:justify-end">
                 {selectedOrder.status === "Delivered" && (
-                  <button className="px-5 py-3 bg-[#003566] text-white rounded-xl font-semibold hover:bg-[#002a47] transition">
-                    {t("actions.reorder")}
+                  <button className="px-3 py-2 bg-[#003566] text-white rounded-lg font-medium hover:bg-[#002a47] transition text-sm">
+                    Reorder
                   </button>
                 )}
                 <button
                   onClick={closeModal}
-                  className="px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition"
+                  className="px-3 py-2 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition text-sm"
                 >
-                  {t("actions.close")}
+                  Close
                 </button>
               </div>
             </div>

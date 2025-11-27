@@ -277,44 +277,51 @@ export default function FoodOrdersPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-gray-50 py-8" aria-labelledby="page-title">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <header className="text-center space-y-6">
+    <main
+      className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8"
+      aria-labelledby="page-title"
+    >
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6 space-y-6 sm:space-y-8">
+        {/* Header Section */}
+        <header className="text-center space-y-4 sm:space-y-6">
           <div className="space-y-2">
             <h1
               id="page-title"
-              className="text-2xl font-semibold text-gray-900"
+              className="text-xl sm:text-2xl font-semibold text-gray-900"
             >
               Order History
             </h1>
-            <p className="text-gray-600">Track and manage your food orders</p>
+            <p className="text-gray-600 text-sm sm:text-base">
+              Track and manage your food orders
+            </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
-            <div className="relative flex-1">
+          {/* Search and Filter Section */}
+          <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto w-full">
+            <div className="relative flex-1 min-w-0">
               <Search
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={20}
+                size={18}
               />
               <input
                 type="text"
                 placeholder="Search orders..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
               />
             </div>
 
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative w-full sm:w-auto" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="pl-10 pr-10 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[180px] w-full sm:w-auto"
+                className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
               >
                 <Filter
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={18}
+                  size={16}
                 />
-                <span className="flex-1 text-left text-gray-700 font-medium">
+                <span className="flex-1 text-left text-gray-700 font-medium text-sm sm:text-base truncate">
                   {
                     filterOptions.find((opt) => opt.value === statusFilter)
                       ?.label
@@ -324,12 +331,12 @@ export default function FoodOrdersPage() {
                   className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-transform duration-300 ${
                     isDropdownOpen ? "rotate-180" : ""
                   }`}
-                  size={18}
+                  size={16}
                 />
               </button>
 
               <div
-                className={`absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
+                className={`absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
                   isDropdownOpen
                     ? "opacity-100 scale-y-100 translate-y-0"
                     : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
@@ -339,7 +346,7 @@ export default function FoodOrdersPage() {
                   <button
                     key={option.value}
                     onClick={() => handleFilterChange(option.value)}
-                    className={`w-full px-4 py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
                       index !== filterOptions.length - 1
                         ? "border-b border-gray-100"
                         : ""
@@ -350,9 +357,9 @@ export default function FoodOrdersPage() {
                         : "0ms",
                     }}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <div
-                        className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                        className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center transition-all ${
                           statusFilter === option.value
                             ? "border-blue-600 bg-blue-600"
                             : "border-gray-300 group-hover:border-blue-400"
@@ -360,14 +367,14 @@ export default function FoodOrdersPage() {
                       >
                         {statusFilter === option.value && (
                           <Check
-                            size={14}
+                            size={12}
                             className="text-white"
                             strokeWidth={3}
                           />
                         )}
                       </div>
                       <span
-                        className={`font-medium transition-colors ${
+                        className={`font-medium transition-colors text-sm sm:text-base ${
                           statusFilter === option.value
                             ? "text-blue-700"
                             : "text-gray-700 group-hover:text-blue-600"
@@ -377,7 +384,7 @@ export default function FoodOrdersPage() {
                       </span>
                     </div>
                     <span
-                      className={`text-sm px-2 py-1 rounded-full transition-all ${
+                      className={`text-xs sm:text-sm px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full transition-all ${
                         statusFilter === option.value
                           ? "bg-blue-200 text-blue-700"
                           : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
@@ -392,41 +399,42 @@ export default function FoodOrdersPage() {
           </div>
         </header>
 
+        {/* Active Order Section */}
         <section aria-labelledby="active-order-heading">
-          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <div className="flex items-start gap-4">
+          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 shadow-sm">
+            <div className="flex flex-col sm:flex-row gap-4">
               <img
                 src={activeOrder.image}
                 alt={`Order from ${activeOrder.restaurant}`}
-                className="w-20 h-20 rounded-lg object-cover"
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover self-start"
               />
 
-              <div className="flex-1 space-y-3">
-                <div className="flex items-start justify-between">
-                  <div>
+              <div className="flex-1 space-y-3 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                  <div className="min-w-0">
                     <h2
                       id="active-order-heading"
-                      className="text-lg font-semibold text-gray-900"
+                      className="text-lg font-semibold text-gray-900 truncate"
                     >
                       {activeOrder.restaurant}
                     </h2>
-                    <p className="text-gray-600 text-sm mt-1">
+                    <p className="text-gray-600 text-sm mt-1 line-clamp-2">
                       {activeOrder.items}
                     </p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left sm:text-right">
                     <div className="text-lg font-semibold text-gray-900">
                       {activeOrder.total}
                     </div>
                     <div className="flex items-center gap-1 text-sm text-blue-600 mt-1">
-                      <Clock size={16} />
+                      <Clock size={14} />
                       <span>ETA: {activeOrder.eta}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm text-gray-600">
+                  <div className="flex justify-between text-xs sm:text-sm text-gray-600">
                     <span>Preparing</span>
                     <span>On the way</span>
                     <span>Delivered</span>
@@ -443,29 +451,33 @@ export default function FoodOrdersPage() {
           </div>
         </section>
 
+        {/* Order Statistics Section */}
         <section aria-label="Order statistics">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {orderStats.map((stat, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg border border-gray-200 p-4 text-center"
+                className="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 text-center"
               >
                 <div
-                  className={`inline-flex p-2 rounded-lg bg-gray-50 ${stat.color} mb-2`}
+                  className={`inline-flex p-1.5 sm:p-2 rounded-lg bg-gray-50 ${stat.color} mb-1 sm:mb-2`}
                 >
-                  <stat.icon size={20} />
+                  <stat.icon size={16} className="sm:w-5 sm:h-5" />
                 </div>
-                <div className="text-lg font-semibold text-gray-900">
+                <div className="text-base sm:text-lg font-semibold text-gray-900 truncate">
                   {stat.value}
                 </div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
+                <div className="text-xs sm:text-sm text-gray-600 truncate">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
         </section>
 
+        {/* Past Orders Section */}
         <section aria-labelledby="past-orders-heading" className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h2
                 id="past-orders-heading"
@@ -484,7 +496,7 @@ export default function FoodOrdersPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium self-start sm:self-auto"
               >
                 Clear search
               </button>
@@ -492,12 +504,15 @@ export default function FoodOrdersPage() {
           </div>
 
           {currentOrders.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
-              <Search className="mx-auto text-gray-400 mb-3" size={32} />
-              <div className="text-gray-900 font-medium mb-1">
+            <div className="text-center py-8 sm:py-12 bg-white rounded-xl border border-gray-200">
+              <Search
+                className="mx-auto text-gray-400 mb-2 sm:mb-3"
+                size={28}
+              />
+              <div className="text-gray-900 font-medium mb-1 text-sm sm:text-base">
                 No orders found
               </div>
-              <div className="text-gray-600 text-sm">
+              <div className="text-gray-600 text-xs sm:text-sm">
                 {searchQuery
                   ? "Try different search terms"
                   : "No past orders yet"}
@@ -508,26 +523,28 @@ export default function FoodOrdersPage() {
               {currentOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-sm transition-shadow"
+                  className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 hover:shadow-sm transition-shadow"
                 >
-                  <div className="flex gap-4">
+                  <div className="flex gap-3 sm:gap-4">
                     <img
                       src={order.image}
                       alt={`Meal from ${order.restaurant}`}
-                      className="w-16 h-16 rounded-lg object-cover"
+                      className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover flex-shrink-0"
                     />
 
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="font-semibold text-gray-900">
+                    <div className="flex-1 space-y-2 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-1 sm:gap-2">
+                        <div className="min-w-0">
+                          <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">
                             {order.restaurant}
                           </h3>
-                          <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
-                            <Calendar size={14} />
-                            <time>{order.date}</time>
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-600 mt-0.5">
+                            <div className="flex items-center gap-1">
+                              <Calendar size={12} />
+                              <time>{order.date}</time>
+                            </div>
                             <span
-                              className={`px-2 py-1 rounded-full text-xs ${
+                              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs ${
                                 order.status === "Delivered"
                                   ? "bg-green-100 text-green-700"
                                   : order.status === "Cancelled"
@@ -539,20 +556,22 @@ export default function FoodOrdersPage() {
                             </span>
                           </div>
                         </div>
-                        <div className="text-lg font-semibold text-gray-900">
+                        <div className="text-base sm:text-lg font-semibold text-gray-900">
                           {order.total}
                         </div>
                       </div>
 
-                      <p className="text-gray-700 text-sm">{order.items}</p>
+                      <p className="text-gray-700 text-xs sm:text-sm line-clamp-2">
+                        {order.items}
+                      </p>
 
-                      <div className="flex items-center justify-between pt-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2">
                         {order.rating > 0 ? (
                           <div className="flex items-center gap-1">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                size={14}
+                                size={12}
                                 fill={
                                   i < order.rating ? "currentColor" : "none"
                                 }
@@ -565,19 +584,19 @@ export default function FoodOrdersPage() {
                             ))}
                           </div>
                         ) : (
-                          <span className="text-gray-500 text-sm">
+                          <span className="text-gray-500 text-xs sm:text-sm">
                             No rating
                           </span>
                         )}
 
-                        <div className="flex gap-2">
-                          <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center gap-1">
-                            <RefreshCw size={14} />
-                            Reorder
+                        <div className="flex gap-1 sm:gap-2 self-end sm:self-auto">
+                          <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm font-medium flex items-center gap-1">
+                            <RefreshCw size={12} />
+                            <span className="hidden xs:inline">Reorder</span>
                           </button>
-                          <button className="px-3 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 text-sm font-medium flex items-center gap-1">
-                            Help
-                            <ChevronRight size={14} />
+                          <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 text-xs sm:text-sm font-medium flex items-center gap-1">
+                            <span className="hidden xs:inline">Help</span>
+                            <ChevronRight size={12} />
                           </button>
                         </div>
                       </div>
@@ -588,37 +607,38 @@ export default function FoodOrdersPage() {
             </div>
           )}
 
+          {/* Pagination */}
           {filteredOrders.length > ordersPerPage && (
-            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
-              <div className="text-sm text-gray-700">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 sm:pt-6 border-t border-gray-200">
+              <div className="text-sm text-gray-700 order-2 sm:order-1">
                 Page {currentPage} of {totalPages}
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 order-1 sm:order-2">
                 <button
                   onClick={goToFirstPage}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="First page"
                 >
-                  <ChevronsLeft size={16} />
+                  <ChevronsLeft size={14} />
                 </button>
 
                 <button
                   onClick={goToPrevPage}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Previous page"
                 >
-                  <ChevronLeft size={16} />
+                  <ChevronLeft size={14} />
                 </button>
 
-                <div className="flex items-center gap-1 mx-2">
+                <div className="flex items-center gap-1 mx-1 sm:mx-2">
                   {getPageNumbers().map((pageNumber) => (
                     <button
                       key={pageNumber}
                       onClick={() => paginate(pageNumber)}
-                      className={`min-w-10 px-3 py-2 rounded-lg border transition-colors ${
+                      className={`min-w-8 sm:min-w-10 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border transition-colors text-xs sm:text-sm ${
                         currentPage === pageNumber
                           ? "bg-blue-600 text-white border-blue-600"
                           : "border-gray-200 hover:bg-gray-50 text-gray-700"
@@ -632,19 +652,19 @@ export default function FoodOrdersPage() {
                 <button
                   onClick={goToNextPage}
                   disabled={currentPage === totalPages}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Next page"
                 >
-                  <ChevronRight size={16} />
+                  <ChevronRight size={14} />
                 </button>
 
                 <button
                   onClick={goToLastPage}
                   disabled={currentPage === totalPages}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Last page"
                 >
-                  <ChevronsRight size={16} />
+                  <ChevronsRight size={14} />
                 </button>
               </div>
             </div>
