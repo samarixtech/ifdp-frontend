@@ -120,3 +120,176 @@
     @apply bg-background text-foreground;
   }
 }
+body {
+  @apply text-gray-800 bg-gray-50;
+}
+@import "tailwindcss";
+
+/* Custom Drawer Animation */
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeSlide {
+  animation: fadeSlide 0.25s ease-out;
+}
+@import "tailwindcss";
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== Modern Gray Scrollbar ===== */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #555 #111; /* For Firefox */
+}
+
+/* WebKit Browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #0a0a0a 0%, #1b1b1b 100%);
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3a3a3a 0%, #555 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(100, 100, 100, 0.2);
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #666 0%, #888 100%);
+  box-shadow: 0 0 12px rgba(180, 180, 180, 0.3);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #e6dddd8d rgb(255, 255, 255);
+}
+
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeSlide {
+  animation: fadeSlide 0.3s ease-out;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Gentle glowing pulse (grayish glow) */
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(120, 120, 120, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(180, 180, 180, 0.4);
+  }
+}
+.animate-glowPulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Slow rotation */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* Remove arrow controls from input number fields */
+
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+.remove-custom-bullet li::before {
+  content: none !important; 
+}
+.force-no-bullets {
+  list-style: none !important; 
+
+}
+
+.force-no-bullets li::before {
+  content: none !important;
+}
+/* Assumed utility classes for professional look and feel */
+.input {
+  @apply w-full border border-gray-300 p-2 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-150 text-sm placeholder:text-gray-400;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-150 font-medium;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.2s ease-out;
+}

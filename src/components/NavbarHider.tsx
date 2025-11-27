@@ -1,4 +1,4 @@
-// components/RootNavbarWrapper.tsx
+
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -12,13 +12,16 @@ export default function NavbarHider({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const hideLayout = pathname?.startsWith("/dashboard"); 
+  const hideLayout =
+    pathname?.startsWith("/dashboard") ||
+    pathname?.startsWith("/RestaurantDashboard");
 
   return (
     <>
       {!hideLayout && <Navbar />}
       {children}
       {!hideLayout && <Footer />}
+      {!hideLayout && <ChatWidget />}
     </>
   );
 }
