@@ -381,29 +381,61 @@
   },
   "myOrders": {
     "header": "My Orders",
-    "subheader": "Manage and track all your orders",
+    "subheader": "Manage and track your orders",
+    "search": {
+      "placeholder": "Search orders or items..."
+    },
     "filter": {
-      "all": "All",
+      "all": "All Orders",
       "in_progress": "In Progress",
       "delivered": "Delivered",
       "cancelled": "Cancelled"
     },
-    "order": {
-      "delivered_in": "Delivered in",
-      "total_label": "Total"
+    "sort": {
+      "date": "Date",
+      "total": "Total",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "table": {
+      "order_id": "Order ID",
+      "date": "Date",
+      "status": "Status",
+      "items": "Items",
+      "total": "Total",
+      "actions": "Actions",
+      "items_count": "{count, plural, =1 {# item} other {# items}}"
+    },
+    "pagination": {
+      "showing": "Showing",
+      "of": "of",
+      "orders": "orders",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "modal": {
+      "order_details": "Order Details"
     },
     "details": {
+      "order_status": "Order Status",
+      "order_date": "Order Date",
+      "delivery_time": "Delivery Time",
       "delivery_address": "Delivery Address",
       "payment_method": "Payment Method",
-      "rider_details": "Rider Details"
+      "rider_details": "Rider Details",
+      "receipt": "Receipt"
+    },
+    "receipt": {
+      "quantity": "Qty",
+      "total": "Total"
     },
     "actions": {
+      "view_details": "View Details",
       "call_rider": "Call Rider",
-      "track_order": "Track Order",
-      "help": "Help",
+      "print_receipt": "Print Receipt",
+      "download_receipt": "Download PDF",
       "reorder": "Reorder",
-      "rate": "Rate",
-      "order_again": "Order Again"
+      "close": "Close"
     }
   },
   "settings": {

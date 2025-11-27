@@ -1,7 +1,841 @@
-import React from "react";
+"use client";
+import {
+  CreditCard,
+  DollarSign,
+  Calendar,
+  Download,
+  Search,
+  Filter,
+  ChevronDown,
+  Check,
+  ChevronRight,
+  ChevronLeft,
+  ChevronsLeft,
+  ChevronsRight,
+  Clock,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
+  LucideIcon,
+} from "lucide-react";
+import { useState, useMemo, useRef, useEffect } from "react";
 
-const page = () => {
-  return <div>page</div>;
-};
+// Type definitions
+interface FilterOption {
+  value: string;
+  label: string;
+  count: number;
+}
 
-export default page;
+interface PaymentStat {
+  label: string;
+  value: string;
+  icon: LucideIcon;
+  color: string;
+  change: string;
+  trend: "up" | "down";
+}
+
+interface Payment {
+  id: string;
+  type: "food" | "subscription" | "refund" | "topup";
+  description: string;
+  date: string;
+  amount: string;
+  status: "completed" | "pending" | "failed";
+  method: string;
+  icon: LucideIcon;
+  receiptAvailable: boolean;
+}
+
+export default function PaymentHistoryPage() {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [isStatusDropdownOpen, setIsStatusDropdownOpen] =
+    useState<boolean>(false);
+  const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [ordersPerPage] = useState<number>(5);
+  const statusDropdownRef = useRef<HTMLDivElement>(null);
+  const typeDropdownRef = useRef<HTMLDivElement>(null);
+
+  const statusFilterOptions: FilterOption[] = [
+    { value: "all", label: "All Statuses", count: 12 },
+    { value: "completed", label: "Completed", count: 8 },
+    { value: "pending", label: "Pending", count: 2 },
+    { value: "failed", label: "Failed", count: 2 },
+  ];
+
+  const typeFilterOptions: FilterOption[] = [
+    { value: "all", label: "All Types", count: 12 },
+    { value: "food", label: "Food Delivery", count: 6 },
+    { value: "subscription", label: "Subscription", count: 3 },
+    { value: "refund", label: "Refund", count: 2 },
+    { value: "topup", label: "Wallet Top-up", count: 1 },
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        statusDropdownRef.current &&
+        !statusDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsStatusDropdownOpen(false);
+      }
+      if (
+        typeDropdownRef.current &&
+        !typeDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsTypeDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const paymentStats: PaymentStat[] = [
+    {
+      label: "Total Spent",
+      value: "$1,248.75",
+      icon: DollarSign,
+      color: "text-blue-600",
+      change: "+12%",
+      trend: "up",
+    },
+    {
+      label: "This Month",
+      value: "$286.50",
+      icon: Calendar,
+      color: "text-green-600",
+      change: "+5%",
+      trend: "up",
+    },
+    {
+      label: "Pending Payments",
+      value: "$45.25",
+      icon: Clock,
+      color: "text-amber-600",
+      change: "-2%",
+      trend: "down",
+    },
+    {
+      label: "Failed Payments",
+      value: "$89.99",
+      icon: AlertCircle,
+      color: "text-red-600",
+      change: "+1%",
+      trend: "up",
+    },
+  ];
+
+  const paymentHistory: Payment[] = [
+    {
+      id: "PAY-9921",
+      type: "food",
+      description: "Sushi Master • Order #ORD-9921",
+      date: "Nov 15, 2025 • 7:30 PM",
+      amount: "$42.50",
+      status: "completed",
+      method: "•••• 4242",
+      icon: CreditCard,
+      receiptAvailable: true,
+    },
+    {
+      id: "PAY-9920",
+      type: "subscription",
+      description: "Monthly Premium Subscription",
+      date: "Nov 14, 2025 • 12:00 PM",
+      amount: "$9.99",
+      status: "completed",
+      method: "•••• 4242",
+      icon: CreditCard,
+      receiptAvailable: true,
+    },
+    {
+      id: "PAY-9919",
+      type: "food",
+      description: "Burger & Co. • Order #ORD-8820",
+      date: "Oct 24, 2025 • 8:30 PM",
+      amount: "$28.00",
+      status: "completed",
+      method: "PayPal",
+      icon: CreditCard,
+      receiptAvailable: true,
+    },
+    {
+      id: "PAY-9918",
+      type: "refund",
+      description: "Refund: Green Bowl Salad",
+      date: "Oct 18, 2025 • 2:15 PM",
+      amount: "-$22.00",
+      status: "completed",
+      method: "•••• 4242",
+      icon: CreditCard,
+      receiptAvailable: false,
+    },
+    {
+      id: "PAY-9917",
+      type: "food",
+      description: "Pizza Paradiso • Order #ORD-8819",
+      date: "Oct 20, 2025 • 1:15 PM",
+      amount: "$35.50",
+      status: "completed",
+      method: "•••• 4242",
+      icon: CreditCard,
+      receiptAvailable: true,
+    },
+    {
+      id: "PAY-9916",
+      type: "topup",
+      description: "Wallet Top-up",
+      date: "Oct 18, 2025 • 10:30 AM",
+      amount: "$50.00",
+      status: "completed",
+      method: "Bank Transfer",
+      icon: CreditCard,
+      receiptAvailable: true,
+    },
+    {
+      id: "PAY-9915",
+      type: "food",
+      description: "Thai Orchid • Order #ORD-8817",
+      date: "Oct 15, 2025 • 7:30 PM",
+      amount: "$38.50",
+      status: "completed",
+      method: "Google Pay",
+      icon: CreditCard,
+      receiptAvailable: true,
+    },
+    {
+      id: "PAY-9914",
+      type: "subscription",
+      description: "Monthly Premium Subscription",
+      date: "Oct 14, 2025 • 12:00 PM",
+      amount: "$9.99",
+      status: "pending",
+      method: "•••• 4242",
+      icon: Clock,
+      receiptAvailable: false,
+    },
+    {
+      id: "PAY-9913",
+      type: "food",
+      description: "Burrito Express • Order #ORD-8816",
+      date: "Oct 12, 2025 • 6:15 PM",
+      amount: "$26.75",
+      status: "failed",
+      method: "•••• 4242",
+      icon: XCircle,
+      receiptAvailable: false,
+    },
+    {
+      id: "PAY-9912",
+      type: "food",
+      description: "Ramen House • Order #ORD-8815",
+      date: "Oct 10, 2025 • 12:30 PM",
+      amount: "$34.00",
+      status: "completed",
+      method: "Apple Pay",
+      icon: CreditCard,
+      receiptAvailable: true,
+    },
+    {
+      id: "PAY-9911",
+      type: "subscription",
+      description: "Monthly Premium Subscription",
+      date: "Sep 14, 2025 • 12:00 PM",
+      amount: "$9.99",
+      status: "completed",
+      method: "•••• 4242",
+      icon: CreditCard,
+      receiptAvailable: true,
+    },
+    {
+      id: "PAY-9910",
+      type: "food",
+      description: "Burger & Co. • Order #ORD-7814",
+      date: "Sep 12, 2025 • 7:45 PM",
+      amount: "$32.25",
+      status: "failed",
+      method: "PayPal",
+      icon: XCircle,
+      receiptAvailable: false,
+    },
+  ];
+
+  const filteredPayments = useMemo(() => {
+    return paymentHistory.filter((payment: Payment) => {
+      const matchesSearch =
+        payment.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        payment.id.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesStatus =
+        statusFilter === "all" || payment.status === statusFilter;
+
+      const matchesType = typeFilter === "all" || payment.type === typeFilter;
+
+      return matchesSearch && matchesStatus && matchesType;
+    });
+  }, [searchQuery, statusFilter, typeFilter]);
+
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentPayments = filteredPayments.slice(
+    indexOfFirstOrder,
+    indexOfLastOrder
+  );
+  const totalPages = Math.ceil(filteredPayments.length / ordersPerPage);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, typeFilter]);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToFirstPage = () => {
+    setCurrentPage(1);
+  };
+
+  const goToLastPage = () => {
+    setCurrentPage(totalPages);
+  };
+
+  const getPageNumbers = (): number[] => {
+    const pageNumbers: number[] = [];
+    const maxPagesToShow = 5;
+
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, currentPage + 2);
+
+      if (currentPage <= 3) {
+        endPage = maxPagesToShow;
+      } else if (currentPage >= totalPages - 2) {
+        startPage = totalPages - maxPagesToShow + 1;
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+    }
+
+    return pageNumbers;
+  };
+
+  const getStatusIcon = (status: string): LucideIcon => {
+    switch (status) {
+      case "completed":
+        return CheckCircle;
+      case "pending":
+        return Clock;
+      case "failed":
+        return XCircle;
+      default:
+        return CreditCard;
+    }
+  };
+
+  const getStatusColor = (status: string): string => {
+    switch (status) {
+      case "completed":
+        return "bg-green-100 text-green-700";
+      case "pending":
+        return "bg-amber-100 text-amber-700";
+      case "failed":
+        return "bg-red-100 text-red-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
+  const getTypeColor = (type: string): string => {
+    switch (type) {
+      case "food":
+        return "text-blue-600 bg-blue-50";
+      case "subscription":
+        return "text-purple-600 bg-purple-50";
+      case "refund":
+        return "text-green-600 bg-green-50";
+      case "topup":
+        return "text-amber-600 bg-amber-50";
+      default:
+        return "text-gray-600 bg-gray-50";
+    }
+  };
+
+  const getTypeLabel = (type: string): string => {
+    switch (type) {
+      case "food":
+        return "Food Delivery";
+      case "subscription":
+        return "Subscription";
+      case "refund":
+        return "Refund";
+      case "topup":
+        return "Top-up";
+      default:
+        return type;
+    }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleStatusFilterChange = (value: string) => {
+    setStatusFilter(value);
+    setIsStatusDropdownOpen(false);
+  };
+
+  const handleTypeFilterChange = (value: string) => {
+    setTypeFilter(value);
+    setIsTypeDropdownOpen(false);
+  };
+
+  return (
+    <main className="min-h-screen bg-gray-50 py-8" aria-labelledby="page-title">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <header className="text-center space-y-6">
+          <div className="space-y-2">
+            <h1
+              id="page-title"
+              className="text-2xl font-semibold text-gray-900"
+            >
+              Payment History
+            </h1>
+            <p className="text-gray-600">
+              View and manage your payment transactions
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 max-w-4xl mx-auto">
+            <div className="relative flex-1">
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
+              <input
+                type="text"
+                placeholder="Search payments..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div className="relative" ref={statusDropdownRef}>
+              <button
+                onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
+                className="pl-10 pr-10 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[180px] w-full sm:w-auto"
+              >
+                <Filter
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={18}
+                />
+                <span className="flex-1 text-left text-gray-700 font-medium">
+                  {
+                    statusFilterOptions.find(
+                      (opt) => opt.value === statusFilter
+                    )?.label
+                  }
+                </span>
+                <ChevronDown
+                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-transform duration-300 ${
+                    isStatusDropdownOpen ? "rotate-180" : ""
+                  }`}
+                  size={18}
+                />
+              </button>
+
+              <div
+                className={`absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
+                  isStatusDropdownOpen
+                    ? "opacity-100 scale-y-100 translate-y-0"
+                    : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
+                }`}
+              >
+                {statusFilterOptions.map((option, index) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handleStatusFilterChange(option.value)}
+                    className={`w-full px-4 py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                      index !== statusFilterOptions.length - 1
+                        ? "border-b border-gray-100"
+                        : ""
+                    } ${statusFilter === option.value ? "bg-blue-50" : ""}`}
+                    style={{
+                      transitionDelay: isStatusDropdownOpen
+                        ? `${index * 50}ms`
+                        : "0ms",
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                          statusFilter === option.value
+                            ? "border-blue-600 bg-blue-600"
+                            : "border-gray-300 group-hover:border-blue-400"
+                        }`}
+                      >
+                        {statusFilter === option.value && (
+                          <Check
+                            size={14}
+                            className="text-white"
+                            strokeWidth={3}
+                          />
+                        )}
+                      </div>
+                      <span
+                        className={`font-medium transition-colors ${
+                          statusFilter === option.value
+                            ? "text-blue-700"
+                            : "text-gray-700 group-hover:text-blue-600"
+                        }`}
+                      >
+                        {option.label}
+                      </span>
+                    </div>
+                    <span
+                      className={`text-sm px-2 py-1 rounded-full transition-all ${
+                        statusFilter === option.value
+                          ? "bg-blue-200 text-blue-700"
+                          : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
+                      }`}
+                    >
+                      {option.count}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative" ref={typeDropdownRef}>
+              <button
+                onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
+                className="pl-10 pr-10 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[180px] w-full sm:w-auto"
+              >
+                <Filter
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={18}
+                />
+                <span className="flex-1 text-left text-gray-700 font-medium">
+                  {
+                    typeFilterOptions.find((opt) => opt.value === typeFilter)
+                      ?.label
+                  }
+                </span>
+                <ChevronDown
+                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-transform duration-300 ${
+                    isTypeDropdownOpen ? "rotate-180" : ""
+                  }`}
+                  size={18}
+                />
+              </button>
+
+              <div
+                className={`absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
+                  isTypeDropdownOpen
+                    ? "opacity-100 scale-y-100 translate-y-0"
+                    : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
+                }`}
+              >
+                {typeFilterOptions.map((option, index) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handleTypeFilterChange(option.value)}
+                    className={`w-full px-4 py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                      index !== typeFilterOptions.length - 1
+                        ? "border-b border-gray-100"
+                        : ""
+                    } ${typeFilter === option.value ? "bg-blue-50" : ""}`}
+                    style={{
+                      transitionDelay: isTypeDropdownOpen
+                        ? `${index * 50}ms`
+                        : "0ms",
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                          typeFilter === option.value
+                            ? "border-blue-600 bg-blue-600"
+                            : "border-gray-300 group-hover:border-blue-400"
+                        }`}
+                      >
+                        {typeFilter === option.value && (
+                          <Check
+                            size={14}
+                            className="text-white"
+                            strokeWidth={3}
+                          />
+                        )}
+                      </div>
+                      <span
+                        className={`font-medium transition-colors ${
+                          typeFilter === option.value
+                            ? "text-blue-700"
+                            : "text-gray-700 group-hover:text-blue-600"
+                        }`}
+                      >
+                        {option.label}
+                      </span>
+                    </div>
+                    <span
+                      className={`text-sm px-2 py-1 rounded-full transition-all ${
+                        typeFilter === option.value
+                          ? "bg-blue-200 text-blue-700"
+                          : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
+                      }`}
+                    >
+                      {option.count}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section aria-label="Payment statistics">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {paymentStats.map((stat, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg border border-gray-200 p-4"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div
+                    className={`inline-flex p-2 rounded-lg bg-gray-50 ${stat.color}`}
+                  >
+                    <stat.icon size={20} />
+                  </div>
+                  <span
+                    className={`text-sm font-medium ${
+                      stat.trend === "up" ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    {stat.change}
+                  </span>
+                </div>
+                <div className="text-lg font-semibold text-gray-900">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-gray-600">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="payment-history-heading"
+          className="space-y-4"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <h2
+                id="payment-history-heading"
+                className="text-lg font-semibold text-gray-900"
+              >
+                Transaction History
+              </h2>
+              <p className="text-gray-600 text-sm">
+                Showing {indexOfFirstOrder + 1}-
+                {Math.min(indexOfLastOrder, filteredPayments.length)} of{" "}
+                {filteredPayments.length} transaction
+                {filteredPayments.length !== 1 ? "s" : ""}
+              </p>
+            </div>
+
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+              >
+                Clear search
+              </button>
+            )}
+          </div>
+
+          {currentPayments.length === 0 ? (
+            <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
+              <Search className="mx-auto text-gray-400 mb-3" size={32} />
+              <div className="text-gray-900 font-medium mb-1">
+                No transactions found
+              </div>
+              <div className="text-gray-600 text-sm">
+                {searchQuery
+                  ? "Try different search terms"
+                  : "No payment history yet"}
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {currentPayments.map((payment) => {
+                const StatusIcon = getStatusIcon(payment.status);
+                const PaymentIcon = payment.icon;
+
+                return (
+                  <div
+                    key={payment.id}
+                    className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-sm transition-shadow"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={`p-3 rounded-lg ${getTypeColor(
+                            payment.type
+                          )}`}
+                        >
+                          <PaymentIcon size={20} />
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-3">
+                            <h3 className="font-semibold text-gray-900">
+                              {payment.description}
+                            </h3>
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs ${getTypeColor(
+                                payment.type
+                              )}`}
+                            >
+                              {getTypeLabel(payment.type)}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-4 text-sm text-gray-600">
+                            <div className="flex items-center gap-1">
+                              <Calendar size={14} />
+                              <time>{payment.date}</time>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <CreditCard size={14} />
+                              <span>{payment.method}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <StatusIcon size={14} />
+                              <span
+                                className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
+                                  payment.status
+                                )}`}
+                              >
+                                {payment.status.charAt(0).toUpperCase() +
+                                  payment.status.slice(1)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-right space-y-2">
+                        <div
+                          className={`text-lg font-semibold ${
+                            payment.amount.startsWith("-")
+                              ? "text-green-600"
+                              : "text-gray-900"
+                          }`}
+                        >
+                          {payment.amount}
+                        </div>
+                        <div className="flex items-center gap-2 justify-end">
+                          {payment.receiptAvailable && (
+                            <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center gap-1">
+                              <Download size={14} />
+                              Receipt
+                            </button>
+                          )}
+                          <button className="px-3 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 text-sm font-medium flex items-center gap-1">
+                            Details
+                            <ChevronRight size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {filteredPayments.length > ordersPerPage && (
+            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+              <div className="text-sm text-gray-700">
+                Page {currentPage} of {totalPages}
+              </div>
+
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={goToFirstPage}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="First page"
+                >
+                  <ChevronsLeft size={16} />
+                </button>
+
+                <button
+                  onClick={goToPrevPage}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Previous page"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+
+                <div className="flex items-center gap-1 mx-2">
+                  {getPageNumbers().map((pageNumber) => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => paginate(pageNumber)}
+                      className={`min-w-10 px-3 py-2 rounded-lg border transition-colors ${
+                        currentPage === pageNumber
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "border-gray-200 hover:bg-gray-50 text-gray-700"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Next page"
+                >
+                  <ChevronRight size={16} />
+                </button>
+
+                <button
+                  onClick={goToLastPage}
+                  disabled={currentPage === totalPages}
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Last page"
+                >
+                  <ChevronsRight size={16} />
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
+      </div>
+    </main>
+  );
+}

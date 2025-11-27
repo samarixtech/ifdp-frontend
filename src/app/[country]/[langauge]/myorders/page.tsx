@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Package,
   Clock,
@@ -12,6 +12,12 @@ import {
   Star,
   MapPin,
   Phone,
+  Search,
+  Filter,
+  Download,
+  Printer,
+  X,
+  Image,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -38,93 +44,248 @@ interface Order {
   };
 }
 
-const sampleOrders: Order[] = [
-  {
-    id: "ORD-12345",
-    date: "2025-11-10",
-    status: "Delivered",
-    total: "₨.560",
-    deliveryAddress: "House 123, Street 4, Hyderabad, Sindh",
-    paymentMethod: "Cash on Delivery",
-    deliveryTime: "45 mins",
-    items: [
-      {
-        id: "Karahi-Tikka",
-        title: "Karahi & Tikka",
-        quantity: 2,
-        price: "₨.129",
-        img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?auto=format&fit=crop&q=60&w=600",
-      },
-      {
-        id: "Fredarios-pizza",
-        title: "Fredarios Pizza",
-        quantity: 1,
-        price: "₨.129",
-        img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?auto=format&fit=crop&q=60&w=600",
-      },
-    ],
-  },
-  {
-    id: "ORD-12346",
-    date: "2025-11-12",
-    status: "In Progress",
-    total: "₨.320",
-    deliveryAddress: "House 123, Street 4, Hyderabad, Sindh",
-    paymentMethod: "Online Payment",
-    deliveryTime: "25 mins",
-    rider: {
-      name: "Ahmed Khan",
-      phone: "+92 300 1234567",
-    },
-    items: [
-      {
-        id: "Eggspectation",
-        title: "Eggspectation Rest.",
-        quantity: 1,
-        price: "₨.129",
-        img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?auto=format&fit=crop&q=60&w=600",
-      },
-    ],
-  },
+// Food images for variety
+const foodImages = [
+  "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&q=80&w=400",
 ];
+
+// Restaurant names for variety
+const restaurantNames = [
+  "Karahi & Tikka",
+  "Fredarios Pizza",
+  "Eggspectation Rest.",
+  "Burger Hub",
+  "Sushi Master",
+  "Pasta Paradise",
+  "BBQ Tonight",
+  "Chinese Dragon",
+  "Mexican Fiesta",
+  "Thai Orchid",
+];
+
+// Generate sample data for thousands of orders
+const generateSampleOrders = (count: number): Order[] => {
+  const statuses: Array<"Delivered" | "In Progress" | "Cancelled"> = [
+    "Delivered",
+    "In Progress",
+    "Cancelled",
+  ];
+
+  return Array.from({ length: count }, (_, i) => {
+    const itemCount = Math.floor(Math.random() * 3) + 1; // 1-3 items per order
+    const items = Array.from({ length: itemCount }, (_, itemIndex) => {
+      const restaurantIndex = Math.floor(
+        Math.random() * restaurantNames.length
+      );
+      const imageIndex = Math.floor(Math.random() * foodImages.length);
+      const price = Math.floor(Math.random() * 200) + 50;
+
+      return {
+        id: `item-${i}-${itemIndex}`,
+        title: restaurantNames[restaurantIndex],
+        quantity: Math.floor(Math.random() * 2) + 1,
+        price: `₨${price}`,
+        img: foodImages[imageIndex],
+      };
+    });
+
+    const total = items.reduce((sum, item) => {
+      const price = parseInt(item.price.replace(/[^\d]/g, ""));
+      return sum + price * item.quantity;
+    }, 0);
+
+    return {
+      id: `ORD-${10000 + i}`,
+      date: `2025-${String(Math.floor(Math.random() * 12) + 1).padStart(
+        2,
+        "0"
+      )}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, "0")}`,
+      status: statuses[Math.floor(Math.random() * statuses.length)],
+      total: `₨${total}`,
+      deliveryAddress: "House 123, Street 4, Hyderabad, Sindh",
+      paymentMethod:
+        Math.random() > 0.5 ? "Cash on Delivery" : "Online Payment",
+      deliveryTime: `${Math.floor(Math.random() * 60) + 15} mins`,
+      rider:
+        Math.random() > 0.3
+          ? {
+              name: "Ahmed Khan",
+              phone: "+92 300 1234567",
+            }
+          : undefined,
+      items,
+    };
+  });
+};
+
+const sampleOrders = generateSampleOrders(50); // Generate 50 sample orders
 
 const MyOrders: React.FC = () => {
   const router = useRouter();
-  const params = useParams<{ country: string; language: string }>();
-  const country = params.country || "pk";
-  const language = params.language || "en";
+  const params = useParams();
+  const country = (params.country as string) || "pk";
+  const language = (params.language as string) || "en";
 
-  const [expandedOrders, setExpandedOrders] = useState<Set<string>>(new Set());
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>("All");
+  const [sortBy, setSortBy] = useState<"date" | "total">("date");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const ordersPerPage = 10;
 
   const t = useTranslations("myOrders");
 
-  const toggleOrderExpansion = (orderId: string) => {
-    const newExpanded = new Set(expandedOrders);
-    newExpanded.has(orderId)
-      ? newExpanded.delete(orderId)
-      : newExpanded.add(orderId);
-    setExpandedOrders(newExpanded);
-  };
+  // Filter, sort, and paginate orders
+  const { filteredOrders, totalPages, totalFilteredOrders } = useMemo(() => {
+    const filtered = sampleOrders.filter((order) => {
+      const matchesSearch =
+        order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.items.some((item) =>
+          item.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      const matchesStatus =
+        filterStatus === "All" || order.status === filterStatus;
+      return matchesSearch && matchesStatus;
+    });
+
+    // Sort orders
+    filtered.sort((a, b) => {
+      if (sortBy === "date") {
+        return sortOrder === "desc"
+          ? new Date(b.date).getTime() - new Date(a.date).getTime()
+          : new Date(a.date).getTime() - new Date(b.date).getTime();
+      } else {
+        const aTotal = parseInt(a.total.replace(/[^\d]/g, ""));
+        const bTotal = parseInt(b.total.replace(/[^\d]/g, ""));
+        return sortOrder === "desc" ? bTotal - aTotal : aTotal - bTotal;
+      }
+    });
+
+    // Pagination
+    const totalPages = Math.ceil(filtered.length / ordersPerPage);
+    const startIndex = (currentPage - 1) * ordersPerPage;
+    const paginatedOrders = filtered.slice(
+      startIndex,
+      startIndex + ordersPerPage
+    );
+
+    return {
+      filteredOrders: paginatedOrders,
+      totalPages,
+      totalFilteredOrders: filtered.length,
+    };
+  }, [searchTerm, filterStatus, sortBy, sortOrder, currentPage]);
 
   const getStatusIcon = (status: Order["status"]) => {
     switch (status) {
       case "Delivered":
-        return <CheckCircle className="w-5 h-5" />;
+        return <CheckCircle className="w-4 h-4" />;
       case "In Progress":
-        return <Clock className="w-5 h-5" />;
+        return <Clock className="w-4 h-4" />;
       case "Cancelled":
-        return <XCircle className="w-5 h-5" />;
+        return <XCircle className="w-4 h-4" />;
+      default:
+        return <Clock className="w-4 h-4" />;
     }
   };
 
-  const filteredOrders =
-    filterStatus === "All"
-      ? sampleOrders
-      : sampleOrders.filter((order) => order.status === filterStatus);
+  const getStatusColor = (status: Order["status"]) => {
+    switch (status) {
+      case "Delivered":
+        return "bg-green-100 text-green-700";
+      case "In Progress":
+        return "bg-yellow-100 text-yellow-700";
+      case "Cancelled":
+        return "bg-red-100 text-red-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
+  const handlePrintReceipt = () => {
+    const printWindow = window.open("", "_blank");
+    if (printWindow && selectedOrder) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Receipt - ${selectedOrder.id}</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; }
+              .header { text-align: center; margin-bottom: 30px; }
+              .order-info { margin-bottom: 20px; }
+              .items-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+              .items-table th, .items-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+              .total { text-align: right; font-size: 18px; font-weight: bold; margin-top: 20px; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <h1>Order Receipt</h1>
+              <h2>${selectedOrder.id}</h2>
+            </div>
+            <div class="order-info">
+              <p><strong>Date:</strong> ${selectedOrder.date}</p>
+              <p><strong>Status:</strong> ${selectedOrder.status}</p>
+              <p><strong>Payment Method:</strong> ${
+                selectedOrder.paymentMethod
+              }</p>
+            </div>
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${selectedOrder.items
+                  .map(
+                    (item) => `
+                  <tr>
+                    <td>${item.title}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.price}</td>
+                  </tr>
+                `
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+            <div class="total">
+              Total: ${selectedOrder.total}
+            </div>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.print();
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedOrder(null);
+  };
+
+  // Handle image error
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const target = e.target as HTMLImageElement;
+    target.src =
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=400";
+  };
 
   return (
-    <div className="bg-linear-to-br from-gray-100 to-gray-200 min-h-screen px-4 md:px-16 py-10">
+    <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen px-4 md:px-16 py-10">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
@@ -136,201 +297,373 @@ const MyOrders: React.FC = () => {
         <p className="text-gray-600 text-lg">{t("subheader")}</p>
       </div>
 
-      {/* Filters */}
-      <div className="flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-        {[
-          t("filter.all"),
-          t("filter.in_progress"),
-          t("filter.delivered"),
-          t("filter.cancelled"),
-        ].map((status) => (
-          <button
-            key={status}
-            onClick={() => setFilterStatus(status)}
-            className={`px-6 py-2.5 rounded-full font-semibold transition-all whitespace-nowrap shadow-sm ${
-              filterStatus === status
-                ? "bg-[#003566] text-white shadow-md scale-105"
-                : "bg-white text-gray-700 hover:bg-gray-100"
-            }`}
+      {/* Search and Filters */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder={t("search.placeholder")}
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#003566] focus:border-transparent"
+            />
+          </div>
+
+          {/* Status Filter */}
+          <select
+            value={filterStatus}
+            onChange={(e) => {
+              setFilterStatus(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#003566] focus:border-transparent"
           >
-            {status}
+            <option value="All">{t("filter.all")}</option>
+            <option value="In Progress">{t("filter.in_progress")}</option>
+            <option value="Delivered">{t("filter.delivered")}</option>
+            <option value="Cancelled">{t("filter.cancelled")}</option>
+          </select>
+
+          {/* Sort By */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as "date" | "total")}
+            className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#003566] focus:border-transparent"
+          >
+            <option value="date">{t("sort.date")}</option>
+            <option value="total">{t("sort.total")}</option>
+          </select>
+
+          {/* Sort Order */}
+          <button
+            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+            className="px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition flex items-center justify-center gap-2"
+          >
+            <Filter className="w-4 h-4" />
+            {sortOrder === "asc" ? t("sort.asc") : t("sort.desc")}
           </button>
-        ))}
+        </div>
       </div>
 
-      {/* Orders */}
-      <div className="space-y-8">
-        {filteredOrders.map((order) => {
-          const isExpanded = expandedOrders.has(order.id);
+      {/* Orders Table */}
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  {t("table.order_id")}
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  {t("table.date")}
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  {t("table.status")}
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  {t("table.items")}
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  {t("table.total")}
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  {t("table.actions")}
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {filteredOrders.map((order) => (
+                <tr
+                  key={order.id}
+                  className="hover:bg-gray-50 transition cursor-pointer"
+                  onClick={() => setSelectedOrder(order)}
+                >
+                  <td className="px-6 py-4">
+                    <div className="text-sm font-medium text-[#003566]">
+                      {order.id}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm text-gray-900">{order.date}</div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                        order.status
+                      )}`}
+                    >
+                      {getStatusIcon(order.status)}
+                      {order.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex -space-x-2">
+                        {order.items.slice(0, 3).map((item, index) => (
+                          <div key={item.id} className="relative">
+                            <img
+                              src={item.img}
+                              alt={item.title}
+                              className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                              onError={handleImageError}
+                            />
+                            {index === 2 && order.items.length > 3 && (
+                              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center text-white text-xs">
+                                +{order.items.length - 3}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="text-sm text-gray-900">
+                        {/* FIXED: Provide the count parameter to the translation */}
+                        {t("table.items_count", { count: order.items.length })}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm font-semibold text-gray-900">
+                      {order.total}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedOrder(order);
+                      }}
+                      className="text-sm text-[#003566] hover:text-[#002a47] font-medium"
+                    >
+                      {t("actions.view_details")}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-          return (
-            <div
-              key={order.id}
-              className="rounded-3xl bg-white/70 backdrop-blur-xl border border-gray-200 shadow-xl hover:shadow-2xl transition-all overflow-hidden"
-            >
-              {/* Header */}
-              <div className="p-6 bg-linear-to-r from-white to-gray-50">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-2xl font-bold text-gray-900">
-                        {order.id}
-                      </h3>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+            <div className="text-sm text-gray-700">
+              {t("pagination.showing")} {(currentPage - 1) * ordersPerPage + 1}{" "}
+              - {Math.min(currentPage * ordersPerPage, totalFilteredOrders)}{" "}
+              {t("pagination.of")} {totalFilteredOrders}{" "}
+              {t("pagination.orders")}
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition"
+              >
+                {t("pagination.previous")}
+              </button>
+              <button
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition"
+              >
+                {t("pagination.next")}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
+      {/* Order Details Modal */}
+      {selectedOrder && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h3 className="text-2xl font-bold text-gray-900">
+                {t("modal.order_details")} - {selectedOrder.id}
+              </h3>
+              <button
+                onClick={closeModal}
+                className="p-2 hover:bg-gray-100 rounded-lg transition"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
+              <div className="p-6">
+                {/* Order Status & Info */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">
+                        {t("details.order_status")}
+                      </h4>
                       <span
-                        className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-semibold rounded-full shadow-inner ${
-                          order.status === "Delivered"
-                            ? "bg-green-100 text-green-700"
-                            : order.status === "In Progress"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
+                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(
+                          selectedOrder.status
+                        )}`}
                       >
-                        {getStatusIcon(order.status)}
-                        {order.status}
+                        {getStatusIcon(selectedOrder.status)}
+                        {selectedOrder.status}
                       </span>
                     </div>
-
-                    <p className="text-gray-500 text-sm flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      {order.date} • {t("order.delivered_in")}{" "}
-                      {order.deliveryTime}
-                    </p>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">
+                        {t("details.order_date")}
+                      </h4>
+                      <p className="text-gray-600">{selectedOrder.date}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">
+                        {t("details.delivery_time")}
+                      </h4>
+                      <p className="text-gray-600">
+                        {selectedOrder.deliveryTime}
+                      </p>
+                    </div>
                   </div>
 
-                  <button
-                    onClick={() => toggleOrderExpansion(order.id)}
-                    className="p-2 rounded-xl hover:bg-gray-100 transition"
-                  >
-                    {isExpanded ? (
-                      <ChevronUp className="w-7 h-7 text-gray-600" />
-                    ) : (
-                      <ChevronDown className="w-7 h-7 text-gray-600" />
-                    )}
-                  </button>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold text-gray-900 flex items-center gap-2 mb-2">
+                        <MapPin className="w-4 h-4" />
+                        {t("details.delivery_address")}
+                      </h4>
+                      <p className="text-gray-600">
+                        {selectedOrder.deliveryAddress}
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">
+                        {t("details.payment_method")}
+                      </h4>
+                      <p className="text-gray-600">
+                        {selectedOrder.paymentMethod}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Item Preview */}
-                <div className="flex overflow-x-auto gap-5 pt-5 pb-1 scrollbar-hide">
-                  {order.items.map((item) => (
-                    <div
-                      key={item.id}
-                      onClick={() =>
-                        router.push(
-                          `/${country}/${language}/restaurants/${item.id}`
-                        )
-                      }
-                      className="min-w-[180px] cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl overflow-hidden hover:scale-[1.05] transition-all"
-                    >
-                      <div className="relative">
-                        <img
-                          src={item.img}
-                          className="w-full h-32 object-cover"
-                          alt={item.title}
-                        />
-                        <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full">
-                          x{item.quantity}
-                        </div>
+                {/* Rider Info */}
+                {selectedOrder.rider && (
+                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6">
+                    <h4 className="font-semibold text-gray-900 mb-3">
+                      {t("details.rider_details")}
+                    </h4>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">
+                          {selectedOrder.rider.name}
+                        </p>
+                        <p className="text-gray-600 text-sm flex items-center gap-1">
+                          <Phone className="w-4 h-4" />
+                          {selectedOrder.rider.phone}
+                        </p>
                       </div>
-                      <div className="p-3">
-                        <h4 className="text-gray-900 font-semibold truncate">
-                          {item.title}
-                        </h4>
-                        <p className="text-[#003566] font-bold text-sm mt-1">
+                      <a
+                        href={`tel:${selectedOrder.rider.phone.replace(
+                          /\s/g,
+                          ""
+                        )}`}
+                        className="px-5 py-2 bg-[#003566] text-white rounded-lg text-sm hover:bg-[#002a47] transition"
+                      >
+                        {t("actions.call_rider")}
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                {/* Receipt with Food Images - FIXED: Removed duplicate quantity display */}
+                <div className="bg-gray-50 rounded-xl p-6">
+                  <h4 className="font-semibold text-gray-900 mb-4">
+                    {t("details.receipt")}
+                  </h4>
+                  <div className="space-y-4">
+                    {selectedOrder.items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0"
+                      >
+                        <div className="flex items-center gap-4 flex-1">
+                          <div className="relative">
+                            <img
+                              src={item.img}
+                              alt={item.title}
+                              className="w-16 h-16 rounded-lg object-cover border border-gray-200"
+                              onError={handleImageError}
+                            />
+                            <div className="absolute -top-2 -right-2 bg-[#003566] text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                              {item.quantity}
+                            </div>
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-900">
+                              {item.title}
+                            </p>
+                            {/* REMOVED: Duplicate quantity display line */}
+                          </div>
+                        </div>
+                        <p className="font-semibold text-gray-900 text-lg">
                           {item.price}
                         </p>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                    ))}
 
-              {/* Expanded */}
-              {isExpanded && (
-                <div className="p-6 bg-gray-50 border-t border-gray-200">
-                  <div className="grid md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                      <h5 className="font-semibold text-gray-900 flex items-center gap-2 mb-2">
-                        <MapPin className="w-4 h-4" />
-                        {t("details.delivery_address")}
-                      </h5>
-                      <p className="text-gray-600">{order.deliveryAddress}</p>
-                    </div>
-
-                    <div>
-                      <h5 className="font-semibold text-gray-900 mb-2">
-                        {t("details.payment_method")}
-                      </h5>
-                      <p className="text-gray-600">{order.paymentMethod}</p>
+                    <div className="flex justify-between items-center pt-4 border-t border-gray-300">
+                      <span className="text-lg font-semibold text-gray-900">
+                        {t("receipt.total")}
+                      </span>
+                      <span className="text-xl font-bold text-[#003566]">
+                        {selectedOrder.total}
+                      </span>
                     </div>
                   </div>
-
-                  {order.rider && (
-                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6">
-                      <h5 className="font-semibold text-gray-900 mb-2">
-                        {t("details.rider_details")}
-                      </h5>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium">{order.rider.name}</p>
-                          <p className="text-gray-600 text-sm flex items-center gap-1">
-                            <Phone className="w-4 h-4" />
-                            {order.rider.phone}
-                          </p>
-                        </div>
-                        <button className="px-5 py-2 bg-[#003566] text-white rounded-lg text-sm hover:bg-[#002a47] transition">
-                          {t("actions.call_rider")}
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                    <span className="text-gray-800 font-semibold text-lg">
-                      {t("order.total_label")}
-                    </span>
-                    <span className="text-[#003566] font-extrabold text-2xl tracking-wide">
-                      {order.total}
-                    </span>
-                  </div>
                 </div>
-              )}
-
-              {/* Actions */}
-              <div className="p-6 bg-linear-to-r from-gray-50 to-gray-100 border-t flex gap-3 justify-end">
-                {order.status === "In Progress" && (
-                  <>
-                    <button className="px-5 py-3 bg-[#003566] text-white rounded-xl font-semibold hover:bg-[#002a47] transition shadow-md">
-                      {t("actions.track_order")}
-                    </button>
-                    <button className="px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition">
-                      {t("actions.help")}
-                    </button>
-                  </>
-                )}
-
-                {order.status === "Delivered" && (
-                  <>
-                    <button className="px-5 py-3 bg-[#003566] text-white rounded-xl font-semibold hover:bg-[#002a47] transition shadow-md">
-                      {t("actions.reorder")}
-                    </button>
-                    <button className="px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition flex items-center gap-2">
-                      <Star className="w-4 h-4" />
-                      {t("actions.rate")}
-                    </button>
-                  </>
-                )}
-
-                {order.status === "Cancelled" && (
-                  <button className="px-5 py-3 bg-[#003566] text-white rounded-xl font-semibold hover:bg-[#002a47] transition shadow-md">
-                    {t("actions.order_again")}
-                  </button>
-                )}
               </div>
             </div>
-          );
-        })}
-      </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between p-6 border-t border-gray-200 bg-gray-50">
+              <div className="flex gap-3">
+                <button
+                  onClick={handlePrintReceipt}
+                  className="flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition"
+                >
+                  <Printer className="w-4 h-4" />
+                  {t("actions.print_receipt")}
+                </button>
+                <button className="flex items-center gap-2 px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition">
+                  <Download className="w-4 h-4" />
+                  {t("actions.download_receipt")}
+                </button>
+              </div>
+
+              <div className="flex gap-3">
+                {selectedOrder.status === "Delivered" && (
+                  <button className="px-5 py-3 bg-[#003566] text-white rounded-xl font-semibold hover:bg-[#002a47] transition">
+                    {t("actions.reorder")}
+                  </button>
+                )}
+                <button
+                  onClick={closeModal}
+                  className="px-5 py-3 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 transition"
+                >
+                  {t("actions.close")}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -4,13 +4,15 @@ import { NextIntlClientProvider } from "next-intl";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ReduxProvider } from "@/components/ReduxProvider";
-import NavbarHider from "@/components/NavbarHider";
+// import NavbarHider from "@/components/NavbarHider";
 import { cookies } from "next/headers";
 import { CLCProvider } from "./context/CLCContext.tsx";
 
-
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 type SupportedLocale = "en" | "fr" | "es" | "ar";
 const defaultLocale: SupportedLocale = "en";
@@ -21,31 +23,42 @@ interface RootLayoutProps {
   params?: Promise<{ locale?: string; country?: string }>;
 }
 
-export default async function RootLayout({ children, params }: RootLayoutProps) {
+export default async function RootLayout({
+  children,
+  params,
+}: RootLayoutProps) {
   const resolvedParams = params ? await params : {};
-  
+
   const cookieStore = cookies();
   let currentLocale: SupportedLocale = defaultLocale;
 
   const cookieLocale = (await cookieStore).get("NEXT_LOCALE")?.value;
-  if (cookieLocale && supportedLocales.includes(cookieLocale as SupportedLocale)) {
+  if (
+    cookieLocale &&
+    supportedLocales.includes(cookieLocale as SupportedLocale)
+  ) {
     currentLocale = cookieLocale as SupportedLocale;
-  } else if (resolvedParams?.locale && supportedLocales.includes(resolvedParams.locale as SupportedLocale)) {
+  } else if (
+    resolvedParams?.locale &&
+    supportedLocales.includes(resolvedParams.locale as SupportedLocale)
+  ) {
     currentLocale = resolvedParams.locale as SupportedLocale;
   }
 
-  const messages = (await import(`../components/messages/${currentLocale}.json`)).default;
+  const messages = (
+    await import(`../components/messages/${currentLocale}.json`)
+  ).default;
   const dir = currentLocale === "ar" ? "rtl" : "ltr";
 
   return (
     <html lang={currentLocale} dir={dir}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-         <CLCProvider>
-        <ReduxProvider>
-          <NextIntlClientProvider locale={currentLocale} messages={messages}>
-            <NavbarHider>    {children}</NavbarHider>
-          </NextIntlClientProvider>
-        </ReduxProvider>
+        <CLCProvider>
+          <ReduxProvider>
+            <NextIntlClientProvider locale={currentLocale} messages={messages}>
+              {children}
+            </NextIntlClientProvider>
+          </ReduxProvider>
         </CLCProvider>
       </body>
     </html>

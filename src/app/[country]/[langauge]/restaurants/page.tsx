@@ -8,7 +8,6 @@ import { useRouter, useParams } from "next/navigation";
 import { getCookie } from "cookies-next";
 import { CLCProvider, useCLC } from "@/app/context/CLCContext.tsx";
 
-
 const IndexPageContent: React.FC = () => {
   const router = useRouter();
   const params = useParams();

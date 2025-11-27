@@ -21,7 +21,11 @@ const navItems = [
     href: "/dashboard/paymentHistory",
     icon: BarChart,
   },
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
+  {
+    name: "Change Password",
+    href: "/dashboard/changePassword",
+    icon: Settings,
+  },
 ];
 
 const primaryBlue = "#014f86";

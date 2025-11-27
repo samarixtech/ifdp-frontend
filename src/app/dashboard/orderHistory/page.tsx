@@ -6,90 +6,168 @@ import {
   Star,
   RefreshCw,
   ChevronRight,
-  Utensils,
-  Bike,
-  CheckCircle2,
   Receipt,
   Search,
   Filter,
-  Sparkles,
-  Truck,
   Calendar,
+  ChevronLeft,
+  ChevronsLeft,
+  ChevronsRight,
+  ChevronDown,
+  Check,
+  LucideIcon,
 } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 
-const primaryBlue = "#0066cc";
-const accentPurple = "#8b5cf6";
-const successGreen = "#10b981";
-const warningAmber = "#f59e0b";
+// Type definitions
+interface FilterOption {
+  value: string;
+  label: string;
+  count: number;
+}
 
-// Mock Data
-const activeOrder = {
-  id: "ORD-9921",
-  restaurant: "Sushi Master",
-  image:
-    "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=300&auto=format&fit=crop",
-  items: "2x Spicy Tuna Roll, 1x Miso Soup, 1x Edamame",
-  total: "$42.50",
-  status: "On the way",
-  eta: "15-20 min",
-  driver: "Michael D.",
-  progress: 75,
-};
+interface OrderStat {
+  label: string;
+  value: string;
+  icon: LucideIcon;
+  color: string;
+}
 
-const pastOrders = [
-  {
-    id: "ORD-8820",
-    restaurant: "Burger & Co.",
-    image:
-      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=300&auto=format&fit=crop",
-    date: "Oct 24, 2025 • 8:30 PM",
-    items: "1x Double Cheeseburger, 1x Large Fries, 1x Vanilla Shake",
-    total: "$28.00",
-    status: "Delivered",
-    rating: 5,
-  },
-  {
-    id: "ORD-8819",
-    restaurant: "Pizza Paradiso",
-    image:
-      "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=300&auto=format&fit=crop",
-    date: "Oct 20, 2025 • 1:15 PM",
-    items: "1x Pepperoni Feast (Large), 1x Garlic Knots",
-    total: "$35.50",
-    status: "Delivered",
-    rating: 4,
-  },
-  {
-    id: "ORD-8818",
-    restaurant: "Green Bowl Salad",
-    image:
-      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=300&auto=format&fit=crop",
-    date: "Oct 18, 2025 • 12:45 PM",
-    items: "1x Caesar Salad, 1x Chicken Protein Bowl",
-    total: "$22.00",
-    status: "Cancelled",
-    rating: 0,
-  },
-  {
-    id: "ORD-8815",
-    restaurant: "Taco Fiesta",
-    image:
-      "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=300&auto=format&fit=crop",
-    date: "Oct 15, 2025 • 7:20 PM",
-    items: "3x Beef Tacos, 1x Nachos Supreme, 2x Horchata",
-    total: "$31.20",
-    status: "Delivered",
-    rating: 5,
-  },
-];
+interface ActiveOrder {
+  id: string;
+  restaurant: string;
+  image: string;
+  items: string;
+  total: string;
+  status: string;
+  eta: string;
+  driver: string;
+  progress: number;
+}
+
+interface PastOrder {
+  id: string;
+  restaurant: string;
+  image: string;
+  date: string;
+  items: string;
+  total: string;
+  status: "Delivered" | "Cancelled" | "On the way";
+  rating: number;
+}
 
 export default function FoodOrdersPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [ordersPerPage] = useState<number>(2);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const filterOptions: FilterOption[] = [
+    { value: "all", label: "All Orders", count: 6 },
+    { value: "delivered", label: "Delivered", count: 5 },
+    { value: "cancelled", label: "Cancelled", count: 1 },
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const activeOrder: ActiveOrder = {
+    id: "ORD-9921",
+    restaurant: "Sushi Master",
+    image:
+      "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=300&auto=format&fit=crop",
+    items: "2x Spicy Tuna Roll, 1x Miso Soup, 1x Edamame",
+    total: "$42.50",
+    status: "On the way",
+    eta: "15-20 min",
+    driver: "Michael D.",
+    progress: 75,
+  };
+
+  const pastOrders: PastOrder[] = [
+    {
+      id: "ORD-8820",
+      restaurant: "Burger & Co.",
+      image:
+        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=300&auto=format&fit=crop",
+      date: "Oct 24, 2025 • 8:30 PM",
+      items: "1x Double Cheeseburger, 1x Large Fries, 1x Vanilla Shake",
+      total: "$28.00",
+      status: "Delivered",
+      rating: 5,
+    },
+    {
+      id: "ORD-8819",
+      restaurant: "Pizza Paradiso",
+      image:
+        "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=300&auto=format&fit=crop",
+      date: "Oct 20, 2025 • 1:15 PM",
+      items: "1x Pepperoni Feast (Large), 1x Garlic Knots",
+      total: "$35.50",
+      status: "Delivered",
+      rating: 4,
+    },
+    {
+      id: "ORD-8818",
+      restaurant: "Green Bowl Salad",
+      image:
+        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=300&auto=format&fit=crop",
+      date: "Oct 18, 2025 • 12:45 PM",
+      items: "1x Caesar Salad, 1x Chicken Protein Bowl",
+      total: "$22.00",
+      status: "Cancelled",
+      rating: 0,
+    },
+    {
+      id: "ORD-8817",
+      restaurant: "Thai Orchid",
+      image:
+        "https://images.unsplash.com/photo-1559314809-0f155186a14c?q=80&w=300&auto=format&fit=crop",
+      date: "Oct 15, 2025 • 7:30 PM",
+      items: "1x Pad Thai, 1x Green Curry, 2x Spring Rolls",
+      total: "$38.50",
+      status: "Delivered",
+      rating: 5,
+    },
+    {
+      id: "ORD-8816",
+      restaurant: "Burrito Express",
+      image:
+        "https://images.unsplash.com/photo-1519183073328-330cc6ead67e?q=80&w=300&auto=format&fit=crop",
+      date: "Oct 12, 2025 • 6:15 PM",
+      items: "2x Chicken Burritos, 1x Chips & Guacamole",
+      total: "$26.75",
+      status: "Delivered",
+      rating: 4,
+    },
+    {
+      id: "ORD-8815",
+      restaurant: "Ramen House",
+      image:
+        "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=300&auto=format&fit=crop",
+      date: "Oct 10, 2025 • 12:30 PM",
+      items: "2x Tonkotsu Ramen, 1x Gyoza",
+      total: "$34.00",
+      status: "Delivered",
+      rating: 5,
+    },
+  ];
 
   const filteredOrders = useMemo(() => {
-    return pastOrders.filter((order) => {
+    return pastOrders.filter((order: PastOrder) => {
       const matchesSearch =
         order.restaurant.toLowerCase().includes(searchQuery.toLowerCase()) ||
         order.items.toLowerCase().includes(searchQuery.toLowerCase());
@@ -102,355 +180,404 @@ export default function FoodOrdersPage() {
     });
   }, [searchQuery, statusFilter]);
 
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = filteredOrders.slice(
+    indexOfFirstOrder,
+    indexOfLastOrder
+  );
+  const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter]);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToFirstPage = () => {
+    setCurrentPage(1);
+  };
+
+  const goToLastPage = () => {
+    setCurrentPage(totalPages);
+  };
+
+  const getPageNumbers = (): number[] => {
+    const pageNumbers: number[] = [];
+    const maxPagesToShow = 5;
+
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, currentPage + 2);
+
+      if (currentPage <= 3) {
+        endPage = maxPagesToShow;
+      } else if (currentPage >= totalPages - 2) {
+        startPage = totalPages - maxPagesToShow + 1;
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+    }
+
+    return pageNumbers;
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleFilterChange = (value: string) => {
+    setStatusFilter(value);
+    setIsDropdownOpen(false);
+  };
+
+  const orderStats: OrderStat[] = [
+    {
+      label: "Total Orders",
+      value: pastOrders.length.toString(),
+      icon: ShoppingBag,
+      color: "text-blue-600",
+    },
+    {
+      label: "Total Spent",
+      value: "$480",
+      icon: Receipt,
+      color: "text-green-600",
+    },
+    {
+      label: "Favorite Spot",
+      value: "Burger & Co.",
+      icon: MapPin,
+      color: "text-red-600",
+    },
+    {
+      label: "Avg Rating",
+      value: "4.8",
+      icon: Star,
+      color: "text-amber-600",
+    },
+  ];
+
   return (
-    <main
-      className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 py-8"
-      aria-labelledby="page-title"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* --- Page Header --- */}
-        <header className="text-center space-y-4">
-          <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-sm border border-white/60">
-            <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
-              <Utensils className="text-white" size={24} aria-hidden="true" />
-            </div>
-            <div className="text-left">
-              <h1
-                id="page-title"
-                className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent"
-              >
-                Order History
-              </h1>
-              <p className="text-gray-600 text-sm">
-                Track deliveries and explore your culinary journey
-              </p>
-            </div>
+    <main className="min-h-screen bg-gray-50 py-8" aria-labelledby="page-title">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <header className="text-center space-y-6">
+          <div className="space-y-2">
+            <h1
+              id="page-title"
+              className="text-2xl font-semibold text-gray-900"
+            >
+              Order History
+            </h1>
+            <p className="text-gray-600">Track and manage your food orders</p>
           </div>
 
-          {/* --- Search and Filter Bar --- */}
-          <div className="flex flex-col lg:flex-row gap-4 max-w-2xl mx-auto">
-            <div className="relative flex-1 group">
+          <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
+            <div className="relative flex-1">
               <Search
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                 size={20}
               />
               <input
                 type="text"
-                placeholder="Search restaurants, dishes, or orders..."
+                placeholder="Search orders..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-6 py-4 bg-white/90 backdrop-blur-sm border border-gray-200/80 rounded-2xl focus:outline-none focus:ring-3 focus:ring-blue-500/20 focus:border-blue-500 shadow-sm hover:shadow-md transition-all duration-300"
+                onChange={handleSearchChange}
+                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
-            <div className="flex gap-3">
-              <div className="relative group">
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="pl-10 pr-10 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[180px] w-full sm:w-auto"
+              >
                 <Filter
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                   size={18}
                 />
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="pl-10 pr-8 py-4 bg-white/90 backdrop-blur-sm border border-gray-200/80 rounded-2xl focus:outline-none focus:ring-3 focus:ring-blue-500/20 focus:border-blue-500 shadow-sm hover:shadow-md transition-all duration-300 appearance-none cursor-pointer"
-                >
-                  <option value="all">All Orders</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
+                <span className="flex-1 text-left text-gray-700 font-medium">
+                  {
+                    filterOptions.find((opt) => opt.value === statusFilter)
+                      ?.label
+                  }
+                </span>
+                <ChevronDown
+                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-transform duration-300 ${
+                    isDropdownOpen ? "rotate-180" : ""
+                  }`}
+                  size={18}
+                />
+              </button>
+
+              <div
+                className={`absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
+                  isDropdownOpen
+                    ? "opacity-100 scale-y-100 translate-y-0"
+                    : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
+                }`}
+              >
+                {filterOptions.map((option, index) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handleFilterChange(option.value)}
+                    className={`w-full px-4 py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                      index !== filterOptions.length - 1
+                        ? "border-b border-gray-100"
+                        : ""
+                    } ${statusFilter === option.value ? "bg-blue-50" : ""}`}
+                    style={{
+                      transitionDelay: isDropdownOpen
+                        ? `${index * 50}ms`
+                        : "0ms",
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+                          statusFilter === option.value
+                            ? "border-blue-600 bg-blue-600"
+                            : "border-gray-300 group-hover:border-blue-400"
+                        }`}
+                      >
+                        {statusFilter === option.value && (
+                          <Check
+                            size={14}
+                            className="text-white"
+                            strokeWidth={3}
+                          />
+                        )}
+                      </div>
+                      <span
+                        className={`font-medium transition-colors ${
+                          statusFilter === option.value
+                            ? "text-blue-700"
+                            : "text-gray-700 group-hover:text-blue-600"
+                        }`}
+                      >
+                        {option.label}
+                      </span>
+                    </div>
+                    <span
+                      className={`text-sm px-2 py-1 rounded-full transition-all ${
+                        statusFilter === option.value
+                          ? "bg-blue-200 text-blue-700"
+                          : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
+                      }`}
+                    >
+                      {option.count}
+                    </span>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
         </header>
 
-        {/* --- Active Order Card --- */}
-        <section aria-labelledby="active-order-heading" className="relative">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-900/90 to-purple-900/80 text-white p-8 shadow-2xl">
-            {/* Animated background elements */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-purple-500/10"></div>
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
+        <section aria-labelledby="active-order-heading">
+          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <div className="flex items-start gap-4">
+              <img
+                src={activeOrder.image}
+                alt={`Order from ${activeOrder.restaurant}`}
+                className="w-20 h-20 rounded-lg object-cover"
+              />
 
-            <div className="relative z-10 flex flex-col xl:flex-row gap-8 items-center">
-              <div className="relative">
-                <img
-                  src={activeOrder.image}
-                  alt={`Order from ${activeOrder.restaurant}`}
-                  className="w-28 h-28 rounded-2xl object-cover border-2 border-white/20 shadow-2xl"
-                />
-                <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-full shadow-lg">
-                  <Truck size={16} className="text-white" />
-                </div>
-              </div>
-
-              <div className="flex-1 w-full text-center xl:text-left space-y-4">
-                <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+              <div className="flex-1 space-y-3">
+                <div className="flex items-start justify-between">
                   <div>
                     <h2
                       id="active-order-heading"
-                      className="text-2xl font-bold flex items-center gap-3 justify-center xl:justify-start"
+                      className="text-lg font-semibold text-gray-900"
                     >
                       {activeOrder.restaurant}
-                      <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm font-medium border border-green-500/30">
-                        Live Tracking
-                      </span>
                     </h2>
-                    <p className="text-blue-100 mt-2">{activeOrder.items}</p>
+                    <p className="text-gray-600 text-sm mt-1">
+                      {activeOrder.items}
+                    </p>
                   </div>
-                  <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20">
-                    <Clock size={20} className="text-cyan-300" />
-                    <div>
-                      <div className="text-cyan-300 font-semibold">
-                        ETA: {activeOrder.eta}
-                      </div>
-                      <div className="text-blue-200 text-sm">
-                        {activeOrder.driver}
-                      </div>
+                  <div className="text-right">
+                    <div className="text-lg font-semibold text-gray-900">
+                      {activeOrder.total}
+                    </div>
+                    <div className="flex items-center gap-1 text-sm text-blue-600 mt-1">
+                      <Clock size={16} />
+                      <span>ETA: {activeOrder.eta}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Enhanced Progress Bar */}
-                <div className="space-y-3">
-                  <div className="flex justify-between text-sm font-medium text-blue-200">
-                    <span className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      Preparing
-                    </span>
-                    <span className="flex items-center gap-2 text-white">
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                      On the way
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      Delivered
-                    </span>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>Preparing</span>
+                    <span>On the way</span>
+                    <span>Delivered</span>
                   </div>
-                  <div className="w-full bg-white/20 h-3 rounded-full overflow-hidden backdrop-blur-sm">
+                  <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full relative overflow-hidden transition-all duration-1000 ease-out"
+                      className="h-full bg-blue-600 rounded-full transition-all duration-500"
                       style={{ width: `${activeOrder.progress}%` }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-shimmer"></div>
-                    </div>
+                    />
                   </div>
-                </div>
-              </div>
-
-              <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 min-w-[140px]">
-                <div className="text-blue-200 text-sm uppercase tracking-wider mb-2">
-                  Total
-                </div>
-                <div className="text-3xl font-bold text-white">
-                  {activeOrder.total}
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* --- Quick Stats --- */}
         <section aria-label="Order statistics">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {[
-              {
-                label: "Total Orders",
-                value: "24",
-                icon: ShoppingBag,
-                color: "from-blue-500 to-cyan-500",
-                bg: "bg-blue-50",
-              },
-              {
-                label: "Total Spent",
-                value: "$480",
-                icon: Receipt,
-                color: "from-green-500 to-emerald-500",
-                bg: "bg-green-50",
-              },
-              {
-                label: "Favorite Spot",
-                value: "Burger & Co.",
-                icon: MapPin,
-                color: "from-red-500 to-orange-500",
-                bg: "bg-red-50",
-              },
-              {
-                label: "Avg Rating",
-                value: "4.8",
-                icon: Star,
-                color: "from-amber-500 to-yellow-500",
-                bg: "bg-amber-50",
-              },
-            ].map((stat, index) => (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {orderStats.map((stat, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-xl border border-white/60 transition-all duration-500 hover:-translate-y-1"
+                className="bg-white rounded-lg border border-gray-200 p-4 text-center"
               >
-                <div className="relative z-10">
-                  <div
-                    className={`p-3 rounded-xl bg-gradient-to-r ${stat.color} w-fit mb-4 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <stat.icon size={24} className="text-white" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900 mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-gray-600 font-medium uppercase tracking-wide">
-                    {stat.label}
-                  </div>
-                </div>
                 <div
-                  className={`absolute -bottom-8 -right-8 w-16 h-16 ${stat.bg} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                ></div>
+                  className={`inline-flex p-2 rounded-lg bg-gray-50 ${stat.color} mb-2`}
+                >
+                  <stat.icon size={20} />
+                </div>
+                <div className="text-lg font-semibold text-gray-900">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-gray-600">{stat.label}</div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* --- Past Orders --- */}
-        <section aria-labelledby="past-orders-heading" className="space-y-6">
+        <section aria-labelledby="past-orders-heading" className="space-y-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-white/60">
-                <Calendar className="text-gray-700" size={20} />
-              </div>
-              <div>
-                <h2
-                  id="past-orders-heading"
-                  className="text-xl font-bold text-gray-900"
-                >
-                  Past Orders
-                </h2>
-                <p className="text-gray-600 text-sm">
-                  {filteredOrders.length} order
-                  {filteredOrders.length !== 1 ? "s" : ""} found
-                </p>
-              </div>
+            <div>
+              <h2
+                id="past-orders-heading"
+                className="text-lg font-semibold text-gray-900"
+              >
+                Past Orders
+              </h2>
+              <p className="text-gray-600 text-sm">
+                Showing {indexOfFirstOrder + 1}-
+                {Math.min(indexOfLastOrder, filteredOrders.length)} of{" "}
+                {filteredOrders.length} order
+                {filteredOrders.length !== 1 ? "s" : ""}
+              </p>
             </div>
 
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="px-4 py-2 bg-white/80 backdrop-blur-sm rounded-xl text-blue-600 hover:text-blue-700 hover:bg-white transition-all duration-300 border border-white/60 shadow-sm hover:shadow-md font-medium"
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
               >
                 Clear search
               </button>
             )}
           </div>
 
-          {filteredOrders.length === 0 ? (
-            <div className="text-center py-16 bg-white/80 backdrop-blur-sm rounded-3xl border border-white/60 shadow-sm">
-              <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Search className="text-gray-400" size={24} />
-              </div>
-              <div className="text-gray-900 font-semibold mb-2">
+          {currentOrders.length === 0 ? (
+            <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
+              <Search className="mx-auto text-gray-400 mb-3" size={32} />
+              <div className="text-gray-900 font-medium mb-1">
                 No orders found
               </div>
-              <div className="text-gray-600 max-w-sm mx-auto">
+              <div className="text-gray-600 text-sm">
                 {searchQuery
-                  ? "We couldn't find any orders matching your search. Try different keywords or clear the search."
-                  : "Your order history will appear here once you start ordering."}
+                  ? "Try different search terms"
+                  : "No past orders yet"}
               </div>
             </div>
           ) : (
-            <div className="grid gap-4">
-              {filteredOrders.map((order) => (
+            <div className="space-y-3">
+              {currentOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/60 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 overflow-hidden"
+                  className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-sm transition-shadow"
                 >
-                  {/* Background gradient on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0 via-purple-50/0 to-cyan-50/0 group-hover:from-blue-50/30 group-hover:via-purple-50/20 group-hover:to-cyan-50/30 transition-all duration-500"></div>
+                  <div className="flex gap-4">
+                    <img
+                      src={order.image}
+                      alt={`Meal from ${order.restaurant}`}
+                      className="w-16 h-16 rounded-lg object-cover"
+                    />
 
-                  <div className="relative z-10 flex gap-6">
-                    <div className="relative shrink-0">
-                      <img
-                        src={order.image}
-                        alt={`Meal from ${order.restaurant}`}
-                        className="w-20 h-20 object-cover rounded-xl shadow-md group-hover:shadow-lg transition-shadow duration-300"
-                      />
-                      {order.status === "Delivered" ? (
-                        <div className="absolute -top-2 -right-2 bg-green-500 text-white p-1 rounded-full shadow-lg">
-                          <CheckCircle2 size={16} />
-                        </div>
-                      ) : (
-                        <div className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full shadow-lg">
-                          <div className="w-4 h-4 flex items-center justify-center text-xs font-bold">
-                            !
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex-1 min-w-0 space-y-3">
-                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-2">
-                        <div className="space-y-1">
-                          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-gray-900">
                             {order.restaurant}
                           </h3>
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
                             <Calendar size={14} />
                             <time>{order.date}</time>
-                            <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
                             <span
-                              className={`font-medium px-2 py-1 rounded-full text-xs ${
+                              className={`px-2 py-1 rounded-full text-xs ${
                                 order.status === "Delivered"
-                                  ? "bg-green-100 text-green-700 border border-green-200"
+                                  ? "bg-green-100 text-green-700"
                                   : order.status === "Cancelled"
-                                  ? "bg-red-100 text-red-700 border border-red-200"
-                                  : "bg-gray-100 text-gray-700 border border-gray-200"
+                                  ? "bg-red-100 text-red-700"
+                                  : "bg-gray-100 text-gray-700"
                               }`}
                             >
                               {order.status}
                             </span>
                           </div>
                         </div>
-                        <div className="text-lg font-bold text-gray-900 bg-gray-50/50 px-3 py-2 rounded-xl border border-gray-200/50">
+                        <div className="text-lg font-semibold text-gray-900">
                           {order.total}
                         </div>
                       </div>
 
-                      <p className="text-gray-700 leading-relaxed">
-                        {order.items}
-                      </p>
+                      <p className="text-gray-700 text-sm">{order.items}</p>
 
                       <div className="flex items-center justify-between pt-2">
-                        <div className="flex items-center gap-4">
-                          {order.rating > 0 ? (
-                            <div className="flex items-center gap-1 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200/50">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  size={14}
-                                  fill={
-                                    i < order.rating ? "currentColor" : "none"
-                                  }
-                                  className={
-                                    i < order.rating
-                                      ? "text-amber-500"
-                                      : "text-amber-200"
-                                  }
-                                />
-                              ))}
-                              <span className="text-amber-700 text-sm font-medium ml-1">
-                                {order.rating}.0
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-gray-500 text-sm bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200/50">
-                              No rating
-                            </span>
-                          )}
-                        </div>
+                        {order.rating > 0 ? (
+                          <div className="flex items-center gap-1">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                size={14}
+                                fill={
+                                  i < order.rating ? "currentColor" : "none"
+                                }
+                                className={
+                                  i < order.rating
+                                    ? "text-amber-500"
+                                    : "text-gray-300"
+                                }
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="text-gray-500 text-sm">
+                            No rating
+                          </span>
+                        )}
 
                         <div className="flex gap-2">
-                          <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 font-medium text-sm">
-                            <RefreshCw size={16} />
+                          <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center gap-1">
+                            <RefreshCw size={14} />
                             Reorder
                           </button>
-                          <button className="px-4 py-2 bg-white text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-300 border border-gray-200/60 shadow-sm hover:shadow-md flex items-center gap-2 font-medium text-sm">
+                          <button className="px-3 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 text-sm font-medium flex items-center gap-1">
                             Help
-                            <ChevronRight size={16} />
+                            <ChevronRight size={14} />
                           </button>
                         </div>
                       </div>
@@ -460,15 +587,69 @@ export default function FoodOrdersPage() {
               ))}
             </div>
           )}
-        </section>
 
-        {filteredOrders.length > 0 && (
-          <div className="text-center pt-8">
-            <button className="px-8 py-3 bg-white/80 backdrop-blur-sm text-gray-700 hover:text-blue-600 transition-all duration-300 text-sm font-semibold rounded-2xl border border-white/60 shadow-sm hover:shadow-md hover:border-blue-200/60">
-              Load More Orders
-            </button>
-          </div>
-        )}
+          {filteredOrders.length > ordersPerPage && (
+            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+              <div className="text-sm text-gray-700">
+                Page {currentPage} of {totalPages}
+              </div>
+
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={goToFirstPage}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="First page"
+                >
+                  <ChevronsLeft size={16} />
+                </button>
+
+                <button
+                  onClick={goToPrevPage}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Previous page"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+
+                <div className="flex items-center gap-1 mx-2">
+                  {getPageNumbers().map((pageNumber) => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => paginate(pageNumber)}
+                      className={`min-w-10 px-3 py-2 rounded-lg border transition-colors ${
+                        currentPage === pageNumber
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "border-gray-200 hover:bg-gray-50 text-gray-700"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Next page"
+                >
+                  <ChevronRight size={16} />
+                </button>
+
+                <button
+                  onClick={goToLastPage}
+                  disabled={currentPage === totalPages}
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Last page"
+                >
+                  <ChevronsRight size={16} />
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
       </div>
     </main>
   );
