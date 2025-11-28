@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "tailwind-scrollbar-hide/v4";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -266,11 +267,10 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 .remove-custom-bullet li::before {
-  content: none !important; 
+  content: none !important;
 }
 .force-no-bullets {
-  list-style: none !important; 
-
+  list-style: none !important;
 }
 
 .force-no-bullets li::before {
@@ -286,8 +286,14 @@ input[type="number"] {
 }
 
 @keyframes scaleIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .animate-scaleIn {
