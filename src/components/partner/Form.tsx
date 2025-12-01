@@ -25,7 +25,7 @@ export default function PartnerForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-xl shadow-lg text-black w-full max-w-sm space-y-3 animate-fadeIn"
+      className="bg-[#E8F4F1] p-6 rounded-xl shadow-lg text-[#2C2C2C] w-full max-w-sm space-y-3 animate-fadeIn"
     >
       {/* Title */}
       <h2 className="text-xl font-bold text-gray-900 text-center">
@@ -39,7 +39,7 @@ export default function PartnerForm() {
           name="businessName"
           placeholder="Business Name *"
           required
-          className="w-full p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+          className="w-full p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] outline-none text-sm"
           onChange={handleChange}
         />
 
@@ -48,7 +48,7 @@ export default function PartnerForm() {
           name="firstName"
           placeholder="First & Middle Name *"
           required
-          className="w-full p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+          className="w-full p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] outline-none text-sm"
           onChange={handleChange}
         />
 
@@ -57,14 +57,14 @@ export default function PartnerForm() {
           name="lastName"
           placeholder="Last Name *"
           required
-          className="w-full p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+          className="w-full p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] outline-none text-sm"
           onChange={handleChange}
         />
 
         <select
           name="businessType"
           required
-          className="w-full p-2 border border-gray-300 rounded-md bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+          className="w-full p-2 border border-gray-300 rounded-md bg-[#E8F4F1] focus:ring-1 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] outline-none text-sm"
           onChange={handleChange}
         >
           <option value="">Business type *</option>
@@ -79,7 +79,7 @@ export default function PartnerForm() {
           name="email"
           placeholder="Business Email *"
           required
-          className="w-full p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+          className="w-full p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] outline-none text-sm"
           onChange={handleChange}
         />
 
@@ -90,7 +90,7 @@ export default function PartnerForm() {
             name="phone"
             placeholder="Mobile Number *"
             required
-            className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+            className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] outline-none text-sm"
             onChange={handleChange}
           />
         </div>
@@ -101,7 +101,7 @@ export default function PartnerForm() {
             name="samePhone"
             checked={form.samePhone}
             onChange={handleChange}
-            className="mt-1 h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            className="mt-1 h-3 w-3 text-[#0B5D4E] border-gray-300 rounded focus:ring-[#0B5D4E]"
           />
           <span className="text-gray-700">
             My Business Phone is the same as Mobile Number
@@ -112,7 +112,7 @@ export default function PartnerForm() {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold text-sm hover:bg-blue-700 transition-all"
+        className="w-full bg-[#0B5D4E] text-[#E8F4F1] py-2 rounded-md font-semibold text-sm hover:bg-[#0B5D4E] transition-all"
       >
         Get Started
       </button>
@@ -121,13 +121,13 @@ export default function PartnerForm() {
       <div className="text-xs text-center text-gray-500 space-y-1">
         <p>
           Already have an account?{" "}
-          <a className="text-blue-600 font-medium hover:underline" href="#">
+          <a className="text-[#0B5D4E] font-medium hover:underline" href="#">
             Login
           </a>
         </p>
         <p>
-          Want to be an IFDP rider?{" "}
-          <a className="text-blue-600 font-medium hover:underline" href="#">
+          Want to be an JAYAK HUB  rider?{" "}
+          <a className="text-[#0B5D4E] font-medium hover:underline" href="#">
             Click here
           </a>
         </p>

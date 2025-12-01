@@ -8,13 +8,13 @@ import { FaCrown } from "react-icons/fa";
 
 const BusinessSections: React.FC = () => {
   return (
-    <div className="bg-white pt-20 pb-28">
+    <div className="bg-[#E8F4F1] pt-20 pb-28">
 
       {/* ================= PERKS SECTION ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-14">
-          IFDP for business <span className="text-blue-600">perks</span>
+          JAYAK HUB  for business <span className="text-[#0B5D4E]">perks</span>
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border p-7 bg-gray-50 rounded-lg">
@@ -22,7 +22,7 @@ const BusinessSections: React.FC = () => {
           {/* CARD 1 */}
           <div className="flex items-start gap-4 p-5 rounded-xl bg-gray-50 shadow-sm hover:shadow-md transition duration-300">
             <div className="w-12 h-12 flex items-center justify-center rounded-xl 
-                            bg-blue-100 text-blue-700 shadow-sm">
+                            bg-[#0B5D4E] text-[#0B5D4E] shadow-sm">
               <GiPanda size={26} />
             </div>
 
@@ -37,7 +37,7 @@ const BusinessSections: React.FC = () => {
 
               <Link
                 href="#"
-                className="text-blue-600 text-sm font-semibold hover:underline transition"
+                className="text-[#0B5D4E] text-sm font-semibold hover:underline transition"
               >
                 Learn more
               </Link>
@@ -71,7 +71,7 @@ const BusinessSections: React.FC = () => {
         </div>
       </section>
 
-      <hr className="max-w-7xl mx-auto border-gray-200" />
+      <hr className="max-w-7xl mx-auto border-[#FFF9EE]" />
 
       {/* ================= WHY I FDP SECTION ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
@@ -80,7 +80,7 @@ const BusinessSections: React.FC = () => {
           {/* LEFT TEXT SIDE */}
           <div className="order-2 lg:order-1">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10">
-              Why <span className="text-blue-600">IFDP</span> for business?
+              Why <span className="text-[#0B5D4E]">IFDP</span> for business?
             </h2>
 
             {/* VALUE BLOCKS */}
@@ -100,7 +100,7 @@ const BusinessSections: React.FC = () => {
                   In-depth tracking
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  Track and manage employee food activity with a fully optimized IFDP business dashboard.
+                  Track and manage employee food activity with a fully optimized JAYAK HUB  business dashboard.
                 </p>
               </div>
 
@@ -117,8 +117,8 @@ const BusinessSections: React.FC = () => {
 
             {/* CTA BUTTON */}
             <button
-              className="mt-10 px-8 py-3 bg-blue-600 text-white font-semibold 
-                         rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg 
+              className="mt-10 px-8 py-3 bg-[#0B5D4E] text-[#E8F4F1] font-semibold 
+                         rounded-lg shadow-md hover:bg-[#0B5D4E] hover:shadow-lg 
                          transition duration-300"
             >
               Take a sneak peek at the dashboard
@@ -130,7 +130,7 @@ const BusinessSections: React.FC = () => {
             <div className="relative w-full max-w-lg h-80 md:h-96">
               <img
                 src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D"
-                alt="IFDP business dashboard on a laptop"
+                alt="JAYAK HUB  business dashboard on a laptop"
                 className="object-contain drop-shadow-lg"
               />
             </div>

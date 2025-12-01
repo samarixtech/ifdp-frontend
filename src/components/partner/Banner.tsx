@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Banner() {
   return (
-    <section className="relative w-full py-24 overflow-hidden bg-gradient-to-r from-[#003566] via-[#003566] to-blue-700 text-white">
+    <section className="relative w-full py-24 overflow-hidden bg-gradient-to-r from-[#0B5D4E] via-[#0B5D4E] to-[#0B5D4E] text-[#E8F4F1]">
 
       {/* Background subtle pattern */}
       <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/diagonal-noise.png')]"></div>
@@ -20,13 +20,13 @@ export default function Banner() {
             Partner with <span className="text-yellow-300">IFDP</span> today
           </h2>
 
-          <p className="text-blue-100 text-lg leading-relaxed">
+          <p className="text-white text-lg leading-relaxed">
             Expand your business, reach thousands of customers, and maximize your sales with our fast-growing digital platform.
           </p>
 
-          <button className="group px-8 py-3 bg-white text-blue-700 font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2">
+          <button className="group px-8 py-3 bg-[#E8F4F1] text-[#0B5D4E] font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2">
             Become a Partner
-            <span className="group-hover:translate-x-1 transition-transform text-blue-700">
+            <span className="group-hover:translate-x-1 transition-transform text-[#0B5D4E]">
               →
             </span>
           </button>
@@ -43,7 +43,7 @@ export default function Banner() {
           /> */}
 
           {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2C2C2C]/50 via-[#2C2C2C]/20 to-transparent"></div>
         </div>
 
       </div>

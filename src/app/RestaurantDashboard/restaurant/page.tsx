@@ -12,8 +12,8 @@ import {
   MdSearch,
   MdPerson,
   MdDeleteForever,
-  MdChevronLeft, // Icon for previous page
-  MdChevronRight, // Icon for next page
+  MdChevronLeft, 
+  MdChevronRight,
 } from "react-icons/md";
 
 // -----------------------------------------
@@ -173,7 +173,7 @@ export default function RestaurantDetail() {
                 setCurrentRestaurantDraft(restaurant); 
                 setEditRestaurantModal(true);
               }}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md flex items-center gap-2 text-sm hover:bg-blue-700 transition btn-primary"
+              className="bg-[#0B5D4E] text-[#E8F4F1] px-4 py-2 rounded-md flex items-center gap-2 text-sm hover:bg-[#0B5D4E] transition btn-primary"
             >
               <MdEdit size={18} /> Edit Restaurant
             </button>
@@ -189,17 +189,17 @@ export default function RestaurantDetail() {
                 });
                 setItemModal(true);
               }}
-              className="bg-green-600 text-white px-4 py-2 rounded-md flex items-center gap-2 text-sm hover:bg-green-700 transition font-medium"
+              className="bg-green-600 text-[#E8F4F1] px-4 py-2 rounded-md flex items-center gap-2 text-sm hover:bg-green-700 transition font-medium"
             >
               <MdAdd size={18} /> Add Menu Item
             </button>
           </div>
         </div>
 
-        <hr className="border-gray-200" />
+        <hr className="border-[#FFF9EE]" />
 
         {/* BASIC INFO */}
-        <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+        <div className="bg-[#E8F4F1] p-6 rounded-xl shadow-lg border border-[#FFF9EE]">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">{restaurant.name}</h2>
           <p className="text-gray-600 mb-4 italic">{restaurant.description}</p>
 
@@ -218,13 +218,13 @@ export default function RestaurantDetail() {
         </div>
 
         {/* MENU ITEMS */}
-        <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+        <div className="bg-[#E8F4F1] p-6 rounded-xl shadow-lg border border-[#FFF9EE]">
           <h2 className="text-xl font-bold text-gray-700 mb-4">📜 Menu Items ({filteredItems.length} found)</h2>
 
           {/* SEARCH + FILTERS */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
 
-            <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg border border-gray-200 focus-within:border-blue-500">
+            <div className="flex items-center gap-2 bg-[#FFF9EE] px-3 py-2 rounded-lg border border-[#FFF9EE] focus-within:border-[#0B5D4E]">
               <MdSearch className="text-gray-500" />
               <input
                 type="text"
@@ -236,7 +236,7 @@ export default function RestaurantDetail() {
             </div>
 
             <select
-              className="bg-gray-100 px-3 py-2 rounded-lg text-sm border border-gray-200 cursor-pointer hover:bg-gray-200 transition"
+              className="bg-[#FFF9EE] px-3 py-2 rounded-lg text-sm border border-[#FFF9EE] cursor-pointer hover:bg-[#FFF9EE] transition"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
             >
@@ -246,7 +246,7 @@ export default function RestaurantDetail() {
             </select>
 
             <select
-              className="bg-gray-100 px-3 py-2 rounded-lg text-sm border border-gray-200 cursor-pointer hover:bg-gray-200 transition"
+              className="bg-[#FFF9EE] px-3 py-2 rounded-lg text-sm border border-[#FFF9EE] cursor-pointer hover:bg-[#FFF9EE] transition"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -260,7 +260,7 @@ export default function RestaurantDetail() {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse table-auto min-w-[600px]">
               <thead>
-                <tr className="bg-gray-100 text-gray-600 text-sm uppercase">
+                <tr className="bg-[#FFF9EE] text-gray-600 text-sm uppercase">
                   <th className="px-4 py-3 text-left font-semibold rounded-tl-lg">Name</th>
                   <th className="px-4 py-3 text-left font-semibold">Category</th>
                   <th className="px-4 py-3 text-left font-semibold">Price</th>
@@ -272,7 +272,7 @@ export default function RestaurantDetail() {
               <tbody>
                 {currentItems.length > 0 ? (
                     currentItems.map((item) => (
-                    <tr key={item.id} className="border-b border-gray-100 hover:bg-blue-50/50 transition duration-150">
+                    <tr key={item.id} className="border-b border-[#FFF9EE] hover:bg-[#0B5D4E]/50 transition duration-150">
                         <td className="px-4 py-3 text-gray-800">{item.name}</td>
                         <td className="px-4 py-3 text-gray-600">{item.category}</td>
                         <td className="px-4 py-3 text-green-700 font-medium">{item.price}</td>
@@ -288,7 +288,7 @@ export default function RestaurantDetail() {
                             setItemModal(true);
                             }}
                             title="Edit Item"
-                            className="text-blue-700 hover:text-blue-900 transition p-1 rounded-full hover:bg-blue-100"
+                            className="text-[#0B5D4E] hover:text-[#B6932F] transition p-1 rounded-full hover:bg-[#0B5D4E]"
                         >
                             <MdEdit size={20} />
                         </button>
@@ -318,7 +318,7 @@ export default function RestaurantDetail() {
 
           {/* PAGINATION CONTROLS */}
           {totalPages > 1 && (
-            <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-100">
+            <div className="flex justify-between items-center mt-6 pt-4 border-t border-[#FFF9EE]">
                 <p className="text-sm text-gray-600">
                     Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredItems.length)} of {filteredItems.length} results
                 </p>
@@ -327,7 +327,7 @@ export default function RestaurantDetail() {
                     <button
                         onClick={prevPage}
                         disabled={currentPage === 1}
-                        className="p-2 rounded-full text-gray-500 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition"
+                        className="p-2 rounded-full text-gray-500 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FFF9EE] transition"
                         title="Previous Page"
                     >
                         <MdChevronLeft size={24} />
@@ -340,8 +340,8 @@ export default function RestaurantDetail() {
                                 onClick={() => paginate(index + 1)}
                                 className={`px-4 py-2 text-sm rounded-lg font-medium transition ${
                                     currentPage === index + 1
-                                        ? 'bg-blue-600 text-white shadow-md'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-[#0B5D4E] text-[#E8F4F1] shadow-md'
+                                        : 'bg-[#FFF9EE] text-gray-700 hover:bg-[#FFF9EE]'
                                 }`}
                             >
                                 {index + 1}
@@ -352,7 +352,7 @@ export default function RestaurantDetail() {
                     <button
                         onClick={nextPage}
                         disabled={currentPage === totalPages}
-                        className="p-2 rounded-full text-gray-500 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition"
+                        className="p-2 rounded-full text-gray-500 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FFF9EE] transition"
                         title="Next Page"
                     >
                         <MdChevronRight size={24} />
@@ -416,7 +416,7 @@ export default function RestaurantDetail() {
                     <option value="Inactive">Inactive</option>
                 </select>
                 <div className="flex justify-end gap-3 mt-4">
-                    <button className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition font-medium" onClick={() => setEditRestaurantModal(false)}>
+                    <button className="px-4 py-2 rounded-md border border-gray-300 hover:bg-[#FFF9EE] transition font-medium" onClick={() => setEditRestaurantModal(false)}>
                         Cancel
                     </button>
                     <button className="btn-primary" onClick={saveRestaurant}>
@@ -469,7 +469,7 @@ export default function RestaurantDetail() {
                     <option value="Inactive">Inactive</option>
                 </select>
                 <div className="flex justify-end gap-3 mt-4">
-                    <button className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition font-medium" onClick={() => setItemModal(false)}>
+                    <button className="px-4 py-2 rounded-md border border-gray-300 hover:bg-[#FFF9EE] transition font-medium" onClick={() => setItemModal(false)}>
                         Cancel
                     </button>
                     <button className="btn-primary" onClick={saveItem}>
@@ -497,7 +497,7 @@ interface InfoProps {
 function InfoRow({ icon, label, value, full }: InfoProps) {
   return (
     <div className={`flex items-start gap-3 ${full ? "col-span-1 sm:col-span-2 lg:col-span-4" : "col-span-1"}`}>
-      <span className="text-blue-600 text-xl flex-shrink-0 mt-0.5">{icon}</span>
+      <span className="text-[#0B5D4E] text-xl flex-shrink-0 mt-0.5">{icon}</span>
       <p className="text-gray-700 text-sm leading-snug">
         <strong className="font-semibold text-gray-900">{label}: </strong>
         {value}
@@ -531,11 +531,11 @@ function Modal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 bg-black/60 bg-opacity-50 flex justify-center items-center p-4 z-50 backdrop-blur-sm">
-      <div className="bg-white p-6 rounded-xl shadow-2xl w-full max-w-lg relative animate-scaleIn border border-gray-100">
+    <div className="fixed inset-0 bg-[#2C2C2C]/60 bg-opacity-50 flex justify-center items-center p-4 z-50 backdrop-blur-sm">
+      <div className="bg-[#E8F4F1] p-6 rounded-xl shadow-2xl w-full max-w-lg relative animate-scaleIn border border-[#FFF9EE]">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition p-1 rounded-full bg-gray-50 hover:bg-gray-100"
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition p-1 rounded-full bg-gray-50 hover:bg-[#FFF9EE]"
         >
           <MdClose size={24} />
         </button>

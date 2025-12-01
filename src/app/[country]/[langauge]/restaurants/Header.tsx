@@ -9,7 +9,8 @@ import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 import { FiShoppingBag } from "react-icons/fi";
 import { useSelector } from "react-redux";
-
+import Image from "next/image";
+import image from "./../../../../../public/logo2.png";
 // Inline SVG Icons
 const MapPin: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -150,16 +151,16 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
     <div ref={ref} className="relative shrink-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150 relative z-10"
+        className="p-3 bg-[#FFF9EE] rounded-full hover:bg-[#FFF9EE] transition duration-150 relative z-10"
         aria-label={t("label")}
         aria-expanded={isOpen}
       >
-        <User className="w-6 h-6 text-black" />
+        <User className="w-6 h-6 text-[#2C2C2C]" />
       </button>
 
       {/* Profile Menu Dropdown */}
       <div
-        className={`absolute top-full mt-2 right-0 w-64 rounded-xl shadow-2xl bg-white p-3 transition-all duration-300 origin-top-right z-50 overflow-hidden border border-gray-100
+        className={`absolute top-full mt-2 right-0 w-64 rounded-xl shadow-2xl bg-[#E8F4F1] p-3 transition-all duration-300 origin-top-right z-50 overflow-hidden border border-[#FFF9EE]
           ${
             isOpen
               ? "scale-100 opacity-100 max-h-[500px]"
@@ -203,13 +204,13 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const buttonClasses =
-    "flex items-center p-2 rounded-lg border border-gray-200 hover:border-blue-400 transition bg-white relative z-10";
+    "flex items-center p-2 rounded-lg border border-[#FFF9EE] hover:border-yellow-400 transition bg-[#E8F4F1] relative z-10";
   const locationButtonClasses = isLocation ? "hidden lg:flex max-w-sm" : "flex";
 
   return (
     <div
       ref={ref}
-      className={` text-black relative ${locationButtonClasses} ${
+      className={` text-[#2C2C2C] relative ${locationButtonClasses} ${
         isLocation ? "w-full" : "w-auto"
       }`}
     >
@@ -219,17 +220,17 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={`
     flex items-center w-full p-3 rounded-lg 
     border transition-all duration-200 
-    bg-white shadow-sm hover:shadow-md
+    bg-[#E8F4F1] shadow-sm hover:shadow-md
   
     ${
       isOpen
-        ? "border-blue-500 ring-2 ring-blue-300"
-        : "border-gray-200 hover:border-blue-300"
+        ? "border-[#0B5D4E] ring-2 ring-yellow-300"
+        : "border-[#FFF9EE] hover:border-yellow-300"
     }
     ${isLocation ? "w-full" : ""}
   `}
       >
-        <Icon className="w-5 h-5 text-[#003566] mr-2 shrink-0" />
+        <Icon className="w-5 h-5 text-[#0B5D4E] mr-2 shrink-0" />
         <span className="text-sm font-semibold text-gray-700 max-w-[200px] truncate">
           {label}
         </span>
@@ -243,7 +244,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       {/* Dropdown Content */}
       <div
-        className={`absolute top-full mt-2 rounded-xl shadow-2xl bg-white p-4 transition-all duration-300 origin-top z-50 overflow-hidden 
+        className={`absolute top-full mt-2 rounded-xl shadow-2xl bg-[#E8F4F1] p-4 transition-all duration-300 origin-top z-50 overflow-hidden 
           ${
             isLocation
               ? "w-[350px] right-0 lg:left-0" // Location: wider, fixed size
@@ -262,7 +263,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       {/* Mobile/Small Screen Location Modal (Full width) */}
       {isLocation && (
         <div
-          className={`lg:hidden fixed inset-0 bg-white z-40 transition-transform duration-300 ease-in-out ${
+          className={`lg:hidden fixed inset-0 bg-[#E8F4F1] z-40 transition-transform duration-300 ease-in-out ${
             isOpen ? "translate-y-0" : "translate-y-full"
           }`}
         >
@@ -336,9 +337,9 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
       {["English", "Iraq"].map((lang, index) => (
         <button
           key={index}
-          className={`text-left text-base p-2 rounded-lg hover:bg-gray-100 transition ${
+          className={`text-left text-base p-2 rounded-lg hover:bg-[#FFF9EE] transition ${
             lang.startsWith(currentLangCode.toUpperCase())
-              ? "text-[#003566] font-bold bg-blue-50"
+              ? "text-[#0B5D4E] font-bold bg-[#0B5D4E]"
               : "text-gray-800"
           }`}
           onClick={() => {
@@ -386,7 +387,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
 
       <button
         onClick={getCurrentLocation}
-        className="w-full p-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition"
+        className="w-full p-3 bg-green-600 text-[#E8F4F1] font-bold rounded-lg hover:bg-green-700 transition"
       >
         Use Current Location
       </button>
@@ -394,7 +395,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
       <input
         type="text"
         placeholder={tLocation("placeholder")}
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
+        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-[#0B5D4E] focus:border-[#0B5D4E] transition"
       />
 
       <div className="text-sm text-gray-500 mt-2">
@@ -413,29 +414,29 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         </p>
         <p className="text-sm text-gray-500">{tProfile("placeholder.email")}</p>
       </div>
-      <hr className="border-gray-100" />
+      <hr className="border-[#FFF9EE]" />
       <Link
         href="/dashboard"
-        className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+        className="flex items-center p-3 text-gray-700 hover:bg-[#FFF9EE] rounded-lg transition"
       >
         <BarChart className="w-5 h-5 mr-3" />
         {tProfile("link.dashboard")}
       </Link>
       <Link
         href={`/${country.toLowerCase()}/${language.toLowerCase()}/account-settings`}
-        className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+        className="flex items-center p-3 text-gray-700 hover:bg-[#FFF9EE] rounded-lg transition"
       >
         <User className="w-5 h-5 mr-3" />
         {tProfile("link.accountSettings")}
       </Link>
       <Link
         href={`/${country.toLowerCase()}/${language.toLowerCase()}/myorders`}
-        className="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+        className="flex items-center p-3 text-gray-700 hover:bg-[#FFF9EE] rounded-lg transition"
       >
         <ShoppingBag className="w-5 h-5 mr-3" />
         {tProfile("link.myOrders")}
       </Link>
-      <hr className="border-gray-100" />
+      <hr className="border-[#FFF9EE]" />
       <button className="flex items-center p-3 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition w-full text-left">
         {tProfile("link.logout")}
       </button>
@@ -453,42 +454,58 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-50 pb-20">
-        <div className="hidden sm:block bg-[#003566] text-white text-sm py-2 px-4 shadow-md">
-          <div className="max-w-7xl mx-auto flex justify-end items-center space-x-4">
-            <span className="flex items-center space-x-1 font-semibold">
-              <ShoppingBag className="w-4 h-4" />
-              <span>IDFP</span>
-            </span>
-            <a
-              href="/partner"
-              className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
-            >
-              {tHeader("topBar.partnerSignup")}
-            </a>
-            <a
-              href="#"
-              className="py-1 px-3 border border-white hover:bg-[#003566] transition duration-150 rounded-lg"
-            >
-              {tHeader("topBar.businessSignup")}
-            </a>
-            
+        {/* Top Bar */}
+        <div className="hidden sm:block bg-[#0B5D4E] text-[#E8F4F1] text-sm py-1 px-4 shadow-md">
+          <div className="max-w-7xl mx-auto flex justify-between space-x-4">
+            {/* Logo + Shopping Bag */}
+            <div className="flex items-center space-x-3 font-semibold">
+              <ShoppingBag className="text-[#FFF9EE] w-6 h-6" />
+
+              <Link href="/">
+                <Image
+                  src={image}
+                  alt="Logo"
+                  width={140}
+                  height={130}
+                  className="object-contain"
+                  priority
+                />
+              </Link>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              {/* Partner / Business Links */}
+              <a
+                href="/partner"
+                className="py-2 px-3 border border-[#E8F4F1] hover:bg-[#0B5D4E] transition duration-150 rounded-lg"
+              >
+                {tHeader("topBar.partnerSignup")}
+              </a>
+              <a
+                href="#"
+                className="py-2 px-3 border border-[#E8F4F1] hover:bg-[#0B5D4E] transition duration-150 rounded-lg"
+              >
+                {tHeader("topBar.businessSignup")}
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* 2. Main Navigation Bar (White/Blue) */}
-        <nav className="bg-white shadow-xl">
+        {/* Main Navigation */}
+        <nav className="bg-[#E8F4F1] shadow-xl">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div className="flex justify-between items-center h-16">
-              {/* Left Section: Logo and Location Dropdown */}
+              {/* Left: Logo + Location */}
               <div className="flex items-center space-x-3 lg:space-x-12 w-full lg:w-auto">
-                {/* Logo (Visible on all screens) */}
+                {/* Logo Text */}
                 <div className="shrink-0">
-                  <span className="text-2xl sm:text-3xl font-extrabold text-[#003566] tracking-tight">
-                    IFDP<span className="text-black text-lg sm:text-xl"></span>
+                  <span className="text-2xl sm:text-3xl font-extrabold text-[#0B5D4E] tracking-tight">
+                    IFDP
+                    <span className="text-[#2C2C2C] text-lg sm:text-xl"></span>
                   </span>
                 </div>
 
-                {/* Location Dropdown (Visible on all screens) */}
+                {/* Location Dropdown */}
                 <Dropdown
                   label={currentAddress}
                   icon={MapPin}
@@ -497,19 +514,20 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
                 />
               </div>
 
-              {/* Right Section: Auth, Language, Cart (Hidden on small screens when location dropdown is focused) */}
+              {/* Right: Auth, Language, Cart */}
               <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
-                {/* Log In Button (Outline) */}
+                {/* Login */}
                 <button
                   onClick={openLogin}
-                  className="hidden sm:block px-4 py-2 border border-black text-black font-semibold rounded-lg hover:bg-gray-100 transition duration-150 text-sm"
+                  className="hidden sm:block px-4 py-2 border border-[#2C2C2C] text-[#2C2C2C] font-semibold rounded-lg hover:bg-[#FFF9EE] transition duration-150 text-sm"
                 >
                   {tHeader("auth.login")}
                 </button>
 
+                {/* Signup */}
                 <button
                   onClick={openSignup}
-                  className="hidden sm:block px-4 py-2 bg-[#003566] text-white font-semibold rounded-lg hover:bg-[#002a47] transition duration-150 text-sm"
+                  className="hidden sm:block px-4 py-2 bg-[#0B5D4E] text-[#E8F4F1] font-semibold rounded-lg hover:bg-[#084838] transition duration-150 text-sm"
                 >
                   {tHeader("auth.signup")}
                 </button>
@@ -524,17 +542,18 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
                 {/* Cart Button */}
                 <button
                   onClick={() => setIsDrawerOpen(true)}
-                  className="relative p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-150"
+                  className="relative p-3 bg-[#FFF9EE] rounded-full hover:bg-[#FFF9EE] transition duration-150"
                   aria-label="Cart"
                 >
-                  <FiShoppingBag className="w-6 h-6 text-black" />
+                  <FiShoppingBag className="w-6 h-6 text-[#2C2C2C]" />
                   {totalItems > 0 && (
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
+                    <span className="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 text-xs font-bold leading-none text-[#E8F4F1] transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
                       {totalItems > 9 ? "9+" : totalItems}
                     </span>
                   )}
                 </button>
 
+                {/* Drawers / Profile */}
                 <CartDrawer
                   isOpen={isDrawerOpen}
                   onClose={() => setIsDrawerOpen(false)}
@@ -545,6 +564,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
           </div>
         </nav>
       </header>
+
       {/* Modals */}
       <AuthModal
         isOpen={authModalOpen}

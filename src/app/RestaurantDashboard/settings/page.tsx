@@ -85,7 +85,7 @@ const ToggleSwitch: React.FC<{ label: string; enabled: boolean; setEnabled: (val
   description,
 }) => {
   return (
-    <div className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">
+    <div className="flex items-center justify-between py-3 border-b border-[#FFF9EE] last:border-b-0">
       <div className="flex-1 pr-4">
         <h3 className="text-sm font-semibold text-gray-800">{label}</h3>
         <p className="text-xs text-gray-500 mt-0.5">{description}</p>
@@ -99,8 +99,8 @@ const ToggleSwitch: React.FC<{ label: string; enabled: boolean; setEnabled: (val
         role="switch"
       >
         <span
-          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 shadow 
-            ${enabled ? "translate-x-6 bg-white" : "translate-x-1 bg-white"}`}
+          className={`inline-block h-4 w-4 transform rounded-full bg-[#E8F4F1] transition-transform duration-200 shadow 
+            ${enabled ? "translate-x-6 bg-[#E8F4F1]" : "translate-x-1 bg-[#E8F4F1]"}`}
         />
       </button>
     </div>
@@ -115,7 +115,7 @@ const SettingsSectionHeader: React.FC<{ icon: React.ReactNode; title: string; de
   title,
   description,
 }) => (
-  <header className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200">
+  <header className="flex items-center gap-3 mb-6 pb-4 border-b border-[#FFF9EE]">
     <div className="p-3 rounded-full bg-amber-100 text-amber-600 shadow-md">{icon}</div>
     <div>
       <h2 className="text-xl font-bold text-gray-900">{title}</h2>
@@ -193,7 +193,7 @@ const OperationalSettings: React.FC<{ settings: RestaurantSettingsState['operati
             <label className="block">
                 <span className="text-sm font-medium text-gray-700">Weekly Day Off</span>
                 <select
-                    className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:border-amber-500 focus:ring-amber-500 text-sm appearance-none bg-white transition duration-150"
+                    className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:border-amber-500 focus:ring-amber-500 text-sm appearance-none bg-[#E8F4F1] transition duration-150"
                     value={settings.weeklyOff}
                     onChange={(e) => handleUpdate('weeklyOff', e.target.value)}
                 >
@@ -337,7 +337,7 @@ const IntegrationsSettings: React.FC<{ settings: RestaurantSettingsState['integr
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+            <div className="flex justify-between items-center pb-4 border-b border-[#FFF9EE]">
                 <h3 className="text-lg font-semibold text-gray-800">Connected Services ({integrations.length})</h3>
                 <button
                     onClick={handleAdd}
@@ -354,7 +354,7 @@ const IntegrationsSettings: React.FC<{ settings: RestaurantSettingsState['integr
             ) : (
                 <div className="space-y-4">
                     {integrations.map((integration, index) => (
-                        <div key={integration.id} className="p-4 border border-gray-200 rounded-xl shadow-sm bg-white">
+                        <div key={integration.id} className="p-4 border border-[#FFF9EE] rounded-xl shadow-sm bg-[#E8F4F1]">
                             <div className="flex justify-between items-start">
                                 <div>
                                     <h4 className="text-md font-bold text-gray-900">{integration.name}</h4>
@@ -454,7 +454,7 @@ export default function RestaurantSettings() {
   return (
     // Outer container: Soft Neutral background
     <main className="min-h-screen bg-neutral-50 p-4 sm:p-8 md:p-12 font-sans">
-      <div className="max-w-6xl w-full mx-auto bg-white rounded-2xl shadow-2xl border border-gray-200">
+      <div className="max-w-6xl w-full mx-auto bg-[#E8F4F1] rounded-2xl shadow-2xl border border-[#FFF9EE]">
         
         {/* Header */}
         <header className="p-6 md:p-8 border-b-4 border-amber-500">
@@ -467,7 +467,7 @@ export default function RestaurantSettings() {
         <div className="flex flex-col lg:flex-row">
             
             {/* Sidebar Navigation (1/4 width) */}
-            <aside className="lg:w-1/4 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-gray-200 bg-gray-50 lg:rounded-bl-2xl">
+            <aside className="lg:w-1/4 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-[#FFF9EE] bg-gray-50 lg:rounded-bl-2xl">
                 <nav className="space-y-2">
                     {navigationItems.map((item) => (
                         <button
@@ -476,7 +476,7 @@ export default function RestaurantSettings() {
                             className={`flex items-center w-full px-4 py-3 rounded-xl transition duration-200 
                                 ${activeSection === item.id 
                                     ? 'bg-amber-100 text-amber-700 font-bold shadow-md ring-1 ring-amber-300'
-                                    : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900 font-medium'
+                                    : 'text-gray-600 hover:bg-[#FFF9EE] hover:text-gray-900 font-medium'
                                 }`}
                         >
                             <item.icon size={20} className="mr-3" />
@@ -506,7 +506,7 @@ export default function RestaurantSettings() {
                 </section>
 
                 {/* Save Changes Footer (Stays visible below content) */}
-                <footer className="mt-8 pt-6 border-t border-gray-200 flex justify-end items-center gap-4">
+                <footer className="mt-8 pt-6 border-t border-[#FFF9EE] flex justify-end items-center gap-4">
                     {saveSuccess && (
                         <div className="flex items-center gap-2 text-green-600 font-semibold transition duration-300 ease-in-out">
                             <Check size={20} /> Settings saved successfully!
@@ -515,7 +515,7 @@ export default function RestaurantSettings() {
                     <button
                         onClick={handleSave}
                         disabled={!isModified || isSaving}
-                        className={`flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold transition duration-300 shadow-lg 
+                        className={`flex items-center gap-2 px-6 py-3 rounded-xl text-[#E8F4F1] font-bold transition duration-300 shadow-lg 
                             ${isModified && !isSaving 
                                 ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-300/50' 
                                 : 'bg-gray-400 cursor-not-allowed'
@@ -523,7 +523,7 @@ export default function RestaurantSettings() {
                     >
                         {isSaving ? (
                             <>
-                                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <svg className="animate-spin h-5 w-5 text-[#E8F4F1]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>

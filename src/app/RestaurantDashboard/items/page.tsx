@@ -230,7 +230,7 @@ const sampleRestaurants: RestaurantType[] = [
 function StatusBadge({ status }: { status: "Active" | "Inactive" }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap
+      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold [#E8F4F1]space-nowrap
         ${
           status === "Active"
             ? "bg-green-100 text-green-700"
@@ -360,7 +360,7 @@ const renderSortableHeader = (
   align: "left" | "center" | "right" = "left"
 ) => (
   <th
-    className={`py-3 px-4 text-${align} cursor-pointer hover:bg-gray-200 transition select-none`}
+    className={`py-3 px-4 text-${align} cursor-pointer hover:bg-[#FFF9EE] transition select-none`}
     onClick={() => handleSort(key)}
     aria-sort={sortBy === key ? mapSortDirection(sortDirection) : "none"}
   >
@@ -382,11 +382,11 @@ const renderSortableHeader = (
 
   return (
     <main className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-10 flex justify-center font-sans">
-      <div className="max-w-6xl w-full bg-white rounded-xl shadow-2xl border border-gray-200 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-6xl w-full bg-[#E8F4F1] rounded-xl shadow-2xl border border-[#FFF9EE] p-4 sm:p-6 lg:p-8">
         {/* Header */}
-        <header className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200">
+        <header className="flex items-center gap-4 mb-6 pb-4 border-b border-[#FFF9EE]">
           {/* Restaurant Icon */}
-          <span className="text-blue-600 text-4xl">🍽️</span> 
+          <span className="text-[#0B5D4E] text-4xl">🍽️</span> 
           <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
             Restaurant Performance Dashboard
           </h1>
@@ -409,8 +409,8 @@ const renderSortableHeader = (
                 className={`flex items-center gap-1 px-4 py-2 rounded-lg border-2 text-sm font-medium transition duration-300
                 ${
                   filterStatus === status
-                    ? "bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-blue-50 hover:border-blue-400"
+                    ? "bg-[#0B5D4E] text-[#E8F4F1] border-[#0B5D4E] shadow-md shadow-yellow-200"
+                    : "bg-[#E8F4F1] text-gray-700 border-gray-300 hover:bg-[#0B5D4E] hover:border-yellow-400"
                 }`}
                 aria-pressed={filterStatus === status}
               >
@@ -428,7 +428,7 @@ const renderSortableHeader = (
             <input
               type="search"
               placeholder="Search by name or category..."
-              className="pl-10 pr-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition text-sm w-full shadow-sm"
+              className="pl-10 pr-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-4 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] transition text-sm w-full shadow-sm"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -443,7 +443,7 @@ const renderSortableHeader = (
         <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-300">
           <table className="w-full min-w-[1000px] border-collapse">
             <thead>
-              <tr className="bg-gray-100 text-gray-600 text-xs sm:text-sm uppercase font-bold tracking-wider">
+              <tr className="bg-[#FFF9EE] text-gray-600 text-xs sm:text-sm uppercase font-bold tracking-wider">
                 {renderSortableHeader("Name", "name")}
                 {renderSortableHeader("Category", "category")}
                 {renderSortableHeader("Location", "location")}
@@ -458,7 +458,7 @@ const renderSortableHeader = (
                 <tr>
                   <td
                     colSpan={7}
-                    className="text-center py-12 text-lg text-gray-500 bg-white"
+                    className="text-center py-12 text-lg text-gray-500 bg-[#E8F4F1]"
                   >
                     <p>No results match your criteria.</p>
                     <p className="text-sm mt-1">Try adjusting your filters or search term.</p>
@@ -470,12 +470,12 @@ const renderSortableHeader = (
                 <tr
                   key={r.id}
                   tabIndex={0}
-                  className="border-t border-gray-200 bg-white hover:bg-blue-50 cursor-pointer transition duration-150 ease-in-out group"
+                  className="border-t border-[#FFF9EE] bg-[#E8F4F1] hover:bg-[#0B5D4E] cursor-pointer transition duration-150 ease-in-out group"
                   aria-label={`${r.name} details`}
                 >
                   {/* Name */}
                   <td className="py-4 px-4 font-semibold text-gray-900 flex items-center gap-3">
-                    <span className="text-blue-500 text-xl group-hover:text-blue-600 transition">🍽️</span> 
+                    <span className="text-[#0B5D4E] text-xl group-hover:text-[#B6932F] transition">🍽️</span> 
                     {r.name}
                   </td>
                   {/* Category */}
@@ -521,7 +521,7 @@ const renderSortableHeader = (
         {/* Pagination */}
         {filteredAndSortedRestaurants.length > 0 && (
           <nav
-            className="flex justify-between items-center mt-8 p-3 bg-gray-100 rounded-lg shadow-inner"
+            className="flex justify-between items-center mt-8 p-3 bg-[#FFF9EE] rounded-lg shadow-inner"
             aria-label="Pagination Navigation"
           >
             <span className="text-gray-600 text-sm font-medium select-none">
@@ -539,7 +539,7 @@ const renderSortableHeader = (
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="p-2 rounded-full bg-white border border-gray-300 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
+                  className="p-2 rounded-full bg-[#E8F4F1] border border-gray-300 hover:bg-[#FFF9EE] disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
                   aria-disabled={page === 1}
                   aria-label="Previous Page"
                 >
@@ -549,7 +549,7 @@ const renderSortableHeader = (
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="p-2 rounded-full bg-white border border-gray-300 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
+                  className="p-2 rounded-full bg-[#E8F4F1] border border-gray-300 hover:bg-[#FFF9EE] disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
                   aria-disabled={page === totalPages}
                   aria-label="Next Page"
                 >

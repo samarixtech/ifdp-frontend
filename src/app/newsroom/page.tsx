@@ -3,16 +3,16 @@
 import { ArrowRight, Tag, Calendar, ChevronDown, Rss } from "lucide-react";
 
 // --- Theme Constants (Using Tailwind Classes) ---
-const PRIMARY_BLUE = "#014f86";
-const ACCENT_CYAN = "cyan-600";
-const ACCENT_BG = "bg-cyan-100";
+const PRIMARY_yellow = "#0B5D4E";
+const ACCENT_yellow = "yellow-600";
+const ACCENT_BG = "bg-yellow-100";
 const NEUTRAL_BG = "bg-gray-50";
-const SECTION_BG = "bg-white";
+const SECTION_BG = "bg-[#E8F4F1]";
 
 const SectionHeading = ({ title, subtitle, color = "text-gray-800" }: any) => (
   <div className="text-left mb-12">
     <h2
-      className={`text-3xl md:text-4xl font-black ${color} mb-3 border-l-4 border-cyan-500 pl-4`}
+      className={`text-3xl md:text-4xl font-[#2C2C2C] ${color} mb-3 border-l-4 border-yellow-500 pl-4`}
     >
       {title}
     </h2>
@@ -22,15 +22,15 @@ const SectionHeading = ({ title, subtitle, color = "text-gray-800" }: any) => (
 
 const NewsCard = ({ type, title, date, image, tags, large = false }: any) => {
   // Theme colors
-  //   const primaryBlue = "#014f86";
-  //   const accentCyan = "#06b6d4";
-  //   const softPrimary = `text-[${primaryBlue}]`;
-  //   const softSecondary = `text-[${accentCyan}]`;
+  //   const primaryyellow = "#0B5D4E";
+  //   const accentyellow = "#06b6d4";
+  //   const softPrimary = `text-[${primaryyellow}]`;
+  //   const softSecondary = `text-[${accentyellow}]`;
 
   // Dynamic styling based on size
   const cardClasses = large
-    ? "col-span-12 lg:col-span-8 flex flex-col md:flex-row bg-white rounded-3xl shadow-2xl hover:shadow-cyan-400/30 transition-all duration-500 overflow-hidden border border-gray-100 transform hover:scale-[1.01] cursor-pointer group"
-    : "col-span-12 sm:col-span-6 lg:col-span-4 bg-white rounded-3xl shadow-xl hover:shadow-cyan-300/40 transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2 cursor-pointer group";
+    ? "col-span-12 lg:col-span-8 flex flex-col md:flex-row bg-[#E8F4F1] rounded-3xl shadow-2xl hover:shadow-yellow-400/30 transition-all duration-500 overflow-hidden border border-[#FFF9EE] transform hover:scale-[1.01] cursor-pointer group"
+    : "col-span-12 sm:col-span-6 lg:col-span-4 bg-[#E8F4F1] rounded-3xl shadow-xl hover:shadow-yellow-300/40 transition-all duration-500 overflow-hidden border border-[#FFF9EE] transform hover:-translate-y-2 cursor-pointer group";
 
   const imageClasses = large
     ? "md:w-1/2 w-full h-72 md:h-auto bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.05]"
@@ -41,8 +41,8 @@ const NewsCard = ({ type, title, date, image, tags, large = false }: any) => {
     : "p-6 flex flex-col h-full";
 
   const titleClasses = large
-    ? "text-3xl font-extrabold text-gray-900 mb-4 group-hover:text-cyan-600 transition-colors leading-tight"
-    : "text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors leading-snug";
+    ? "text-3xl font-extrabold text-gray-900 mb-4 group-hover:text-yellow-600 transition-colors leading-tight"
+    : "text-xl font-bold text-gray-900 mb-3 group-hover:text-yellow-600 transition-colors leading-snug";
 
   return (
     <a href="#" className={cardClasses}>
@@ -57,7 +57,7 @@ const NewsCard = ({ type, title, date, image, tags, large = false }: any) => {
       <div className={contentClasses}>
         <div className="flex items-center space-x-4 mb-4 text-sm">
           <div
-            className={`flex items-center font-bold text-xs tracking-widest uppercase text-${ACCENT_CYAN} border-b-2 border-cyan-300 pb-1`}
+            className={`flex items-center font-bold text-xs tracking-widest uppercase text-${ACCENT_yellow} border-b-2 border-yellow-300 pb-1`}
           >
             <Tag className="w-4 h-4 mr-1 opacity-90" />
             {type}
@@ -69,11 +69,11 @@ const NewsCard = ({ type, title, date, image, tags, large = false }: any) => {
         </div>
         <h3 className={titleClasses}>{title}</h3>
         {tags && (
-          <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-gray-100">
+          <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-[#FFF9EE]">
             {tags.map((tag: string, index: string | number) => (
               <span
                 key={index}
-                className={`text-xs font-medium px-3 py-1 rounded-full bg-cyan-50 text-cyan-700 hover:bg-cyan-100 transition-colors`}
+                className={`text-xs font-medium px-3 py-1 rounded-full bg-yellow-50 text-yellow-700 hover:bg-yellow-100 transition-colors`}
               >
                 {tag}
               </span>
@@ -286,29 +286,29 @@ const NewsroomPage = () => {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h1 className="text-6xl md:text-7xl font-black text-gray-900 mb-4 tracking-tighter">
+          <h1 className="text-6xl md:text-7xl font-[#2C2C2C] text-gray-900 mb-4 tracking-tighter">
             📰 Corporate Newsroom
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mb-8">
             Stay informed with our official press releases, in-depth reports,
             and company updates.
           </p>
-          <div className="flex flex-wrap gap-x-8 gap-y-2 text-gray-700 text-lg font-semibold border-t pt-4 border-gray-200">
+          <div className="flex flex-wrap gap-x-8 gap-y-2 text-gray-700 text-lg font-semibold border-t pt-4 border-[#FFF9EE]">
             <a
               href="#"
-              className="hover:text-cyan-600 transition-colors relative after:absolute after:h-0.5 after:bg-cyan-500 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+              className="hover:text-yellow-600 transition-colors relative after:absolute after:h-0.5 after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
             >
               Press Releases
             </a>
             <a
               href="#"
-              className="hover:text-cyan-600 transition-colors relative after:absolute after:h-0.5 after:bg-cyan-500 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
+              className="hover:text-yellow-600 transition-colors relative after:absolute after:h-0.5 after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
             >
               Research & Insights
             </a>
             <a
               href="#"
-              className="hover:text-cyan-600 transition-colors flex items-center"
+              className="hover:text-yellow-600 transition-colors flex items-center"
             >
               Subscribe <Rss className="w-4 h-4 ml-2" />
             </a>
@@ -328,7 +328,7 @@ const NewsroomPage = () => {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <hr className="border-t border-gray-200" />
+        <hr className="border-t border-[#FFF9EE]" />
       </div>
 
       {/* All Stories Section */}
@@ -343,22 +343,22 @@ const NewsroomPage = () => {
           {/* Filter/Tag Buttons */}
           <div className="flex flex-wrap gap-3 mb-12">
             <button
-              className={`px-6 py-2 text-sm font-bold rounded-full bg-gray-900 text-white shadow-lg hover:bg-gray-700 transition-colors flex items-center`}
+              className={`px-6 py-2 text-sm font-bold rounded-full bg-gray-900 text-[#E8F4F1] shadow-lg hover:bg-gray-700 transition-colors flex items-center`}
             >
               ALL
             </button>
             <button
-              className={`px-6 py-2 text-sm font-semibold rounded-full ${ACCENT_BG} text-cyan-800 border border-cyan-300 hover:bg-cyan-200 transition-colors flex items-center`}
+              className={`px-6 py-2 text-sm font-semibold rounded-full ${ACCENT_BG} text-yellow-800 border border-yellow-300 hover:bg-yellow-200 transition-colors flex items-center`}
             >
               BUSINESS
             </button>
             <button
-              className={`px-6 py-2 text-sm font-semibold rounded-full ${ACCENT_BG} text-cyan-800 border border-cyan-300 hover:bg-cyan-200 transition-colors flex items-center`}
+              className={`px-6 py-2 text-sm font-semibold rounded-full ${ACCENT_BG} text-yellow-800 border border-yellow-300 hover:bg-yellow-200 transition-colors flex items-center`}
             >
               CAMPAIGNS
             </button>
             <button
-              className={`px-6 py-2 text-sm font-semibold rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex items-center space-x-1`}
+              className={`px-6 py-2 text-sm font-semibold rounded-full bg-[#FFF9EE] text-gray-700 hover:bg-[#FFF9EE] transition-colors flex items-center space-x-1`}
             >
               <span>FILTER BY</span>{" "}
               <ChevronDown className="w-4 h-4 opacity-80" />
@@ -381,7 +381,7 @@ const NewsroomPage = () => {
           {/* Load More/View All Button */}
           <div className="text-center mt-16">
             <button
-              className={`group px-10 py-4 text-white font-bold rounded-full bg-[${PRIMARY_BLUE}] transition-all duration-300 shadow-xl shadow-[${PRIMARY_BLUE}]/30 hover:shadow-2xl hover:scale-[1.03] flex items-center justify-center space-x-2 text-lg mx-auto`}
+              className={`group px-10 py-4 text-[#E8F4F1] font-bold rounded-full bg-[${PRIMARY_yellow}] transition-all duration-300 shadow-xl shadow-[${PRIMARY_yellow}]/30 hover:shadow-2xl hover:scale-[1.03] flex items-center justify-center space-x-2 text-lg mx-auto`}
             >
               <span>Load More Stories</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

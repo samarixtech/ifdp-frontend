@@ -51,7 +51,7 @@ export default function ChatWidget() {
         <button
           onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 w-16 h-16 rounded-full 
-          bg-gradient-to-br from-blue-600 to-blue-700 text-white 
+          bg-gradient-to-br from-[#0B5D4E] to-[#0B5D4E] text-[#E8F4F1] 
           flex items-center justify-center text-3xl shadow-xl
           hover:scale-110 active:scale-90 transition-all duration-300 
           animate-bounce-slow z-[999999]"
@@ -64,17 +64,17 @@ export default function ChatWidget() {
       {isOpen && (
         <div
           className="fixed bottom-6 right-6 w-80 md:w-96 h-[480px]
-          bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200
+          bg-[#E8F4F1]/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-[#FFF9EE]
           flex flex-col overflow-hidden z-[999999] 
           animate-slide-up"
         >
           {/* HEADER */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-3 
+          <div className="bg-gradient-to-r from-[#0B5D4E] to-[#0B5D4E] text-[#E8F4F1] px-4 py-3 
           flex justify-between items-center shadow">
-            <h3 className="font-semibold text-lg">IFDP AI Assistant</h3>
+            <h3 className="font-semibold text-lg">JAYAK HUB  AI Assistant</h3>
             <button
               onClick={() => setIsOpen(false)}
-              className="hover:bg-white/20 p-1 rounded-lg transition"
+              className="hover:bg-[#E8F4F1]/20 p-1 rounded-lg transition"
             >
               <IoClose className="text-2xl" />
             </button>
@@ -89,8 +89,8 @@ export default function ChatWidget() {
                 shadow-md leading-relaxed
                 ${
                   msg.sender === "user"
-                    ? "bg-blue-600 text-white ml-auto rounded-br-none"
-                    : "bg-gray-100 text-gray-800 rounded-bl-none"
+                    ? "bg-[#0B5D4E] text-[#E8F4F1] ml-auto rounded-br-none"
+                    : "bg-[#FFF9EE] text-gray-800 rounded-bl-none"
                 }`}
               >
                 {msg.text}
@@ -100,19 +100,19 @@ export default function ChatWidget() {
           </div>
 
           {/* INPUT */}
-          <div className="p-3 border-t bg-white/80 backdrop-blur-md flex items-center gap-2">
+          <div className="p-3 border-t bg-[#E8F4F1]/80 backdrop-blur-md flex items-center gap-2">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               className="flex-1 px-4 py-2 rounded-lg border border-gray-300 text-sm
-              focus:ring-2 focus:ring-blue-500 outline-none transition"
+              focus:ring-2 focus:ring-[#0B5D4E] outline-none transition"
               placeholder="Type your message..."
             />
             <button
               onClick={sendMessage}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md 
-              hover:bg-blue-700 active:scale-95 transition"
+              className="px-4 py-2 bg-[#0B5D4E] text-[#E8F4F1] rounded-lg shadow-md 
+              hover:bg-[#0B5D4E] active:scale-95 transition"
             >
               Send
             </button>

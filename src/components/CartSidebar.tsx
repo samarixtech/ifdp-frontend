@@ -33,12 +33,12 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
   // Empty Cart View
   if (cart.length === 0) {
     return (
-      <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg sticky top-20 h-fit">
-        <div className="flex bg-gray-100 rounded-xl p-1 mb-4">
+      <div className="bg-[#E8F4F1] p-4 border border-[#FFF9EE] rounded-lg shadow-lg sticky top-20 h-fit">
+        <div className="flex bg-[#FFF9EE] rounded-xl p-1 mb-4">
           <button
             onClick={() => setIsDelivery(true)}
             className={`flex-1 text-xs font-bold py-1 rounded-lg transition ${
-              isDelivery ? "bg-white shadow text-blue-600" : "text-gray-500"
+              isDelivery ? "bg-[#E8F4F1] shadow text-[#0B5D4E]" : "text-gray-500"
             }`}
           >
             Delivery
@@ -46,7 +46,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
           <button
             onClick={() => setIsDelivery(false)}
             className={`flex-1 text-xs font-bold py-1 rounded-lg transition ${
-              !isDelivery ? "bg-white shadow text-blue-600" : "text-gray-500"
+              !isDelivery ? "bg-[#E8F4F1] shadow text-[#0B5D4E]" : "text-gray-500"
             }`}
           >
             Pick-up
@@ -72,7 +72,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
   return (
     <div
       className="
-        bg-white border border-gray-200 rounded-lg shadow-2xl
+        bg-[#E8F4F1] border border-[#FFF9EE] rounded-lg shadow-2xl
         sticky top-20
         flex flex-col
         h-fit
@@ -81,12 +81,12 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
       "
     >
       {/* Tabs */}
-      <div className="p-3 border-b border-gray-100">
-        <div className="flex bg-blue-50 rounded-lg p-0.5">
+      <div className="p-3 border-b border-[#FFF9EE]">
+        <div className="flex bg-[#0B5D4E] rounded-lg p-0.5">
           <button
             onClick={() => setIsDelivery(true)}
             className={`flex-1 text-xs font-bold py-1 rounded-lg transition ${
-              isDelivery ? "bg-white shadow text-blue-600" : "text-gray-500"
+              isDelivery ? "bg-[#E8F4F1] shadow text-[#0B5D4E]" : "text-gray-500"
             }`}
           >
             Delivery
@@ -94,7 +94,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
           <button
             onClick={() => setIsDelivery(false)}
             className={`flex-1 text-xs font-bold py-1 rounded-lg transition ${
-              !isDelivery ? "bg-white shadow text-blue-600" : "text-gray-500"
+              !isDelivery ? "bg-[#E8F4F1] shadow text-[#0B5D4E]" : "text-gray-500"
             }`}
           >
             Pick-up
@@ -131,7 +131,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
                 <button
                   onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                   disabled={item.quantity <= 1}
-                  className="p-0.5 text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50"
+                  className="p-0.5 text-gray-600 hover:bg-[#FFF9EE] rounded-full disabled:opacity-50"
                 >
                   <Minus size={12} />
                 </button>
@@ -155,7 +155,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
       </div>
 
       {/* Footer */}
-      <div className="bg-white border-t border-gray-100 p-3">
+      <div className="bg-[#E8F4F1] border-t border-[#FFF9EE] p-3">
         <div className="flex justify-between items-center text-base font-extrabold text-gray-900 mb-2">
           <span className="text-sm font-semibold">
             Total{" "}
@@ -172,7 +172,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
 
         <button
           onClick={() => setShowSummary(!showSummary)}
-          className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center mb-2"
+          className="text-xs font-medium text-[#0B5D4E] hover:text-[#B6932F] flex items-center mb-2"
         >
           {showSummary ? "Hide summary" : "See summary"}
           {showSummary ? (
@@ -201,7 +201,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
 
         <button
           onClick={onCheckout}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg font-extrabold text-xs hover:bg-blue-700 transition"
+          className="w-full bg-[#0B5D4E] text-[#E8F4F1] py-2 rounded-lg font-extrabold text-xs hover:bg-[#0B5D4E] transition"
         >
           Review payment & address
         </button>

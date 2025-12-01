@@ -6,13 +6,13 @@ import Image from 'next/image';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'; 
 import { GiWallet, GiPresent } from 'react-icons/gi'; 
 import { FaQuoteLeft } from 'react-icons/fa';
-const blue_COLOR = "text-blue-600";
-const blue_BG = "bg-blue-600";
+const yellow_COLOR = "text-[#0B5D4E]";
+const yellow_BG = "bg-[#0B5D4E]";
 const faqData = [
-    { id: 1, question: "Why should I partner with IFDP?", answer: "Partnering with IFDP expands your reach, increases order volume, and utilizes our delivery network." },
-    { id: 2, question: "Is my restaurant a good fit for IFDP?", answer: "IFDP welcomes a variety of cuisines and restaurant types." },
+    { id: 1, question: "Why should I partner with IFDP?", answer: "Partnering with JAYAK HUB  expands your reach, increases order volume, and utilizes our delivery network." },
+    { id: 2, question: "Is my restaurant a good fit for IFDP?", answer: "JAYAK HUB  welcomes a variety of cuisines and restaurant types." },
     { id: 3, question: "What are the requirements to become a partner?", answer: "Key requirements usually include valid business registration, necessary licenses, and an attractive menu." },
-    { id: 4, question: "Can I join without a physical storefront?", answer: "Yes, IFDP supports cloud kitchens (delivery-only) models." },
+    { id: 4, question: "Can I join without a physical storefront?", answer: "Yes, JAYAK HUB  supports cloud kitchens (delivery-only) models." },
     { id: 5, question: "How do I get started?", answer: "You can start by filling out the online application form on our partner portal." },
     { id: 6, question: "How long does the approval process take?", answer: "The approval time varies, but usually takes a few days after submitting all required documents." },
     { id: 7, question: "How do I know if my business is verified?", answer: "You will receive an official email confirmation once your business verification is complete." },
@@ -23,9 +23,9 @@ const faqData = [
 
 const BenefitsSection: React.FC = () => {
     const benefits = [
-        { icon: <GiWallet size={24} />, text: "Save time and money with IFDP for business allowances" },
+        { icon: <GiWallet size={24} />, text: "Save time and money with JAYAK HUB  for business allowances" },
         { icon: <GiPresent size={24} />, text: "Recognize hard work or special occasions with employee gift cards" },
-        { icon: <GiPresent size={24} />, text: "IFDP for business members get at least 30% off IFDP orders" },
+        { icon: <GiPresent size={24} />, text: "JAYAK HUB  for business members get at least 30% off JAYAK HUB  orders" },
     ];
     // Placeholder logos for restaurants
     const logos = [
@@ -36,13 +36,13 @@ const BenefitsSection: React.FC = () => {
     ];
 
     return (
-        <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <section className="bg-[#E8F4F1] py-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 {/* Top Benefits Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center mb-20">
                     {benefits.map((benefit, index) => (
                         <div key={index} className="flex flex-col items-center">
-                            <div className={`p-3 rounded-full ${blue_COLOR} mb-3`}>
+                            <div className={`p-3 rounded-full ${yellow_COLOR} mb-3`}>
                                 {benefit.icon}
                             </div>
                             <p className="text-sm text-gray-700 max-w-xs">{benefit.text}</p>
@@ -56,7 +56,7 @@ const BenefitsSection: React.FC = () => {
                         Treat your team to thousands of top-rated restaurants
                     </h2>
                     <p className="text-md text-gray-600 max-w-2xl mx-auto">
-                        With IFDP for business, give your team access to the best restaurants, exclusive deals and regular food allowances.
+                        With JAYAK HUB  for business, give your team access to the best restaurants, exclusive deals and regular food allowances.
                     </p>
                 </div>
 
@@ -81,14 +81,14 @@ const TestimonialSection: React.FC = () => {
                     What others are saying
                 </h2>
                 <p className="text-sm text-gray-600 mb-12">
-                    Companies of all types and sizes are using IFDP for business - so whether you've got 50 employees or 10,000, you'll be in good company
+                    Companies of all types and sizes are using JAYAK HUB  for business - so whether you've got 50 employees or 10,000, you'll be in good company
                 </p>
 
                 {/* Quote Box */}
-                <div className="bg-white p-6 md:p-10 rounded-lg shadow-xl border-t-4 border-blue-600 relative">
-                    <FaQuoteLeft size={40} className="absolute top-[-20px] left-5 text-blue-300 opacity-50" />
+                <div className="bg-[#E8F4F1] p-6 md:p-10 rounded-lg shadow-xl border-t-4 border-[#0B5D4E] relative">
+                    <FaQuoteLeft size={40} className="absolute top-[-20px] left-5 text-yellow-300 opacity-50" />
                     <blockquote className="text-base text-gray-800 italic leading-relaxed pt-4">
-                        "I'm so grateful for IFDP for business in helping me achieve the RepWomen Well-being Initiative. It's so convenient and takes much stress off my RepWomen. They don't have to worry about running out of products or making a special trip to the store. It's one less thing they have to think about, and that's a huge relief."
+                        "I'm so grateful for JAYAK HUB  for business in helping me achieve the RepWomen Well-being Initiative. It's so convenient and takes much stress off my RepWomen. They don't have to worry about running out of products or making a special trip to the store. It's one less thing they have to think about, and that's a huge relief."
                     </blockquote>
                     <p className="mt-4 text-sm font-semibold text-gray-900">Ayusha Guffam, People Experience & Culture Specialist, RepPack</p>
                 </div>
@@ -107,15 +107,15 @@ const FAQSection: React.FC = () => {
     };
 
     return (
-        <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <section className="bg-[#E8F4F1] py-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
                 <h2 className="text-3xl font-normal text-center text-gray-900 mb-10">
                     Any questions?
                 </h2>
                 
-                <div className="border-t border-gray-200">
+                <div className="border-t border-[#FFF9EE]">
                     {faqData.map((item) => (
-                        <div key={item.id} className="border-b border-gray-200">
+                        <div key={item.id} className="border-b border-[#FFF9EE]">
                             <button
                                 className="flex justify-between items-center w-full py-4 text-left focus:outline-none"
                                 onClick={() => toggleItem(item.id)}
@@ -125,7 +125,7 @@ const FAQSection: React.FC = () => {
                                     {item.question}
                                 </span>
                                 {openItemId === item.id ? (
-                                    <IoIosArrowUp size={20} className={`${blue_COLOR} transition-transform duration-300`} />
+                                    <IoIosArrowUp size={20} className={`${yellow_COLOR} transition-transform duration-300`} />
                                 ) : (
                                     <IoIosArrowDown size={20} className="text-gray-400 transition-transform duration-300" />
                                 )}
@@ -146,7 +146,7 @@ const FAQSection: React.FC = () => {
 // --- 5. Contact Us Section (Image 3 Bottom) ---
 const ContactSection: React.FC = () => {
     return (
-        <section className="bg-white pt-16 pb-24 px-4 sm:px-6 lg:px-8">
+        <section className="bg-[#E8F4F1] pt-16 pb-24 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto border-t pt-10">
                 <h2 className="text-2xl font-bold text-gray-900">
                     Contact us
@@ -154,7 +154,7 @@ const ContactSection: React.FC = () => {
                 <p className="mt-4 text-lg text-gray-600">
                     If you have any further questions, please feel free to reach out. We are here to help your business grow.
                 </p>
-                <Link href="#contact" className={`mt-4 inline-block px-6 py-2 ${blue_BG} text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300`}>
+                <Link href="#contact" className={`mt-4 inline-block px-6 py-2 ${yellow_BG} text-[#E8F4F1] font-semibold rounded-lg hover:bg-[#0B5D4E] transition duration-300`}>
                     Get in Touch
                 </Link>
             </div>
@@ -165,9 +165,9 @@ const ContactSection: React.FC = () => {
 // --- Main Page Component ---
 export default function PartnerLandingPage() {
     return (
-        <div className="bg-white min-h-screen">
-            <section className="bg-gray-100 py-24 text-center">
-                 <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Become a IFDP Partner</h1>
+        <div className="bg-[#E8F4F1] min-h-screen">
+            <section className="bg-[#FFF9EE] py-24 text-center">
+                 <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Become a JAYAK HUB  Partner</h1>
                  <p className="text-xl text-gray-600">Join the platform that drives growth and customer satisfaction.</p>
             </section>
 

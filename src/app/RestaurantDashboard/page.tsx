@@ -21,10 +21,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarEleme
 export default function DashboardHome() {
   // Sample metrics
   const metrics = [
-    { title: "Total Restaurants", value: 12, icon: MdRestaurant, bg: "bg-blue-100", iconColor: "text-blue-600", trend: "+5%" },
-    { title: "Total Owners", value: 8, icon: MdPerson, bg: "bg-green-100", iconColor: "text-green-600", trend: "+2%" },
-    { title: "Active Orders", value: 34, icon: MdShoppingCart, bg: "bg-yellow-100", iconColor: "text-yellow-600", trend: "+10%" },
-    { title: "Total Revenue", value: "$12,450", icon: MdAttachMoney, bg: "bg-purple-100", iconColor: "text-purple-600", trend: "+8%" },
+    { title: "Total Restaurants", value: 12, icon: MdRestaurant, bg: "bg-[#0B5D4E]", iconColor: "text-[#fff]", trend: "+5%" },
+    { title: "Total Owners", value: 8, icon: MdPerson, bg: "bg-green-600", iconColor: "text-green-100", trend: "+2%" },
+    { title: "Active Orders", value: 34, icon: MdShoppingCart, bg: "bg-yellow-900", iconColor: "text-yellow-100", trend: "+10%" },
+    { title: "Total Revenue", value: "$12,450", icon: MdAttachMoney, bg: "bg-purple-900", iconColor: "text-purple-100", trend: "+8%" },
   ];
 
   // Sample data for charts
@@ -34,7 +34,7 @@ export default function DashboardHome() {
       {
         label: "Revenue",
         data: [4500, 5800, 6000, 7200, 8100, 9000],
-        borderColor: "#3B82F6",
+        borderColor: "#0B5D4E",
         backgroundColor: "rgba(59, 130, 246, 0.2)",
         tension: 0.4,
       },
@@ -47,7 +47,7 @@ export default function DashboardHome() {
       {
         label: "Orders",
         data: [120, 90, 70, 50, 30],
-        backgroundColor: ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"],
+        backgroundColor: ["#0B5D4E", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"],
       },
     ],
   };
@@ -72,7 +72,7 @@ export default function DashboardHome() {
           return (
             <div
               key={metric.title}
-              className="flex items-center justify-between p-4 bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-200"
+              className="flex items-center justify-between p-4 bg-[#E8F4F1] rounded-lg shadow hover:shadow-lg transition-shadow duration-200"
             >
               {/* Left: Icon */}
               <div className={`w-12 h-12 flex items-center justify-center rounded-lg ${metric.bg}`}>
@@ -92,23 +92,23 @@ export default function DashboardHome() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-[#E8F4F1] p-4 rounded-lg shadow">
           <h2 className="text-gray-700 font-semibold mb-2">Revenue Over Time</h2>
           <Line data={revenueData} options={{ responsive: true, plugins: { legend: { display: false } } }} />
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-[#E8F4F1] p-4 rounded-lg shadow">
           <h2 className="text-gray-700 font-semibold mb-2">Top Orders</h2>
           <Bar data={ordersData} options={{ responsive: true, plugins: { legend: { display: false } } }} />
         </div>
       </div>
 
       {/* Top Items Table */}
-      <div className="bg-white p-4 rounded-lg shadow">
+      <div className="bg-[#E8F4F1] p-4 rounded-lg shadow">
         <h2 className="text-gray-700 font-semibold mb-4">Top Selling Items</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border-collapse">
             <thead>
-              <tr className="bg-gray-100 text-gray-600 uppercase text-sm">
+              <tr className="bg-[#FFF9EE] text-gray-600 uppercase text-sm">
                 <th className="px-4 py-2 text-left">Item Name</th>
                 <th className="px-4 py-2 text-left">Category</th>
                 <th className="px-4 py-2 text-left">Sold</th>

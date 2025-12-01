@@ -6,12 +6,12 @@ const faqData = [
   { 
     id: 1, 
     question: "Why should I partner with IFDP?", 
-    answer: "Partnering with IFDP expands your reach, increases order volume, and utilizes our delivery network." 
+    answer: "Partnering with JAYAK HUB  expands your reach, increases order volume, and utilizes our delivery network." 
   },
   { 
     id: 2, 
     question: "Is my restaurant a good fit for IFDP?", 
-    answer: "IFDP welcomes a variety of cuisines and restaurant types, including physical stores and cloud kitchens." 
+    answer: "JAYAK HUB  welcomes a variety of cuisines and restaurant types, including physical stores and cloud kitchens." 
   },
   { 
     id: 3, 
@@ -19,7 +19,7 @@ const faqData = [
     answer: "Key requirements usually include valid business registration, necessary licenses, and an attractive menu." 
   },
   // Add remaining questions here for a complete list
-  { id: 4, question: "Can I join without a physical storefront?", answer: "Yes, IFDP supports cloud kitchens (delivery-only) models." },
+  { id: 4, question: "Can I join without a physical storefront?", answer: "Yes, JAYAK HUB  supports cloud kitchens (delivery-only) models." },
   { id: 5, question: "How do I get started?", answer: "You can start by filling out the online application form on our partner portal." },
   { id: 6, question: "How long does the approval process take?", answer: "The approval time varies, but usually takes a few days after submitting all required documents." },
   { id: 7, question: "How do I know if my business is verified?", answer: "You will receive an official email confirmation once your business verification is complete." },
@@ -47,9 +47,9 @@ const FAQSection: React.FC = () => {
       </h2>
 
       {/* Accordion Container */}
-      <div className="border-t border-gray-200">
+      <div className="border-t border-[#FFF9EE]">
         {faqData.map((item) => (
-          <div key={item.id} className="border-b border-gray-200">
+          <div key={item.id} className="border-b border-[#FFF9EE]">
             
             {/* Question (Clickable Header) */}
             <button
@@ -64,7 +64,7 @@ const FAQSection: React.FC = () => {
               
               {/* Icon to show open/close state */}
               {openItemId === item.id ? (
-                <IoIosArrowUp className="h-5 w-5 text-blue-600 transition-transform duration-300" />
+                <IoIosArrowUp className="h-5 w-5 text-[#0B5D4E] transition-transform duration-300" />
               ) : (
                 <IoIosArrowDown className="h-5 w-5 text-gray-400 transition-transform duration-300" />
               )}

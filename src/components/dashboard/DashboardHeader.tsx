@@ -36,13 +36,13 @@ export default function Header({ setIsSidebarOpen }: any) {
   };
 
   return (
-    <header className="w-full h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between sticky top-0 z-20">
+    <header className="w-full h-16 bg-[#E8F4F1] border-b border-[#FFF9EE] px-6 flex items-center justify-between sticky top-0 z-20">
       {/* Left Section - Title & Hamburger (mobile) */}
       <div className="flex items-center gap-4">
         {/* Hamburger Button - Only on mobile */}
         <button
           onClick={() => setIsSidebarOpen(true)}
-          className="p-2 rounded-lg hover:bg-gray-100 transition-all duration-200 border border-transparent hover:border-gray-200 lg:hidden"
+          className="p-2 rounded-lg hover:bg-[#FFF9EE] transition-all duration-200 border border-transparent hover:border-[#FFF9EE] lg:hidden"
         >
           <Menu size={20} className="text-gray-700" />
         </button>
@@ -65,9 +65,9 @@ export default function Header({ setIsSidebarOpen }: any) {
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-50 transition-all duration-200 border border-transparent hover:border-gray-200"
+            className="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-50 transition-all duration-200 border border-transparent hover:border-[#FFF9EE]"
           >
-            <div className="w-10 h-10 bg-linear-to-r from-[#014f86] to-[#013a63] rounded-full flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 bg-linear-to-r from-[#0B5D4E] to-[#013a63] rounded-full flex items-center justify-center shrink-0">
               {userData.avatar ? (
                 <img
                   src={userData.avatar}
@@ -75,7 +75,7 @@ export default function Header({ setIsSidebarOpen }: any) {
                   className="w-10 h-10 rounded-full object-cover"
                 />
               ) : (
-                <User size={20} className="text-white" />
+                <User size={20} className="text-[#E8F4F1]" />
               )}
             </div>
             <ChevronDown
@@ -88,11 +88,11 @@ export default function Header({ setIsSidebarOpen }: any) {
 
           {/* Profile Popup */}
           {isProfileOpen && (
-            <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-30">
+            <div className="absolute right-0 top-full mt-2 w-64 bg-[#E8F4F1] rounded-xl shadow-lg border border-[#FFF9EE] overflow-hidden z-30">
               {/* User Info Section */}
-              <div className="p-4 border-b border-gray-200 bg-linear-to-r from-[#014f86] to-[#013a63] text-white">
+              <div className="p-4 border-b border-[#FFF9EE] bg-linear-to-r from-[#0B5D4E] to-[#013a63] text-[#E8F4F1]">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center shrink-0 backdrop-blur-sm">
+                  <div className="w-12 h-12 bg-[#E8F4F1]/20 rounded-full flex items-center justify-center shrink-0 backdrop-blur-sm">
                     {userData.avatar ? (
                       <img
                         src={userData.avatar}
@@ -100,19 +100,19 @@ export default function Header({ setIsSidebarOpen }: any) {
                         className="w-12 h-12 rounded-full object-cover"
                       />
                     ) : (
-                      <User size={24} className="text-white" />
+                      <User size={24} className="text-[#E8F4F1]" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-white truncate text-sm">
+                    <h3 className="font-semibold text-[#E8F4F1] truncate text-sm">
                       {userData.name}
                     </h3>
-                    <p className="text-white/80 text-xs truncate">
+                    <p className="text-[#E8F4F1]/80 text-xs truncate">
                       {userData.role}
                     </p>
                   </div>
                 </div>
-                <p className="text-white/90 text-sm truncate bg-white/10 px-2 py-1 rounded-lg">
+                <p className="text-[#E8F4F1]/90 text-sm truncate bg-[#E8F4F1]/10 px-2 py-1 rounded-lg">
                   {userData.email}
                 </p>
               </div>
@@ -143,7 +143,7 @@ export default function Header({ setIsSidebarOpen }: any) {
               </div>
 
               {/* Sign Out Section */}
-              <div className="p-2 border-t border-gray-200">
+              <div className="p-2 border-t border-[#FFF9EE]">
                 <button
                   onClick={handleSignOut}
                   className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-red-600 hover:bg-red-50 transition-colors"

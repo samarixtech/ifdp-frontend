@@ -4,7 +4,7 @@ import PartnerForm from "./Form";
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-[500px] flex items-center justify-center overflow-hidden bg-gray-100">
+    <section className="relative w-full min-h-[500px] flex items-center justify-center overflow-hidden bg-[#FFF9EE] pt-20">
       
       {/* Background Image */}
       <img
@@ -14,13 +14,13 @@ export default function Hero() {
       />
 
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/30"></div>
+      <div className="absolute inset-0 bg-[#2C2C2C]/30"></div>
 
       {/* CONTENT */}
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center w-full max-w-7xl px-6 gap-5 py-5">
 
         {/* LEFT TEXT + FORM */}
-        <div className="flex flex-col items-center lg:items-start text-white gap-4 w-full">
+        <div className="flex flex-col items-center lg:items-start text-[#E8F4F1] gap-4 w-full">
       
 
           {/* FORM */}
@@ -30,13 +30,13 @@ export default function Hero() {
         </div>
 
         {/* RIGHT IMAGE */}
-      <div className="flex flex-col items-center lg:items-start text-white gap-4 w-full">
+      <div className="flex flex-col items-center lg:items-start text-[#E8F4F1] gap-4 w-full">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-center lg:text-left drop-shadow-xl animate-fadeInUp">
             Register your restaurant <br /> with us!
           </h1>
 
           <p
-            className="text-gray-200 text-sm sm:text-base text-center lg:text-left animate-fadeInUp"
+            className="text-[#FFF9EE] text-sm sm:text-base text-center lg:text-left animate-fadeInUp"
             style={{ animationDelay: "0.15s" }}
           >
             Sign up easily, showcase your menu, and reach thousands of customers every day.

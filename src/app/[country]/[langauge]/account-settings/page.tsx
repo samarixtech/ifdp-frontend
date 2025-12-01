@@ -57,8 +57,8 @@ const SettingsMenuItem = ({
       onClick={onClick}
       className={`flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 ${
         isSelected
-          ? "bg-gray-900 text-white font-medium"
-          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          ? "bg-gray-900 text-[#E8F4F1] font-medium"
+          : "text-gray-600 hover:bg-[#FFF9EE] hover:text-gray-900"
       }`}
     >
       <Icon className="w-5 h-5 mr-3" />
@@ -68,7 +68,7 @@ const SettingsMenuItem = ({
 };
 
 const SettingsSectionCard = ({ children, title, subtitle }: ISecCards) => (
-  <div className="bg-white p-6 rounded-xl border border-gray-200">
+  <div className="bg-[#E8F4F1] p-6 rounded-xl border border-[#FFF9EE]">
     <div className="mb-6">
       <h3 className="text-xl font-semibold text-gray-900 mb-1">{title}</h3>
       <p className="text-sm text-gray-500">{subtitle}</p>
@@ -103,7 +103,7 @@ const InputField = ({
 const PrimaryButton = ({ children, onClick, icon: Icon = Save }: IButton) => (
   <button
     onClick={onClick}
-    className="flex items-center px-4 py-2 bg-gradient-to-r from-[#014f86] to-[#013a63] text-white text-sm font-medium rounded-lg hover:bg-gradient-to-r hover:from-[#013a63] hover:to-[#014f86] transition-colors duration-200"
+    className="flex items-center px-4 py-2 bg-gradient-to-r from-[#0B5D4E] to-[#013a63] text-[#E8F4F1] text-sm font-medium rounded-lg hover:bg-gradient-to-r hover:from-[#013a63] hover:to-[#0B5D4E] transition-colors duration-200"
   >
     <Icon className="w-4 h-4 mr-2" />
     {children}
@@ -113,7 +113,7 @@ const PrimaryButton = ({ children, onClick, icon: Icon = Save }: IButton) => (
 const DangerButton = ({ children, onClick, icon: Icon = Trash2 }: IButton) => (
   <button
     onClick={onClick}
-    className="flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors duration-200"
+    className="flex items-center px-4 py-2 bg-red-600 text-[#E8F4F1] text-sm font-medium rounded-lg hover:bg-red-700 transition-colors duration-200"
   >
     <Icon className="w-4 h-4 mr-2" />
     {children}
@@ -128,7 +128,7 @@ const ProfileSettings = ({ t }: { t: (key: string) => string }) => (
   >
     <div className="space-y-6">
       <div className="flex items-center space-x-6">
-        <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center border-2 border-gray-300">
+        <div className="w-20 h-20 rounded-full bg-[#FFF9EE] flex items-center justify-center border-2 border-gray-300">
           <span className="text-gray-600 text-lg font-medium">JD</span>
         </div>
         <div>
@@ -153,7 +153,7 @@ const ProfileSettings = ({ t }: { t: (key: string) => string }) => (
 
       <InputField label={t("profile.label_location")} value="New York, USA" />
 
-      <div className="pt-4 border-t border-gray-200">
+      <div className="pt-4 border-t border-[#FFF9EE]">
         <PrimaryButton>{t("profile.button_save")}</PrimaryButton>
       </div>
     </div>
@@ -195,16 +195,16 @@ const SecuritySettings = ({ t }: { t: (key: string) => string }) => (
         </PrimaryButton>
       </div>
 
-      <div className="border-t border-gray-200 pt-6">
+      <div className="border-t border-[#FFF9EE] pt-6">
         <h4 className="text-lg font-medium text-gray-900 mb-4">
           {t("security.two_factor_header")}
         </h4>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 rounded-lg bg-gray-50 border border-gray-200">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 rounded-lg bg-gray-50 border border-[#FFF9EE]">
           <p className="text-gray-700 flex items-center text-sm mb-3 sm:mb-0">
             <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
             {t("security.two_factor_status")}
           </p>
-          <button className="px-3 py-2 text-sm font-medium text-gray-700 rounded-lg border border-gray-300 hover:bg-white transition-colors">
+          <button className="px-3 py-2 text-sm font-medium text-gray-700 rounded-lg border border-gray-300 hover:bg-[#E8F4F1] transition-colors">
             {t("security.button_manage_2fa")}
           </button>
         </div>
@@ -223,7 +223,7 @@ const BillingSettings = ({ t }: { t: (key: string) => string }) => (
         <h4 className="text-lg font-medium text-gray-900 mb-4">
           {t("billing.subscription_header")}
         </h4>
-        <div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
+        <div className="p-4 rounded-lg bg-gray-50 border border-[#FFF9EE]">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
             <div>
               <p className="font-medium text-gray-900">
@@ -233,25 +233,25 @@ const BillingSettings = ({ t }: { t: (key: string) => string }) => (
                 {t("billing.plan_cost")}
               </p>
             </div>
-            <button className="mt-3 sm:mt-0 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg border border-gray-300 hover:bg-white transition-colors">
+            <button className="mt-3 sm:mt-0 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg border border-gray-300 hover:bg-[#E8F4F1] transition-colors">
               {t("billing.button_change_plan")}
             </button>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-gray-200 pt-6">
+      <div className="border-t border-[#FFF9EE] pt-6">
         <h4 className="text-lg font-medium text-gray-900 mb-4">
           {t("billing.payment_method_header")}
         </h4>
-        <div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
+        <div className="p-4 rounded-lg bg-gray-50 border border-[#FFF9EE]">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
             <p className="text-sm text-gray-700 mb-3 sm:mb-0">
               <CreditCard className="w-4 h-4 mr-2 inline" />
               Visa ending in 4242
             </p>
             <div className="flex space-x-2">
-              <button className="px-3 py-1 text-sm text-gray-700 rounded border border-gray-300 hover:bg-white transition-colors">
+              <button className="px-3 py-1 text-sm text-gray-700 rounded border border-gray-300 hover:bg-[#E8F4F1] transition-colors">
                 <Edit className="w-3 h-3 mr-1 inline" />
                 {t("billing.button_edit")}
               </button>
@@ -306,7 +306,7 @@ const SettingsPage = () => {
         {/* Layout */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar Navigation */}
-          <nav className="lg:w-64 p-4 bg-white rounded-lg border border-gray-200 h-fit lg:sticky lg:top-8">
+          <nav className="lg:w-64 p-4 bg-[#E8F4F1] rounded-lg border border-[#FFF9EE] h-fit lg:sticky lg:top-8">
             <div className="space-y-1">
               {navItems.map((item) => (
                 <SettingsMenuItem
@@ -320,7 +320,7 @@ const SettingsPage = () => {
             </div>
 
             {/* Logout */}
-            <div className="mt-6 pt-4 border-t border-gray-200">
+            <div className="mt-6 pt-4 border-t border-[#FFF9EE]">
               <div className="flex items-center p-3 text-red-600 text-sm font-medium rounded-lg hover:bg-red-50 cursor-pointer transition-colors">
                 <LogOut className="w-4 h-4 mr-3" />
                 <span>{t("navigation.logout")}</span>

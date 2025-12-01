@@ -36,12 +36,12 @@ const IndexPageContent: React.FC = () => {
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:pt-20">
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8  pt-20 ">
           <div className="w-full lg:w-1/4 sticky top-24 self-start">
             <SidebarFilters />
           </div>
 
-          <div className="w-full lg:max-w-5xl">
+          <div className="w-full lg:max-w-5xl ">
             <Home />
           </div>
         </div>

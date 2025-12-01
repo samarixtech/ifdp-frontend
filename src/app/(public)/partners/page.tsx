@@ -17,12 +17,12 @@ const Partners = () => {
   const t = useTranslations("Partners");
 
   // Color theme
-  // const primaryBlue = "#014f86";
-  const softPrimaryText = "text-[#014f86]";
+  // const primaryyellow = "#0B5D4E";
+  const softPrimaryText = "text-[#0B5D4E]";
   const softAccent = "bg-[#61a5c2]";
-  const softAccentText = "text-[#014f86]";
+  const softAccentText = "text-[#0B5D4E]";
   const softNeutralBg = "bg-gray-50";
-  const softSectionBg = "bg-white";
+  const softSectionBg = "bg-[#E8F4F1]";
 
   const [activeFilter, setActiveFilter] = useState("filter_all");
   const carouselRef = useRef(null);
@@ -41,13 +41,13 @@ const Partners = () => {
       icon: TrendingUp,
       title: t("benefit1_title"),
       description: t("benefit1_description"),
-      color: "text-blue-500",
+      color: "text-[#0B5D4E]",
     },
     {
       icon: Shield,
       title: t("benefit2_title"),
       description: t("benefit2_description"),
-      color: "text-cyan-500",
+      color: "text-yellow-500",
     },
     {
       icon: Globe,
@@ -103,19 +103,19 @@ const Partners = () => {
               "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&auto=format&fit=crop')",
           }}
         ></div>
-        <div className="absolute inset-0 bg-black/25 z-10"></div>
+        <div className="absolute inset-0 bg-[#2C2C2C]/25 z-10"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40 z-20 text-center text-white">
-          <p className="text-lg font-semibold text-cyan-300 mb-3 uppercase tracking-wider animate-fade-in-up">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40 z-20 text-center text-[#E8F4F1]">
+          <p className="text-lg font-semibold text-yellow-300 mb-3 uppercase tracking-wider animate-fade-in-up">
             {t("hero_tagline")}
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
             {t("hero_title_p1")}
-            <span className="block bg-linear-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
+            <span className="block bg-linear-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
               {t("hero_title_p2")}
             </span>
           </h1>
-          <p className="text-xl md:text-2xl mb-10 text-white/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
+          <p className="text-xl md:text-2xl mb-10 text-[#E8F4F1]/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
             {t("hero_subtitle")}
           </p>
           {/* CTA Button */}
@@ -151,10 +151,10 @@ const Partners = () => {
                 {t("section1_subtitle")}
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
-                <button className="px-6 py-3 bg-[#014f86] text-white font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
+                <button className="px-6 py-3 bg-[#0B5D4E] text-[#E8F4F1] font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
                   {t("section1_cta1")}
                 </button>
-                <button className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg border-2 border-gray-200 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
+                <button className="px-6 py-3 bg-[#E8F4F1] text-gray-800 font-semibold rounded-lg border-2 border-[#FFF9EE] hover:bg-[#FFF9EE] transition-all duration-300 cursor-pointer">
                   {t("section1_cta2")}
                 </button>
               </div>
@@ -172,10 +172,10 @@ const Partners = () => {
                 {t("section2_subtitle")}
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
-                <button className="px-6 py-3 bg-[#014f86] text-white font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
+                <button className="px-6 py-3 bg-[#0B5D4E] text-[#E8F4F1] font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
                   {t("section2_cta1")}
                 </button>
-                <button className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg border-2 border-gray-200 hover:bg-gray-100 transition-all duration-300 cursor-pointer">
+                <button className="px-6 py-3 bg-[#E8F4F1] text-gray-800 font-semibold rounded-lg border-2 border-[#FFF9EE] hover:bg-[#FFF9EE] transition-all duration-300 cursor-pointer">
                   {t("section2_cta2")}
                 </button>
               </div>
@@ -211,10 +211,10 @@ const Partners = () => {
                 {t("section3_subtitle")}
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
-                <button className="px-6 py-3 bg-[#014f86] text-white font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
+                <button className="px-6 py-3 bg-[#0B5D4E] text-[#E8F4F1] font-semibold rounded-lg hover:bg-[#003256] transition-all duration-300 cursor-pointer">
                   {t("section3_cta1")}
                 </button>
-                <button className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg border-2 border-gray-200 hover:bg-gray-100 transition-all duration-300  cursor-pointer">
+                <button className="px-6 py-3 bg-[#E8F4F1] text-gray-800 font-semibold rounded-lg border-2 border-[#FFF9EE] hover:bg-[#FFF9EE] transition-all duration-300  cursor-pointer">
                   {t("section3_cta2")}
                 </button>
               </div>
@@ -239,7 +239,7 @@ const Partners = () => {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-300 hover:scale-[1.02]"
+                className="group bg-[#E8F4F1] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-[#FFF9EE] hover:border-yellow-300 hover:scale-[1.02]"
               >
                 <div className="mb-6 transform group-hover:scale-110 group-hover:rotate-1 transition-all duration-300">
                   <benefit.icon className={`w-12 h-12 ${benefit.color}`} />
@@ -275,8 +275,8 @@ const Partners = () => {
                   onClick={() => setActiveFilter(filterKey)}
                   className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                     activeFilter === filterKey
-                      ? "bg-[#014f86] text-white shadow-lg scale-105"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-[#0B5D4E] text-[#E8F4F1] shadow-lg scale-105"
+                      : "bg-[#FFF9EE] text-gray-700 hover:bg-[#FFF9EE]"
                   }`}
                 >
                   {t(filterKey)}
@@ -290,14 +290,14 @@ const Partners = () => {
             {/* Navigation Buttons */}
             <button
               onClick={scrollLeft}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hidden md:block"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-[#E8F4F1] p-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hidden md:block"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-6 h-6 text-gray-700" />
             </button>
             <button
               onClick={scrollRight}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hidden md:block"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-[#E8F4F1] p-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hidden md:block"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-6 h-6 text-gray-700" />
@@ -312,7 +312,7 @@ const Partners = () => {
                 {filteredPartners.map((partner: any) => (
                   <div
                     key={partner.id}
-                    className="shrink-0 w-80 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-blue-300 hover:scale-[1.02]"
+                    className="shrink-0 w-80 bg-[#E8F4F1] rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-[#FFF9EE] hover:border-yellow-300 hover:scale-[1.02]"
                   >
                     {/* Partner Image */}
                     <div className="relative h-48 overflow-hidden">
@@ -321,7 +321,7 @@ const Partners = () => {
                         alt={partner.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-gray-700">
+                      <div className="absolute top-4 right-4 bg-[#E8F4F1] px-3 py-1 rounded-full text-sm font-semibold text-gray-700">
                         {t(partner.category_key)}
                       </div>
                     </div>
@@ -339,7 +339,7 @@ const Partners = () => {
                       </p>
 
                       {/* Stats */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <div className="flex items-center justify-between pt-4 border-t border-[#FFF9EE]">
                         <div className="flex items-center space-x-1">
                           <Truck className="w-4 h-4 text-gray-500" />
                           <span className="text-sm font-semibold text-gray-700">
@@ -363,8 +363,8 @@ const Partners = () => {
             </div>
 
             {/* Gradient Overlay */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-linear-to-r from-white to-transparent z-10 hidden md:block" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-linear-to-l from-white to-transparent z-10 hidden md:block" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-linear-to-r from-[#E8F4F1] to-transparent z-10 hidden md:block" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-linear-to-l from-[#E8F4F1] to-transparent z-10 hidden md:block" />
           </div>
         </div>
       </section>
@@ -379,11 +379,11 @@ const Partners = () => {
             {t("cta_subheading")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="px-8 py-4 bg-[#014f86] text-white font-bold rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:bg-[#013f70] flex items-center space-x-2">
+            <button className="px-8 py-4 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:bg-[#013f70] flex items-center space-x-2">
               <span>{t("cta_button1")}</span>
               <ArrowRight className="w-5 h-5" />
             </button>
-            <button className="px-8 py-4 bg-white text-gray-800 font-bold rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <button className="px-8 py-4 bg-[#E8F4F1] text-gray-800 font-bold rounded-xl border-2 border-[#FFF9EE] hover:border-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl">
               {t("cta_button2")}
             </button>
           </div>

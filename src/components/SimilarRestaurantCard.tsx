@@ -13,7 +13,7 @@ const SimilarRestaurantCard: React.FC<SimilarRestaurantCardProps> = ({ restauran
   return (
     <a
       href={`/restaurants/${restaurant.id}`}
-      className="block w-64 flex-shrink-0 bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+      className="block w-64 flex-shrink-0 bg-[#E8F4F1] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
     >
       {/* Image and Promo Sticker */}
       <div className="relative h-40">
@@ -23,7 +23,7 @@ const SimilarRestaurantCard: React.FC<SimilarRestaurantCardProps> = ({ restauran
           className="w-full h-full object-cover"
         />
         {restaurant.promoText && (
-          <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+          <div className="absolute top-2 left-2 bg-[#0B5D4E] text-[#E8F4F1] text-xs font-bold px-2 py-1 rounded-full shadow-md">
             {restaurant.promoText}
           </div>
         )}

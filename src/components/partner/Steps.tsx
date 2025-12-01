@@ -5,7 +5,7 @@ import { FiShoppingCart, FiCoffee, FiTruck, FiTrendingUp } from "react-icons/fi"
 const stepData = [
   { 
     title: "The Customer Orders", 
-    description: "The customer places an order through the IFDP app.", 
+    description: "The customer places an order through the JAYAK HUB  app.", 
     icon: <FiShoppingCart size={34} />,
   },
   { 
@@ -15,7 +15,7 @@ const stepData = [
   },
   { 
     title: "We Deliver", 
-    description: "An IFDP rider picks up and delivers the order quickly.", 
+    description: "An JAYAK HUB  rider picks up and delivers the order quickly.", 
     icon: <FiTruck size={34} />,
   },
   { 
@@ -27,12 +27,12 @@ const stepData = [
 
 const StepsAndTestimonials: React.FC = () => {
   return (
-    <section className="w-full bg-white ">
+    <section className="w-full bg-[#E8F4F1] ">
       
       {/* ---------- Title ---------- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-4xl sm:text-5xl font-semibold pt-12 pb-16">
-          We make it <span className="text-blue-600">simple and easy</span>
+          We make it <span className="text-[#0B5D4E]">simple and easy</span>
         </h2>
 
         {/* ---------- Steps Grid ---------- */}
@@ -41,12 +41,12 @@ const StepsAndTestimonials: React.FC = () => {
             <div 
               key={i} 
               className="flex flex-col items-center text-center px-5 py-8 rounded-2xl 
-                         bg-white shadow-lg hover:shadow-2xl transition-all duration-300 
-                         hover:-translate-y-1 border border-gray-100"
+                         bg-[#E8F4F1] shadow-lg hover:shadow-2xl transition-all duration-300 
+                         hover:-translate-y-1 border border-[#FFF9EE]"
             >
               {/* Icon Circle */}
               <div className="w-20 h-20 flex items-center justify-center rounded-full 
-                              bg-gradient-to-br from-blue-600 to-blue-400 text-white 
+                              bg-gradient-to-br from-[#0B5D4E] to-yellow-400 text-[#E8F4F1] 
                               shadow-md mb-5">
                 {step.icon}
               </div>
@@ -59,7 +59,7 @@ const StepsAndTestimonials: React.FC = () => {
       </div>
 
       {/* Divider */}
-      <hr className="border-gray-200" />
+      <hr className="border-[#FFF9EE]" />
 
       {/* ---------- Testimonials Section ---------- */}
       <div className="grid grid-cols-1 lg:grid-cols-2 mt-0">
@@ -79,9 +79,9 @@ const StepsAndTestimonials: React.FC = () => {
           </div>
 
           {/* Quote */}
-          <div className="bg-gray-200 text-black p-10 flex flex-col justify-center">
+          <div className="bg-[#FFF9EE] text-[#2C2C2C] p-10 flex flex-col justify-center">
             <blockquote className="text-xl sm:text-2xl font-light leading-relaxed">
-              “As a brand, we are highly satisfied with IFDP shops where they
+              “As a brand, we are highly satisfied with JAYAK HUB  shops where they
               deliver orders within 30 minutes. This strategy is the future of
               delivery services!”
             </blockquote>
@@ -94,9 +94,9 @@ const StepsAndTestimonials: React.FC = () => {
         <div className="grid grid-rows-2 lg:h-[650px]">
 
           {/* Quote */}
-          <div className="bg-gray-200 text-black p-10 flex flex-col justify-center">
+          <div className="bg-[#FFF9EE] text-[#2C2C2C] p-10 flex flex-col justify-center">
             <blockquote className="text-xl sm:text-2xl font-light leading-relaxed">
-              “I am truly one of the happiest partners as IFDP has not only
+              “I am truly one of the happiest partners as JAYAK HUB  has not only
               increased the sales of my restaurant but made us famous in our
               entire area.”
             </blockquote>

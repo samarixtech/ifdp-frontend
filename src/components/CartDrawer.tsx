@@ -47,7 +47,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     <>
       {/* BACKDROP */}
       <div
-        className={`fixed inset-0 z-[9998] bg-black transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[9998] bg-[#2C2C2C] transition-opacity duration-300 ${
           isOpen ? "opacity-50 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -55,7 +55,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
       {/* DRAWER PANEL */}
       <div
-        className={`fixed top-0 right-[-17px] w-full max-w-[360px] h-full bg-white z-[9999] shadow-2xl
+        className={`fixed top-0 right-[-17px] w-full max-w-[360px] h-full bg-[#E8F4F1] z-[9999] shadow-2xl
         transition-transform duration-300 transform
         ${isOpen ? "translate-x-0" : "translate-x-full"}
         flex flex-col`}
@@ -71,7 +71,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
         {/* CONTENT */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {hasItems ? (
-            <div className="bg-white p-4 border border-gray-200 rounded-xl shadow-md">
+            <div className="bg-[#E8F4F1] p-4 border border-[#FFF9EE] rounded-xl shadow-md">
               {/* RESTAURANT INFO */}
               <div className="flex justify-between items-start mb-3">
                 
@@ -80,7 +80,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     <img
                       src="/images/restaurant-icon-1.png"
                       alt="Icon"
-                      className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                      className="w-8 h-8 rounded-full border-2 border-[#E8F4F1] object-cover"
                     />
                   </div>
                   <div>
@@ -119,7 +119,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                        className="p-1 rounded-full bg-gray-100 hover:bg-gray-200"
+                        className="p-1 rounded-full bg-[#FFF9EE] hover:bg-[#FFF9EE]"
                       >
                         <Minus size={16} />
                       </button>
@@ -128,7 +128,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
                       <button
                         onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                        className="p-1 rounded-full bg-gray-100 hover:bg-gray-200"
+                        className="p-1 rounded-full bg-[#FFF9EE] hover:bg-[#FFF9EE]"
                       >
                         <Plus size={16} />
                       </button>
@@ -145,11 +145,11 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                       src={item.imageUrl || "/images/placeholder-thumb.jpg"}
                       alt={item.name}
                       className={`w-16 h-16 object-cover rounded-lg border-2 ${
-                        index === 0 ? "border-green-500" : "border-gray-200"
+                        index === 0 ? "border-green-500" : "border-[#FFF9EE]"
                       }`}
                     />
                     {item.quantity > 1 && (
-                      <span className="absolute bottom-0 right-0 bg-white text-xs text-gray-800 font-bold px-1 rounded-full border border-gray-300">
+                      <span className="absolute bottom-0 right-0 bg-[#E8F4F1] text-xs text-gray-800 font-bold px-1 rounded-full border border-gray-300">
                         {item.quantity}
                       </span>
                     )}
@@ -169,7 +169,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
               {/* CHECKOUT BUTTON */}
               <button
                 onClick={handleCheckout}
-                className="w-full bg-blue-600 text-white py-3 rounded-xl font-extrabold text-sm hover:bg-blue-700 transition"
+                className="w-full bg-[#0B5D4E] text-[#E8F4F1] py-3 rounded-xl font-extrabold text-sm hover:bg-[#0B5D4E] transition"
               >
                 Go to checkout
               </button>

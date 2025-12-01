@@ -194,7 +194,7 @@ export default function ChangePasswordPage() {
             aria-labelledby="security-features-heading"
             className="lg:col-span-1"
           >
-            <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+            <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6 space-y-6">
               <h2
                 id="security-features-heading"
                 className="text-lg font-semibold text-gray-900"
@@ -207,7 +207,7 @@ export default function ChangePasswordPage() {
                   const FeatureIcon = feature.icon;
                   return (
                     <div key={index} className="flex items-start gap-3">
-                      <div className="p-2 bg-blue-50 rounded-lg text-blue-600 mt-1">
+                      <div className="p-2 bg-[#0B5D4E] rounded-lg text-[#0B5D4E] mt-1">
                         <FeatureIcon size={18} />
                       </div>
                       <div>
@@ -241,7 +241,7 @@ export default function ChangePasswordPage() {
             aria-labelledby="change-password-heading"
             className="lg:col-span-2"
           >
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
               <h2
                 id="change-password-heading"
                 className="text-lg font-semibold text-gray-900 mb-6"
@@ -289,10 +289,10 @@ export default function ChangePasswordPage() {
                       type={showCurrentPassword ? "text" : "password"}
                       value={currentPassword}
                       onChange={handleCurrentPasswordChange}
-                      className={`w-full pl-10 pr-10 py-3 bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      className={`w-full pl-10 pr-10 py-3 bg-[#E8F4F1] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent ${
                         errors.currentPassword
                           ? "border-red-300"
-                          : "border-gray-200"
+                          : "border-[#FFF9EE]"
                       }`}
                       placeholder="Enter your current password"
                     />
@@ -335,10 +335,10 @@ export default function ChangePasswordPage() {
                       type={showNewPassword ? "text" : "password"}
                       value={newPassword}
                       onChange={handleNewPasswordChange}
-                      className={`w-full pl-10 pr-10 py-3 bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      className={`w-full pl-10 pr-10 py-3 bg-[#E8F4F1] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent ${
                         errors.newPassword
                           ? "border-red-300"
-                          : "border-gray-200"
+                          : "border-[#FFF9EE]"
                       }`}
                       placeholder="Create a new password"
                     />
@@ -357,7 +357,7 @@ export default function ChangePasswordPage() {
 
                   {/* Password Strength Criteria */}
                   {newPassword && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-[#FFF9EE]">
                       <h4 className="text-sm font-medium text-gray-900 mb-3">
                         Password Requirements
                       </h4>
@@ -415,10 +415,10 @@ export default function ChangePasswordPage() {
                       type={showConfirmPassword ? "text" : "password"}
                       value={confirmPassword}
                       onChange={handleConfirmPasswordChange}
-                      className={`w-full pl-10 pr-10 py-3 bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      className={`w-full pl-10 pr-10 py-3 bg-[#E8F4F1] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent ${
                         errors.confirmPassword
                           ? "border-red-300"
-                          : "border-gray-200"
+                          : "border-[#FFF9EE]"
                       }`}
                       placeholder="Confirm your new password"
                     />
@@ -448,7 +448,7 @@ export default function ChangePasswordPage() {
                   <button
                     type="button"
                     onClick={() => router.back()}
-                    className="px-6 py-3 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 font-medium flex-1"
+                    className="px-6 py-3 bg-[#E8F4F1] text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-[#FFF9EE] font-medium flex-1"
                   >
                     Cancel
                   </button>
@@ -460,11 +460,11 @@ export default function ChangePasswordPage() {
                       !currentPassword ||
                       !confirmPassword
                     }
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="px-6 py-3 bg-[#0B5D4E] text-[#E8F4F1] rounded-lg hover:bg-[#0B5D4E] transition-colors font-medium flex-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isLoading ? (
                       <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-2 border-[#E8F4F1] border-t-transparent rounded-full animate-spin" />
                         Updating...
                       </>
                     ) : (
@@ -479,7 +479,7 @@ export default function ChangePasswordPage() {
 
         {/* Additional Security Info */}
         <section aria-labelledby="security-info-heading">
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
             <h2
               id="security-info-heading"
               className="text-lg font-semibold text-gray-900 mb-4"
@@ -522,20 +522,20 @@ export default function ChangePasswordPage() {
                 <h3 className="font-medium text-gray-900">Need Help?</h3>
                 <ul className="text-gray-600 text-sm space-y-2">
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-600 font-medium">•</span>
+                    <span className="text-[#0B5D4E] font-medium">•</span>
                     <span>
                       Forgot your password? Use the password reset feature on
                       the login page
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-600 font-medium">•</span>
+                    <span className="text-[#0B5D4E] font-medium">•</span>
                     <span>
                       Contact support if you suspect unauthorized account access
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-blue-600 font-medium">•</span>
+                    <span className="text-[#0B5D4E] font-medium">•</span>
                     <span>
                       Review recent login activity in your account settings
                     </span>

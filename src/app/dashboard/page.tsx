@@ -85,7 +85,7 @@ export default function DashboardOverviewPage() {
       label: "Total Orders",
       value: "42",
       icon: ShoppingBag,
-      color: "text-blue-600",
+      color: "text-[#0B5D4E]",
       change: "+12%",
       trend: "up",
     },
@@ -123,7 +123,7 @@ export default function DashboardOverviewPage() {
       description: "Sushi Master • 2x Spicy Tuna Roll",
       time: "Just now",
       icon: ShoppingBag,
-      color: "text-blue-600 bg-blue-50",
+      color: "text-[#0B5D4E] bg-[#0B5D4E]",
     },
     {
       id: "2",
@@ -206,7 +206,7 @@ export default function DashboardOverviewPage() {
       label: "Order Food",
       description: "Get your favorite meals delivered",
       icon: ShoppingBag,
-      color: "text-blue-600 bg-blue-50",
+      color: "text-[#0B5D4E] bg-[#0B5D4E]",
       href: "/order",
     },
     {
@@ -326,14 +326,14 @@ export default function DashboardOverviewPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex bg-white border border-gray-200 rounded-lg p-1">
+            <div className="flex bg-[#E8F4F1] border border-[#FFF9EE] rounded-lg p-1">
               {timeRangeOptions.map((option) => (
                 <button
                   key={option.value}
                   onClick={() => handleTimeRangeChange(option.value)}
                   className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                     timeRange === option.value
-                      ? "bg-blue-600 text-white"
+                      ? "bg-[#0B5D4E] text-[#E8F4F1]"
                       : "text-gray-600 hover:text-gray-900"
                   }`}
                 >
@@ -350,7 +350,7 @@ export default function DashboardOverviewPage() {
             {statsData.map((stat, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-sm transition-shadow"
+                className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6 hover:shadow-sm transition-shadow"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className={`p-3 rounded-lg ${stat.color} bg-opacity-10`}>
@@ -388,7 +388,7 @@ export default function DashboardOverviewPage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Quick Actions */}
             <section aria-labelledby="quick-actions-heading">
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2
                     id="quick-actions-heading"
@@ -396,21 +396,21 @@ export default function DashboardOverviewPage() {
                   >
                     Quick Actions
                   </h2>
-                  <Sparkles size={20} className="text-blue-600" />
+                  <Sparkles size={20} className="text-[#0B5D4E]" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   {quickActions.map((action, index) => (
                     <button
                       key={index}
                       onClick={() => handleQuickActionClick(action.href)}
-                      className="p-4 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
+                      className="p-4 text-left bg-gray-50 rounded-lg hover:bg-[#FFF9EE] transition-colors group"
                     >
                       <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${action.color}`}>
                           <action.icon size={20} />
                         </div>
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                          <div className="font-semibold text-gray-900 group-hover:text-[#B6932F] transition-colors">
                             {action.label}
                           </div>
                           <div className="text-sm text-gray-600 mt-1">
@@ -419,7 +419,7 @@ export default function DashboardOverviewPage() {
                         </div>
                         <ChevronRight
                           size={16}
-                          className="text-gray-400 group-hover:text-blue-600 transition-colors"
+                          className="text-gray-400 group-hover:text-[#B6932F] transition-colors"
                         />
                       </div>
                     </button>
@@ -430,7 +430,7 @@ export default function DashboardOverviewPage() {
 
             {/* Upcoming Orders */}
             <section aria-labelledby="upcoming-orders-heading">
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2
                     id="upcoming-orders-heading"
@@ -438,13 +438,13 @@ export default function DashboardOverviewPage() {
                   >
                     Upcoming Orders
                   </h2>
-                  <Clock size={20} className="text-blue-600" />
+                  <Clock size={20} className="text-[#0B5D4E]" />
                 </div>
                 <div className="space-y-4">
                   {upcomingOrders.map((order) => (
                     <div
                       key={order.id}
-                      className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-100"
+                      className="flex items-center justify-between p-4 bg-[#0B5D4E] rounded-lg border border-[#0B5D4E]"
                     >
                       <div className="space-y-1">
                         <div className="font-semibold text-gray-900">
@@ -453,12 +453,12 @@ export default function DashboardOverviewPage() {
                         <div className="text-sm text-gray-600">
                           {order.items}
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-blue-600">
+                        <div className="flex items-center gap-2 text-sm text-[#0B5D4E]">
                           <Clock size={14} />
                           <span>ETA: {order.time}</span>
                         </div>
                       </div>
-                      <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                      <span className="px-3 py-1 bg-[#0B5D4E] text-[#0B5D4E] rounded-full text-sm font-medium">
                         {order.status}
                       </span>
                     </div>
@@ -484,7 +484,7 @@ export default function DashboardOverviewPage() {
           <div className="space-y-8">
             {/* Recent Activity */}
             <section aria-labelledby="recent-activity-heading">
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2
                     id="recent-activity-heading"
@@ -492,7 +492,7 @@ export default function DashboardOverviewPage() {
                   >
                     Recent Activity
                   </h2>
-                  <Calendar size={20} className="text-blue-600" />
+                  <Calendar size={20} className="text-[#0B5D4E]" />
                 </div>
                 <div className="space-y-4">
                   {recentActivities.map((activity) => (
@@ -521,7 +521,7 @@ export default function DashboardOverviewPage() {
 
             {/* Favorite Restaurants */}
             <section aria-labelledby="favorites-heading">
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2
                     id="favorites-heading"
@@ -581,7 +581,7 @@ export default function DashboardOverviewPage() {
 
         {/* Popular Categories */}
         <section aria-labelledby="categories-heading">
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
             <h2
               id="categories-heading"
               className="text-lg font-semibold text-gray-900 mb-6"
@@ -593,14 +593,14 @@ export default function DashboardOverviewPage() {
                 <button
                   key={index}
                   onClick={() => handleCategoryClick(category.label)}
-                  className="p-4 border border-gray-200 rounded-lg hover:border-blue-200 hover:bg-blue-50 transition-colors group cursor-pointer text-left w-full"
+                  className="p-4 border border-[#FFF9EE] rounded-lg hover:border-yellow-200 hover:bg-[#0B5D4E] transition-colors group cursor-pointer text-left w-full"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`p-2 rounded-lg ${category.color}`}>
                       <category.icon size={20} />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                      <div className="font-semibold text-gray-900 group-hover:text-[#B6932F] transition-colors">
                         {category.label}
                       </div>
                       <div className="text-sm text-gray-600">

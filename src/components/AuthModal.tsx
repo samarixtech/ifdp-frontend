@@ -50,7 +50,7 @@ export default function AuthModal({
         <>
           {/* BACKDROP */}
           <motion.div
-            className="fixed inset-0 z-50 bg-black/25 backdrop-blur-md"
+            className="fixed inset-0 z-50 bg-[#2C2C2C]/25 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -61,7 +61,7 @@ export default function AuthModal({
           <motion.div className="fixed inset-0 z-60 flex items-center justify-center p-4">
             <motion.div
               ref={modalRef} // attach ref here
-              className="relative w-full max-w-md p-8 rounded-3xl bg-white/30 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/20"
+              className="relative w-full max-w-md p-8 rounded-3xl bg-[#E8F4F1]/30 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-[#E8F4F1]/20"
               initial={{ opacity: 0, scale: 0.85, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.85, y: 20 }}
@@ -70,14 +70,14 @@ export default function AuthModal({
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="absolute right-5 top-5 p-2 rounded-full hover:bg-white/20 transition duration-200"
+                className="absolute right-5 top-5 p-2 rounded-full hover:bg-[#E8F4F1]/20 transition duration-200"
               >
-                <X className="w-6 h-6 text-gray-800 hover:text-[#003566]" />
+                <X className="w-6 h-6 text-gray-800 hover:text-[#B6932F]" />
               </button>
 
               {/* Header */}
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-extrabold text-[#003566]">
+                <h2 className="text-3xl font-extrabold text-[#0B5D4E]">
                   {title}
                 </h2>
                 <p className="text-gray-700 mt-2">{subtitle}</p>
@@ -91,27 +91,27 @@ export default function AuthModal({
                   <input
                     type="text"
                     placeholder="Full Name"
-                    className="w-full p-4 rounded-xl border border-white/30 bg-white/30 backdrop-blur-md 
-                 focus:ring-2 focus:ring-[#003566] outline-none placeholder-gray-500 transition"
+                    className="w-full p-4 rounded-xl border border-[#E8F4F1]/30 bg-[#E8F4F1]/30 backdrop-blur-md 
+                 focus:ring-2 focus:ring-[#0B5D4E] outline-none placeholder-gray-500 transition"
                   />
                 )}
 
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full p-4 rounded-xl border border-white/30 bg-white/30 backdrop-blur-md 
-               focus:ring-2 focus:ring-[#003566] outline-none placeholder-gray-500 transition"
+                  className="w-full p-4 rounded-xl border border-[#E8F4F1]/30 bg-[#E8F4F1]/30 backdrop-blur-md 
+               focus:ring-2 focus:ring-[#0B5D4E] outline-none placeholder-gray-500 transition"
                 />
 
                 <input
                   type="password"
                   placeholder="Password"
-                  className="w-full p-4 rounded-xl border border-white/30 bg-white/30 backdrop-blur-md 
-               focus:ring-2 focus:ring-[#003566] outline-none placeholder-gray-500 transition"
+                  className="w-full p-4 rounded-xl border border-[#E8F4F1]/30 bg-[#E8F4F1]/30 backdrop-blur-md 
+               focus:ring-2 focus:ring-[#0B5D4E] outline-none placeholder-gray-500 transition"
                 />
 
                 <button
-                  className="w-full py-3 bg-[#003566] text-white font-bold rounded-xl shadow-lg 
+                  className="w-full py-3 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-xl shadow-lg 
                      hover:shadow-xl hover:bg-[#002a47] transition duration-300 text-lg"
                 >
                   {mode === "login" ? "Log In" : "Create Account"}
@@ -123,7 +123,7 @@ export default function AuthModal({
                       {t("newAccount")}{" "}
                       <button
                         onClick={() => switchMode("signup")}
-                        className="text-[#003566] font-semibold hover:underline"
+                        className="text-[#0B5D4E] font-semibold hover:underline"
                       >
                         {t("signup")}
                       </button>
@@ -133,7 +133,7 @@ export default function AuthModal({
                       {t("existingAccount")}{" "}
                       <button
                         onClick={() => switchMode("login")}
-                        className="text-[#003566] font-semibold hover:underline"
+                        className="text-[#0B5D4E] font-semibold hover:underline"
                       >
                         {t("login")}
                       </button>
@@ -143,8 +143,8 @@ export default function AuthModal({
               </div>
 
               {/* Decorative Gradient Circles */}
-              <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-linear-to-tr from-[#003566]/60 to-[#61a5c2]/50 blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-12 -left-12 w-36 h-36 rounded-full bg-linear-to-tr from-[#61a5c2]/40 to-[#003566]/40 blur-3xl pointer-events-none" />
+              <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-linear-to-tr from-[#0B5D4E]/60 to-[#61a5c2]/50 blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-12 -left-12 w-36 h-36 rounded-full bg-linear-to-tr from-[#61a5c2]/40 to-[#0B5D4E]/40 blur-3xl pointer-events-none" />
             </motion.div>
           </motion.div>
         </>

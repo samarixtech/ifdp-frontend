@@ -7,7 +7,7 @@ interface FilterSectionProps {
   children: React.ReactNode;
 }
 const FilterSection: React.FC<FilterSectionProps> = ({ title, children }) => (
-  <div className="border-b border-gray-200 py-6 first:pt-0 last:border-b-0">
+  <div className="border-b border-[#FFF9EE] py-6 first:pt-0 last:border-b-0">
     <h2 className="text-lg font-semibold text-gray-800 mb-4">{title}</h2>
     {children}
   </div>
@@ -32,7 +32,7 @@ const FilterItem: React.FC<FilterItemProps> = ({ label, name, type, checked, onC
         checked={checked}
         onChange={() => onChange(label)}
         className={`h-5 w-5 border-gray-300 transition duration-150 ease-in-out ${
-          type === 'radio' ? 'text-[#003566] focus:ring-blue-500' : 'text-[#003566] rounded focus:ring-blue-500'
+          type === 'radio' ? 'text-[#0B5D4E] focus:ring-[#0B5D4E]' : 'text-[#0B5D4E] rounded focus:ring-[#0B5D4E]'
         }`}
       />
       <label htmlFor={id} className="ml-3 text-sm font-medium text-gray-700 cursor-pointer">
@@ -66,7 +66,7 @@ const SidebarFilters: React.FC = () => {
   const displayedCuisines = showAllCuisines || filteredCuisines.length <= 8 ? filteredCuisines : filteredCuisines.slice(0, 8);
 
   const sidebarContent = (
-    <div className="p-6 text-black lg:sticky lg:top-20">
+    <div className="p-6 text-[#2C2C2C] lg:sticky lg:top-20">
       <h1 className="text-2xl font-bold text-gray-900 mb-6 hidden lg:block">Filters</h1>
 
       {/* Mobile Header */}
@@ -100,11 +100,11 @@ const SidebarFilters: React.FC = () => {
               onClick={() => handleToggle(filter, quickFilters, setQuickFilters)}
               className={`flex items-center px-4 py-2 text-sm font-semibold rounded-full transition-colors duration-150 ${
                 quickFilters.includes(filter)
-                  ? 'bg-[#003566] text-white shadow-md'
-                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                  ? 'bg-[#0B5D4E] text-[#E8F4F1] shadow-md'
+                  : 'bg-[#E8F4F1] text-gray-700 border border-gray-300 hover:bg-gray-50'
               }`}
             >
-              {filter === 'Super restaurant' && <StarIcon className="w-4 h-4 mr-1 text-blue-400" />}
+              {filter === 'Super restaurant' && <StarIcon className="w-4 h-4 mr-1 text-yellow-400" />}
               {filter}
             </button>
           ))}
@@ -134,7 +134,7 @@ const SidebarFilters: React.FC = () => {
             placeholder="Search cuisines"
             value={cuisineSearch}
             onChange={(e) => setCuisineSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-[#0B5D4E] focus:border-[#0B5D4E] text-sm"
           />
         </div>
 
@@ -154,7 +154,7 @@ const SidebarFilters: React.FC = () => {
         {filteredCuisines.length > 8 && (
           <button
             onClick={() => setShowAllCuisines(prev => !prev)}
-            className="mt-2 text-sm text-[#003566] hover:text-blue-800 font-semibold transition"
+            className="mt-2 text-sm text-[#0B5D4E] hover:text-yellow-800 font-semibold transition"
           >
             {showAllCuisines ? 'Show less' : 'Show more'}
           </button>
@@ -170,8 +170,8 @@ const SidebarFilters: React.FC = () => {
               onClick={() => setPriceRange(price)}
               className={`flex-1 px-4 py-2 text-sm font-bold rounded-lg transition-colors duration-150 border-2 ${
                 priceRange === price
-                  ? 'bg-[#003566] text-white border-[#003566] shadow-md'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-gray-400'
+                  ? 'bg-[#0B5D4E] text-[#E8F4F1] border-[#0B5D4E] shadow-md'
+                  : 'bg-[#E8F4F1] text-gray-700 border-[#FFF9EE] hover:border-gray-400'
               }`}
             >
               {price}
@@ -181,11 +181,11 @@ const SidebarFilters: React.FC = () => {
       </FilterSection>
 
       {/* Mobile Apply/Reset */}
-      <div className="lg:hidden mt-6 pt-4 border-t border-gray-200 flex space-x-3 sticky bottom-0 bg-white shadow-2xl p-4 -mx-4 -mb-4">
-        <button className="flex-1 px-4 py-3 bg-[#003566] text-white font-bold rounded-lg hover:bg-blue-700 transition">
+      <div className="lg:hidden mt-6 pt-4 border-t border-[#FFF9EE] flex space-x-3 sticky bottom-0 bg-[#E8F4F1] shadow-2xl p-4 -mx-4 -mb-4">
+        <button className="flex-1 px-4 py-3 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-lg hover:bg-[#0B5D4E] transition">
           Apply Filters
         </button>
-        <button className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-100 transition">
+        <button className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-bold rounded-lg hover:bg-[#FFF9EE] transition">
           Reset
         </button>
       </div>
@@ -197,14 +197,14 @@ const SidebarFilters: React.FC = () => {
       {/* Mobile Filter Button */}
       <button
         onClick={() => setIsMobileOpen(true)}
-        className="fixed right-4 bottom-4 z-40 lg:hidden p-4 bg-[#003566] text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition"
+        className="fixed right-4 bottom-4 z-40 lg:hidden p-4 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-full shadow-lg hover:bg-[#0B5D4E] transition"
         aria-label="Open Filters"
       >
         Filters
       </button>
 
       {/* Desktop Sidebar */}
-      <aside className=" bg-white hidden lg:block lg:w-72 lg:shrink-0 lg:pr-8 sticky top-40 h-[calc(100vh-160px)] overflow-y-auto">
+      <aside className=" bg-[#E8F4F1] hidden lg:block lg:w-72 lg:shrink-0 lg:pr-8 sticky top-40 h-[calc(100vh-160px)] overflow-y-auto">
         {sidebarContent}
       </aside>
 
@@ -215,11 +215,11 @@ const SidebarFilters: React.FC = () => {
         }`}
       >
         <div
-          className={`absolute inset-0 bg-black/50 transition-opacity ${isMobileOpen ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 bg-[#2C2C2C]/50 transition-opacity ${isMobileOpen ? 'opacity-100' : 'opacity-0'}`}
           onClick={() => setIsMobileOpen(false)}
         ></div>
         <div
-          className={`absolute left-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl transform transition-transform duration-300 ${
+          className={`absolute left-0 top-0 h-full w-full max-w-sm bg-[#E8F4F1] shadow-2xl transform transition-transform duration-300 ${
             isMobileOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >

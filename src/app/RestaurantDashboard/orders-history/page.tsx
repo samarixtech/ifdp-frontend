@@ -69,7 +69,7 @@ function StatusBadge({ status }: { status: OrderStatus }) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap border border-opacity-30 ${bgColor} ${textColor}`}
+      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold [#E8F4F1]space-nowrap border border-opacity-30 ${bgColor} ${textColor}`}
       aria-label={`${status} status`}
     >
       {icon}
@@ -119,12 +119,12 @@ const formatCurrency = (amount: number): string => {
 const OrderCard = ({ order, onViewDetails }: { order: OrderType, onViewDetails: (order: OrderType) => void }) => {
     return (
         <div 
-            className="bg-white p-5 rounded-xl border border-gray-200 shadow-lg hover:shadow-xl hover:shadow-indigo-100 transition duration-300 transform hover:scale-[1.01] cursor-pointer"
+            className="bg-[#E8F4F1] p-5 rounded-xl border border-[#FFF9EE] shadow-lg hover:shadow-xl hover:shadow-indigo-100 transition duration-300 transform hover:scale-[1.01] cursor-pointer"
             onClick={() => onViewDetails(order)}
             tabIndex={0}
             role="listitem"
         >
-            <div className="flex justify-between items-start border-b border-gray-200 pb-3 mb-3">
+            <div className="flex justify-between items-start border-b border-[#FFF9EE] pb-3 mb-3">
                 <div className="font-mono text-xl font-bold text-indigo-600">
                     <span className="text-gray-400 mr-1">ID</span>#{order.id}
                 </div>
@@ -145,7 +145,7 @@ const OrderCard = ({ order, onViewDetails }: { order: OrderType, onViewDetails: 
                     <span className="text-gray-800 font-semibold truncate">{order.restaurantName}</span>
                 </p>
                 {/* Items & Time Grid */}
-                <div className="grid grid-cols-2 gap-y-3 pt-2 border-t border-gray-200">
+                <div className="grid grid-cols-2 gap-y-3 pt-2 border-t border-[#FFF9EE]">
                     <p className="flex items-center text-xs">
                         <Tag className="text-indigo-500 w-3 h-3 mr-1" />
                         <span className="text-gray-500 mr-1">Items:</span>
@@ -165,7 +165,7 @@ const OrderCard = ({ order, onViewDetails }: { order: OrderType, onViewDetails: 
                 </span>
                 <button
                     onClick={(e) => { e.stopPropagation(); onViewDetails(order); }}
-                    className="p-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 transition shadow-md hover:shadow-lg shadow-indigo-300/50"
+                    className="p-2 rounded-full bg-indigo-500 text-[#E8F4F1] hover:bg-indigo-600 transition shadow-md hover:shadow-lg shadow-indigo-300/50"
                     title="View Full Details"
                 >
                     <Eye size={18} />
@@ -182,8 +182,8 @@ const OrderCard = ({ order, onViewDetails }: { order: OrderType, onViewDetails: 
 const OrderDetailsModal = ({ order, onClose }: { order: OrderType, onClose: () => void }) => {
     return (
         <div className="fixed inset-0 bg-gray-900/60 bg-opacity-60 flex justify-center items-center z-50 p-4 backdrop-blur-sm">
-            <div className="bg-white rounded-xl shadow-2xl shadow-indigo-300 w-full max-w-md transform transition-all duration-300 scale-100 border-t-4 border-indigo-500">
-                <header className="p-5 border-b border-gray-200 flex justify-between items-center bg-indigo-50/50 rounded-t-lg">
+            <div className="bg-[#E8F4F1] rounded-xl shadow-2xl shadow-indigo-300 w-full max-w-md transform transition-all duration-300 scale-100 border-t-4 border-indigo-500">
+                <header className="p-5 border-b border-[#FFF9EE] flex justify-between items-center bg-indigo-50/50 rounded-t-lg">
                     <h2 className="text-xl font-extrabold text-gray-900 flex items-center gap-2">
                         Order History <span className="text-indigo-600 font-mono">#{order.id}</span>
                     </h2>
@@ -192,15 +192,15 @@ const OrderDetailsModal = ({ order, onClose }: { order: OrderType, onClose: () =
                     </button>
                 </header>
                 <div className="p-5 space-y-4">
-                    <p className="text-gray-700 flex justify-between border-b border-gray-100 pb-2">
+                    <p className="text-gray-700 flex justify-between border-b border-[#FFF9EE] pb-2">
                         <span className="font-medium flex items-center gap-2 text-indigo-700"><User className="w-5 h-5"/> Customer:</span> 
                         <span className="font-bold text-gray-900">{order.customerName}</span>
                     </p>
-                    <p className="text-gray-700 flex justify-between border-b border-gray-100 pb-2">
+                    <p className="text-gray-700 flex justify-between border-b border-[#FFF9EE] pb-2">
                         <span className="font-medium flex items-center gap-2 text-indigo-700"><Utensils className="w-5 h-5"/> Restaurant:</span> 
                         <span className="font-bold text-gray-900">{order.restaurantName}</span>
                     </p>
-                    <p className="text-gray-700 flex justify-between border-b border-gray-100 pb-2">
+                    <p className="text-gray-700 flex justify-between border-b border-[#FFF9EE] pb-2">
                         <span className="font-medium flex items-center gap-2 text-indigo-700"><Clock className="w-5 h-5"/> Order Date:</span> 
                         <span className="font-semibold text-gray-600">{formatOrderTime(order.orderTime)}</span>
                     </p>
@@ -216,10 +216,10 @@ const OrderDetailsModal = ({ order, onClose }: { order: OrderType, onClose: () =
                         <StatusBadge status={order.status} />
                     </div>
                 </div>
-                <footer className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3 rounded-b-xl">
+                <footer className="p-4 border-t border-[#FFF9EE] bg-gray-50 flex justify-end gap-3 rounded-b-xl">
                     <button
                         onClick={onClose}
-                        className="flex items-center gap-2 px-5 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition shadow-md"
+                        className="flex items-center gap-2 px-5 py-2 bg-[#FFF9EE] text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition shadow-md"
                     >
                         Close
                     </button>
@@ -309,8 +309,8 @@ export default function OrderHistoryPage() {
     onClick={() => handleSort(sortKey)}
     className={`flex items-center px-3 py-1 text-xs rounded-lg transition duration-200 border
         ${sortBy === sortKey
-            ? 'bg-indigo-500 text-white border-indigo-500 shadow-sm'
-            : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-indigo-50 hover:text-indigo-700'
+            ? 'bg-indigo-500 text-[#E8F4F1] border-indigo-500 shadow-sm'
+            : 'bg-[#FFF9EE] text-gray-700 border-gray-300 hover:bg-indigo-50 hover:text-indigo-700'
         }
     `}
     aria-label={`Sort by ${label}`}
@@ -326,7 +326,7 @@ export default function OrderHistoryPage() {
   return (
     // Outer container: Soft Light Mode (Neutral background)
     <main className="min-h-screen bg-neutral-50 p-4 sm:p-6 md:p-10 flex justify-center font-sans">
-      <div className="max-w-7xl w-full bg-white rounded-xl shadow-2xl border border-gray-200 p-6 lg:p-8">
+      <div className="max-w-7xl w-full bg-[#E8F4F1] rounded-xl shadow-2xl border border-[#FFF9EE] p-6 lg:p-8">
         
         {/* Header */}
         <header className="mb-8 pb-4 border-b-4 border-indigo-400 flex flex-col sm:flex-row items-start sm:items-center gap-3">
@@ -348,7 +348,7 @@ export default function OrderHistoryPage() {
                 <input
                 type="search"
                 placeholder="Search ID, Customer, or Restaurant..."
-                className="pl-10 pr-4 py-3 rounded-xl border-2 border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 transition text-sm w-full shadow-inner"
+                className="pl-10 pr-4 py-3 rounded-xl border-2 border-gray-300 bg-[#E8F4F1] text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 transition text-sm w-full shadow-inner"
                 value={search}
                 onChange={(e) => {
                     setSearch(e.target.value);
@@ -372,8 +372,8 @@ export default function OrderHistoryPage() {
                         className={`flex items-center gap-1 px-4 py-2 rounded-lg border text-sm font-medium transition duration-300 shadow-md
                         ${
                         filterStatus === status
-                            ? "bg-indigo-500 text-white border-indigo-500 shadow-indigo-200/50"
-                            : "bg-white text-gray-700 border-gray-300 hover:bg-indigo-50 hover:border-indigo-400"
+                            ? "bg-indigo-500 text-[#E8F4F1] border-indigo-500 shadow-indigo-200/50"
+                            : "bg-[#E8F4F1] text-gray-700 border-gray-300 hover:bg-indigo-50 hover:border-indigo-400"
                         }`}
                         aria-pressed={filterStatus === status}
                     >
@@ -395,7 +395,7 @@ export default function OrderHistoryPage() {
         {/* Orders Grid/Cards */}
         <div className="min-h-[400px]">
             {paginatedOrders.length === 0 ? (
-                <div className="text-center py-20 text-xl text-gray-500 bg-gray-100 rounded-xl border border-gray-300">
+                <div className="text-center py-20 text-xl text-gray-500 bg-[#FFF9EE] rounded-xl border border-gray-300">
                     <p>No historical orders found matching the current criteria.</p>
                 </div>
             ) : (
@@ -414,7 +414,7 @@ export default function OrderHistoryPage() {
         {/* Pagination */}
         {filteredAndSortedOrders.length > perPage && (
           <nav
-            className="flex flex-col sm:flex-row justify-between items-center mt-8 p-4 bg-gray-100 rounded-xl shadow-inner border border-gray-200"
+            className="flex flex-col sm:flex-row justify-between items-center mt-8 p-4 bg-[#FFF9EE] rounded-xl shadow-inner border border-[#FFF9EE]"
             aria-label="Pagination Navigation"
           >
             <span className="text-gray-600 text-sm font-medium select-none mb-2 sm:mb-0">
@@ -432,7 +432,7 @@ export default function OrderHistoryPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="p-2 rounded-full bg-white border border-gray-300 shadow-md text-gray-700 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
+                  className="p-2 rounded-full bg-[#E8F4F1] border border-gray-300 shadow-md text-gray-700 hover:bg-[#FFF9EE] disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
                   aria-disabled={page === 1}
                   aria-label="Previous Page"
                 >
@@ -442,7 +442,7 @@ export default function OrderHistoryPage() {
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="p-2 rounded-full bg-white border border-gray-300 shadow-md text-gray-700 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
+                  className="p-2 rounded-full bg-[#E8F4F1] border border-gray-300 shadow-md text-gray-700 hover:bg-[#FFF9EE] disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
                   aria-disabled={page === totalPages}
                   aria-label="Next Page"
                 >

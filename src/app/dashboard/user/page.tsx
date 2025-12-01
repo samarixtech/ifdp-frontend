@@ -1,8 +1,8 @@
 "use client";
 import { ArrowUp, Users, Mail, UserPlus } from "lucide-react";
 
-const primaryBlue = "#014f86";
-const softSectionBg = "bg-white";
+const primaryyellow = "#0B5D4E";
+const softSectionBg = "bg-[#E8F4F1]";
 
 const usersData = [
   {
@@ -41,7 +41,7 @@ export default function UsersPage() {
       {/* --- Page Header --- */}
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-800">Users</h1>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-medium shadow-md hover:opacity-90 transition">
+        <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#0B5D4E] to-yellow-400 text-[#E8F4F1] font-medium shadow-md hover:opacity-90 transition">
           <UserPlus size={20} /> Add User
         </button>
       </div>
@@ -53,7 +53,7 @@ export default function UsersPage() {
             <span className="text-sm font-medium text-gray-500">
               Total Users
             </span>
-            <Users size={24} className={`text-[${primaryBlue}]`} />
+            <Users size={24} className={`text-[${primaryyellow}]`} />
           </div>
           <h2 className="mt-2 text-2xl font-bold text-gray-800">
             {usersData.length}
@@ -68,7 +68,7 @@ export default function UsersPage() {
             <span className="text-sm font-medium text-gray-500">
               Active Users
             </span>
-            <Users size={24} className={`text-[${primaryBlue}]`} />
+            <Users size={24} className={`text-[${primaryyellow}]`} />
           </div>
           <h2 className="mt-2 text-2xl font-bold text-gray-800">
             {usersData.filter((u) => u.status === "Active").length}
@@ -83,7 +83,7 @@ export default function UsersPage() {
             <span className="text-sm font-medium text-gray-500">
               Inactive Users
             </span>
-            <Users size={24} className={`text-[${primaryBlue}]`} />
+            <Users size={24} className={`text-[${primaryyellow}]`} />
           </div>
           <h2 className="mt-2 text-2xl font-bold text-gray-800">
             {usersData.filter((u) => u.status === "Inactive").length}
@@ -98,7 +98,7 @@ export default function UsersPage() {
       <div className={`p-6 rounded-xl shadow ${softSectionBg}`}>
         <h2 className="text-xl font-semibold text-gray-800 mb-4">All Users</h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-[#FFF9EE]">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -115,17 +115,17 @@ export default function UsersPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[#E8F4F1] divide-y divide-[#FFF9EE]">
               {usersData.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50 transition">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                  <td className="px-6 py-4 [#E8F4F1]space-nowrap text-sm text-gray-800">
                     {user.name}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 [#E8F4F1]space-nowrap text-sm text-gray-500">
                     {user.email}
                   </td>
                   <td
-                    className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
+                    className={`px-6 py-4 [#E8F4F1]space-nowrap text-sm font-medium ${
                       user.status === "Active"
                         ? "text-green-500"
                         : "text-red-500"
@@ -133,7 +133,7 @@ export default function UsersPage() {
                   >
                     {user.status}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                  <td className="px-6 py-4 [#E8F4F1]space-nowrap text-sm text-gray-400">
                     {user.joined}
                   </td>
                 </tr>

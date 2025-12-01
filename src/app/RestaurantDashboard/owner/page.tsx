@@ -56,7 +56,7 @@ interface InfoProps {
 function InfoRow({ icon, label, value, full }: InfoProps) {
   return (
     <div className={`flex items-start gap-3 ${full ? "col-span-full" : ""}`}>
-      <span className="text-blue-600 text-xl mt-1">{icon}</span>
+      <span className="text-[#0B5D4E] text-xl mt-1">{icon}</span>
       <p className="text-gray-700 text-sm">
         <strong className="font-semibold text-gray-900">{label}: </strong>
         {value}
@@ -93,16 +93,16 @@ function Modal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center p-6 z-50">
+    <div className="fixed inset-0 bg-[#2C2C2C]/60 backdrop-blur-sm flex justify-center items-center p-6 z-50">
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
-        className="bg-white rounded-xl p-6 w-full max-w-lg relative shadow-2xl border border-gray-300"
+        className="bg-[#E8F4F1] rounded-xl p-6 w-full max-w-lg relative shadow-2xl border border-gray-300"
       >
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 bg-gray-100 p-1 rounded-full hover:bg-gray-200 transition"
+          className="absolute right-4 top-4 bg-[#FFF9EE] p-1 rounded-full hover:bg-[#FFF9EE] transition"
         >
           <MdClose size={22} className="text-gray-500" />
         </button>
@@ -237,7 +237,7 @@ export default function OwnerDetail() {
         </div>
 
         {/* OWNER CARD */}
-        <div className="bg-white rounded-xl p-6 shadow-xl border border-gray-300">
+        <div className="bg-[#E8F4F1] rounded-xl p-6 shadow-xl border border-gray-300">
           <h2 className="text-xl font-bold border border-gray-300 border-b pb-2 p-3 rounded-xl  bg-green-50 mb-4">Profile Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-10">
             <InfoRow icon={<MdPerson />} label="Full Name" value={owner.name} />
@@ -252,9 +252,9 @@ export default function OwnerDetail() {
 
         {/* BUSINESS OVERVIEW */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-blue-50 border border-gray-300 p-6 rounded-xl shadow">
-            <p className="text-sm font-semibold text-blue-600 mb-2">Account Status</p>
-            <StatusBadge status={owner.status} />
+          <div className="bg-green-50 border border-gray-300 p-6 rounded-xl shadow">
+            <p className="text-sm font-semibold text-[#0B5D4E] mb-2">Account Status</p>
+            <StatusBadge  status={owner.status} />
           </div>
 
           <div className="bg-green-50 border border-gray-300 p-6 rounded-xl shadow">
@@ -269,12 +269,12 @@ export default function OwnerDetail() {
         </div>
 
         {/* RESTAURANTS TABLE */}
-        <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-300">
+        <div className="bg-[#E8F4F1] p-6 rounded-xl shadow-xl border border-gray-300">
           <h2 className="text-xl font-bold mb-4">Restaurants Managed ({filteredRestaurants.length})</h2>
 
           {/* FILTERS */}
           <div className="flex flex-wrap gap-3 mb-6 items-center">
-            <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg border border-gray-300">
+            <div className="flex items-center gap-2 bg-[#FFF9EE] px-3 py-2 rounded-lg border border-gray-300">
               <MdSearch className="text-gray-500" />
               <input
                 type="text"
@@ -286,7 +286,7 @@ export default function OwnerDetail() {
             </div>
 
             <select
-              className="bg-gray-100 px-3 py-2 rounded-lg border border-gray-300 text-sm"
+              className="bg-[#FFF9EE] px-3 py-2 rounded-lg border border-gray-300 text-sm"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
             >
@@ -296,7 +296,7 @@ export default function OwnerDetail() {
             </select>
 
             <select
-              className="bg-gray-100 px-3 py-2 rounded-lg border border-gray-300 text-sm"
+              className="bg-[#FFF9EE] px-3 py-2 rounded-lg border border-gray-300 text-sm"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
             >
@@ -310,7 +310,7 @@ export default function OwnerDetail() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] table-auto border border-gray-300 border-collapse">
               <thead>
-                <tr className="bg-gray-100 text-gray-600 text-sm uppercase">
+                <tr className="bg-[#FFF9EE] text-gray-600 text-sm uppercase">
                   <th className="px-4 py-3 text-left">Name</th>
                   <th className="px-4 py-3 text-left">Category</th>
                   <th className="px-4 py-3 text-left">Location</th>
@@ -325,7 +325,7 @@ export default function OwnerDetail() {
 
               <tbody>
                 {paginatedRestaurants.map((r) => (
-                  <tr key={r.id} className="border border-gray-300 border-b hover:bg-blue-50/50 transition">
+                  <tr key={r.id} className="border border-gray-300 border-b hover:bg-[#0B5D4E]/50 transition">
                     <td className="px-4 py-3 font-medium">{r.name}</td>
                     <td className="px-4 py-3">{r.category}</td>
                     <td className="px-4 py-3">{r.location}</td>
@@ -337,7 +337,7 @@ export default function OwnerDetail() {
                       <StatusBadge status={r.status} />
                     </td>
                     <td className="px-4 py-3 flex gap-3 justify-center">
-                      <button className="text-blue-600 hover:bg-blue-100 p-2 rounded">
+                      <button className="text-[#0B5D4E] hover:bg-[#0B5D4E] p-2 rounded">
                         <MdVisibility size={20} />
                       </button>
 
@@ -372,7 +372,7 @@ export default function OwnerDetail() {
                 <button
                   disabled={page === 1}
                   onClick={() => setPage((p) => p - 1)}
-                  className="p-2 rounded-full hover:bg-gray-100 disabled:opacity-50"
+                  className="p-2 rounded-full hover:bg-[#FFF9EE] disabled:opacity-50"
                 >
                   <MdChevronLeft size={22} />
                 </button>
@@ -381,7 +381,7 @@ export default function OwnerDetail() {
                   <button
                     key={i}
                     onClick={() => setPage(i + 1)}
-                    className={`px-4 py-2 rounded-lg text-sm ${page === i + 1 ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+                    className={`px-4 py-2 rounded-lg text-sm ${page === i + 1 ? "bg-[#0B5D4E] text-[#E8F4F1]" : "bg-[#FFF9EE] hover:bg-[#FFF9EE]"}`}
                   >
                     {i + 1}
                   </button>
@@ -390,7 +390,7 @@ export default function OwnerDetail() {
                 <button
                   disabled={page === totalPages}
                   onClick={() => setPage((p) => p + 1)}
-                  className="p-2 rounded-full hover:bg-gray-100 disabled:opacity-50"
+                  className="p-2 rounded-full hover:bg-[#FFF9EE] disabled:opacity-50"
                 >
                   <MdChevronRight size={22} />
                 </button>
@@ -445,7 +445,7 @@ export default function OwnerDetail() {
 
               <div className="flex justify-end gap-3 mt-4">
                 <button
-                  className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                  className="px-4 py-2 border border-gray-300 rounded-md hover:bg-[#FFF9EE]"
                   onClick={() => setEditModal(false)}
                 >
                   Cancel

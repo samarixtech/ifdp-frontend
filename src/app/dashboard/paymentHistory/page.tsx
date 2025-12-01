@@ -100,7 +100,7 @@ export default function PaymentHistoryPage() {
       label: "Total Spent",
       value: "$1,248.75",
       icon: DollarSign,
-      color: "text-blue-600",
+      color: "text-[#0B5D4E]",
       change: "+12%",
       trend: "up",
     },
@@ -362,14 +362,14 @@ export default function PaymentHistoryPage() {
       case "failed":
         return "bg-red-100 text-red-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-[#FFF9EE] text-gray-700";
     }
   };
 
   const getTypeColor = (type: string): string => {
     switch (type) {
       case "food":
-        return "text-blue-600 bg-blue-50";
+        return "text-[#0B5D4E] bg-[#0B5D4E]";
       case "subscription":
         return "text-purple-600 bg-purple-50";
       case "refund":
@@ -442,7 +442,7 @@ export default function PaymentHistoryPage() {
                 placeholder="Search payments..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
+                className="w-full pl-10 pr-4 py-2 sm:py-3 bg-[#E8F4F1] border border-[#FFF9EE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent text-sm sm:text-base"
               />
             </div>
 
@@ -450,7 +450,7 @@ export default function PaymentHistoryPage() {
             <div className="relative w-full sm:w-auto" ref={statusDropdownRef}>
               <button
                 onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
-                className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
+                className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-[#E8F4F1] border border-[#FFF9EE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
               >
                 <Filter
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -472,7 +472,7 @@ export default function PaymentHistoryPage() {
               </button>
 
               <div
-                className={`absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
+                className={`absolute top-full mt-1 w-full bg-[#E8F4F1] border border-[#FFF9EE] rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
                   isStatusDropdownOpen
                     ? "opacity-100 scale-y-100 translate-y-0"
                     : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
@@ -482,11 +482,11 @@ export default function PaymentHistoryPage() {
                   <button
                     key={option.value}
                     onClick={() => handleStatusFilterChange(option.value)}
-                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-[#0B5D4E] transition-colors group ${
                       index !== statusFilterOptions.length - 1
-                        ? "border-b border-gray-100"
+                        ? "border-b border-[#FFF9EE]"
                         : ""
-                    } ${statusFilter === option.value ? "bg-blue-50" : ""}`}
+                    } ${statusFilter === option.value ? "bg-[#0B5D4E]" : ""}`}
                     style={{
                       transitionDelay: isStatusDropdownOpen
                         ? `${index * 50}ms`
@@ -497,14 +497,14 @@ export default function PaymentHistoryPage() {
                       <div
                         className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center transition-all ${
                           statusFilter === option.value
-                            ? "border-blue-600 bg-blue-600"
-                            : "border-gray-300 group-hover:border-blue-400"
+                            ? "border-[#0B5D4E] bg-[#0B5D4E]"
+                            : "border-gray-300 group-hover:border-yellow-400"
                         }`}
                       >
                         {statusFilter === option.value && (
                           <Check
                             size={12}
-                            className="text-white"
+                            className="text-[#E8F4F1]"
                             strokeWidth={3}
                           />
                         )}
@@ -512,8 +512,8 @@ export default function PaymentHistoryPage() {
                       <span
                         className={`font-medium transition-colors text-sm sm:text-base ${
                           statusFilter === option.value
-                            ? "text-blue-700"
-                            : "text-gray-700 group-hover:text-blue-600"
+                            ? "text-[#0B5D4E]"
+                            : "text-gray-700 group-hover:text-[#B6932F]"
                         }`}
                       >
                         {option.label}
@@ -522,8 +522,8 @@ export default function PaymentHistoryPage() {
                     <span
                       className={`text-xs sm:text-sm px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full transition-all ${
                         statusFilter === option.value
-                          ? "bg-blue-200 text-blue-700"
-                          : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
+                          ? "bg-yellow-200 text-[#0B5D4E]"
+                          : "bg-[#FFF9EE] text-gray-600 group-hover:bg-[#0B5D4E] group-hover:text-[#B6932F]"
                       }`}
                     >
                       {option.count}
@@ -537,7 +537,7 @@ export default function PaymentHistoryPage() {
             <div className="relative w-full sm:w-auto" ref={typeDropdownRef}>
               <button
                 onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
-                className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
+                className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-[#E8F4F1] border border-[#FFF9EE] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
               >
                 <Filter
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -558,7 +558,7 @@ export default function PaymentHistoryPage() {
               </button>
 
               <div
-                className={`absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
+                className={`absolute top-full mt-1 w-full bg-[#E8F4F1] border border-[#FFF9EE] rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-300 origin-top ${
                   isTypeDropdownOpen
                     ? "opacity-100 scale-y-100 translate-y-0"
                     : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
@@ -568,11 +568,11 @@ export default function PaymentHistoryPage() {
                   <button
                     key={option.value}
                     onClick={() => handleTypeFilterChange(option.value)}
-                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-[#0B5D4E] transition-colors group ${
                       index !== typeFilterOptions.length - 1
-                        ? "border-b border-gray-100"
+                        ? "border-b border-[#FFF9EE]"
                         : ""
-                    } ${typeFilter === option.value ? "bg-blue-50" : ""}`}
+                    } ${typeFilter === option.value ? "bg-[#0B5D4E]" : ""}`}
                     style={{
                       transitionDelay: isTypeDropdownOpen
                         ? `${index * 50}ms`
@@ -583,14 +583,14 @@ export default function PaymentHistoryPage() {
                       <div
                         className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center transition-all ${
                           typeFilter === option.value
-                            ? "border-blue-600 bg-blue-600"
-                            : "border-gray-300 group-hover:border-blue-400"
+                            ? "border-[#0B5D4E] bg-[#0B5D4E]"
+                            : "border-gray-300 group-hover:border-yellow-400"
                         }`}
                       >
                         {typeFilter === option.value && (
                           <Check
                             size={12}
-                            className="text-white"
+                            className="text-[#E8F4F1]"
                             strokeWidth={3}
                           />
                         )}
@@ -598,8 +598,8 @@ export default function PaymentHistoryPage() {
                       <span
                         className={`font-medium transition-colors text-sm sm:text-base ${
                           typeFilter === option.value
-                            ? "text-blue-700"
-                            : "text-gray-700 group-hover:text-blue-600"
+                            ? "text-[#0B5D4E]"
+                            : "text-gray-700 group-hover:text-[#B6932F]"
                         }`}
                       >
                         {option.label}
@@ -608,8 +608,8 @@ export default function PaymentHistoryPage() {
                     <span
                       className={`text-xs sm:text-sm px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full transition-all ${
                         typeFilter === option.value
-                          ? "bg-blue-200 text-blue-700"
-                          : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
+                          ? "bg-yellow-200 text-[#0B5D4E]"
+                          : "bg-[#FFF9EE] text-gray-600 group-hover:bg-[#0B5D4E] group-hover:text-[#B6932F]"
                       }`}
                     >
                       {option.count}
@@ -627,7 +627,7 @@ export default function PaymentHistoryPage() {
             {paymentStats.map((stat, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg border border-gray-200 p-3 sm:p-4"
+                className="bg-[#E8F4F1] rounded-lg border border-[#FFF9EE] p-3 sm:p-4"
               >
                 <div className="flex items-center justify-between mb-1 sm:mb-2">
                   <div
@@ -678,7 +678,7 @@ export default function PaymentHistoryPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium self-start sm:self-auto"
+                className="text-[#0B5D4E] hover:text-[#B6932F] text-sm font-medium self-start sm:self-auto"
               >
                 Clear search
               </button>
@@ -686,7 +686,7 @@ export default function PaymentHistoryPage() {
           </div>
 
           {currentPayments.length === 0 ? (
-            <div className="text-center py-8 sm:py-12 bg-white rounded-xl border border-gray-200">
+            <div className="text-center py-8 sm:py-12 bg-[#E8F4F1] rounded-xl border border-[#FFF9EE]">
               <Search
                 className="mx-auto text-gray-400 mb-2 sm:mb-3"
                 size={28}
@@ -709,7 +709,7 @@ export default function PaymentHistoryPage() {
                 return (
                   <div
                     key={payment.id}
-                    className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 hover:shadow-sm transition-shadow"
+                    className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-4 sm:p-5 hover:shadow-sm transition-shadow"
                   >
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                       <div className="flex items-start gap-3 sm:gap-4 min-w-0">
@@ -769,12 +769,12 @@ export default function PaymentHistoryPage() {
                         </div>
                         <div className="flex items-center gap-1 sm:gap-2 justify-start sm:justify-end">
                           {payment.receiptAvailable && (
-                            <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm font-medium flex items-center gap-1 shrink-0">
+                            <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-[#0B5D4E] text-[#E8F4F1] rounded-lg hover:bg-[#0B5D4E] transition-colors text-xs sm:text-sm font-medium flex items-center gap-1 shrink-0">
                               <Download size={12} />
                               <span className="hidden xs:inline">Receipt</span>
                             </button>
                           )}
-                          <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 text-xs sm:text-sm font-medium flex items-center gap-1 shrink-0">
+                          <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-[#E8F4F1] text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-[#FFF9EE] text-xs sm:text-sm font-medium flex items-center gap-1 shrink-0">
                             <span className="hidden xs:inline">Details</span>
                             <ChevronRight size={12} />
                           </button>
@@ -789,7 +789,7 @@ export default function PaymentHistoryPage() {
 
           {/* Pagination */}
           {filteredPayments.length > ordersPerPage && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 sm:pt-6 border-t border-gray-200">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 sm:pt-6 border-t border-[#FFF9EE]">
               <div className="text-sm text-gray-700 order-2 sm:order-1">
                 Page {currentPage} of {totalPages}
               </div>
@@ -798,7 +798,7 @@ export default function PaymentHistoryPage() {
                 <button
                   onClick={goToFirstPage}
                   disabled={currentPage === 1}
-                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-[#FFF9EE] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="First page"
                 >
                   <ChevronsLeft size={14} />
@@ -807,7 +807,7 @@ export default function PaymentHistoryPage() {
                 <button
                   onClick={goToPrevPage}
                   disabled={currentPage === 1}
-                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-[#FFF9EE] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Previous page"
                 >
                   <ChevronLeft size={14} />
@@ -820,8 +820,8 @@ export default function PaymentHistoryPage() {
                       onClick={() => paginate(pageNumber)}
                       className={`min-w-8 sm:min-w-10 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border transition-colors text-xs sm:text-sm ${
                         currentPage === pageNumber
-                          ? "bg-blue-600 text-white border-blue-600"
-                          : "border-gray-200 hover:bg-gray-50 text-gray-700"
+                          ? "bg-[#0B5D4E] text-[#E8F4F1] border-[#0B5D4E]"
+                          : "border-[#FFF9EE] hover:bg-gray-50 text-gray-700"
                       }`}
                     >
                       {pageNumber}
@@ -832,7 +832,7 @@ export default function PaymentHistoryPage() {
                 <button
                   onClick={goToNextPage}
                   disabled={currentPage === totalPages}
-                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-[#FFF9EE] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Next page"
                 >
                   <ChevronRight size={14} />
@@ -841,7 +841,7 @@ export default function PaymentHistoryPage() {
                 <button
                   onClick={goToLastPage}
                   disabled={currentPage === totalPages}
-                  className="p-1.5 sm:p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg border border-[#FFF9EE] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Last page"
                 >
                   <ChevronsRight size={14} />

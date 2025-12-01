@@ -28,7 +28,7 @@ const SplitCultureCard = ({
   image,
   buttonText = "Learn More",
 }: any) => (
-  <div className="bg-white rounded-3xl border-2 border-gray-100 p-6 md:p-10 h-full w-full md:w-280 shrink-0">
+  <div className="bg-[#E8F4F1] rounded-3xl border-2 border-[#FFF9EE] p-6 md:p-10 h-full w-full md:w-280 shrink-0">
     <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center h-full">
       {/* Left Side: Content */}
       <div className="space-y-4 max-h-112 overflow-hidden flex flex-col justify-between">
@@ -44,7 +44,7 @@ const SplitCultureCard = ({
           </p>
         </div>
         <button
-          className={`mt-6 px-7 py-3 text-base font-bold rounded-xl text-white transition-all duration-300 ${color.replace(
+          className={`mt-6 px-7 py-3 text-base font-bold rounded-xl text-[#E8F4F1] transition-all duration-300 ${color.replace(
             "text-",
             "bg-"
           )} hover:bg-opacity-80 shadow-lg`}
@@ -148,13 +148,13 @@ const AboutPage = () => {
   const t = useTranslations("About");
 
   // Color Palette
-  const primaryBlue = "#014f86";
-  const softPrimaryText = `text-[${primaryBlue}]`;
-  const softAccent = `bg-[${"#61a5c2"}]`; // tertiaryBlue
-  const softAccentText = `text-[${"#014f86"}]`; // primaryBlue
+  const primaryyellow = "#0B5D4E";
+  const softPrimaryText = `text-[${primaryyellow}]`;
+  const softAccent = `bg-[${"#61a5c2"}]`; // tertiaryyellow
+  const softAccentText = `text-[${"#0B5D4E"}]`; // primaryyellow
   const softNeutralBg = "bg-gray-50";
-  const softSectionBg = "bg-white";
-  const statGradient = "from-blue-400 to-cyan-500";
+  const softSectionBg = "bg-[#E8F4F1]";
+  const statGradient = "from-yellow-400 to-yellow-500";
 
   // Data for About Page Sections
   const coreValues = [
@@ -162,13 +162,13 @@ const AboutPage = () => {
       icon: Lightbulb,
       title: t("value_innovation_title"),
       description: t("value_innovation_desc"),
-      color: "text-blue-500",
+      color: "text-[#0B5D4E]",
     },
     {
       icon: HeartHandshake,
       title: t("value_partnership_title"),
       description: t("value_partnership_desc"),
-      color: "text-cyan-500",
+      color: "text-yellow-500",
     },
     {
       icon: Briefcase,
@@ -190,7 +190,7 @@ const AboutPage = () => {
       icon: Users,
       title: t("slider_1_title"),
       description: t("slider_1_desc"),
-      color: "text-blue-600",
+      color: "text-[#0B5D4E]",
       image:
         "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop",
       buttonText: t("slider_1_button"),
@@ -199,7 +199,7 @@ const AboutPage = () => {
       icon: TrendingUp,
       title: t("slider_2_title"),
       description: t("slider_2_desc"),
-      color: "text-cyan-600",
+      color: "text-yellow-600",
       image:
         "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop",
       buttonText: t("slider_2_button"),
@@ -247,10 +247,10 @@ const AboutPage = () => {
           }}
         ></div>
 
-        <div className="absolute inset-0 bg-black/25 z-10"></div>
+        <div className="absolute inset-0 bg-[#2C2C2C]/25 z-10"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40 z-20 text-center text-white">
-          <p className="text-lg font-semibold text-cyan-300 mb-3 uppercase tracking-wider animate-fade-in-up">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40 z-20 text-center text-[#E8F4F1]">
+          <p className="text-lg font-semibold text-yellow-300 mb-3 uppercase tracking-wider animate-fade-in-up">
             {t("hero_tagline")}
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
@@ -261,7 +261,7 @@ const AboutPage = () => {
               {t("hero_title_p2")}
             </span>
           </h1>
-          <p className="text-xl md:text-2xl mb-10 text-white/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
+          <p className="text-xl md:text-2xl mb-10 text-[#E8F4F1]/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
             {t("hero_subtitle")}
           </p>
           {/* CTA Button */}
@@ -295,7 +295,7 @@ const AboutPage = () => {
                 {t("story_title")}
               </h2>
               <p className="text-lg text-gray-600">{t("story_p1")}</p>
-              <p className="text-lg font-medium text-gray-700 border-l-4 border-cyan-400 pl-4">
+              <p className="text-lg font-medium text-gray-700 border-l-4 border-yellow-400 pl-4">
                 {t("story_quote")}
               </p>
               <p className="text-lg text-gray-600">{t("story_p2")}</p>
@@ -317,7 +317,7 @@ const AboutPage = () => {
             {coreValues.map((value, index) => (
               <div
                 key={index}
-                className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-300 hover:scale-[1.02]"
+                className="group bg-[#E8F4F1] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-[#FFF9EE] hover:border-yellow-300 hover:scale-[1.02]"
               >
                 <div className="mb-6 transform group-hover:scale-110 group-hover:rotate-1 transition-all duration-300">
                   <value.icon className={`w-12 h-12 ${value.color}`} />
@@ -374,7 +374,7 @@ const AboutPage = () => {
               </p>
               {/* CTA Button */}
               <button
-                className={`group px-8 py-4 text-white font-bold rounded-xl bg-[${primaryBlue}] transition-all duration-300 shadow-xl hover:shadow-2xl hover:bg-[#013f70] flex items-center justify-center space-x-2 text-lg w-max`}
+                className={`group px-8 py-4 text-[#E8F4F1] font-bold rounded-xl bg-[${primaryyellow}] transition-all duration-300 shadow-xl hover:shadow-2xl hover:bg-[#013f70] flex items-center justify-center space-x-2 text-lg w-max`}
               >
                 <span>{t("cta_button")}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -391,8 +391,8 @@ const AboutPage = () => {
                 }}
               >
                 {/* Subtle dark overlay */}
-                <div className="p-4 bg-black/15 h-full flex items-end justify-start">
-                  <p className="text-4xl font-bold text-white/95 drop-shadow-lg backdrop-blur-sm p-3 rounded-lg border-2 border-white/30">
+                <div className="p-4 bg-[#2C2C2C]/15 h-full flex items-end justify-start">
+                  <p className="text-4xl font-bold text-[#E8F4F1]/95 drop-shadow-lg backdrop-blur-sm p-3 rounded-lg border-2 border-[#E8F4F1]/30">
                     {t("cta_image_label")}
                   </p>
                 </div>

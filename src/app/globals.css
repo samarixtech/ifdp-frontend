@@ -278,11 +278,11 @@ input[type="number"] {
 }
 /* Assumed utility classes for professional look and feel */
 .input {
-  @apply w-full border border-gray-300 p-2 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition duration-150 text-sm placeholder:text-gray-400;
+  @apply w-full border border-gray-300 p-2 rounded-md focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition duration-150 text-sm placeholder:text-gray-400;
 }
 
 .btn-primary {
-  @apply bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-150 font-medium;
+  @apply bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 transition duration-150 font-medium;
 }
 
 @keyframes scaleIn {

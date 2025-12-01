@@ -29,9 +29,9 @@ const PrivacyCard = ({
   title: string;
   description: string;
 }) => (
-  <div className="group bg-white border border-gray-100 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+  <div className="group bg-[#E8F4F1] border border-[#FFF9EE] rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
     <div className="flex items-center gap-4 mb-5">
-      <div className="bg-linear-to-r from-blue-500 to-cyan-500 p-3 rounded-2xl text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+      <div className="bg-linear-to-r from-[#0B5D4E] to-yellow-500 p-3 rounded-2xl text-[#E8F4F1] shadow-md group-hover:scale-110 transition-transform duration-300">
         <Icon className="w-7 h-7" />
       </div>
       <h3 className="text-2xl font-bold text-gray-900">{title}</h3>
@@ -43,7 +43,7 @@ const PrivacyCard = ({
 const PolicyContentSection = React.forwardRef(
   ({ id, title, children }: any, ref: React.ForwardedRef<HTMLDivElement>) => (
     <div id={id} ref={ref} className="pt-20 -mt-16 pb-8">
-      <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 border-b-4 border-cyan-400/50 inline-block pb-2">
+      <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 border-b-4 border-yellow-400/50 inline-block pb-2">
         {title}
       </h3>
       <div className="text-xl text-gray-700 leading-relaxed space-y-6">
@@ -135,13 +135,13 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* NEW HEADER/HERO SECTION */}
-      <section className="relative bg-white pt-20 pb-16 md:pt-32 border-b border-gray-100">
+      <section className="relative bg-[#E8F4F1] pt-20 pb-16 md:pt-32 border-b border-[#FFF9EE]">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
           {/* Left Column: Text Content */}
           <div className="space-y-6">
             <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
               Privacy Notice:
-              <span className="block text-blue-600">Customers and Users</span>
+              <span className="block text-[#0B5D4E]">Customers and Users</span>
             </h1>
 
             <p className="text-xl text-gray-700 font-medium">
@@ -159,7 +159,7 @@ export default function PrivacyPolicyPage() {
             <div className="pt-4 space-y-2">
               <a
                 href="#"
-                className="text-lg font-medium text-blue-600 hover:text-cyan-600 flex items-center gap-2 transition-colors group"
+                className="text-lg font-medium text-[#0B5D4E] hover:text-yellow-600 flex items-center gap-2 transition-colors group"
               >
                 <FileText className="w-5 h-5 transition-transform group-hover:scale-110" />
                 Privacy Notice: Restaurants and Delivery Partners
@@ -177,8 +177,8 @@ export default function PrivacyPolicyPage() {
           {/* Right Column: Illustration/Image Placeholder */}
           <div className="mt-8 md:mt-0 flex justify-center md:justify-end">
             <div className="w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl">
-              <div className="aspect-square bg-linear-to-br from-blue-100 to-cyan-100 flex items-center justify-center p-8">
-                <Shield className="w-32 h-32 text-blue-600 opacity-80" />
+              <div className="aspect-square bg-linear-to-br from-[#0B5D4E] to-yellow-100 flex items-center justify-center p-8">
+                <Shield className="w-32 h-32 text-[#0B5D4E] opacity-80" />
               </div>
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* POLICY CONTENT WITH STICKY TOC */}
-      <section className="bg-white py-20">
+      <section className="bg-[#E8F4F1] py-20">
         <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-4 gap-12">
           {/* Left Column: Sticky Table of Contents */}
           <div className="lg:col-span-1">
@@ -222,7 +222,7 @@ export default function PrivacyPolicyPage() {
               <h4 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-wider">
                 Table of Contents
               </h4>
-              <nav className="space-y-2 border-l-2 border-gray-200 pl-4">
+              <nav className="space-y-2 border-l-2 border-[#FFF9EE] pl-4">
                 {policySections.map((item) => (
                   <a
                     key={item.id}
@@ -234,8 +234,8 @@ export default function PrivacyPolicyPage() {
                     className={`block py-2 pr-4 transition-all duration-200 rounded-lg -ml-4 pl-4 cursor-pointer 
                       ${
                         activeSection === item.id
-                          ? "bg-blue-50 text-blue-600 font-bold border-blue-600 border-l-4 -translate-x-1"
-                          : "text-gray-600 hover:text-blue-500 hover:bg-gray-50"
+                          ? "bg-[#0B5D4E] text-[#0B5D4E] font-bold border-[#0B5D4E] border-l-4 -translate-x-1"
+                          : "text-gray-600 hover:text-[#B6932F] hover:bg-gray-50"
                       }`}
                   >
                     <span className="block text-sm font-semibold">
@@ -264,7 +264,7 @@ export default function PrivacyPolicyPage() {
                 provide directly, and data collected automatically during
                 service use.
               </p>
-              <div className="p-6 bg-gray-50 rounded-xl border border-gray-100 space-y-3">
+              <div className="p-6 bg-gray-50 rounded-xl border border-[#FFF9EE] space-y-3">
                 <p className="font-bold text-gray-900">Key Data Points:</p>
                 <ul className="list-disc pl-6 space-y-2 text-lg">
                   <li>
@@ -298,7 +298,7 @@ export default function PrivacyPolicyPage() {
                 Your data is exclusively used to operate, maintain, and enhance
                 the services you request. Our primary uses include:
               </p>
-              <div className="p-6 bg-gray-50 rounded-xl border border-gray-100 space-y-3">
+              <div className="p-6 bg-gray-50 rounded-xl border border-[#FFF9EE] space-y-3">
                 <ol className="list-decimal pl-6 space-y-4 text-lg">
                   <li>
                     Service Fulfillment: Processing your orders, confirming
@@ -341,7 +341,7 @@ export default function PrivacyPolicyPage() {
                 not payment info), and Payment Processors (for secure
                 transaction validation).
               </p>
-              <div className="bg-blue-50 p-6 rounded-xl border-l-4 border-blue-600 shadow-sm text-lg text-gray-800">
+              <div className="bg-[#0B5D4E] p-6 rounded-xl border-l-4 border-[#0B5D4E] shadow-sm text-lg text-gray-800">
                 Note: All third-party providers are contractually bound to
                 protect your data and are prohibited from using it for any
                 purpose other than providing services on our behalf.
@@ -379,7 +379,7 @@ export default function PrivacyPolicyPage() {
                 exercise of your rights to ensure full compliance with
                 regulatory requirements:
               </p>
-              <div className="p-6 bg-gray-50 rounded-xl border border-gray-100 space-y-3">
+              <div className="p-6 bg-gray-50 rounded-xl border border-[#FFF9EE] space-y-3">
                 <ul className="list-disc pl-6 space-y-3 text-lg">
                   <li>
                     Right to Access: Request a copy of the personal data we hold
@@ -406,15 +406,15 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* NOTIFICATION SECTION */}
-      <section className="py-24 bg-linear-to-r from-blue-600 to-cyan-500 text-white text-center">
+      <section className="py-24 bg-linear-to-r from-[#0B5D4E] to-yellow-500 text-[#E8F4F1] text-center">
         <div className="max-w-3xl mx-auto px-6">
           <Bell className="w-14 h-14 mx-auto mb-6 opacity-90" />
           <h2 className="text-4xl font-extrabold mb-4">We Keep You Informed</h2>
-          <p className="text-lg text-white/90 mb-8">
+          <p className="text-lg text-[#E8F4F1]/90 mb-8">
             Whenever we update our privacy practices, you’ll be notified
             immediately. Your awareness and control are our top priorities.
           </p>
-          <button className="px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-md">
+          <button className="px-8 py-4 bg-[#E8F4F1] text-[#0B5D4E] font-bold rounded-xl hover:bg-[#FFF9EE] transition-all duration-300 shadow-md">
             Subscribe to Updates
           </button>
         </div>

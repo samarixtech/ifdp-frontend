@@ -4,14 +4,14 @@ import Link from "next/link";
 import ChatWidgetPortal from "./ai/ChatWidgetPortal";
 
 
-const primaryBlue = "#014f86"; // Dark Blue for main accent (Primary)
-const secondaryBlue = "#2a6f97"; // Mid Blue for features/stats (Secondary)
-const tertiaryBlue = "#61a5c2"; // Light Blue for lighter accents/hovers
+const primaryyellow = "#0B5D4E"; // Dark yellow for main accent (Primary)
+const secondaryyellow = "#2a6f97"; // Mid yellow for features/stats (Secondary)
+const tertiaryyellow = "#61a5c2"; // Light yellow for lighter accents/hovers
 
 const FooterLink = ({ href, children }: any) => (
   <a
     href={href}
-    className="text-gray-400 hover:text-white transition-colors duration-200 block text-base mb-3"
+    className="text-gray-400 hover:text-[#E8F4F1] transition-colors duration-200 block text-base mb-3"
   >
     {children}
   </a>
@@ -19,7 +19,7 @@ const FooterLink = ({ href, children }: any) => (
 
 const FooterSection = ({ title, children }: any) => (
   <div>
-    <h4 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-2">
+    <h4 className="text-xl font-bold text-[#E8F4F1] mb-6 border-b border-[#E8F4F1]/10 pb-2">
       {title}
     </h4>
     <nav className="list-none mb-10">{children}</nav>
@@ -27,19 +27,19 @@ const FooterSection = ({ title, children }: any) => (
 );
 
 const Footer = () => {
-  const softPrimaryBg = `bg-[${primaryBlue}]`; // Use the primary dark blue for the footer background
+  const softPrimaryBg = `bg-[${primaryyellow}]`; // Use the primary dark yellow for the footer background
 
   return (
     <footer
-      className={`${softPrimaryBg} text-white pt-16 pb-8 border-t border-blue-500/20`}
+      className={`${softPrimaryBg} text-[#E8F4F1] pt-16 pb-8 border-t border-[#0B5D4E]/20`}
     >  <ChatWidgetPortal />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 border-b border-white/20 pb-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 border-b border-[#E8F4F1]/20 pb-12">
           <div className="col-span-2 md:col-span-2 pr-8">
             <h3 className="text-3xl font-extrabold mb-4 flex items-center">
-              <span className={`text-[${tertiaryBlue}] mr-2`}>Deliver</span>
-              <span className="text-white">Now</span>
+              <span className={`text-[${tertiaryyellow}] mr-2`}>Deliver</span>
+              <span className="text-[#E8F4F1]">Now</span>
             </h3>
             <p className="text-gray-300 text-lg mb-6 leading-relaxed">
               Empowering global food logistics with speed, security, and
@@ -49,23 +49,23 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Subscribe"
-                className={`p-3 rounded-full bg-white/10 hover:bg-[${tertiaryBlue}] transition-colors duration-300`}
+                className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}] transition-colors duration-300`}
               >
-                <Send className="w-5 h-5 text-white" />
+                <Send className="w-5 h-5 text-[#E8F4F1]" />
               </a>
               <a
                 href="#"
                 aria-label="Location"
-                className={`p-3 rounded-full bg-white/10 hover:bg-[${tertiaryBlue}] transition-colors duration-300`}
+                className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}] transition-colors duration-300`}
               >
-                <MapPin className="w-5 h-5 text-white" />
+                <MapPin className="w-5 h-5 text-[#E8F4F1]" />
               </a>
               <a
                 href="#"
                 aria-label="Contact"
-                className={`p-3 rounded-full bg-white/10 hover:bg-[${tertiaryBlue}] transition-colors duration-300`}
+                className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}] transition-colors duration-300`}
               >
-                <Phone className="w-5 h-5 text-white" />
+                <Phone className="w-5 h-5 text-[#E8F4F1]" />
               </a>
             </div>
           </div>
@@ -90,20 +90,20 @@ const Footer = () => {
           <FooterSection title="Support">
             <div className="flex items-center mb-3">
               <Phone
-                className={`w-5 h-5 text-[${tertiaryBlue}] mr-3 shrink-0`}
+                className={`w-5 h-5 text-[${tertiaryyellow}] mr-3 shrink-0`}
               />
-              <span className="text-white">(800) 123-4567</span>
+              <span className="text-[#E8F4F1]">(800) 123-4567</span>
             </div>
             <div className="flex items-center mb-3">
               <Send
-                className={`w-5 h-5 text-[${tertiaryBlue}] mr-3 shrink-0`}
+                className={`w-5 h-5 text-[${tertiaryyellow}] mr-3 shrink-0`}
               />
-              <span className="text-white">support@deliverynow.com</span>
+              <span className="text-[#E8F4F1]">support@deliverynow.com</span>
             </div>
             <div className="mt-5">
               <Link
                 href="/contact"
-                className={`inline-flex items-center px-5 py-2 text-sm font-semibold rounded-full bg-[${secondaryBlue}] hover:bg-[${tertiaryBlue}] transition-colors duration-300 shadow-md`}
+                className={`inline-flex items-center px-5 py-2 text-sm font-semibold rounded-full bg-[${secondaryyellow}] hover:bg-[${tertiaryyellow}] transition-colors duration-300 shadow-md`}
               >
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Live Chat
@@ -121,16 +121,16 @@ const Footer = () => {
           <div className="flex space-x-6">
             <Link
               href="/privacyPolicy"
-              className="hover:text-white transition-colors"
+              className="hover:text-[#E8F4F1] transition-colors"
             >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link href="/terms" className="hover:text-[#E8F4F1] transition-colors">
               Terms of Service
             </Link>
             <Link
               href="/cookies"
-              className="hover:text-white transition-colors"
+              className="hover:text-[#E8F4F1] transition-colors"
             >
               Cookie Settings
             </Link>

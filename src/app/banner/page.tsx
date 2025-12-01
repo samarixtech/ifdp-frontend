@@ -24,7 +24,7 @@ const SectionHeading = ({ title, subtitle, color = "text-gray-700" }: any) => (
 );
 
 const TrustCardSoft = ({ icon: Icon, iconColor, title, subtitle }: any) => (
-  <div className="bg-white p-8 rounded-2xl text-center shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 transform hover:-translate-y-1 relative">
+  <div className="bg-[#E8F4F1] p-8 rounded-2xl text-center shadow-md hover:shadow-xl transition-all duration-300 border border-[#FFF9EE] transform hover:-translate-y-1 relative">
     <Icon className={`w-16 h-16 ${iconColor} mx-auto mb-4 opacity-80`} />
     <h3 className="text-2xl font-bold text-gray-800 mb-2">{title}</h3>
     <p className="text-gray-500">{subtitle}</p>
@@ -34,40 +34,40 @@ const TrustCardSoft = ({ icon: Icon, iconColor, title, subtitle }: any) => (
 const Page = () => {
   const t = useTranslations("Home");
 
-  // Oceanic Blue Color Palette Definition (No change)
-  const primaryBlue = "#014f86"; // Dark Blue for main accent (Primary)
-  const secondaryBlue = "#2a6f97"; // Mid Blue for features/stats (Secondary)
-  const tertiaryBlue = "#61a5c2"; // Light Blue for lighter accents/hovers
-  const neutralBg = "bg-gray-50"; // Light Gray/Off-White for background
-  const sectionBg = "bg-white"; // Pure White for clean separation
+  // Oceanic yellow Color Palette Definition (No change)
+  const primaryyellow = "#0B5D4E"; // Dark yellow for main accent (Primary)
+  const secondaryyellow = "#B6932F "; // Mid yellow for features/stats (Secondary)
+  const tertiaryyellow = "#B6932F "; // Light yellow for lighter accents/hovers
+  const neutralBg = "bg-gray-50"; // Light Gray/Off-[#E8F4F1] for background
+  const sectionBg = "bg-[#E8F4F1]"; // Pure [#E8F4F1] for clean separation
 
   // Tailwind Class mapping for dynamic use
-  const softAccent = `bg-[${tertiaryBlue}]`; // Accent button background
-  const softAccentText = `text-[${primaryBlue}]`; // Accent button text
+  const softAccent = `bg-[${tertiaryyellow}]`; // Accent button background
+  const softAccentText = `text-[${primaryyellow}]`; // Accent button text
   const softNeutralBg = neutralBg;
   const softSectionBg = sectionBg;
-  const statGradient = "from-blue-400 to-cyan-500";
-  const benefitBgGradient = "from-[#012a4a] to-[#01497c]";
-  const benefitCheckColor = "text-cyan-300";
+  const statGradient = "from-yellow-400 to-yellow-500";
+  const benefitBgGradient = "from-[#B6932F] to-[#0B5D4E]";
+  const benefitCheckColor = "text-yellow-300";
 
   const features = [
     {
-      icon: <Globe className={`w-12 h-12 text-[${secondaryBlue}]`} />,
+      icon: <Globe className={`w-12 h-12 text-[${secondaryyellow}]`} />,
       titleKey: "feature_global_title",
       descriptionKey: "feature_global_desc",
     },
     {
-      icon: <Zap className={`w-12 h-12 text-[${secondaryBlue}]`} />,
+      icon: <Zap className={`w-12 h-12 text-[${secondaryyellow}]`} />,
       titleKey: "feature_fast_title",
       descriptionKey: "feature_fast_desc",
     },
     {
-      icon: <Shield className={`w-12 h-12 text-[${secondaryBlue}]`} />,
+      icon: <Shield className={`w-12 h-12 text-[${secondaryyellow}]`} />,
       titleKey: "feature_secure_title",
       descriptionKey: "feature_secure_desc",
     },
     {
-      icon: <Users className={`w-12 h-12 text-[${secondaryBlue}]`} />,
+      icon: <Users className={`w-12 h-12 text-[${secondaryyellow}]`} />,
       titleKey: "feature_network_title",
       descriptionKey: "feature_network_desc",
     },
@@ -104,10 +104,10 @@ const Page = () => {
             }}
           ></div>
 
-          <div className="absolute inset-0 bg-black/20 z-10"></div>
+          <div className="absolute inset-0 bg-[#2C2C2C]/20 z-10"></div>
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,...')] opacity-40 z-20"></div>
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 z-30 text-center text-white">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 z-30 text-center text-[#E8F4F1]">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in-up">
               {t("hero_title_p1")}
               <span
@@ -116,19 +116,19 @@ const Page = () => {
                 {t("hero_title_p2")}
               </span>
             </h1>
-            <p className="text-xl md:text-2xl mb-10 text-white/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
+            <p className="text-xl md:text-2xl mb-10 text-[#E8F4F1]/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
               {t("hero_subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
               {/* Primary Button */}
               <button
-                className={`group px-8 py-4 ${softAccent} ${softAccentText} font-semibold rounded-xl hover:bg-[#89c2d9] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2`}
+                className={`group px-8 py-4 font-semibold rounded-xl bg-[#B6932F] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2`}
               >
                 <span>{t("hero_cta_explore")}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               {/* Secondary Button */}
-              <button className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
+              <button className="px-8 py-4 bg-transparent border-2 border-[#E8F4F1] text-[#E8F4F1] font-semibold rounded-xl hover:bg-[#E8F4F1]/10 transition-all duration-300 backdrop-blur-sm">
                 {t("hero_cta_demo")}
               </button>
             </div>
@@ -158,7 +158,7 @@ const Page = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="text-center p-6 rounded-xl shadow-sm border border-gray-100 bg-white transform hover:scale-105 transition-transform duration-300"
+                className="text-center p-6 rounded-xl shadow-sm border border-[#FFF9EE] bg-[#E8F4F1] transform hover:scale-105 transition-transform duration-300"
               >
                 <div
                   className={`text-4xl md:text-5xl font-bold bg-linear-to-r ${statGradient} bg-clip-text text-transparent mb-2`}
@@ -187,9 +187,9 @@ const Page = () => {
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-300 hover:-translate-y-2"
+                  className="group bg-[#E8F4F1] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-[#FFF9EE] hover:border-yellow-300 hover:-translate-y-2"
                 >
-                  <div className="mb-6 transform group-hover:scale-110 group-hover:rotate-1 transition-all duration-300 text-cyan-500">
+                  <div className="mb-6 transform group-hover:scale-110 group-hover:rotate-1 transition-all duration-300 text-yellow-500">
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 mb-3">
@@ -204,9 +204,9 @@ const Page = () => {
           </div>
         </section>
 
-        {/* Benefits Section: Dark Blue Gradient */}
+        {/* Benefits Section: Dark yellow Gradient */}
         <section
-          className={`py-20 bg-linear-to-br ${benefitBgGradient} text-white relative overflow-hidden`}
+          className={`py-10 bg-linear-to-br bg-[#E8F4F1]  text-black relative overflow-hidden`}
         >
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,...')] opacity-30"></div>
 
@@ -216,12 +216,12 @@ const Page = () => {
                 <h2 className="text-4xl md:text-5xl font-bold mb-6">
                   {t("benefits_heading")} {/* Translated */}
                 </h2>
-                <p className="text-xl text-blue-100 mb-8">
+                <p className="text-xl text-yellow-500 mb-8">
                   {t("benefits_subheading")} {/* Translated */}
                 </p>
-                {/* Primary Button: White/Primary Blue */}
+                {/* Primary Button: [#E8F4F1]/Primary yellow */}
                 <button
-                  className={`group px-8 py-4 bg-white text-[${primaryBlue}] font-semibold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center space-x-2`}
+                  className={`group px-8 py-4 text-white  font-semibold rounded-xl bg-[#0B5D4E] transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center space-x-2`}
                 >
                   <span>{t("benefits_cta_learn")}</span> {/* Translated */}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -232,10 +232,10 @@ const Page = () => {
                 {benefitKeys.map((key, index) => (
                   <div
                     key={index}
-                    className="flex items-start space-x-3 bg-white/10 backdrop-blur-sm p-4 rounded-xl hover:bg-white/20 transition-all duration-300 animate-slide-in-right"
+                    className="flex items-start space-x-3 bg-[#E8F4F1]/10 backdrop-blur-sm p-4 rounded-xl hover:bg-[#E8F4F1]/20 transition-all duration-300 animate-slide-in-right"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    {/* Benefit Checkmark: Cyan (No change) */}
+                    {/* Benefit Checkmark: yellow (No change) */}
                     <CheckCircle
                       className={`w-6 h-6 ${benefitCheckColor} shrink-0 mt-0.5`}
                     />
@@ -260,21 +260,21 @@ const Page = () => {
             <div className="grid md:grid-cols-3 gap-8">
               <TrustCardSoft
                 icon={Award}
-                iconColor="text-blue-400"
+                iconColor="text-yellow-400"
                 title={t("trust_card_1_title")} // Translated
                 subtitle={t("trust_card_1_subtitle")} // Translated
               />
 
               <TrustCardSoft
                 icon={TrendingUp}
-                iconColor="text-[#2c7da0]"
+                iconColor="text-[#0B5D4E]"
                 title={t("trust_card_2_title")} // Translated
                 subtitle={t("trust_card_2_subtitle")} // Translated
               />
 
               <TrustCardSoft
                 icon={Shield}
-                iconColor="text-blue-400"
+                iconColor="text-yellow-400"
                 title={t("trust_card_3_title")} // Translated
                 subtitle={t("trust_card_3_subtitle")} // Translated
               />
@@ -295,7 +295,7 @@ const Page = () => {
                 </p>
                 {/* CTA Button */}
                 <button
-                  className={`group px-8 py-4 text-white font-bold rounded-xl bg-[${primaryBlue}] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 text-lg w-max`}
+                  className={`group px-8 py-4 text-[#E8F4F1] font-bold rounded-xl bg-[${primaryyellow}] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 text-lg w-max`}
                 >
                   <span>{t("corporate_cta")}</span> {/* Translated */}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -312,8 +312,8 @@ const Page = () => {
                   }}
                 >
                   {/* overlay a soft brand logo/text here */}
-                  <div className="p-4 bg-black/10 h-full flex items-center justify-center">
-                    <p className="text-4xl font-bold text-white/90 drop-shadow-lg backdrop-blur-sm p-2 rounded">
+                  <div className="p-4 bg-[#2C2C2C]/10 h-full flex items-center justify-center">
+                    <p className="text-4xl font-bold text-[#E8F4F1]/90 drop-shadow-lg backdrop-blur-sm p-2 rounded">
                       {t("corporate_image_label")} {/* Translated */}
                     </p>
                   </div>

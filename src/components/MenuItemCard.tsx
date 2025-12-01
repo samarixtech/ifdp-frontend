@@ -17,7 +17,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onItemClick, onAddIte
   return (
     // Wrap the entire card content with the modal opener
     <div 
-      className="flex justify-between items-start p-6 bg-white transition duration-200 cursor-pointer 
+      className="flex justify-between items-start p-6 bg-[#E8F4F1] transition duration-200 cursor-pointer 
                  hover:shadow-lg hover:z-10 rounded-xl"
       // Open Modal when card is clicked
       onClick={() => onItemClick(item)} 
@@ -33,7 +33,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onItemClick, onAddIte
       </div>
 
       <div className="flex-shrink-0 relative w-28 h-28">
-        <div className="w-full h-full bg-gray-200 rounded-xl overflow-hidden">
+        <div className="w-full h-full bg-[#FFF9EE] rounded-xl overflow-hidden">
             <img
               src={item.imageUrl || '/images/placeholder.jpg'}
               alt={item.name}
@@ -48,7 +48,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onItemClick, onAddIte
             onAddItem(item);
           }}
           className="absolute bottom-[-10px] right-[-10px] 
-                     bg-green-600 text-white rounded-full 
+                     bg-green-600 text-[#E8F4F1] rounded-full 
                      shadow-xl shadow-green-400/50 p-2 
                      hover:bg-green-700 transition transform active:scale-90" 
           aria-label={`Add ${item.name} to cart`}

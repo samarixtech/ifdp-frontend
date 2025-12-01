@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       
 
         {/* Mobile top bar to toggle sidebar */}
-        <header className="md:hidden flex items-center justify-between bg-white px-4 py-3 shadow">
+        <header className="md:hidden flex items-center justify-between bg-[#E8F4F1] px-4 py-3 shadow">
           <h1 className="font-bold text-lg"></h1>
           <button onClick={() => setSidebarOpen(true)}>
             <svg

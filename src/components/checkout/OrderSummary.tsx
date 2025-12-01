@@ -34,9 +34,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     };
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-2xl border border-gray-200">
+        <div className="bg-[#E8F4F1] p-6 rounded-xl shadow-2xl border border-[#FFF9EE]">
             <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                <ShoppingBag size={24} className="text-blue-600" />
+                <ShoppingBag size={24} className="text-[#0B5D4E]" />
                 <span>Order Summary ({cartItems.length} Items)</span>
             </h2>
 
@@ -80,7 +80,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             {/* Total */}
             <div className="flex justify-between items-center text-lg font-bold mb-6">
                 <p className="text-gray-900">Total Amount</p>
-                <p className="text-blue-600">{formatPrice(total)}</p>
+                <p className="text-[#0B5D4E]">{formatPrice(total)}</p>
             </div>
             
             {/* Special Instructions */}
@@ -88,14 +88,14 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                 <textarea
                     placeholder="Special instructions for the restaurant or rider (optional)"
                     rows={2}
-                    className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-blue-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-[#0B5D4E]"
                 />
             </div>
 
             {/* Place Order Button */}
             <button
                 onClick={handlePlaceOrder}
-                className="w-full bg-blue-600 text-white py-3 rounded-xl font-extrabold text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-300/50 flex items-center justify-center space-x-2"
+                className="w-full bg-[#0B5D4E] text-[#E8F4F1] py-3 rounded-xl font-extrabold text-lg hover:bg-[#0B5D4E] transition shadow-xl  flex items-center justify-center space-x-2"
             >
                 <span>Place Order</span>
                 <ArrowRight size={20} />

@@ -25,7 +25,7 @@ const articlesData = [
   },
   {
     id: 3,
-    title: "Frequently Asked Questions About Partnering With IFDP Pakistan",
+    title: "Frequently Asked Questions About Partnering With JAYAK HUB  Pakistan",
     category: "PARTNER",
     date: "August 18, 2024",
     imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -41,7 +41,7 @@ const articlesData = [
   },
   {
     id: 5,
-    title: "10 Tips for a Profitable Restaurant: A IFDP Case Study",
+    title: "10 Tips for a Profitable Restaurant: A JAYAK HUB  Case Study",
     category: "PARTNER",
     date: "March 5, 2024",
     imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -82,7 +82,7 @@ const articlesData = [
   },
   {
     id: 10,
-    title: "Maximizing Profit with IFDP Promotions",
+    title: "Maximizing Profit with JAYAK HUB  Promotions",
     category: "PARTNER",
     date: "August 20, 2024",
     imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -100,12 +100,12 @@ const ArticleCard: React.FC<{ article: typeof articlesData[0] }> = ({ article })
           alt={article.title} 
           className="group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute top-3 left-3 bg-gray-900 bg-opacity-70 text-white text-xs font-semibold px-3 py-1 rounded-full">
+        <div className="absolute top-3 left-3 bg-gray-900 bg-opacity-70 text-[#E8F4F1] text-xs font-semibold px-3 py-1 rounded-full">
           {article.category}
         </div>
       </div>
-      <div className="p-4 bg-white">
-        <h3 className="text-base font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+      <div className="p-4 bg-[#E8F4F1]">
+        <h3 className="text-base font-semibold text-gray-800 mb-2 group-hover:text-[#B6932F] transition-colors duration-300">
           {article.title}
         </h3>
         <p className="text-xs text-gray-500">{article.date}</p>
@@ -118,7 +118,7 @@ const ArticleCard: React.FC<{ article: typeof articlesData[0] }> = ({ article })
 export default function HomePage() {
   return (
     
-    <div className="bg-white min-h-screen">
+    <div className="bg-[#E8F4F1] min-h-screen">
         <Header/>
       <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
         <img 
@@ -126,13 +126,13 @@ export default function HomePage() {
           alt="Delicious Biryani" 
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div> {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2C2C2C] via-transparent to-transparent opacity-70"></div> {/* Gradient overlay */}
         
         <div className="relative z-10 flex flex-col justify-end items-start h-full max-w-7xl mx-auto pb-16 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-6xl font-normal text-white mb-4">
+          <h1 className="text-4xl md:text-6xl font-normal text-[#E8F4F1] mb-4">
             Delicious Stories
           </h1>
-          <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
+          <button className="px-6 py-3 bg-[#0B5D4E] text-[#E8F4F1] font-semibold rounded-lg shadow-md hover:bg-[#0B5D4E] transition duration-300">
             <Link href={"/partner"}>
             Sign up to be a restaurant partner
             </Link>

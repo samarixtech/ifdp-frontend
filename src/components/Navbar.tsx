@@ -11,7 +11,7 @@ import { useRouter, usePathname, useParams } from "next/navigation";
 import { setCookie, getCookie } from "cookies-next";
 import { countryCurrencyMap } from "@/app/utils/country";
 import CountrySelector from "./ui/CountrySelector";
-
+import image from './../../public/logo2.png'
 interface Language {
   code: string;
   name: string;
@@ -265,8 +265,8 @@ const Navbar: React.FC = () => {
 
   if (!selectedCountry) {
     return (
-      <nav className="bg-[#003566] h-20 flex items-center justify-center">
-        {/* <p className="text-white">Loading Navigation...</p> */}
+      <nav className="bg-[#0B5D4E] h-20 flex items-center justify-center">
+        {/* <p className="text-[#E8F4F1]">Loading Navigation...</p> */}
       </nav>
     );
   }
@@ -292,12 +292,12 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-[#003566] shadow-lg sticky top-0 z-50">
+    <nav className="bg-[#0B5D4E] shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href={getNewPath(selectedCountry.code, activeLangState.code)}>
-            <Image src="/logo.jpg" alt="Logo" width={110} height={110} />
+            <Image src={image} alt="Logo" width={220}  />
           </Link>
 
           {/* Desktop Menu */}
@@ -306,7 +306,7 @@ const Navbar: React.FC = () => {
               <Link
                 key={item.to}
                 href={item.to}
-                className="text-white hover:text-blue-100 font-medium transition-colors duration-200"
+                className="text-[#E8F4F1] hover:text-[#B6932F] font-medium transition-colors duration-200"
               >
                 {item.label}
               </Link>
@@ -316,40 +316,40 @@ const Navbar: React.FC = () => {
               <div ref={desktopLangRef} className="relative">
                 <button
                   onClick={() => setIsDesktopLangOpen(!isDesktopLangOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-md border border-blue-500 bg-white text-black hover:bg-blue-50 transition-all shadow-sm"
+                  className="flex items-center gap-2 px-3 py-2 rounded-md border border-[#D5AF33] bg-[#FFF9EE]  text-[#2C2C2C]  hover:bg-[#0B5D4E] hover:text-white  transition-all shadow-sm"
                 >
-                  <Globe size={18} className="text-blue-600" />
+                  <Globe size={18} className="text-[#0B5D4E]" />
                   <span className="flex items-center gap-1 font-semibold">
                     {activeLangState.code.toUpperCase()}
                   </span>
                   <ChevronDown
                     size={16}
-                    className={`text-blue-600 transition-transform duration-200 ${
+                    className={`text-[#0B5D4E] transition-transform duration-200 ${
                       isDesktopLangOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {isDesktopLangOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white border border-blue-100 rounded-lg shadow-xl z-50 overflow-hidden animate-fade-in">
+                  <div className="absolute right-0 mt-2 w-56 bg-[#E8F4F1] border border-[#0B5D4E] rounded-lg shadow-xl z-50 overflow-hidden animate-fade-in">
                     {languages.map((lng) => (
                       <button
                         key={lng.code}
                         onClick={() => changeLanguage(lng.code)}
                         className={`w-full flex items-center justify-between px-3 py-2 text-sm transition-colors ${
                           activeLangState.code === lng.code
-                            ? "bg-blue-100 text-blue-700 font-semibold"
-                            : "hover:bg-blue-50 text-gray-800"
+                            ? "bg-[#0B5D4E] text-white font-semibold"
+                            : "hover:bg-[#0B5D4E] hover:text-white "
                         }`}
                       >
                         <div className="flex items-center gap-2">
                           <span className="text-xl">{lng.flag}</span>
-                          <span className="text-sm font-medium text-gray-800">
+                          <span className="text-sm font-medium">
                             {lng.name}
                           </span>
                         </div>
                         {activeLangState.code === lng.code && (
-                          <Check size={16} className="text-blue-600" />
+                          <Check size={16} className="text-[#0B5D4E]" />
                         )}
                       </button>
                     ))}
@@ -372,7 +372,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="text-white hover:text-blue-100 p-2"
+              className="text-[#E8F4F1] hover:text-[#B6932F] p-2"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -385,7 +385,7 @@ const Navbar: React.FC = () => {
         <>
           {/* Backdrop */}
           <div
-            className={`fixed inset-0 bg-black/50 z-40 ${
+            className={`fixed inset-0 bg-[#2C2C2C]/50 z-40 ${
               isClosing ? "animate-fade-out-fast" : "animate-fade-in-fast"
             }`}
             onClick={handleCloseMobileMenu}
@@ -393,17 +393,17 @@ const Navbar: React.FC = () => {
 
           {/* Sidebar */}
           <div
-            className={`fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-linear-to-b from-[#014f86] to-blue-900 text-white z-50 shadow-2xl overflow-y-auto ${
+            className={`fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-linear-to-b from-[#0B5D4E] to-[#0B5D4E] text-[#E8F4F1] z-50 shadow-2xl overflow-y-auto ${
               isClosing ? "animate-slide-out-right" : "animate-slide-in-right"
             }`}
           >
-            <div className="flex justify-between items-center p-4 border-b border-white/20">
+            <div className="flex justify-between items-center p-4 border-b border-[#E8F4F1]/20">
               <h2 className="text-lg font-semibold">Menu</h2>
               <button
                 onClick={handleCloseMobileMenu}
-                className="p-2 rounded-lg hover:bg-white/10 transition"
+                className="p-2 rounded-lg hover:bg-[#E8F4F1]/10 transition"
               >
-                <X className="w-6 h-6 text-white" />
+                <X className="w-6 h-6 text-[#E8F4F1]" />
               </button>
             </div>
 
@@ -413,13 +413,13 @@ const Navbar: React.FC = () => {
                   key={item.to}
                   href={item.to}
                   onClick={handleCloseMobileMenu}
-                  className="hover:bg-white/10 px-3 py-3 rounded-lg transition-colors text-base font-medium"
+                  className="hover:bg-[#E8F4F1]/10 px-3 py-3 rounded-lg transition-colors text-base font-medium"
                 >
                   {item.label}
                 </Link>
               ))}
 
-              <div className="border-t border-white/20 my-3"></div>
+              <div className="border-t border-[#E8F4F1]/20 my-3"></div>
 
               {/* Mobile Language Selector */}
               <div className="relative" id="mobile-lang">
@@ -427,40 +427,51 @@ const Navbar: React.FC = () => {
                   onClick={() =>
                     setIsMobileLangDropdownOpen(!isMobileLangDropdownOpen)
                   }
-                  className="w-full flex items-center justify-between px-3 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-200"
+                  className="w-full flex items-center justify-between px-3 py-3 rounded-lg bg-[#E8F4F1]/10 hover:bg-[#E8F4F1]/20 border border-[#E8F4F1]/20 transition-all duration-200"
                 >
                   <div className="flex items-center space-x-2">
-                    <Globe className="w-4 h-4 text-white" />
+                    <Globe className="w-4 h-4 text-[#E8F4F1]" />
                     <span className="text-lg">{activeLangState.flag}</span>
-                    <span className="text-sm font-medium text-white">
+                    <span className="text-sm font-medium text-[#E8F4F1]">
                       {activeLangState.name}
                     </span>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-white transition-transform duration-200 ${
+                    className={`w-4 h-4 text-[#E8F4F1] transition-transform duration-200 ${
                       isMobileLangDropdownOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {isMobileLangDropdownOpen && (
-                  <div className="mt-2 bg-white rounded-lg shadow-lg border border-gray-100 py-1 max-h-48 overflow-y-auto">
+                  <div className="mt-2 bg-[#FFF9EE]  rounded-lg shadow-lg border border-[#D5AF33] py-1 max-h-48 overflow-y-auto">
                     {languages.map((lng) => (
                       <button
                         key={lng.code}
                         onClick={() => changeLanguage(lng.code)}
-                        className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition-colors ${
-                          currentLocaleState === lng.code ? "bg-blue-50" : ""
-                        }`}
+                        className={`
+          w-full flex items-center justify-between px-3 py-2 transition-colors
+          ${
+            currentLocaleState === lng.code
+              ? "bg-[#0B5D4E] text-white" // active item
+              : "hover:bg-[#0B5D4E] hover:text-white text-[#2C2C2C]" // normal item
+          }
+        `}
                       >
                         <div className="flex items-center space-x-2">
                           <span className="text-lg">{lng.flag}</span>
-                          <span className="text-sm font-medium text-gray-700">
+                          <span
+                            className={`
+            text-sm font-medium
+            ${currentLocaleState === lng.code ? "text-white" : "text-[#2C2C2C]"}
+          `}
+                          >
                             {lng.name}
                           </span>
                         </div>
+
                         {currentLocaleState === lng.code && (
-                          <Check size={16} className="text-blue-600" />
+                          <Check size={16} className="text-[#D5AF33]" />
                         )}
                       </button>
                     ))}
@@ -474,33 +485,33 @@ const Navbar: React.FC = () => {
                   onClick={() =>
                     setIsCountryDropdownOpen(!isCountryDropdownOpen)
                   }
-                  className="w-full flex items-center justify-between px-3 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-200"
+                  className="w-full flex items-center justify-between px-3 py-3 rounded-lg bg-[#E8F4F1]/10 hover:bg-[#E8F4F1]/20 border border-[#E8F4F1]/20 transition-all duration-200"
                 >
                   <div className="flex items-center space-x-2">
                     <span className="text-lg">
                       {selectedCountry.flag || "🌐"}
                     </span>
-                    <span className="text-sm font-medium text-white">
+                    <span className="text-sm font-medium text-[#E8F4F1]">
                       {selectedCountry.name}
                     </span>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-white transition-transform duration-200 ${
+                    className={`w-4 h-4 text-[#E8F4F1] transition-transform duration-200 ${
                       isCountryDropdownOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {isCountryDropdownOpen && (
-                  <div className="mt-2 bg-white rounded-lg shadow-lg border border-gray-100 py-1 max-h-48 overflow-y-auto">
+                  <div className="mt-2 bg-[#E8F4F1] rounded-lg shadow-lg border border-[#FFF9EE] py-1 max-h-48 overflow-y-auto">
                     {countries.map((country) => (
                       <button
                         key={country.code}
                         onClick={() => handleCountrySelect(country)}
-                        className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition-colors ${
+                        className={`w-full flex items-center justify-between px-3 py-2 text-black hover:bg-[#0B5D4E] transition-colors ${
                           selectedCountry.code === country.code
-                            ? "bg-blue-100 text-blue-700 font-semibold"
-                            : "text-gray-800"
+                            ? "bg-[#0B5D4E] text-white font-semibold"
+                            : "hover:bg-[#0B5D4E] hover:text-white "
                         }`}
                       >
                         <div className="flex items-center space-x-2">
@@ -508,7 +519,7 @@ const Navbar: React.FC = () => {
                           <span className="text-sm">{country.name} </span>
                         </div>
                         {selectedCountry.code === country.code && (
-                          <Check size={16} className="text-blue-600" />
+                          <Check size={16} className="text-[#0B5D4E]" />
                         )}
                       </button>
                     ))}

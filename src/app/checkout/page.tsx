@@ -8,8 +8,9 @@ import { RootState } from "@/redux/store/store";
 import CheckoutAddress from "@/components/checkout/CheckoutAddress";
 import CheckoutPayment from "@/components/checkout/CheckoutPayment";
 import OrderSummary from "@/components/checkout/OrderSummary";
-import Header from "../restaurants/Header";
+
 import { useRouter } from "next/navigation";
+import Header from "../[country]/[langauge]/restaurants/Header";
 
 const Checkout: React.FC = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ const Checkout: React.FC = () => {
         <p className="text-gray-600">Please add items before proceeding to checkout.</p>
       <button 
           onClick={handleGoShopping}
-          className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          className="mt-6 px-6 py-3 bg-[#0B5D4E] text-[#E8F4F1] rounded-lg hover:bg-[#0B5D4E] transition"
         >
           Go Shopping
         </button>
@@ -47,7 +48,7 @@ const Checkout: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12">
+    <div className="min-h-screen bg-gray-50 pt-44 pb-12">
          <Header />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -61,16 +62,17 @@ const Checkout: React.FC = () => {
           <div className="lg:w-7/12 space-y-8">
             
             {/* 1. DELIVERY/PICKUP TABS */}
-            <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200">
+            <div className="bg-[#E8F4F1] p-4 rounded-xl shadow-md border border-[#FFF9EE]">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">
                     Choose Option
                 </h2>
                 <div className="flex space-x-4">
-                    <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg">
+                    <button className="flex items-center space-x-2 bg-[#0B5D4E] text-[#E8F4F1] px-4 py-2 rounded-lg shadow-lg">
                         <Bike size={20} />
                         <span className="font-semibold">Delivery</span>
                     </button>
-                    <button className="flex items-center space-x-2 text-gray-700 bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition">
+                    
+                    <button className="flex items-center space-x-2 text-gray-700 bg-[#FFF9EE] px-4 py-2 rounded-lg hover:bg-[#FFF9EE] transition">
                         <MapPin size={20} />
                         <span className="font-semibold">Pick-up</span>
                     </button>

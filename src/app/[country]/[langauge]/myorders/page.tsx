@@ -206,7 +206,7 @@ const MyOrders: React.FC = () => {
       case "Cancelled":
         return "bg-red-100 text-red-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-[#FFF9EE] text-gray-700";
     }
   };
 
@@ -285,11 +285,11 @@ const MyOrders: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen px-4 md:px-16 py-10">
+    <div className="bg-gradient-to-br from-[#FFF9EE] to-[#FFF9EE] min-h-screen px-4 md:px-16 py-10">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
-          <Package className="w-9 h-9 text-[#003566]" />
+          <Package className="w-9 h-9 text-[#0B5D4E]" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
             {t("header")}
           </h2>
@@ -298,7 +298,7 @@ const MyOrders: React.FC = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg mb-8">
+      <div className="bg-[#E8F4F1] rounded-2xl p-6 shadow-lg mb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search */}
           <div className="relative">
@@ -311,7 +311,7 @@ const MyOrders: React.FC = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#003566] focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent"
             />
           </div>
 
@@ -322,7 +322,7 @@ const MyOrders: React.FC = () => {
               setFilterStatus(e.target.value);
               setCurrentPage(1);
             }}
-            className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#003566] focus:border-transparent"
+            className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent"
           >
             <option value="All">{t("filter.all")}</option>
             <option value="In Progress">{t("filter.in_progress")}</option>
@@ -334,7 +334,7 @@ const MyOrders: React.FC = () => {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as "date" | "total")}
-            className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#003566] focus:border-transparent"
+            className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent"
           >
             <option value="date">{t("sort.date")}</option>
             <option value="total">{t("sort.total")}</option>
@@ -352,10 +352,10 @@ const MyOrders: React.FC = () => {
       </div>
 
       {/* Orders Table */}
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div className="bg-[#E8F4F1] rounded-2xl shadow-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-gray-50 border-b border-[#FFF9EE]">
               <tr>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   {t("table.order_id")}
@@ -377,7 +377,7 @@ const MyOrders: React.FC = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-[#FFF9EE]">
               {filteredOrders.map((order) => (
                 <tr
                   key={order.id}
@@ -385,7 +385,7 @@ const MyOrders: React.FC = () => {
                   onClick={() => setSelectedOrder(order)}
                 >
                   <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-[#003566]">
+                    <div className="text-sm font-medium text-[#0B5D4E]">
                       {order.id}
                     </div>
                   </td>
@@ -410,11 +410,11 @@ const MyOrders: React.FC = () => {
                             <img
                               src={item.img}
                               alt={item.title}
-                              className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                              className="w-8 h-8 rounded-full border-2 border-[#E8F4F1] object-cover"
                               onError={handleImageError}
                             />
                             {index === 2 && order.items.length > 3 && (
-                              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center text-white text-xs">
+                              <div className="absolute inset-0 bg-[#2C2C2C] bg-opacity-50 rounded-full flex items-center justify-center text-[#E8F4F1] text-xs">
                                 +{order.items.length - 3}
                               </div>
                             )}
@@ -438,7 +438,7 @@ const MyOrders: React.FC = () => {
                         e.stopPropagation();
                         setSelectedOrder(order);
                       }}
-                      className="text-sm text-[#003566] hover:text-[#002a47] font-medium"
+                      className="text-sm text-[#0B5D4E] hover:text-[#002a47] font-medium"
                     >
                       {t("actions.view_details")}
                     </button>
@@ -451,7 +451,7 @@ const MyOrders: React.FC = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+          <div className="px-6 py-4 border-t border-[#FFF9EE] flex items-center justify-between">
             <div className="text-sm text-gray-700">
               {t("pagination.showing")} {(currentPage - 1) * ordersPerPage + 1}{" "}
               - {Math.min(currentPage * ordersPerPage, totalFilteredOrders)}{" "}
@@ -482,16 +482,16 @@ const MyOrders: React.FC = () => {
 
       {/* Order Details Modal */}
       {selectedOrder && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div className="fixed inset-0 bg-[#2C2C2C] bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-[#E8F4F1] rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between p-6 border-b border-[#FFF9EE]">
               <h3 className="text-2xl font-bold text-gray-900">
                 {t("modal.order_details")} - {selectedOrder.id}
               </h3>
               <button
                 onClick={closeModal}
-                className="p-2 hover:bg-gray-100 rounded-lg transition"
+                className="p-2 hover:bg-[#FFF9EE] rounded-lg transition"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -555,7 +555,7 @@ const MyOrders: React.FC = () => {
 
                 {/* Rider Info */}
                 {selectedOrder.rider && (
-                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6">
+                  <div className="bg-[#0B5D4E] p-4 rounded-xl border border-[#0B5D4E] mb-6">
                     <h4 className="font-semibold text-gray-900 mb-3">
                       {t("details.rider_details")}
                     </h4>
@@ -574,7 +574,7 @@ const MyOrders: React.FC = () => {
                           /\s/g,
                           ""
                         )}`}
-                        className="px-5 py-2 bg-[#003566] text-white rounded-lg text-sm hover:bg-[#002a47] transition"
+                        className="px-5 py-2 bg-[#0B5D4E] text-[#E8F4F1] rounded-lg text-sm hover:bg-[#002a47] transition"
                       >
                         {t("actions.call_rider")}
                       </a>
@@ -591,17 +591,17 @@ const MyOrders: React.FC = () => {
                     {selectedOrder.items.map((item) => (
                       <div
                         key={item.id}
-                        className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0"
+                        className="flex justify-between items-center py-3 border-b border-[#FFF9EE] last:border-b-0"
                       >
                         <div className="flex items-center gap-4 flex-1">
                           <div className="relative">
                             <img
                               src={item.img}
                               alt={item.title}
-                              className="w-16 h-16 rounded-lg object-cover border border-gray-200"
+                              className="w-16 h-16 rounded-lg object-cover border border-[#FFF9EE]"
                               onError={handleImageError}
                             />
-                            <div className="absolute -top-2 -right-2 bg-[#003566] text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                            <div className="absolute -top-2 -right-2 bg-[#0B5D4E] text-[#E8F4F1] text-xs rounded-full w-6 h-6 flex items-center justify-center">
                               {item.quantity}
                             </div>
                           </div>
@@ -622,7 +622,7 @@ const MyOrders: React.FC = () => {
                       <span className="text-lg font-semibold text-gray-900">
                         {t("receipt.total")}
                       </span>
-                      <span className="text-xl font-bold text-[#003566]">
+                      <span className="text-xl font-bold text-[#0B5D4E]">
                         {selectedOrder.total}
                       </span>
                     </div>
@@ -632,17 +632,17 @@ const MyOrders: React.FC = () => {
             </div>
 
             {/* Modal Footer - Compact Version */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 border-t border-gray-200 bg-gray-50">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 border-t border-[#FFF9EE] bg-gray-50">
               {/* Left side - Print and Download buttons */}
               <div className="flex gap-2 justify-center sm:justify-start">
                 <button
                   onClick={handlePrintReceipt}
-                  className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition text-sm"
+                  className="flex items-center gap-2 px-3 py-2 bg-[#E8F4F1] border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-[#FFF9EE] transition text-sm"
                 >
                   <Printer className="w-4 h-4" />
                   <span>Print</span>
                 </button>
-                <button className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition text-sm">
+                <button className="flex items-center gap-2 px-3 py-2 bg-[#E8F4F1] border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-[#FFF9EE] transition text-sm">
                   <Download className="w-4 h-4" />
                   <span>Download</span>
                 </button>
@@ -651,13 +651,13 @@ const MyOrders: React.FC = () => {
               {/* Right side - Action buttons */}
               <div className="flex gap-2 justify-center sm:justify-end">
                 {selectedOrder.status === "Delivered" && (
-                  <button className="px-3 py-2 bg-[#003566] text-white rounded-lg font-medium hover:bg-[#002a47] transition text-sm">
+                  <button className="px-3 py-2 bg-[#0B5D4E] text-[#E8F4F1] rounded-lg font-medium hover:bg-[#002a47] transition text-sm">
                     Reorder
                   </button>
                 )}
                 <button
                   onClick={closeModal}
-                  className="px-3 py-2 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition text-sm"
+                  className="px-3 py-2 bg-[#E8F4F1] border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-[#FFF9EE] transition text-sm"
                 >
                   Close
                 </button>

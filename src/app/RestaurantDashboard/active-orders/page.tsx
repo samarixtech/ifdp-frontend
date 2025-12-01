@@ -67,7 +67,7 @@ function StatusBadge({ status }: { status: OrderStatus }) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap border border-opacity-50 ${bgColor} ${textColor}`}
+      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold [#E8F4F1]space-nowrap border border-opacity-50 ${bgColor} ${textColor}`}
       aria-label={`${status} status`}
     >
       {icon}
@@ -228,12 +228,12 @@ const renderSortableHeader = (
   const OrderDetailsModal = ({ order, onClose }: { order: OrderType, onClose: () => void }) => {
     return (
         <div className="fixed inset-0 bg-gray-900/60 bg-opacity-60 flex justify-center items-center z-50 p-4 backdrop-blur-sm">
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg transform transition-all duration-300 scale-100 border-t-8 border-indigo-400">
+            <div className="bg-[#E8F4F1] rounded-3xl shadow-2xl w-full max-w-lg transform transition-all duration-300 scale-100 border-t-8 border-indigo-400">
                 <header className="p-6 border-b flex justify-between items-center bg-indigo-50/50 rounded-t-2xl">
                     <h2 className="text-2xl font-extrabold text-gray-800 flex items-center gap-2">
                         Order Details <span className="text-indigo-600 font-mono">#{order.id}</span>
                     </h2>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-white text-gray-600 transition">
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-[#E8F4F1] text-gray-600 transition">
                         <XCircle className="w-6 h-6" />
                     </button>
                 </header>
@@ -266,7 +266,7 @@ const renderSortableHeader = (
                     {order.status === "Active" && (
                         <button
                             onClick={() => markCompleted(order.id)}
-                            className="flex items-center gap-2 px-5 py-2 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-600 transition shadow-lg shadow-green-200"
+                            className="flex items-center gap-2 px-5 py-2 bg-green-500 text-[#E8F4F1] font-semibold rounded-xl hover:bg-green-600 transition shadow-lg shadow-green-200"
                         >
                             <CheckSquare className="w-5 h-5"/> Mark Completed
                         </button>
@@ -286,7 +286,7 @@ const renderSortableHeader = (
 
   return (
     <main className="min-h-screen bg-neutral-50 p-4 sm:p-6 md:p-10 flex justify-center font-sans">
-      <div className="max-w-7xl w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-6 lg:p-8">
+      <div className="max-w-7xl w-full bg-[#E8F4F1] rounded-3xl shadow-xl border border-[#FFF9EE] p-6 lg:p-8">
         
         {/* Header */}
         <header className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-8 pb-4 border-b-4 border-indigo-400">
@@ -314,8 +314,8 @@ const renderSortableHeader = (
                 className={`flex items-center gap-1 px-5 py-2 rounded-2xl border-2 text-sm font-medium transition duration-300 shadow-sm
                 ${
                   filterStatus === status
-                    ? "bg-indigo-500 text-white border-indigo-500 shadow-lg shadow-indigo-200 transform scale-[1.02]"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-indigo-50 hover:border-indigo-400"
+                    ? "bg-indigo-500 text-[#E8F4F1] border-indigo-500 shadow-lg shadow-indigo-200 transform scale-[1.02]"
+                    : "bg-[#E8F4F1] text-gray-700 border-gray-300 hover:bg-indigo-50 hover:border-indigo-400"
                 }`}
                 aria-pressed={filterStatus === status}
               >
@@ -359,7 +359,7 @@ const renderSortableHeader = (
             <tbody>
               {paginatedOrders.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="text-center py-10 text-lg text-gray-500 bg-white">
+                  <td colSpan={8} className="text-center py-10 text-lg text-gray-500 bg-[#E8F4F1]">
                     <p>No orders found matching the current criteria.</p>
                   </td>
                 </tr>
@@ -369,7 +369,7 @@ const renderSortableHeader = (
                 <tr
                   key={order.id}
                   tabIndex={0}
-                  className={`border-t border-gray-200 bg-white hover:bg-indigo-50/70 cursor-pointer transition duration-150 ease-in-out group ${
+                  className={`border-t border-[#FFF9EE] bg-[#E8F4F1] hover:bg-indigo-50/70 cursor-pointer transition duration-150 ease-in-out group ${
                     order.status === 'Active' ? 'bg-sky-50/50' : ''
                   }`}
                   aria-label={`Order ${order.id}`}
@@ -429,7 +429,7 @@ const renderSortableHeader = (
         {/* Pagination */}
         {filteredAndSortedOrders.length > perPage && (
           <nav
-            className="flex flex-col sm:flex-row justify-between items-center mt-8 p-3 bg-gray-100 rounded-2xl shadow-inner border border-gray-200"
+            className="flex flex-col sm:flex-row justify-between items-center mt-8 p-3 bg-[#FFF9EE] rounded-2xl shadow-inner border border-[#FFF9EE]"
             aria-label="Pagination Navigation"
           >
             <span className="text-gray-600 text-sm font-medium select-none mb-2 sm:mb-0">
@@ -447,7 +447,7 @@ const renderSortableHeader = (
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="p-2 rounded-full bg-white border border-gray-300 shadow-md hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
+                  className="p-2 rounded-full bg-[#E8F4F1] border border-gray-300 shadow-md hover:bg-[#FFF9EE] disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
                   aria-disabled={page === 1}
                   aria-label="Previous Page"
                 >
@@ -457,7 +457,7 @@ const renderSortableHeader = (
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="p-2 rounded-full bg-white border border-gray-300 shadow-md hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
+                  className="p-2 rounded-full bg-[#E8F4F1] border border-gray-300 shadow-md hover:bg-[#FFF9EE] disabled:opacity-40 disabled:cursor-not-allowed transition duration-150"
                   aria-disabled={page === totalPages}
                   aria-label="Next Page"
                 >

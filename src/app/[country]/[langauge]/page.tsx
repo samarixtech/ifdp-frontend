@@ -1,4 +1,5 @@
 import Banner from "@/app/banner/page";
+import Footer from "@/components/Footer";
 interface CountryLanguagePageProps {
   params: Promise<{ country: string; language: string }>;
 }
@@ -10,6 +11,7 @@ const CountryLanguagePage = async ({ params }: CountryLanguagePageProps) => {
     <div className="">
 
         <Banner />
+        <Footer/>
       {/* <h1>
         Country: {country}, Language: {language}
       </h1> */}

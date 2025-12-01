@@ -122,7 +122,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ item, onAddItem, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer max-w-sm flex"
+      className="group relative bg-[#E8F4F1] border border-[#FFF9EE] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer max-w-sm flex"
     >
       {/* Image */}
       <div className="relative w-28 h-28 overflow-hidden rounded-l-xl flex-shrink-0">
@@ -136,7 +136,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ item, onAddItem, onClick }) => {
             e.stopPropagation();
             onAddItem(item);
           }}
-          className="absolute bottom-2 right-2 bg-green-600 hover:bg-green-700 text-white rounded-full p-2 shadow-lg flex items-center justify-center transition-colors duration-200"
+          className="absolute bottom-2 right-2 bg-green-600 hover:bg-green-700 text-[#E8F4F1] rounded-full p-2 shadow-lg flex items-center justify-center transition-colors duration-200"
         >
           <Plus size={16} />
         </button>
@@ -260,7 +260,7 @@ useEffect(() => {
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-40">
         {/* Breadcrumb */}
      <div className="text-sm text-gray-500 mb-4 hidden md:block">
   {country?.toUpperCase()} &gt; {language?.toUpperCase()} &gt; 
@@ -292,19 +292,19 @@ useEffect(() => {
           </div>
         </div>
 
-        <hr className="mb-6 border-gray-200" />
+        <hr className="mb-6 border-[#FFF9EE]" />
 
         {/* Tabs */}
-        <div className="sticky top-0 bg-white z-10 py-3 border-b border-gray-200 shadow-sm">
+        <div className="sticky top-0 bg-[#E8F4F1] z-10 py-3 border-b border-[#FFF9EE] shadow-sm">
           <HorizontalScroller>
             {topMenuTabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`py-2 px-4 text-sm font-medium rounded-xl transition duration-150 whitespace-nowrap ${
+                className={`py-2 px-4 text-sm font-medium rounded-xl transition duration-150 [#E8F4F1]space-nowrap ${
                   tab === activeTab
-                    ? "bg-green-600 text-white shadow-md"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-green-600 text-[#E8F4F1] shadow-md"
+                    : "text-gray-700 hover:bg-[#FFF9EE]"
                 }`}
               >
                 {tab}
@@ -314,7 +314,7 @@ useEffect(() => {
         </div>
 
         {/* Search */}
-        <div className="mt-6 flex items-center space-x-2 bg-white rounded-xl p-2 border border-gray-200 shadow-sm">
+        <div className="mt-6 flex items-center space-x-2 bg-[#E8F4F1] rounded-xl p-2 border border-[#FFF9EE] shadow-sm">
           <Search size={18} className="text-gray-400" />
           <input
             type="text"
@@ -351,7 +351,7 @@ useEffect(() => {
         </div>
 
         {/* Similar Restaurants */}
-        <div className="bg-white py-10 mt-10">
+        <div className="bg-[#E8F4F1] py-10 mt-10">
           <div className="max-w-7xl mx-auto px-4 lg:px-4">
             <SimilarRestaurantsSection restaurants={mockSimilarRestaurants} />
           </div>

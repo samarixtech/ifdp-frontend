@@ -48,20 +48,20 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
     <div ref={desktopCountryRef} className="relative">
       <button
         onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-md border border-blue-500 bg-white text-black hover:bg-blue-50 transition-all shadow-sm"
+        className="flex items-center gap-2 px-3 py-2 rounded-md border border-[#D5AF33]  bg-[#FFF9EE]  text-[#2C2C2C]  hover:bg-[#0B5D4E] hover:text-white transition-all shadow-sm"
       >
         <span className="text-xl">{selectedCountry?.flag || "🌐"}</span>
         <span className="font-semibold">{selectedCountry?.code.toUpperCase()}</span>
         <ChevronDown
           size={16}
-          className={`text-blue-600 transition-transform duration-200 ${
+          className={`text-[#0B5D4E] transition-transform duration-200 ${
             isCountryDropdownOpen ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {isCountryDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-64 bg-white border border-blue-100 rounded-lg shadow-xl py-2 max-h-64 overflow-y-auto z-50 animate-fade-in">
+        <div className="absolute right-0 mt-2 w-64 bg-[#E8F4F1] border border-[#0B5D4E] rounded-lg shadow-xl py-2 max-h-64 overflow-y-auto z-50 animate-fade-in">
           {/* Search Input */}
           <div className="px-3 py-2">
             <input
@@ -69,7 +69,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
               placeholder="Search country..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-3 py-2 border border-blue-200 rounded-md text-sm mb-2"
+              className="w-full px-3 py-2 border border-yellow-200 rounded-md text-sm mb-2"
             />
           </div>
 
@@ -79,10 +79,10 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
               <button
                 key={country.code}
                 onClick={() => handleCountrySelect(country)}
-                className={`w-full flex items-center justify-between px-3 py-2 hover:bg-blue-50 transition ${
+                className={`w-full flex items-center justify-between px-3 py-2 hover:bg-[#0B5D4E] transition ${
                   selectedCountry?.code === country.code
-                    ? "bg-blue-100 text-blue-700 font-semibold"
-                    : "text-gray-800"
+                     ? "bg-[#0B5D4E] text-white font-semibold"
+                  : "hover:bg-[#0B5D4E] hover:text-white"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -90,7 +90,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
                   <span className="text-sm">{country.name}</span>
                 </div>
                 {selectedCountry?.code === country.code && (
-                  <Check size={16} className="text-blue-600" />
+                  <Check size={16} className="text-[#0B5D4E]" />
                 )}
               </button>
             ))

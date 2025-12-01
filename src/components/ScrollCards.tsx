@@ -20,25 +20,25 @@ const ScrollCards: React.FC = () => {
   // DATA FOR ROW 1 CARDS
   const horizontalCardsRow1 = [
     {
-      icon: <Globe className="w-9 h-9 text-blue-600" />,
+      icon: <Globe className="w-9 h-9 text-[#0B5D4E]" />,
       title: t("cards.reach.title"),
       description: t("cards.reach.description"),
       image: "/delivery1.webp",
     },
     {
-      icon: <Zap className="w-9 h-9 text-blue-600" />,
+      icon: <Zap className="w-9 h-9 text-[#0B5D4E]" />,
       title: t("cards.fast.title"),
       description: t("cards.fast.description"),
       image: "/delivery2.webp",
     },
     {
-      icon: <Shield className="w-9 h-9 text-blue-600" />,
+      icon: <Shield className="w-9 h-9 text-[#0B5D4E]" />,
       title: t("cards.secure.title"),
       description: t("cards.secure.description"),
       image: "/delivery3.webp",
     },
     {
-      icon: <Users className="w-9 h-9 text-blue-600" />,
+      icon: <Users className="w-9 h-9 text-[#0B5D4E]" />,
       title: t("cards.network.title"),
       description: t("cards.network.description"),
       image: "/delivery4.webp",
@@ -48,25 +48,25 @@ const ScrollCards: React.FC = () => {
   // DATA FOR ROW 2 CARDS
   const horizontalCardsRow2 = [
     {
-      icon: <Globe className="w-9 h-9 text-blue-600" />,
+      icon: <Globe className="w-9 h-9 text-[#0B5D4E]" />,
       title: t("cards.eco_friendly.title"),
       description: t("cards.eco_friendly.description"),
       image: "/delivery4.webp",
     },
     {
-      icon: <Zap className="w-9 h-9 text-blue-600" />,
+      icon: <Zap className="w-9 h-9 text-[#0B5D4E]" />,
       title: t("cards.support.title"),
       description: t("cards.support.description"),
       image: "/delivery3.webp",
     },
     {
-      icon: <Shield className="w-9 h-9 text-blue-600" />,
+      icon: <Shield className="w-9 h-9 text-[#0B5D4E]" />,
       title: t("cards.custom.title"),
       description: t("cards.custom.description"),
       image: "/delivery2.webp",
     },
     {
-      icon: <Users className="w-9 h-9 text-blue-600" />,
+      icon: <Users className="w-9 h-9 text-[#0B5D4E]" />,
       title: t("cards.analytics.title"),
       description: t("cards.analytics.description"),
       image: "/delivery1.webp",
@@ -133,7 +133,7 @@ const ScrollCards: React.FC = () => {
   const renderCard = (card: CardData) => (
     <motion.div
       key={card.title}
-      className="w-full sm:w-[360px] h-[380px] bg-white rounded-2xl transition-all duration-500 border-2 border-blue-100 shrink-0 overflow-hidden group hover:border-blue-600"
+      className="w-full sm:w-[360px] h-[380px] bg-[#e8f4f187] rounded-2xl transition-all duration-500 border-2 border-[#0B5D4E] shrink-0 overflow-hidden group hover:border-[#0B5D4E]"
     >
       {/* Image Section */}
       <div className="h-40 overflow-hidden relative">
@@ -151,12 +151,12 @@ const ScrollCards: React.FC = () => {
       {/* Content Section */}
       <div className="p-6 h-[180px] flex flex-col justify-start">
         <div className="mb-3">
-          <div className="p-3 bg-blue-50 rounded-full inline-block transition-colors duration-300 group-hover:bg-blue-200">
+          <div className="p-3  text-white rounded-full inline-block transition-colors duration-300 group-hover:bg-yellow-100">
             {card.icon}
           </div>
         </div>
         {/* Heading*/}
-        <h3 className="text-2xl font-black mb-1 text-blue-900 transition-colors duration-300 group-hover:text-blue-700">
+        <h3 className="text-2xl font-[#2C2C2C] mb-1 text-[#0B5D4E] transition-colors duration-300 group-hover:text-[#B6932F]">
           {card.title}
         </h3>
 
@@ -180,8 +180,8 @@ const ScrollCards: React.FC = () => {
   return (
     <section className="py-32 bg-gray-50 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-5xl font-extrabold text-center mb-20 text-blue-900">
-          <span className="text-blue-600">{t("header.title_accent")}</span>{" "}
+        <h2 className="text-5xl font-extrabold text-center mb-20 text-[#0B5D4E]">
+          <span className="text-[#0B5D4E]">{t("header.title_accent")}</span>{" "}
           {t("header.title_static")}
         </h2>
       </div>

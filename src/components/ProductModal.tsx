@@ -154,16 +154,16 @@ const ProductModal: React.FC<ProductModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center text-black transition-opacity"
+      className="fixed inset-0 z-50 bg-[#2C2C2C]/80 flex items-center justify-center text-[#2C2C2C] transition-opacity"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl w-full max-w-sm mx-4 shadow-2xl overflow-hidden transform transition-all duration-300 flex flex-col max-h-[95vh] text-sm"
+        className="bg-[#E8F4F1] rounded-xl w-full max-w-sm mx-4 shadow-2xl overflow-hidden transform transition-all duration-300 flex flex-col max-h-[95vh] text-sm"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-white hover:text-gray-300 transition z-20 p-1 bg-black/40 rounded-full"
+          className="absolute top-2 right-2 text-[#E8F4F1] hover:text-gray-300 transition z-20 p-1 bg-[#2C2C2C]/40 rounded-full"
         >
           <X size={18} />
         </button>
@@ -178,13 +178,13 @@ const ProductModal: React.FC<ProductModalProps> = ({
             <>
               <button
                 onClick={prevImage}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 p-1 bg-black/40 text-white rounded-full hover:bg-black/60 z-10"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 p-1 bg-[#2C2C2C]/40 text-[#E8F4F1] rounded-full hover:bg-[#2C2C2C]/60 z-10"
               >
                 <ChevronLeft size={16} />
               </button>
               <button
                 onClick={nextImage}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 bg-black/40 text-white rounded-full hover:bg-black/60 z-10"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 bg-[#2C2C2C]/40 text-[#E8F4F1] rounded-full hover:bg-[#2C2C2C]/60 z-10"
               >
                 <ChevronRight size={16} />
               </button>
@@ -193,7 +193,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   <span
                     key={index}
                     className={`block h-1.5 w-1.5 rounded-full ${
-                      index === currentImageIndex ? "bg-white" : "bg-gray-400/70"
+                      index === currentImageIndex ? "bg-[#E8F4F1]" : "bg-gray-400/70"
                     }`}
                   ></span>
                 ))}
@@ -208,14 +208,14 @@ const ProductModal: React.FC<ProductModalProps> = ({
             {currency} {currentPrice.toLocaleString()}
           </p>
           <p className="text-xs text-gray-500 mt-1">{item.description}</p>
-          <hr className="my-3 border-gray-100" />
+          <hr className="my-3 border-[#FFF9EE]" />
 
           {/* Variation Section */}
           <div className="mb-4">
             <h3 className="font-bold text-gray-800 mb-2 flex items-center">
               Size/Variation
-              <span className="text-xs font-normal text-blue-600 ml-1.5 flex items-center">
-                (Required) <Info size={12} className="ml-1 text-blue-400" />
+              <span className="text-xs font-normal text-[#0B5D4E] ml-1.5 flex items-center">
+                (Required) <Info size={12} className="ml-1 text-yellow-400" />
               </span>
             </h3>
             <div className="space-y-2">
@@ -225,7 +225,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   className={`flex justify-between items-center p-2 border rounded-lg cursor-pointer transition ${
                     selectedVariation?.id === variation.id
                       ? "border-green-500 bg-green-50 shadow-sm"
-                      : "border-gray-200 hover:bg-gray-50"
+                      : "border-[#FFF9EE] hover:bg-gray-50"
                   }`}
                   onClick={() => setSelectedVariation(variation)}
                 >
@@ -267,10 +267,10 @@ const ProductModal: React.FC<ProductModalProps> = ({
                       key={addOn.id}
                       className={`flex justify-between items-center p-2 border rounded-lg cursor-pointer transition ${
                         isSelected
-                          ? "border-blue-500 bg-blue-50"
+                          ? "border-[#0B5D4E] bg-[#0B5D4E]"
                           : isMaxReached
-                          ? "bg-gray-100 text-gray-400 opacity-60"
-                          : "border-gray-200 hover:bg-gray-50"
+                          ? "bg-[#FFF9EE] text-gray-400 opacity-60"
+                          : "border-[#FFF9EE] hover:bg-gray-50"
                       }`}
                       onClick={() => !isMaxReached && handleAddOnToggle({ ...addOn, groupId: group.id }, group)}
                     >
@@ -284,7 +284,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                           checked={isSelected}
                           readOnly
                           disabled={isMaxReached}
-                          className={`h-4 w-4 ${group.maxSelection === 1 ? "text-blue-600" : "text-blue-600 rounded"}`}
+                          className={`h-4 w-4 ${group.maxSelection === 1 ? "text-[#0B5D4E]" : "text-[#0B5D4E] rounded"}`}
                         />
                       </div>
                     </div>
@@ -307,12 +307,12 @@ const ProductModal: React.FC<ProductModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="bg-white border-t border-gray-100 p-3 flex justify-between items-center shadow-2xl flex-shrink-0">
+        <div className="bg-[#E8F4F1] border-t border-[#FFF9EE] p-3 flex justify-between items-center shadow-2xl flex-shrink-0">
           {/* Quantity Control */}
           <div className="flex items-center space-x-2 border border-gray-300 rounded-full p-0.5">
             <button
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              className="p-1 text-gray-600 hover:bg-gray-100 rounded-full transition"
+              className="p-1 text-gray-600 hover:bg-[#FFF9EE] rounded-full transition"
             >
               <Minus size={18} />
             </button>
@@ -329,7 +329,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           <button
             onClick={handleSubmit}
             disabled={!isSelectionValid}
-            className={`text-white py-2 px-4 rounded-full font-extrabold text-sm transition transform active:scale-95 shadow-md ${
+            className={`text-[#E8F4F1] py-2 px-4 rounded-full font-extrabold text-sm transition transform active:scale-95 shadow-md ${
               isSelectionValid
                 ? "bg-green-600 hover:bg-green-700 shadow-green-400/50"
                 : "bg-gray-400 cursor-not-allowed"
