@@ -7,6 +7,7 @@ import { ReduxProvider } from "@/components/ReduxProvider";
 // import NavbarHider from "@/components/NavbarHider";
 import { cookies } from "next/headers";
 import { CLCProvider } from "./context/CLCContext.tsx";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -53,6 +54,37 @@ export default async function RootLayout({
   return (
     <html lang={currentLocale} dir={dir}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: "rgba(11, 93, 78, 0.55)", // ↓ reduced opacity
+              color: "#E8F4F1",
+              borderRadius: "12px",
+              border: "1px solid rgba(255,255,255,0.15)",
+              padding: "14px 18px",
+              backdropFilter: "blur(6px)", // soft glass effect
+              boxShadow: "0 4px 18px rgba(0,0,0,0.18)",
+            },
+            success: {
+              iconTheme: {
+                primary: "#E8F4F1",
+                secondary: "rgba(11,93,78,0.55)",
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: "#FFD2D2",
+                secondary: "rgba(122,0,0,0.55)",
+              },
+              style: {
+                background: "rgba(122, 0, 0, 0.55)",
+                border: "1px solid rgba(255,255,255,0.15)",
+              },
+            },
+          }}
+        />
+
         <CLCProvider>
           <ReduxProvider>
             <NextIntlClientProvider locale={currentLocale} messages={messages}>

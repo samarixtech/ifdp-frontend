@@ -91,7 +91,7 @@ const Page = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className={`min-h-screen ${softNeutralBg}`}>
         {/* Hero Section */}
         <section className="relative overflow-hidden">

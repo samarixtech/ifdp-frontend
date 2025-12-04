@@ -36,6 +36,11 @@ interface PasswordCriteria {
   special: boolean;
 }
 
+// Define the primary and secondary theme colors for Tailwind
+// Primary: #0B5D4E (Dark Green/Teal)
+// Secondary: #E8F4F1 (Light Green/Teal Background/Card)
+// Border: #FFF9EE (Light Off-White) - Changed to a slightly visible border color
+
 export default function ChangePasswordPage() {
   const router = useRouter();
   const [currentPassword, setCurrentPassword] = useState<string>("");
@@ -171,7 +176,7 @@ export default function ChangePasswordPage() {
           <div className="space-y-2">
             <button
               onClick={() => router.back()}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-4 mx-auto"
+              className="flex items-center gap-2 text-gray-600 hover:text-[#0B5D4E] transition-colors mb-4 mx-auto"
             >
               <ArrowLeft size={20} />
               Back to Settings
@@ -194,7 +199,7 @@ export default function ChangePasswordPage() {
             aria-labelledby="security-features-heading"
             className="lg:col-span-1"
           >
-            <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6 space-y-6">
+            <div className="bg-[#E8F4F1] rounded-xl border border-gray-200 p-6 space-y-6">
               <h2
                 id="security-features-heading"
                 className="text-lg font-semibold text-gray-900"
@@ -207,7 +212,8 @@ export default function ChangePasswordPage() {
                   const FeatureIcon = feature.icon;
                   return (
                     <div key={index} className="flex items-start gap-3">
-                      <div className="p-2 bg-[#0B5D4E] rounded-lg text-[#0B5D4E] mt-1">
+                      {/* Fixed icon background and text color to white */}
+                      <div className="p-2 bg-[#0B5D4E] rounded-lg text-white mt-1">
                         <FeatureIcon size={18} />
                       </div>
                       <div>
@@ -230,7 +236,7 @@ export default function ChangePasswordPage() {
                 <ul className="text-amber-700 text-xs space-y-1">
                   <li>• Use a mix of letters, numbers, and symbols</li>
                   <li>• Avoid common words or personal information</li>
-                  <li>• Dont reuse passwords across different sites</li>
+                  <li>• Don't reuse passwords across different sites</li>
                 </ul>
               </div>
             </div>
@@ -241,7 +247,7 @@ export default function ChangePasswordPage() {
             aria-labelledby="change-password-heading"
             className="lg:col-span-2"
           >
-            <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
+            <div className="bg-[#E8F4F1] rounded-xl border border-gray-200 p-6">
               <h2
                 id="change-password-heading"
                 className="text-lg font-semibold text-gray-900 mb-6"
@@ -280,8 +286,9 @@ export default function ChangePasswordPage() {
                     Current Password
                   </label>
                   <div className="relative">
+                    {/* Input icon color fix */}
                     <Lock
-                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                       size={20}
                     />
                     <input
@@ -289,19 +296,21 @@ export default function ChangePasswordPage() {
                       type={showCurrentPassword ? "text" : "password"}
                       value={currentPassword}
                       onChange={handleCurrentPasswordChange}
-                      className={`w-full pl-10 pr-10 py-3 bg-[#E8F4F1] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent ${
+                      // Input styling fix: text-gray-900, placeholder-gray-500, focus:ring-[#0B5D4E], border-gray-300
+                      className={`w-full pl-10 pr-10 py-3 bg-white text-gray-900 placeholder-gray-500 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] ${
                         errors.currentPassword
-                          ? "border-red-300"
-                          : "border-[#FFF9EE]"
+                          ? "border-red-500"
+                          : "border-gray-300"
                       }`}
                       placeholder="Enter your current password"
                     />
+                    {/* Toggle button color fix */}
                     <button
                       type="button"
                       onClick={() =>
                         setShowCurrentPassword(!showCurrentPassword)
                       }
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                     >
                       {showCurrentPassword ? (
                         <EyeOff size={20} />
@@ -326,8 +335,9 @@ export default function ChangePasswordPage() {
                     New Password
                   </label>
                   <div className="relative">
+                    {/* Input icon color fix */}
                     <Lock
-                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                       size={20}
                     />
                     <input
@@ -335,17 +345,19 @@ export default function ChangePasswordPage() {
                       type={showNewPassword ? "text" : "password"}
                       value={newPassword}
                       onChange={handleNewPasswordChange}
-                      className={`w-full pl-10 pr-10 py-3 bg-[#E8F4F1] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent ${
+                      // Input styling fix: text-gray-900, placeholder-gray-500, focus:ring-[#0B5D4E], border-gray-300
+                      className={`w-full pl-10 pr-10 py-3 bg-white text-gray-900 placeholder-gray-500 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] ${
                         errors.newPassword
-                          ? "border-red-300"
-                          : "border-[#FFF9EE]"
+                          ? "border-red-500"
+                          : "border-gray-300"
                       }`}
                       placeholder="Create a new password"
                     />
+                    {/* Toggle button color fix */}
                     <button
                       type="button"
                       onClick={() => setShowNewPassword(!showNewPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                     >
                       {showNewPassword ? (
                         <EyeOff size={20} />
@@ -357,7 +369,8 @@ export default function ChangePasswordPage() {
 
                   {/* Password Strength Criteria */}
                   {newPassword && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-[#FFF9EE]">
+                    // Background color fix
+                    <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200">
                       <h4 className="text-sm font-medium text-gray-900 mb-3">
                         Password Requirements
                       </h4>
@@ -406,8 +419,9 @@ export default function ChangePasswordPage() {
                     Confirm New Password
                   </label>
                   <div className="relative">
+                    {/* Input icon color fix */}
                     <Lock
-                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                       size={20}
                     />
                     <input
@@ -415,19 +429,21 @@ export default function ChangePasswordPage() {
                       type={showConfirmPassword ? "text" : "password"}
                       value={confirmPassword}
                       onChange={handleConfirmPasswordChange}
-                      className={`w-full pl-10 pr-10 py-3 bg-[#E8F4F1] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent ${
+                      // Input styling fix: text-gray-900, placeholder-gray-500, focus:ring-[#0B5D4E], border-gray-300
+                      className={`w-full pl-10 pr-10 py-3 bg-white text-gray-900 placeholder-gray-500 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] ${
                         errors.confirmPassword
-                          ? "border-red-300"
-                          : "border-[#FFF9EE]"
+                          ? "border-red-500"
+                          : "border-gray-300"
                       }`}
                       placeholder="Confirm your new password"
                     />
+                    {/* Toggle button color fix */}
                     <button
                       type="button"
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                     >
                       {showConfirmPassword ? (
                         <EyeOff size={20} />
@@ -448,7 +464,8 @@ export default function ChangePasswordPage() {
                   <button
                     type="button"
                     onClick={() => router.back()}
-                    className="px-6 py-3 bg-[#E8F4F1] text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-[#FFF9EE] font-medium flex-1"
+                    // Cancel button styling fix: bg-white, text-gray-700, border-gray-300, hover:bg-gray-100
+                    className="px-6 py-3 bg-white text-gray-700 rounded-lg hover:bg-gray-100 transition-colors border border-gray-300 font-medium flex-1"
                   >
                     Cancel
                   </button>
@@ -460,11 +477,13 @@ export default function ChangePasswordPage() {
                       !currentPassword ||
                       !confirmPassword
                     }
-                    className="px-6 py-3 bg-[#0B5D4E] text-[#E8F4F1] rounded-lg hover:bg-[#0B5D4E] transition-colors font-medium flex-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    // Primary button styling is fine, ensuring text color is light
+                    className="px-6 py-3 bg-[#0B5D4E] text-white rounded-lg hover:bg-[#08483d] transition-colors font-medium flex-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isLoading ? (
                       <>
-                        <div className="w-4 h-4 border-2 border-[#E8F4F1] border-t-transparent rounded-full animate-spin" />
+                        {/* Spinner color is fine */}
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         Updating...
                       </>
                     ) : (
@@ -479,7 +498,8 @@ export default function ChangePasswordPage() {
 
         {/* Additional Security Info */}
         <section aria-labelledby="security-info-heading">
-          <div className="bg-[#E8F4F1] rounded-xl border border-[#FFF9EE] p-6">
+          {/* Card styling fix: border-gray-200, bg-[#E8F4F1] is kept */}
+          <div className="bg-[#E8F4F1] rounded-xl border border-gray-200 p-6">
             <h2
               id="security-info-heading"
               className="text-lg font-semibold text-gray-900 mb-4"
@@ -522,6 +542,7 @@ export default function ChangePasswordPage() {
                 <h3 className="font-medium text-gray-900">Need Help?</h3>
                 <ul className="text-gray-600 text-sm space-y-2">
                   <li className="flex items-start gap-2">
+                    {/* Bullet color fix */}
                     <span className="text-[#0B5D4E] font-medium">•</span>
                     <span>
                       Forgot your password? Use the password reset feature on
@@ -529,12 +550,14 @@ export default function ChangePasswordPage() {
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
+                    {/* Bullet color fix */}
                     <span className="text-[#0B5D4E] font-medium">•</span>
                     <span>
                       Contact support if you suspect unauthorized account access
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
+                    {/* Bullet color fix */}
                     <span className="text-[#0B5D4E] font-medium">•</span>
                     <span>
                       Review recent login activity in your account settings

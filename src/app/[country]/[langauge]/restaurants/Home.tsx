@@ -1,8 +1,10 @@
 import { useCLC } from "@/app/context/CLCContext.tsx";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import image from "./../../../../../public/logo.png";
 import Image from "next/image";
+import { useAutoLocation } from "@/hooks/useAutoLocation";
+
 const cuisines = [
   {
     name: "Pizza",
@@ -37,75 +39,110 @@ const cuisines = [
     img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
   },
 ];
-export interface FoodItem {
+
+export interface Restaurant {
   id: string;
-  title: string;
-  desc: string;
-  time: string;
-  price: string;
+  nameAr: string;
+  nameEn: string;
   rating: number;
-  img: string;
-  discount?: string;
-}
-export const sampleItems: FoodItem[] = [
-  {
-    id: "Karahi-Tikka",
-    title: "Karahi & Tikka",
-    desc: "Pakistani",
-    time: "15-30 min",
-    price: "₨.129",
-    rating: 4.9,
-    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
-    discount: "10% off",
-  },
-  {
-    id: "house-chilli",
-    title: "House Of Chilli",
-    desc: "Pakistani",
-    time: "20-35 min",
-    price: "₨.129",
-    rating: 4.8,
-    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
-    discount: "10% cashback",
-  },
-  {
-    id: "Eggspectation",
-    title: "Eggspectation Rest.",
-    desc: "Continental",
-    time: "15-30 min",
-    price: "₨.129",
-    rating: 5.0,
-    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
-    discount: "10% cashback",
-  },
-  {
-    id: "Fredarios-pizza",
-    title: "Fredarios pizza",
-    desc: "Pakistani",
-    time: "10-25 min",
-    price: "₨.129",
-    rating: 4.8,
-    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
-    discount: "15% off",
-  },
-];
-interface RestaurantPageParams {
-  params: {
-    country: string;
-    langauge: string;
-    id: string;
+  image: string;
+  geoPoint: {
+    lat: number;
+    lng: number;
   };
+  hoursJson: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+  distance: number | null;
 }
 
-interface DynamicParams {
-  country: string;
-  langauge: string;
-  id: string;
-  [key: string]: string | string[] | undefined;
+interface ApiResponse {
+  status: string;
+  results: number;
+  data: Restaurant[];
 }
+
+interface DealCard {
+  title: string;
+  img: string;
+  desc: string;
+}
+
+const deals: DealCard[] = [
+  {
+    title: "Up to 30% off!",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    desc: "Great discounts today!",
+  },
+  {
+    title: "Deal for ₨.1250",
+    img: "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    desc: "Best prices available",
+  },
+];
+
 const Home: React.FC = () => {
   const router = useRouter();
   const { country, currency, language } = useCLC();
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const {
+    latitude: autoLatitude,
+    longitude: autoLongitude,
+    loading: isDetectingLocation,
+    error: locationError,
+  } = useAutoLocation();
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      // Wait for location detection to complete
+      if (isDetectingLocation) return;
+
+      // Use detected location or default to Karachi coordinates
+      const lat = autoLatitude || 24.8607;
+      const lng = autoLongitude || 67.0011;
+
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `http://192.168.100.29:5000/api/v1/restaurants/location/by-location?lat=${lat}&lng=${lng}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data: ApiResponse = await response.json();
+
+        if (data.status === "success") {
+          setRestaurants(data.data);
+        } else {
+          throw new Error("Failed to fetch restaurants");
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        console.error("Error fetching restaurants:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRestaurants();
+  }, [autoLatitude, autoLongitude, isDetectingLocation]);
+
+  if (locationError) {
+    return (
+      <div className="bg-[#E8F4F1] min-h-screen text-[#2C2C2C] px-4 md:px-16 py-8 rounded-xl">
+        <div className="text-center py-8">
+          <h2 className="text-xl text-red-600">Location Error</h2>
+          <p className="text-gray-700 mt-2">{locationError}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[#E8F4F1] min-h-screen text-[#2C2C2C] px-4 md:px-16 py-8 rounded-xl">
       {/* Search Bar */}
@@ -118,21 +155,24 @@ const Home: React.FC = () => {
       </div>
 
       {/* Banner */}
-      <div className="relative bg-linear-to-r from-[#0B5D4E] to-[#0B5D4E] rounded-lg p-6 mb-10 flex items-center shadow-md">
-        <div>
-          <h2 className="text-2xl font-bold mb-2 text-yellow-500 max-w-xs">
+      <div className="relative bg-[#0B5D4E] rounded-lg p-6 mb-10 flex flex-col md:flex-row items-center shadow-md gap-6 md:gap-0">
+        <div className="text-center md:text-left max-w-md">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-yellow-500 leading-snug">
             Sign up for free delivery on your first order
           </h2>
-          <button className="bg-[#E8F4F1] text-[#0B5D4E] px-7 py-2 rounded-md font-semibold hover:bg-[#0B5D4E] transition">
+
+          <button className="bg-[#E8F4F1] text-[#0B5D4E] px-7 py-2 rounded-md font-semibold hover:bg-[#0B5D4E] hover:text-white transition w-full md:w-auto">
             Sign up
           </button>
         </div>
+
+        {/* Image */}
         <Image
           src={image || "/default-mascot.png"}
-          alt="JAYAK HUB  mascot"
-          width={394} // w-36 => 36*4 px
-          height={144}
-          className="ml-auto rounded-xl  object-contain"
+          alt="JAYAK HUB mascot"
+          width={350}
+          height={150}
+          className="rounded-xl object-contain mx-auto md:ml-auto w-40 sm:w-52 md:w-72 lg:w-80"
           priority={false}
         />
       </div>
@@ -140,16 +180,14 @@ const Home: React.FC = () => {
       {/* Daily Deals */}
       <SectionTitle title="Your daily deals" />
       <HorizontalScroller>
-        <DealCard
-          title="Up to 30% off!"
-          img="https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600"
-          desc="Great discounts today!"
-        />
-        <DealCard
-          title="Deal for ₨.1250"
-          img="https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600"
-          desc="Best prices available"
-        />
+        {deals.map((deal) => (
+          <DealCard
+            key={deal.title}
+            title={deal.title}
+            img={deal.img}
+            desc={deal.desc}
+          />
+        ))}
       </HorizontalScroller>
 
       {/* Cuisines */}
@@ -171,88 +209,52 @@ const Home: React.FC = () => {
         ))}
       </div>
 
-      {/* New on JAYAK HUB  */}
-      <SectionTitle title="New on IFDP" />
-      <HorizontalScroller>
-        {sampleItems.map(
-          ({ id, title, desc, time, price, rating, img, discount }) => (
-            <div
-              key={id}
-              onClick={() =>
-                router.push(`/${country}/${language}/restaurants/${id}`)
-              }
-              className="cursor-pointer"
-            >
-              <FoodCard
-                title={title}
-                desc={desc}
-                time={time}
-                price={`${currency}. ${price.replace(/[^0-9]/g, "")}`}
-                rating={rating}
-                img={img}
-                discount={discount ?? ""}
-                currency={currency}
-              />
-            </div>
-          )
-        )}
-      </HorizontalScroller>
+      {/* New on JAYAK HUB */}
+      <SectionTitle title="New on Jayak Hub" />
 
-      {/* Homechefs – khaas discounts */}
-      <SectionTitle title="Homechefs – khaas discounts" />
-      <HorizontalScroller>
-        {sampleItems.map(
-          ({ id, title, desc, time, price, rating, img, discount }) => (
+      {loading ? (
+        <div className="text-center py-8">
+          <p className="text-gray-600">
+            {isDetectingLocation
+              ? "Detecting your location..."
+              : "Loading restaurants..."}
+          </p>
+        </div>
+      ) : error ? (
+        <div className="text-center py-8">
+          <p className="text-red-600">Error: {error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-2 bg-[#0B5D4E] text-white px-4 py-2 rounded-md"
+          >
+            Retry
+          </button>
+        </div>
+      ) : restaurants.length === 0 ? (
+        <div className="text-center py-8">
+          <p className="text-gray-600">No restaurants found in your area.</p>
+        </div>
+      ) : (
+        <HorizontalScroller>
+          {restaurants.map((restaurant) => (
             <div
-              key={id}
+              key={restaurant.id}
               onClick={() =>
-                router.push(`/${country}/${language}/restaurants/${id}`)
+                router.push(
+                  `/${country}/${language}/restaurants/${restaurant.id}`
+                )
               }
               className="cursor-pointer"
             >
-              <FoodCard
-                key={title + "homechef"}
-                title={title}
-                desc={desc}
-                time={time}
-                price={`${currency}. ${price.replace(/[^0-9]/g, "")}`}
-                rating={rating}
-                img={img}
-                discount={discount ?? ""}
+              <RestaurantCard
+                restaurant={restaurant}
                 currency={currency}
+                language={language}
               />
             </div>
-          )
-        )}
-      </HorizontalScroller>
-
-      {/* Pepsi kamaaal kravings */}
-      <SectionTitle title="Pepsi kamaaal kravings" />
-      <HorizontalScroller>
-        {sampleItems.map(
-          ({ id, title, desc, time, price, rating, img, discount }) => (
-            <div
-              key={id}
-              onClick={() =>
-                router.push(`/${country}/${language}/restaurants/${id}`)
-              }
-              className="cursor-pointer"
-            >
-              <FoodCard
-                key={title + "pepsi"}
-                title={title}
-                desc={desc}
-                time={time}
-                price={`${currency}. ${price.replace(/[^0-9]/g, "")}`}
-                rating={rating}
-                img={img}
-                discount={discount ?? ""}
-                currency={currency}
-              />
-            </div>
-          )
-        )}
-      </HorizontalScroller>
+          ))}
+        </HorizontalScroller>
+      )}
     </div>
   );
 };
@@ -290,40 +292,92 @@ const DealCard: React.FC<{ title: string; img: string; desc: string }> = ({
   </div>
 );
 
-const FoodCard: React.FC<{
-  title: string;
-  desc: string;
-  time: string;
-  price: string;
-  currency: any;
-  rating: number;
-  img: string;
-  discount: string;
-}> = ({ title, desc, time, price, rating, img, discount, currency }) => (
-  <div className="min-w-[220px] bg-[#E8F4F1] rounded-lg shadow-md cursor-pointer hover:shadow-lg transition relative">
-    <img
-      src={img}
-      alt={title}
-      className="w-full h-36 rounded-t-lg object-cover"
-      loading="lazy"
-    />
-    <div className="absolute top-2 left-2 bg-[#0B5D4E] text-[#E8F4F1] text-xs px-2 py-1 rounded font-semibold">
-      {discount}
-    </div>
-    <div className="p-4">
-      <h4 className="text-[#2C2C2C] font-semibold text-lg truncate">{title}</h4>
-      <p className="text-gray-700 text-sm">{desc}</p>
-      <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
-        <span>{time}</span>
-        <span>{`${currency}. ${price.replace(/[^0-9]/g, "")}`}</span>
+interface RestaurantCardProps {
+  restaurant: Restaurant;
+  currency: string;
+  language: string;
+}
+
+const RestaurantCard: React.FC<RestaurantCardProps> = ({
+  restaurant,
+  currency,
+  language,
+}) => {
+  // Format restaurant hours for display
+  const formatHours = (hoursJson: Record<string, any>) => {
+    const today = new Date()
+      .toLocaleDateString("en-US", { weekday: "short" })
+      .toLowerCase();
+    const hours = hoursJson[today];
+
+    if (!hours) return "Closed today";
+
+    if (Array.isArray(hours)) {
+      return `${hours[0]?.start || "N/A"} - ${hours[0]?.end || "N/A"}`;
+    }
+
+    return typeof hours === "string" ? hours : "10:00-23:00";
+  };
+
+  // Calculate time from creation date
+  const getTimeSinceCreation = (createdAt: string) => {
+    const created = new Date(createdAt);
+    const now = new Date();
+    const diffInHours = Math.floor(
+      (now.getTime() - created.getTime()) / (1000 * 60 * 60)
+    );
+
+    if (diffInHours < 24) {
+      return "Just added";
+    } else if (diffInHours < 168) {
+      // 7 days
+      return `${Math.floor(diffInHours / 24)} days ago`;
+    } else {
+      return "Recently";
+    }
+  };
+
+  const displayName = language === "ar" ? restaurant.nameAr : restaurant.nameEn;
+  const operatingHours = formatHours(restaurant.hoursJson);
+  const timeAdded = getTimeSinceCreation(restaurant.createdAt);
+
+  return (
+    <div className="min-w-[220px] bg-[#E8F4F1] rounded-lg shadow-md cursor-pointer hover:shadow-lg transition relative">
+      <img
+        src={
+          restaurant.image ||
+          "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600"
+        }
+        alt={displayName}
+        className="w-full h-36 rounded-t-lg object-cover"
+        loading="lazy"
+      />
+      <div className="absolute top-2 left-2 bg-[#0B5D4E] text-[#E8F4F1] text-xs px-2 py-1 rounded font-semibold">
+        NEW
       </div>
-      <div className="mt-2 flex items-center gap-1 text-yellow-500 font-semibold">
-        {"★".repeat(Math.floor(rating))}
-        {rating % 1 ? "½" : ""}
-        <span className="text-gray-500 text-sm ml-1">{rating.toFixed(1)}</span>
+      <div className="p-4">
+        <h4 className="text-[#2C2C2C] font-semibold text-lg truncate">
+          {displayName}
+        </h4>
+        <p className="text-gray-700 text-sm">{operatingHours}</p>
+        <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
+          <span>{timeAdded}</span>
+          <span>
+            {restaurant.distance
+              ? `${restaurant.distance.toFixed(1)} km`
+              : "Nearby"}
+          </span>
+        </div>
+        <div className="mt-2 flex items-center gap-1 text-yellow-500 font-semibold">
+          {"★".repeat(Math.floor(restaurant.rating))}
+          {restaurant.rating % 1 ? "½" : ""}
+          <span className="text-gray-500 text-sm ml-1">
+            {restaurant.rating.toFixed(1)}
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Home;

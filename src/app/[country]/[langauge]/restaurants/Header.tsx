@@ -6,11 +6,17 @@ import { RootState } from "@/redux/store/store";
 import { BarChart, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react"; // <--- ADD useCallback
 import { FiShoppingBag } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import image from "./../../../../../public/logo2.png";
+
+interface UserData {
+  id: string;
+  email: string;
+}
+
 // Inline SVG Icons
 const MapPin: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -151,11 +157,12 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
     <div ref={ref} className="relative shrink-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-3 bg-[#FFF9EE] rounded-full hover:bg-[#FFF9EE] transition duration-150 relative z-10"
+        // MODIFIED: Use green background and better hover/focus
+        className="p-3 bg-[#0B5D4E] rounded-full hover:bg-[#084838] transition duration-150 relative z-10 focus:outline-none focus:ring-2 focus:ring-[#0B5D4E]"
         aria-label={t("label")}
         aria-expanded={isOpen}
       >
-        <User className="w-6 h-6 text-[#2C2C2C]" />
+        <User className="w-6 h-6 text-[#E8F4F1]" />
       </button>
 
       {/* Profile Menu Dropdown */}
@@ -180,6 +187,7 @@ interface DropdownProps {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   content: React.ReactNode;
   isLocation?: boolean;
+  onClose?: () => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -187,24 +195,34 @@ const Dropdown: React.FC<DropdownProps> = ({
   icon: Icon,
   content,
   isLocation = false,
+  onClose,
 }) => {
   const t = useTranslations("location.modal");
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  // MODIFIED: Logic to use optional onClose prop
+  const closeDropdown = useCallback(() => {
+    setIsOpen(false);
+    if (onClose) {
+      onClose();
+    }
+  }, [onClose]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        closeDropdown();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [ref]);
+  }, [ref, closeDropdown]);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
-  const buttonClasses =
-    "flex items-center p-2 rounded-lg border border-[#FFF9EE] hover:border-yellow-400 transition bg-[#E8F4F1] relative z-10";
+
+  // REMOVED UNUSED buttonClasses, locationButtonClasses
+
   const locationButtonClasses = isLocation ? "hidden lg:flex max-w-sm" : "flex";
 
   return (
@@ -220,12 +238,13 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={`
     flex items-center w-full p-3 rounded-lg 
     border transition-all duration-200 
-    bg-[#E8F4F1] shadow-sm hover:shadow-md
+    bg-[#E8F4F1] shadow-sm hover:shadow-md focus:outline-none focus:ring-2
   
     ${
+      // MODIFIED: Use green for active border/ring
       isOpen
-        ? "border-[#0B5D4E] ring-2 ring-yellow-300"
-        : "border-[#FFF9EE] hover:border-yellow-300"
+        ? "border-[#0B5D4E] ring-[#0B5D4E]"
+        : "border-[#FFF9EE] hover:border-[#0B5D4E] hover:ring-1 hover:ring-[#0B5D4E]"
     }
     ${isLocation ? "w-full" : ""}
   `}
@@ -244,7 +263,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       {/* Dropdown Content */}
       <div
-        className={`absolute top-full mt-2 rounded-xl shadow-2xl bg-[#E8F4F1] p-4 transition-all duration-300 origin-top z-50 overflow-hidden 
+        className={`absolute top-full mt-2 rounded-xl shadow-2xl bg-[#E8F4F1] p-4 transition-all duration-300 origin-top z-50 overflow-hidden border border-[#FFF9EE]
           ${
             isLocation
               ? "w-[350px] right-0 lg:left-0" // Location: wider, fixed size
@@ -304,6 +323,12 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const tProfileLink = useTranslations("profile.link");
   const [currentAddress, setCurrentAddress] = useState("Detecting location...");
 
+  // =================================================================
+  // Authentication State
+  // =================================================================
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState<UserData | null>(null);
+
   const [activeTab, setActiveTab] = useState<
     "delivery" | "pickup" | "IFDPmart" | "shops" | "caterers"
   >("delivery");
@@ -323,32 +348,90 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
     setAuthModalOpen(true);
   };
 
+  // =================================================================
+  // UPDATED: Refactored function to check and set auth status (useCallback makes it stable)
+  // =================================================================
+  const checkAuthStatus = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const token = sessionStorage.getItem("authToken");
+      const userData = sessionStorage.getItem("user");
+
+      if (token && userData) {
+        setIsLoggedIn(true);
+        try {
+          setCurrentUser(JSON.parse(userData) as UserData);
+        } catch (e) {
+          console.error("Failed to parse user data from sessionStorage", e);
+          sessionStorage.removeItem("authToken");
+          sessionStorage.removeItem("user");
+          setIsLoggedIn(false);
+          setCurrentUser(null);
+        }
+      } else {
+        setIsLoggedIn(false);
+        setCurrentUser(null);
+      }
+    }
+  }, []); // <--- Empty dependency array for stability
+
+  // =================================================================
+  // UPDATED: useEffect now calls the stable function on mount
+  // =================================================================
+  useEffect(() => {
+    checkAuthStatus();
+  }, [checkAuthStatus]); // <--- Depend on checkAuthStatus
+
+  // =================================================================
+  // Function to handle logout
+  // =================================================================
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("authToken");
+      sessionStorage.removeItem("refreshToken"); // Assuming refresh token is also stored here
+      sessionStorage.removeItem("user");
+    }
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+    // Optional: Add navigation logic here (e.g., router.push('/'))
+  };
+
   const totalItems = useSelector((state: RootState) =>
     state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
   );
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+
   // Content for the Language Dropdown
   const languageContent = (
     <div className="flex flex-col space-y-2">
       <h3 className="text-sm font-semibold text-gray-500 mb-1">
         {tLanguage("title")}
       </h3>
-      {["English", "Iraq"].map((lang, index) => (
-        <button
-          key={index}
-          className={`text-left text-base p-2 rounded-lg hover:bg-[#FFF9EE] transition ${
-            lang.startsWith(currentLangCode.toUpperCase())
-              ? "text-[#0B5D4E] font-bold bg-[#0B5D4E]"
-              : "text-gray-800"
-          }`}
-          onClick={() => {
-            /* Handle language change logic here */
-          }}
-        >
-          {lang}
-        </button>
-      ))}
+      {
+        // MODIFIED: Use a proper structure for language data (code + name)
+        [
+          { code: "en", name: "English" },
+          { code: "ar", name: "Arabic (Iraq)" }, // Assuming "Iraq" means Arabic (ar)
+        ].map(({ code, name }) => (
+          <button
+            key={code}
+            className={`text-left text-base p-2 rounded-lg transition w-full ${
+              // MODIFIED: Corrected comparison logic to use the code
+              code === currentLangCode
+                ? "text-[#E8F4F1] font-bold bg-[#0B5D4E]" // Active green background
+                : "text-gray-800 hover:bg-[#FFF9EE]" // Hover lighter background
+            }`}
+            onClick={() => {
+              /* Handle language change logic here */
+              setIsLangDropdownOpen(false); // Close dropdown on selection
+            }}
+          >
+            {name}
+          </button>
+        ))
+      }
     </div>
   );
 
@@ -358,16 +441,20 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
       return;
     }
 
+    setCurrentAddress("Fetching location...");
+
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
 
+        // Note: Using a public key in client-side code is generally fine for geocoding but should be restricted via API key controls.
+        // Assuming this key is for demonstration/internal testing.
         const apiKey = "AIzaSyDVjBcvY8diVAT0qU4H3il9n0HUylntByI";
         const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
         const res = await fetch(url);
         const data = await res.json();
-        console.log(data, "data");
+
         if (data.results && data.results[0]) {
           setCurrentAddress(data.results[0].formatted_address);
         } else {
@@ -375,7 +462,8 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         }
       },
       () => {
-        alert("Location permission denied!");
+        setCurrentAddress("Location permission denied or failed to fetch.");
+        // alert("Location permission denied!"); // Removed intrusive alert
       }
     );
   };
@@ -387,7 +475,8 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
 
       <button
         onClick={getCurrentLocation}
-        className="w-full p-3 bg-green-600 text-[#E8F4F1] font-bold rounded-lg hover:bg-green-700 transition"
+        // MODIFIED: Use theme green for primary action button
+        className="w-full p-3 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-lg hover:bg-[#084838] transition"
       >
         Use Current Location
       </button>
@@ -395,7 +484,8 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
       <input
         type="text"
         placeholder={tLocation("placeholder")}
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-[#0B5D4E] focus:border-[#0B5D4E] transition"
+        // MODIFIED: Use theme green for focus ring/border
+        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] transition"
       />
 
       <div className="text-sm text-gray-500 mt-2">
@@ -405,18 +495,21 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
     </div>
   );
 
-  // Content for Profile Dropdown
+  // Content for Profile Dropdown (Uses currentUser data)
   const profileContent = (
     <div className="flex flex-col space-y-1">
       <div className="py-2 px-3">
         <p className="text-base font-bold text-gray-900">
-          {tProfile("placeholder.name")}
+          {currentUser?.email || tProfile("placeholder.name")}
         </p>
-        <p className="text-sm text-gray-500">{tProfile("placeholder.email")}</p>
+        <p className="text-sm text-gray-500">
+          {currentUser?.email || tProfile("placeholder.email")}
+        </p>
       </div>
       <hr className="border-[#FFF9EE]" />
       <Link
         href="/dashboard"
+        // MODIFIED: Use green hover background
         className="flex items-center p-3 text-gray-700 hover:bg-[#FFF9EE] rounded-lg transition"
       >
         <BarChart className="w-5 h-5 mr-3" />
@@ -424,6 +517,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
       </Link>
       <Link
         href={`/${country.toLowerCase()}/${language.toLowerCase()}/account-settings`}
+        // MODIFIED: Use green hover background
         className="flex items-center p-3 text-gray-700 hover:bg-[#FFF9EE] rounded-lg transition"
       >
         <User className="w-5 h-5 mr-3" />
@@ -431,13 +525,18 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
       </Link>
       <Link
         href={`/${country.toLowerCase()}/${language.toLowerCase()}/myorders`}
+        // MODIFIED: Use green hover background
         className="flex items-center p-3 text-gray-700 hover:bg-[#FFF9EE] rounded-lg transition"
       >
         <ShoppingBag className="w-5 h-5 mr-3" />
         {tProfile("link.myOrders")}
       </Link>
       <hr className="border-[#FFF9EE]" />
-      <button className="flex items-center p-3 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition w-full text-left">
+      <button
+        onClick={handleLogout} // Linked to the new logout function
+        // MODIFIED: Use a soft red hover for logout
+        className="flex items-center p-3 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition w-full text-left"
+      >
         {tProfile("link.logout")}
       </button>
     </div>
@@ -457,11 +556,11 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         {/* Top Bar */}
         <div className="hidden sm:block bg-[#0B5D4E] text-[#E8F4F1] text-sm py-1 px-4 shadow-md">
           <div className="max-w-7xl mx-auto flex justify-between space-x-4">
-            {/* Logo + Shopping Bag */}
+            {/* Logo + Shopping Bag (kept the shopping bag for style, but usually the logo is just the logo) */}
             <div className="flex items-center space-x-3 font-semibold">
-              <ShoppingBag className="text-[#FFF9EE] w-6 h-6" />
+              <ShoppingBag className="text-[#FFF9EE] w-6 h-6 " />
 
-              <Link href="/">
+              <Link href="/home">
                 <Image
                   src={image}
                   alt="Logo"
@@ -475,15 +574,17 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
 
             <div className="flex items-center space-x-3">
               {/* Partner / Business Links */}
-              <a
+              <Link
                 href="/partner"
-                className="py-2 px-3 border border-[#E8F4F1] hover:bg-[#0B5D4E] transition duration-150 rounded-lg"
+                // MODIFIED: Use green hover on light text
+                className="py-2 px-3 border border-[#E8F4F1] hover:bg-[#084838] transition duration-150 rounded-lg"
               >
                 {tHeader("topBar.partnerSignup")}
-              </a>
+              </Link>
               <a
                 href="#"
-                className="py-2 px-3 border border-[#E8F4F1] hover:bg-[#0B5D4E] transition duration-150 rounded-lg"
+                // MODIFIED: Use green hover on light text
+                className="py-2 px-3 border border-[#E8F4F1] hover:bg-[#084838] transition duration-150 rounded-lg"
               >
                 {tHeader("topBar.businessSignup")}
               </a>
@@ -497,7 +598,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
             <div className="flex justify-between items-center h-16">
               {/* Left: Logo + Location */}
               <div className="flex items-center space-x-3 lg:space-x-12 w-full lg:w-auto">
-                {/* Logo Text */}
+                {/* Logo Text - Assuming the Image is the main logo, keeping text as fallback/brand*/}
                 <div className="shrink-0">
                   <span className="text-2xl sm:text-3xl font-extrabold text-[#0B5D4E] tracking-tight">
                     IFDP
@@ -516,36 +617,49 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
 
               {/* Right: Auth, Language, Cart */}
               <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
-                {/* Login */}
-                <button
-                  onClick={openLogin}
-                  className="hidden sm:block px-4 py-2 border border-[#2C2C2C] text-[#2C2C2C] font-semibold rounded-lg hover:bg-[#FFF9EE] transition duration-150 text-sm"
-                >
-                  {tHeader("auth.login")}
-                </button>
+                {/* =================================================================
+                    Conditional Rendering
+                    ================================================================= */}
+                {!isLoggedIn ? (
+                  // Show Login/Signup buttons if NOT logged in
+                  <>
+                    <button
+                      onClick={openLogin}
+                      // MODIFIED: Use theme green hover on border
+                      className="hidden sm:block px-4 py-2 border border-[#0B5D4E] text-[#0B5D4E] font-semibold rounded-lg hover:bg-[#FFF9EE] transition duration-150 text-sm"
+                    >
+                      {tHeader("auth.login")}
+                    </button>
 
-                {/* Signup */}
-                <button
-                  onClick={openSignup}
-                  className="hidden sm:block px-4 py-2 bg-[#0B5D4E] text-[#E8F4F1] font-semibold rounded-lg hover:bg-[#084838] transition duration-150 text-sm"
-                >
-                  {tHeader("auth.signup")}
-                </button>
+                    <button
+                      onClick={openSignup}
+                      // MODIFIED: Use theme green primary button with dark hover
+                      className="hidden sm:block px-4 py-2 bg-[#0B5D4E] text-[#E8F4F1] font-semibold rounded-lg hover:bg-[#084838] transition duration-150 text-sm"
+                    >
+                      {tHeader("auth.signup")}
+                    </button>
+                  </>
+                ) : (
+                  // Show Profile Dropdown if logged in
+                  <ProfileDropdown profileContent={profileContent} />
+                )}
 
                 {/* Language Dropdown */}
                 <Dropdown
                   label={currentLangCode.toUpperCase()}
                   icon={Globe}
                   content={languageContent}
+                  onClose={() => setIsLangDropdownOpen(false)} // Pass the setter to close
                 />
 
                 {/* Cart Button */}
                 <button
                   onClick={() => setIsDrawerOpen(true)}
-                  className="relative p-3 bg-[#FFF9EE] rounded-full hover:bg-[#FFF9EE] transition duration-150"
+                  // MODIFIED: Use green background and better hover/focus
+                  className="relative p-3 bg-[#0B5D4E] rounded-full hover:bg-[#084838] transition duration-150 focus:outline-none focus:ring-2 focus:ring-[#0B5D4E]"
                   aria-label="Cart"
                 >
-                  <FiShoppingBag className="w-6 h-6 text-[#2C2C2C]" />
+                  <FiShoppingBag className="w-6 h-6 text-[#E8F4F1]" />
                   {totalItems > 0 && (
                     <span className="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 text-xs font-bold leading-none text-[#E8F4F1] transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
                       {totalItems > 9 ? "9+" : totalItems}
@@ -553,12 +667,11 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
                   )}
                 </button>
 
-                {/* Drawers / Profile */}
+                {/* Drawers / Modals */}
                 <CartDrawer
                   isOpen={isDrawerOpen}
                   onClose={() => setIsDrawerOpen(false)}
                 />
-                <ProfileDropdown profileContent={profileContent} />
               </div>
             </div>
           </div>
@@ -571,6 +684,7 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         onClose={() => setAuthModalOpen(false)}
         mode={authMode}
         switchMode={(mode) => setAuthMode(mode)}
+        onLoginSuccess={checkAuthStatus} // <--- CRITICAL: Pass the status check function
       />
     </>
   );

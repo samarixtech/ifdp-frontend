@@ -18,7 +18,6 @@ const HomePage: React.FC = () => {
     if (loading) return;
 
     const storedLocale = sessionStorage.getItem("homepage_locale");
-
     if (!storedLocale && country && language) {
       // First visit → redirect to /country/language/restaurants
       sessionStorage.setItem(
@@ -35,7 +34,7 @@ const HomePage: React.FC = () => {
       setLocale(parsedLocale);
 
       // Update URL to /country/language (without triggering a full reload)
-      const newPath = `/${parsedLocale.country.toLowerCase()}/${parsedLocale.language.toLowerCase()}`;
+      const newPath = `/${parsedLocale.country.toLowerCase()}/${parsedLocale.language.toLowerCase()}/restaurants`;
       if (window.location.pathname === "/") {
         router.replace(newPath);
       }
@@ -44,7 +43,7 @@ const HomePage: React.FC = () => {
     } else if (country && language) {
       // Fallback if storage is empty
       setLocale({ country, language });
-      const newPath = `/${country.toLowerCase()}/${language.toLowerCase()}`;
+      const newPath = `/${country.toLowerCase()}/${language.toLowerCase()}/restaurants`;
       if (window.location.pathname === "/") {
         router.replace(newPath);
       }
@@ -56,7 +55,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <Banner />
+      {/* <Banner /> */}
       <p>
         Current Country: {locale?.country}, Language: {locale?.language}
       </p>

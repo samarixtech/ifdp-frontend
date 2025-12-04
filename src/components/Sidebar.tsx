@@ -14,11 +14,22 @@ import {
   User,
   Mail,
   ChevronDown,
+  MapPin,
 } from "lucide-react";
 
 const navItems = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { name: "Order History", href: "/dashboard/orderHistory", icon: Users },
+  {
+    name: "My Profile",
+    href: "/dashboard/profileSettings",
+    icon: User,
+  },
+  {
+    name: "My Address",
+    href: "/dashboard/address",
+    icon: MapPin,
+  },
   {
     name: "Payment History",
     href: "/dashboard/paymentHistory",
@@ -31,8 +42,8 @@ const navItems = [
   },
 ];
 
-const primaryyellow = "#0B5D4E";
-const accentColor = "#013a63";
+const primaryDark = "#0B5D4E"; // Primary theme color (Dark Green/Teal)
+const primaryLight = "#E8F4F1"; // Primary background/accent color (Light Green/Teal)
 
 export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
   const pathname = usePathname();
@@ -96,14 +107,15 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
-          className="fixed inset-0 bg-[#2C2C2C]/30 backdrop-blur-sm z-20 lg:hidden"
+          className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-20 lg:hidden"
         ></div>
       )}
 
       <aside
         className={`${
           isOpen ? "w-64" : "w-20"
-        } fixed lg:sticky top-0 left-0 h-screen bg-[#E8F4F1] border-r border-[#FFF9EE] shadow-sm flex flex-col z-30 transition-all duration-300
+          // Switched border to a standard gray for better visibility on light background
+        } fixed lg:sticky top-0 left-0 h-screen bg-[#E8F4F1] border-r border-gray-200 shadow-xl flex flex-col z-30 transition-all duration-300
           ${
             isSidebarOpen
               ? "translate-x-0"
@@ -111,11 +123,12 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
           }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#FFF9EE] flex-shrink-0">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 flex-shrink-0">
           {isOpen && (
             <div className="flex items-center gap-3">
+              {/* Logo color fix */}
               <div className="w-8 h-8 bg-[#0B5D4E] rounded-lg flex items-center justify-center">
-                <span className="text-[#E8F4F1] font-bold text-sm">L</span>
+                <span className="text-white font-bold text-sm">L</span>
               </div>
               <span className="font-semibold text-gray-800">Dashboard</span>
             </div>
@@ -123,7 +136,8 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
 
           <button
             onClick={handleCollapseClick}
-            className="p-2 hover:bg-[#FFF9EE] rounded-lg transition text-gray-600 hover:text-gray-800"
+            // Button color fix
+            className="p-2 hover:bg-gray-100 rounded-lg transition text-gray-600 hover:text-gray-800"
           >
             {isOpen ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
           </button>
@@ -137,30 +151,36 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
               <Link
                 key={name}
                 href={href}
-                className={`group flex items-center gap-4 px-3 py-3 rounded-xl transition-all ${
+                className={`group flex items-center gap-4 px-3 py-3 rounded-xl transition-all 
+                ${
                   active
-                    ? "bg-[#0B5D4E]/70 text-yellow-800 font-semibold"
-                    : "text-gray-600 hover:bg-[#FFF9EE] hover:text-gray-800"
+                    ? "bg-[#0B5D4E] text-white font-semibold shadow-md" // **ACTIVE: Dark background, White text**
+                    : "text-gray-700 hover:bg-gray-100" // Inactive: Dark text, Light hover background
                 }`}
               >
                 <div
                   className={`p-1.5 rounded-lg ${
-                    active ? "bg-[#0B5D4E]" : "bg-[#FFF9EE]"
+                    // Using primaryLight for inactive icon background to match sidebar theme, and white for active icon background for contrast
+                    active ? "bg-white" : "bg-[#E8F4F1]"
                   }`}
                 >
-                  <Icon size={18} style={{ color: primaryyellow }} />
+                  {/* Icon color fix: Dark primary color when active, Gray when inactive */}
+                  <Icon
+                    size={18}
+                    className={`${active ? "text-[#0B5D4E]" : "text-gray-600"}`}
+                  />
                 </div>
 
                 <span
-                  className={`text-sm font-medium transition-all ${
+                  className={`text-sm transition-all ${
                     isOpen ? "opacity-100" : "opacity-0 hidden"
-                  }`}
+                  } ${active ? "text-white" : "text-gray-700 font-medium"}`}
                 >
                   {name}
                 </span>
 
                 {!isOpen && (
-                  <span className="absolute left-full ml-2 px-2 py-1 rounded-md bg-gray-800 text-[#E8F4F1] text-xs opacity-0 group-hover:opacity-100 transition [#E8F4F1]space-nowrap pointer-events-none shadow-lg z-50">
+                  <span className="absolute left-full ml-2 px-2 py-1 rounded-md bg-gray-800 text-white text-xs opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none shadow-lg z-50">
                     {name}
                   </span>
                 )}
@@ -170,16 +190,17 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
         </nav>
 
         {/* Footer with Profile */}
-        <div className="p-4 border-t border-[#FFF9EE] flex-shrink-0 bg-gray-50/50">
+        <div className="p-4 border-t border-gray-200 flex-shrink-0 bg-white shadow-sm">
           {/* Profile Section */}
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className={`flex items-center gap-3 w-full p-3 rounded-xl transition-all group hover:bg-[#FFF9EE] ${
-                isProfileOpen ? "bg-[#FFF9EE]" : ""
+              className={`flex items-center gap-3 w-full p-3 rounded-xl transition-all group hover:bg-gray-100 ${
+                isProfileOpen ? "bg-gray-100" : ""
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
+                {/* Avatar color fix */}
                 <div className="w-10 h-10 bg-[#0B5D4E] rounded-full flex items-center justify-center flex-shrink-0">
                   {userData.avatar ? (
                     <img
@@ -188,7 +209,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
                       className="w-10 h-10 rounded-full"
                     />
                   ) : (
-                    <User size={20} className="text-[#E8F4F1]" />
+                    <User size={20} className="text-white" />
                   )}
                 </div>
 
@@ -214,7 +235,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
               )}
 
               {!isOpen && (
-                <span className="absolute left-full ml-2 px-2 py-1 rounded-md bg-gray-800 text-[#E8F4F1] text-xs opacity-0 group-hover:opacity-100 transition [#E8F4F1]space-nowrap pointer-events-none shadow-lg z-50">
+                <span className="absolute left-full ml-2 px-2 py-1 rounded-md bg-gray-800 text-white text-xs opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none shadow-lg z-50">
                   Profile
                 </span>
               )}
@@ -223,12 +244,13 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
             {/* Profile Popup */}
             {isProfileOpen && (
               <div
-                className={`absolute bottom-full mb-2 left-0 right-0 bg-[#E8F4F1] rounded-xl shadow-md border border-[#FFF9EE] overflow-hidden ${
+                className={`absolute bottom-full mb-2 left-0 right-0 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden ${
                   isOpen ? "w-full" : "w-64"
                 }`}
               >
-                <div className="p-4 border-b border-[#FFF9EE]">
+                <div className="p-4 border-b border-gray-200">
                   <div className="flex items-center gap-3 mb-3">
+                    {/* Popup Avatar color fix */}
                     <div className="w-12 h-12 bg-[#0B5D4E] rounded-full flex items-center justify-center flex-shrink-0">
                       {userData.avatar ? (
                         <img
@@ -237,7 +259,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
                           className="w-12 h-12 rounded-full"
                         />
                       ) : (
-                        <User size={24} className="text-[#E8F4F1]" />
+                        <User size={24} className="text-white" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -250,8 +272,9 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-sm text-gray-600 p-2 rounded-lg bg-gray-50">
-                    <Mail size={16} />
+                  {/* Email background fix */}
+                  <div className="flex items-center gap-2 text-sm text-gray-600 p-2 rounded-lg bg-gray-100">
+                    <Mail size={16} className="text-gray-500" />
                     <span className="truncate">{userData.email}</span>
                   </div>
                 </div>
@@ -259,22 +282,22 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: any) {
                 <div className="p-2">
                   <Link
                     href="/dashboard/profile"
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                   >
-                    <User size={16} />
+                    <User size={16} className="text-gray-500" />
                     <span>My Profile</span>
                   </Link>
 
                   <Link
                     href="/dashboard/settings"
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                   >
-                    <Settings size={16} />
+                    <Settings size={16} className="text-gray-500" />
                     <span>Account Settings</span>
                   </Link>
                 </div>
 
-                <div className="p-2 border-t border-[#FFF9EE]">
+                <div className="p-2 border-t border-gray-200">
                   <button className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-red-600 hover:bg-red-50 transition-colors">
                     <LogOut size={16} />
                     <span>Sign Out</span>

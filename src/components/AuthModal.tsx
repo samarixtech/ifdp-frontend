@@ -1,15 +1,19 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
+// import axios from "axios";
+import api from "./services/api";
+import { toast } from "react-hot-toast"; // ⬅️ Toast import
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   mode: "login" | "signup";
   switchMode: (mode: "login" | "signup") => void;
+  onLoginSuccess: () => void; // <--- ADDED: Callback for successful login
 }
 
 export default function AuthModal({
@@ -17,11 +21,24 @@ export default function AuthModal({
   onClose,
   mode,
   switchMode,
+  onLoginSuccess, // <--- ACCEPTED AS PROP
 }: AuthModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const t = useTranslations("authModal");
-  // Close modal on click outside
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+    setPhone("");
+    setLoading(false);
+  }, [isOpen, mode]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -41,6 +58,63 @@ export default function AuthModal({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, onClose]);
 
+  const handleAuthSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (mode === "signup") {
+      // REGISTER
+      const payload = { email, password, role: "user", phone };
+
+      try {
+        const response = await api.post("/auth/register", payload);
+        console.log("Registration successful:", response.data);
+
+        toast.success("Registration successful! You can now log in."); // ⬅️ Toast
+
+        switchMode("login");
+      } catch (error: any) {
+        if (error.response) {
+          toast.error(
+            error.response.data.message ||
+              "Registration failed. Email may already be in use."
+          ); // ⬅️ Toast
+        } else {
+          toast.error("Network error. Please try again."); // ⬅️ Toast
+        }
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // LOGIN
+      const payload = { email, password, role: "user" };
+
+      try {
+        const response = await api.post("/auth/login", payload);
+        console.log("Login successful:", response.data);
+
+        const { accessToken, refreshToken, user }: any = response.data;
+
+        sessionStorage.setItem("authToken", accessToken);
+        sessionStorage.setItem("refreshToken", refreshToken);
+        sessionStorage.setItem("user", JSON.stringify(user));
+
+        toast.success(`Welcome back, ${user.email || "User"}!`); // ⬅️ Toast
+
+        onLoginSuccess(); // <--- CRITICAL: Notify Header of success
+        onClose();
+      } catch (error: any) {
+        if (error.response) {
+          toast.error(error.response.data.message || "Invalid credentials."); // ⬅️ Toast
+        } else {
+          toast.error("Network error. Please try again."); // ⬅️ Toast
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   const title = mode === "login" ? t("welcome") : t("createAccount");
   const subtitle = mode === "login" ? t("continue") : t("freeDelivery");
 
@@ -48,7 +122,6 @@ export default function AuthModal({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* BACKDROP */}
           <motion.div
             className="fixed inset-0 z-50 bg-[#2C2C2C]/25 backdrop-blur-md"
             initial={{ opacity: 0 }}
@@ -57,17 +130,15 @@ export default function AuthModal({
             transition={{ duration: 0.3 }}
           />
 
-          {/* CENTERED MODAL */}
           <motion.div className="fixed inset-0 z-60 flex items-center justify-center p-4">
             <motion.div
-              ref={modalRef} // attach ref here
+              ref={modalRef}
               className="relative w-full max-w-md p-8 rounded-3xl bg-[#E8F4F1]/30 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-[#E8F4F1]/20"
               initial={{ opacity: 0, scale: 0.85, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.85, y: 20 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
             >
-              {/* Close Button */}
               <button
                 onClick={onClose}
                 className="absolute right-5 top-5 p-2 rounded-full hover:bg-[#E8F4F1]/20 transition duration-200"
@@ -75,7 +146,6 @@ export default function AuthModal({
                 <X className="w-6 h-6 text-gray-800 hover:text-[#B6932F]" />
               </button>
 
-              {/* Header */}
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-extrabold text-[#0B5D4E]">
                   {title}
@@ -83,38 +153,53 @@ export default function AuthModal({
                 <p className="text-gray-700 mt-2">{subtitle}</p>
               </div>
 
-              {/* Auth Form */}
-              {/* Auth Form */}
-              <div className="space-y-5">
-                {/* NAME FIELD — Signup Only */}
+              <form onSubmit={handleAuthSubmit} className="space-y-5">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full p-4 rounded-xl border border-[#E8F4F1]/30 bg-[#E8F4F1]/30 backdrop-blur-md 
+                 focus:ring-2 focus:ring-[#0B5D4E] outline-none placeholder-gray-500 transition"
+                />
+
                 {mode === "signup" && (
                   <input
-                    type="text"
-                    placeholder="Full Name"
+                    type="tel"
+                    placeholder="Phone Number (e.g., 9876543210)"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
                     className="w-full p-4 rounded-xl border border-[#E8F4F1]/30 bg-[#E8F4F1]/30 backdrop-blur-md 
                  focus:ring-2 focus:ring-[#0B5D4E] outline-none placeholder-gray-500 transition"
                   />
                 )}
 
                 <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full p-4 rounded-xl border border-[#E8F4F1]/30 bg-[#E8F4F1]/30 backdrop-blur-md 
-               focus:ring-2 focus:ring-[#0B5D4E] outline-none placeholder-gray-500 transition"
-                />
-
-                <input
                   type="password"
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={8}
                   className="w-full p-4 rounded-xl border border-[#E8F4F1]/30 bg-[#E8F4F1]/30 backdrop-blur-md 
-               focus:ring-2 focus:ring-[#0B5D4E] outline-none placeholder-gray-500 transition"
+                 focus:ring-2 focus:ring-[#0B5D4E] outline-none placeholder-gray-500 transition"
                 />
 
                 <button
+                  type="submit"
+                  disabled={loading}
                   className="w-full py-3 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-xl shadow-lg 
-                     hover:shadow-xl hover:bg-[#002a47] transition duration-300 text-lg"
+                     hover:shadow-xl hover:bg-[#002a47] transition duration-300 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {mode === "login" ? "Log In" : "Create Account"}
+                  {loading
+                    ? mode === "login"
+                      ? "Logging In..."
+                      : "Signing Up..."
+                    : mode === "login"
+                    ? "Log In"
+                    : "Create Account"}
                 </button>
 
                 <p className="text-sm text-center text-gray-700 mt-2">
@@ -122,6 +207,7 @@ export default function AuthModal({
                     <>
                       {t("newAccount")}{" "}
                       <button
+                        type="button"
                         onClick={() => switchMode("signup")}
                         className="text-[#0B5D4E] font-semibold hover:underline"
                       >
@@ -132,6 +218,7 @@ export default function AuthModal({
                     <>
                       {t("existingAccount")}{" "}
                       <button
+                        type="button"
                         onClick={() => switchMode("login")}
                         className="text-[#0B5D4E] font-semibold hover:underline"
                       >
@@ -140,11 +227,7 @@ export default function AuthModal({
                     </>
                   )}
                 </p>
-              </div>
-
-              {/* Decorative Gradient Circles */}
-              <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-linear-to-tr from-[#0B5D4E]/60 to-[#61a5c2]/50 blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-12 -left-12 w-36 h-36 rounded-full bg-linear-to-tr from-[#61a5c2]/40 to-[#0B5D4E]/40 blur-3xl pointer-events-none" />
+              </form>
             </motion.div>
           </motion.div>
         </>

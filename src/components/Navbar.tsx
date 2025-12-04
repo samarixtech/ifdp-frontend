@@ -11,7 +11,7 @@ import { useRouter, usePathname, useParams } from "next/navigation";
 import { setCookie, getCookie } from "cookies-next";
 import { countryCurrencyMap } from "@/app/utils/country";
 import CountrySelector from "./ui/CountrySelector";
-import image from './../../public/logo2.png'
+import image from "./../../public/logo2.png";
 interface Language {
   code: string;
   name: string;
@@ -124,14 +124,14 @@ const Navbar: React.FC = () => {
         maxAge: 60 * 60 * 24 * 30,
         path: "/",
       });
-      const newPath = getNewPath(country.code, currentLocaleState);
+      const newPath = `/${country.code.toLowerCase()}/${currentLocaleState.toLowerCase()}/restaurants`;
       router.replace(newPath);
 
       // 4. Close mobile menu if open
       if (isMobileMenuOpen) {
         handleCloseMobileMenu();
       }
-      handleNavigationChange(country.code, currentLocaleState);
+      // handleNavigationChange(country.code, currentLocaleState);
     },
     [
       currentLocaleState,
@@ -255,7 +255,7 @@ const Navbar: React.FC = () => {
 
   // --- Nav Items ---
   const navItems = [
-    { label: t("home"), to: "/" },
+    { label: t("home"), to: "/home" },
     { label: t("about"), to: "/about" },
     { label: t("services"), to: "/services" },
     { label: t("contact"), to: "/contact" },
@@ -271,25 +271,25 @@ const Navbar: React.FC = () => {
     );
   }
 
-  const handleNavigationChange = (
-    newCountryCode: string,
-    newLangCode: string,
-    newTime?: string
-  ) => {
-    let newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/restaurants`;
+  // const handleNavigationChange = (
+  //   newCountryCode: string,
+  //   newLangCode: string,
+  //   newTime?: string
+  // ) => {
+  //   let newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/restaurants`;
 
-    if (newTime) {
-      newPath += `/${newTime.toLowerCase()}`;
-    }
+  //   if (newTime) {
+  //     newPath += `/${newTime.toLowerCase()}`;
+  //   }
 
-    console.log("🔹 Navigation updated to:", newPath);
-    setCookie("NEXT_LOCALE", newLangCode, {
-      maxAge: 60 * 60 * 24 * 30,
-      path: "/",
-    });
+  //   console.log("🔹 Navigation updated to:", newPath);
+  //   setCookie("NEXT_LOCALE", newLangCode, {
+  //     maxAge: 60 * 60 * 24 * 30,
+  //     path: "/",
+  //   });
 
-    window.open(newPath, "_blank");
-  };
+  //   window.open(newPath, "_blank");
+  // };
 
   return (
     <nav className="bg-[#0B5D4E] shadow-lg sticky top-0 z-50">
@@ -297,7 +297,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href={getNewPath(selectedCountry.code, activeLangState.code)}>
-            <Image src={image} alt="Logo" width={220}  />
+            <Image src={image} alt="Logo" width={220} />
           </Link>
 
           {/* Desktop Menu */}
