@@ -99,8 +99,8 @@ const Navbar: React.FC = () => {
           : pathSegments;
 
       const fullPath = [
-        newCountryCode.toLowerCase(),
-        newLangCode.toLowerCase(),
+        // newCountryCode.toLowerCase(),
+        // newLangCode.toLowerCase(),
         ...remainingSegments,
         subPath,
       ]
@@ -142,41 +142,49 @@ const Navbar: React.FC = () => {
     ]
   );
 
-  const changeLanguage = useCallback(
-    (newLocale: string) => {
-      const newLang = languages.find((l) => l.code === newLocale);
-      setCurrentLocaleState(newLocale);
-      setActiveLangState(newLang || languages[0]);
-      setIsDesktopLangOpen(false);
-      setIsMobileLangDropdownOpen(false);
+const changeLanguage = useCallback(
+  (newLocale: string) => {
+    const newLang = languages.find((l) => l.code === newLocale) || languages[0];
 
-      setCookie("NEXT_LOCALE", newLocale, {
-        maxAge: 60 * 60 * 24 * 30,
-        path: "/",
-      });
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem("locale", newLocale);
-      }
-      if (selectedCountry) {
-        const newPath = getNewPath(selectedCountry.code, newLocale);
+    setCurrentLocaleState(newLocale);
+    setActiveLangState(newLang);
+    setIsDesktopLangOpen(false);
+    setIsMobileLangDropdownOpen(false);
 
-        router.replace(newPath);
-      } else {
-        window.location.reload();
-      }
+    setCookie("NEXT_LOCALE", newLocale, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+    });
 
-      if (isMobileMenuOpen) {
-        handleCloseMobileMenu();
-      }
-    },
-    [
-      selectedCountry,
-      getNewPath,
-      router,
-      isMobileMenuOpen,
-      handleCloseMobileMenu,
-    ]
-  );
+    document.documentElement.lang = newLang.code;
+    document.documentElement.dir = newLang.dir;
+
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("locale", newLocale);
+      router.refresh();
+    }
+
+    if (selectedCountry) {
+      const newPath = getNewPath(selectedCountry.code, newLocale);
+      router.replace(newPath);
+      
+    } else {
+      router.refresh();
+    }
+
+    if (isMobileMenuOpen) {
+      handleCloseMobileMenu();
+    }
+  },
+  [
+    selectedCountry,
+    getNewPath,
+    router,
+    isMobileMenuOpen,
+    handleCloseMobileMenu,
+    languages,
+  ]
+);
 
   useEffect(() => {
     const initialize = async () => {

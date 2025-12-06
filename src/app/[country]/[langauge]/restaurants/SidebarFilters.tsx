@@ -1,229 +1,317 @@
-import React, { useState } from 'react';
-import { XIcon, SearchIcon, StarIcon } from 'lucide-react'; 
+import React, { useState } from "react";
+import { XIcon, SearchIcon, ClockIcon } from "lucide-react";
 
-// --- Filter Section ---
-interface FilterSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
-const FilterSection: React.FC<FilterSectionProps> = ({ title, children }) => (
-  <div className="border-b border-[#FFF9EE] py-6 first:pt-0 last:border-b-0">
-    <h2 className="text-lg font-semibold text-gray-800 mb-4">{title}</h2>
+const Section = ({ title, children }: any) => (
+  <div className="pb-8 mb-8 border-b border-gray-200 last:border-none">
+    <h2 className="text-xl font-semibold text-gray-900 mb-5 tracking-wide">
+      {title}
+    </h2>
     {children}
   </div>
 );
 
-// --- Filter Item ---
-interface FilterItemProps {
-  label: string;
-  name: string;
-  type: 'radio' | 'checkbox';
-  checked: boolean;
-  onChange: (value: string) => void;
-}
-const FilterItem: React.FC<FilterItemProps> = ({ label, name, type, checked, onChange }) => {
-  const id = `${name}-${label.replace(/\s/g, '-')}`;
-  return (
-    <div className="flex items-center mb-3">
-      <input
-        id={id}
-        name={name}
-        type={type}
-        checked={checked}
-        onChange={() => onChange(label)}
-        className={`h-5 w-5 border-gray-300 transition duration-150 ease-in-out ${
-          type === 'radio' ? 'text-[#0B5D4E] focus:ring-[#0B5D4E]' : 'text-[#0B5D4E] rounded focus:ring-[#0B5D4E]'
-        }`}
-      />
-      <label htmlFor={id} className="ml-3 text-sm font-medium text-gray-700 cursor-pointer">
-        {label}
-      </label>
-    </div>
-  );
-};
+const FilterItem = ({ label, checked, onChange }: any) => (
+  <label className="flex items-center gap-3 cursor-pointer group">
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={onChange}
+      className="h-5 w-5 accent-[#0B5D4E] transition-all group-hover:scale-110"
+    />
+    <span className="text-gray-700 text-sm group-hover:text-gray-900 transition">
+      {label}
+    </span>
+  </label>
+);
 
-// --- Main Sidebar Filters ---
-const SidebarFilters: React.FC = () => {
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [sortBy, setSortBy] = useState('Relevance');
-  const [quickFilters, setQuickFilters] = useState<string[]>(['Ratings 4+']);
+const Pill = ({ active, children, onClick }: any) => (
+  <button
+    onClick={onClick}
+    className={`
+      px-4 py-2 rounded-full text-sm font-semibold border shadow-sm
+      transition-all hover:shadow-md 
+      ${
+        active
+          ? "bg-[#0B5D4E] text-white border-[#0B5D4E]"
+          : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200"
+      }
+    `}
+  >
+    {children}
+  </button>
+);
+
+const Slider = ({ value, setValue, max, step }: any) => (
+  <div className="mt-3">
+    <input
+      type="range"
+      min="0"
+      max={max}
+      step={step}
+      value={value}
+      onChange={(e) => setValue(Number(e.target.value))}
+      className="w-full accent-[#0B5D4E]"
+    />
+    <div className="text-sm text-gray-600 mt-1">{value}</div>
+  </div>
+);
+
+const SidebarFilters = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [sortBy, setSortBy] = useState("Relevance");
+  const [quickFilters, setQuickFilters] = useState<string[]>([]);
   const [offers, setOffers] = useState<string[]>([]);
+  const [cuisineSearch, setCuisineSearch] = useState("");
   const [cuisines, setCuisines] = useState<string[]>([]);
-  const [cuisineSearch, setCuisineSearch] = useState('');
-  const [showAllCuisines, setShowAllCuisines] = useState(false);
-  const [priceRange, setPriceRange] = useState<string>('$$');
+  const [price, setPrice] = useState("$$");
+  const [rating, setRating] = useState(4);
+  const [deliveryTime, setDeliveryTime] = useState("Any");
+  const [distance, setDistance] = useState(5);
 
-  const sortOptions = ['Relevance', 'Fastest delivery', 'Distance', 'Top rated'];
-  const quickFilterOptions = ['Ratings 4+', 'Super restaurant'];
-  const offerOptions = ['Free delivery', 'Accepts vouchers', 'Deals'];
-  const allCuisines = ['American', 'BBQ', 'Beverages', 'Biryani', 'Broast', 'Burgers', 'Cakes & Bakery', 'Chinese', 'Continental', 'Desserts', 'Fast Food', 'Halwa Puri', 'Pizza'];
+  const allCuisines = [
+    "American",
+    "Biryani",
+    "BBQ",
+    "Beverages",
+    "Chinese",
+    "Pizza",
+    "Broast",
+    "Fast Food",
+    "Halwa Puri",
+    "Desserts",
+    "Burgers",
+  ];
 
-  const handleToggle = (value: string, list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>) => {
-    setList(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
+  const quickOptions = [
+    "Trending",
+    "Popular",
+    "Top Rated",
+    "New",
+    "Nearby",
+    "Pure Veg",
+    "Halal",
+  ];
+
+  const offerOptions = [
+    "Free Delivery",
+    "Deals",
+    "Voucher Accepted",
+    "Buy 1 Get 1",
+  ];
+
+  const resetAll = () => {
+    setSortBy("Relevance");
+    setQuickFilters([]);
+    setOffers([]);
+    setCuisineSearch("");
+    setCuisines([]);
+    setPrice("$$");
+    setRating(4);
+    setDeliveryTime("Any");
+    setDistance(5);
   };
 
-  const filteredCuisines = allCuisines.filter(c => c.toLowerCase().includes(cuisineSearch.toLowerCase()));
-  const displayedCuisines = showAllCuisines || filteredCuisines.length <= 8 ? filteredCuisines : filteredCuisines.slice(0, 8);
-
-  const sidebarContent = (
-    <div className="p-6 text-[#2C2C2C] lg:sticky lg:top-20">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6 hidden lg:block">Filters</h1>
-
-      {/* Mobile Header */}
-      <div className="flex justify-between items-center pb-4 mb-4 border-b lg:hidden">
-        <h1 className="text-xl font-bold text-gray-900">Filters</h1>
-        <button onClick={() => setIsMobileOpen(false)} className="text-gray-500 hover:text-gray-900">
+  // --------------------------------------------------------------------
+  // MAIN CONTENT (fixed height for mobile)
+  // --------------------------------------------------------------------
+  const SidebarContent = (
+    <div className="flex flex-col h-full">
+      {/* HEADER (Mobile Only) */}
+      <div className="flex justify-between items-center lg:hidden p-4 border-b">
+        <h1 className="text-xl font-bold">Filters</h1>
+        <button onClick={() => setIsOpen(false)}>
           <XIcon className="w-6 h-6" />
         </button>
       </div>
 
-      {/* Sort By */}
-      <FilterSection title="Sort by">
-        {sortOptions.map((option) => (
-          <FilterItem
-            key={option}
-            label={option}
-            name="sort-by"
-            type="radio"
-            checked={sortBy === option}
-            onChange={setSortBy}
-          />
-        ))}
-      </FilterSection>
+      {/* SCROLL CONTENT */}
+      <div className="p-6 overflow-y-auto scrollbar-hide flex-1">
+        {/* Sort */}
+        <Section title="Sort by">
+          <div className="flex flex-col gap-3">
+            {["Relevance", "Fastest", "Top Rated", "Nearest"].map((o) => (
+              <label key={o} className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  checked={sortBy === o}
+                  onChange={() => setSortBy(o)}
+                  name="sort"
+                  className="accent-[#0B5D4E]"
+                />
+                <span>{o}</span>
+              </label>
+            ))}
+          </div>
+        </Section>
 
-      {/* Quick Filters */}
-      <FilterSection title="Quick filters">
-        <div className="flex flex-wrap gap-2">
-          {quickFilterOptions.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => handleToggle(filter, quickFilters, setQuickFilters)}
-              className={`flex items-center px-4 py-2 text-sm font-semibold rounded-full transition-colors duration-150 ${
-                quickFilters.includes(filter)
-                  ? 'bg-[#0B5D4E] text-[#E8F4F1] shadow-md'
-                  : 'bg-[#E8F4F1] text-gray-700 border border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              {filter === 'Super restaurant' && <StarIcon className="w-4 h-4 mr-1 text-yellow-400" />}
-              {filter}
-            </button>
-          ))}
-        </div>
-      </FilterSection>
+        {/* Quick */}
+        <Section title="Quick Filters">
+          <div className="flex flex-wrap gap-2">
+            {quickOptions.map((q) => (
+              <Pill
+                key={q}
+                active={quickFilters.includes(q)}
+                onClick={() =>
+                  setQuickFilters((prev) =>
+                    prev.includes(q)
+                      ? prev.filter((x) => x !== q)
+                      : [...prev, q]
+                  )
+                }
+              >
+                {q}
+              </Pill>
+            ))}
+          </div>
+        </Section>
 
-      {/* Offers */}
-      <FilterSection title="Offers">
-        {offerOptions.map((offer) => (
-          <FilterItem
-            key={offer}
-            label={offer}
-            name="offers"
-            type="checkbox"
-            checked={offers.includes(offer)}
-            onChange={(val) => handleToggle(val, offers, setOffers)}
-          />
-        ))}
-      </FilterSection>
+        {/* Offers */}
+        <Section title="Offers">
+          <div className="flex flex-col gap-3">
+            {offerOptions.map((o) => (
+              <FilterItem
+                key={o}
+                label={o}
+                checked={offers.includes(o)}
+                onChange={() =>
+                  setOffers((prev) =>
+                    prev.includes(o)
+                      ? prev.filter((x) => x !== o)
+                      : [...prev, o]
+                  )
+                }
+              />
+            ))}
+          </div>
+        </Section>
 
-      {/* Cuisines */}
-      <FilterSection title="Cuisines">
-        <div className="relative mb-4">
-          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search cuisines"
-            value={cuisineSearch}
-            onChange={(e) => setCuisineSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-[#0B5D4E] focus:border-[#0B5D4E] text-sm"
-          />
-        </div>
+        {/* Rating */}
+        <Section title="Minimum Rating">
+          <Slider value={rating} setValue={setRating} max={5} step={0.1} />
+        </Section>
 
-        <div className="max-h-56 overflow-y-auto pr-2">
-          {displayedCuisines.map((cuisine) => (
-            <FilterItem
-              key={cuisine}
-              label={cuisine}
-              name="cuisines"
-              type="checkbox"
-              checked={cuisines.includes(cuisine)}
-              onChange={(val) => handleToggle(val, cuisines, setCuisines)}
+        {/* Delivery Time */}
+        <Section title="Delivery Time">
+          <div className="flex gap-2 flex-wrap">
+            {["Any", "15-30 mins", "30-45 mins", "45-60 mins"].map((t) => (
+              <Pill
+                key={t}
+                active={deliveryTime === t}
+                onClick={() => setDeliveryTime(t)}
+              >
+                <ClockIcon className="w-4 h-4 inline-block mr-1" />
+                {t}
+              </Pill>
+            ))}
+          </div>
+        </Section>
+
+        {/* Distance */}
+        <Section title="Distance (km)">
+          <Slider value={distance} setValue={setDistance} max={20} step={1} />
+        </Section>
+
+        {/* Cuisines */}
+        <Section title="Cuisines">
+          <div className="relative mb-4">
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-[#0B5D4E] border-gray-300"
+              placeholder="Search..."
+              value={cuisineSearch}
+              onChange={(e) => setCuisineSearch(e.target.value)}
             />
-          ))}
-        </div>
+          </div>
 
-        {filteredCuisines.length > 8 && (
+          <div className="flex flex-col gap-3 max-h-48 overflow-y-auto scrollbar-hide">
+            {allCuisines
+              .filter((c) =>
+                c.toLowerCase().includes(cuisineSearch.toLowerCase())
+              )
+              .map((c) => (
+                <FilterItem
+                  key={c}
+                  label={c}
+                  checked={cuisines.includes(c)}
+                  onChange={() =>
+                    setCuisines((prev) =>
+                      prev.includes(c)
+                        ? prev.filter((x) => x !== c)
+                        : [...prev, c]
+                    )
+                  }
+                />
+              ))}
+          </div>
+        </Section>
+
+        {/* Price */}
+        <Section title="Price">
+          <div className="flex gap-2">
+            {["$", "$$", "$$$"].map((p) => (
+              <Pill key={p} active={price === p} onClick={() => setPrice(p)}>
+                {p}
+              </Pill>
+            ))}
+          </div>
+        </Section>
+      </div>
+
+      {/* UNIVERSAL APPLY + RESET BUTTONS (DESKTOP + MOBILE BOTH) */}
+      <div className="p-4 border-t bg-white sticky bottom-0">
+        <div className="flex gap-3">
           <button
-            onClick={() => setShowAllCuisines(prev => !prev)}
-            className="mt-2 text-sm text-[#0B5D4E] hover:text-yellow-800 font-semibold transition"
+            onClick={resetAll}
+            className="flex-1 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-100"
           >
-            {showAllCuisines ? 'Show less' : 'Show more'}
+            Reset
           </button>
-        )}
-      </FilterSection>
 
-      {/* Price */}
-      <FilterSection title="Price">
-        <div className="flex space-x-2">
-          {['$', '$$', '$$$'].map((price) => (
-            <button
-              key={price}
-              onClick={() => setPriceRange(price)}
-              className={`flex-1 px-4 py-2 text-sm font-bold rounded-lg transition-colors duration-150 border-2 ${
-                priceRange === price
-                  ? 'bg-[#0B5D4E] text-[#E8F4F1] border-[#0B5D4E] shadow-md'
-                  : 'bg-[#E8F4F1] text-gray-700 border-[#FFF9EE] hover:border-gray-400'
-              }`}
-            >
-              {price}
-            </button>
-          ))}
+          <button
+            onClick={() => setIsOpen(false)}
+            className="flex-1 py-3 bg-[#0B5D4E] text-white rounded-lg font-semibold shadow hover:bg-[#08483C]"
+          >
+            Apply
+          </button>
         </div>
-      </FilterSection>
-
-      {/* Mobile Apply/Reset */}
-      <div className="lg:hidden mt-6 pt-4 border-t border-[#FFF9EE] flex space-x-3 sticky bottom-0 bg-[#E8F4F1] shadow-2xl p-4 -mx-4 -mb-4">
-        <button className="flex-1 px-4 py-3 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-lg hover:bg-[#0B5D4E] transition">
-          Apply Filters
-        </button>
-        <button className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-bold rounded-lg hover:bg-[#FFF9EE] transition">
-          Reset
-        </button>
       </div>
     </div>
   );
 
   return (
     <>
-      {/* Mobile Filter Button */}
+      {/* MOBILE FLOATING BUTTON */}
       <button
-        onClick={() => setIsMobileOpen(true)}
-        className="fixed right-4 bottom-4 z-40 lg:hidden p-4 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-full shadow-lg hover:bg-[#0B5D4E] transition"
-        aria-label="Open Filters"
+        onClick={() => setIsOpen(true)}
+        className="fixed right-4 bottom-4 z-50 p-4 bg-[#0B5D4E] text-white rounded-full shadow-lg lg:hidden"
       >
         Filters
       </button>
 
-      {/* Desktop Sidebar */}
-      <aside className=" bg-[#E8F4F1] hidden lg:block lg:w-72 lg:shrink-0 lg:pr-8 sticky top-40 h-[calc(100vh-160px)] overflow-y-auto">
-        {sidebarContent}
+      {/* DESKTOP SIDEBAR */}
+      <aside className=" hidden lg:block w-80 p-2 h-[calc(100vh-150px)] sticky top-36 overflow-hidden">
+        <div className="rounded-2xl shadow-xl h-full overflow-hidden bg-[#E8F4F1]">
+          {SidebarContent}
+        </div>
       </aside>
 
-      {/* Mobile Off-Canvas */}
+      {/* MOBILE DRAWER */}
       <div
-        className={`fixed inset-0 z-[100] transition-all duration-300 ease-in-out lg:hidden ${
-          isMobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
+        className={`fixed inset-0 z-50 transition-all duration-300 lg:hidden
+          ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
       >
         <div
-          className={`absolute inset-0 bg-[#2C2C2C]/50 transition-opacity ${isMobileOpen ? 'opacity-100' : 'opacity-0'}`}
-          onClick={() => setIsMobileOpen(false)}
+          onClick={() => setIsOpen(false)}
+          className="absolute inset-0 bg-black/40"
         ></div>
+
         <div
-          className={`absolute left-0 top-0 h-full w-full max-w-sm bg-[#E8F4F1] shadow-2xl transform transition-transform duration-300 ${
-            isMobileOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+          className={`absolute left-0 top-0 h-full w-[310px] bg-white rounded-r-xl shadow-xl 
+            transition-transform duration-300
+            ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
-          {sidebarContent}
+          {SidebarContent}
         </div>
       </div>
     </>
