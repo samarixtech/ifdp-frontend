@@ -4,7 +4,14 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/redux/store/store";
 import { updateQuantity } from "@/redux/slices/cartSlice";
-import { Minus, Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Minus,
+  Plus,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  ShoppingBasket,
+} from "lucide-react";
 import { CartItem } from "@/types/menu";
 import { useCLC } from "@/app/context/CLCContext.tsx";
 
@@ -12,8 +19,8 @@ interface CartSidebarProps {
   onCheckout: () => void;
 }
 
-const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
-    const { currency } = useCLC(); 
+const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout }) => {
+  const { currency } = useCLC();
   const cart = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -25,7 +32,10 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
   };
 
   // --- Calculations ---
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
   const deliveryFee = isDelivery ? 129 : 0;
   const tax = subtotal * 0.05;
   const total = subtotal + deliveryFee + tax;
@@ -38,7 +48,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
           <button
             onClick={() => setIsDelivery(true)}
             className={`flex-1 text-xs font-bold py-1 rounded-lg transition ${
-              isDelivery ? "bg-[#E8F4F1] shadow text-[#0B5D4E]" : "text-gray-500"
+              isDelivery
+                ? "bg-[#E8F4F1] shadow text-[#0B5D4E]"
+                : "text-gray-500"
             }`}
           >
             Delivery
@@ -46,7 +58,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
           <button
             onClick={() => setIsDelivery(false)}
             className={`flex-1 text-xs font-bold py-1 rounded-lg transition ${
-              !isDelivery ? "bg-[#E8F4F1] shadow text-[#0B5D4E]" : "text-gray-500"
+              !isDelivery
+                ? "bg-[#E8F4F1] shadow text-[#0B5D4E]"
+                : "text-gray-500"
             }`}
           >
             Pick-up
@@ -54,11 +68,8 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
         </div>
 
         <div className="text-center py-6 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-          <img
-            src="/images/cart-empty.png"
-            alt="Empty Cart"
-            className="mx-auto w-14 h-14 mb-2"
-          />
+          <ShoppingBasket className="h-10 w-10 mx-auto mb-2 text-gray-700" />
+
           <h3 className="text-sm font-semibold text-gray-800">Hungry?</h3>
           <p className="text-xs text-gray-500">
             You haven’t added anything yet.
@@ -86,7 +97,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
           <button
             onClick={() => setIsDelivery(true)}
             className={`flex-1 text-xs font-bold py-1 rounded-lg transition ${
-              isDelivery ? "bg-[#E8F4F1] shadow text-[#0B5D4E]" : "text-gray-500"
+              isDelivery
+                ? "bg-[#E8F4F1] shadow text-[#0B5D4E]"
+                : "text-gray-500"
             }`}
           >
             Delivery
@@ -94,7 +107,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
           <button
             onClick={() => setIsDelivery(false)}
             className={`flex-1 text-xs font-bold py-1 rounded-lg transition ${
-              !isDelivery ? "bg-[#E8F4F1] shadow text-[#0B5D4E]" : "text-gray-500"
+              !isDelivery
+                ? "bg-[#E8F4F1] shadow text-[#0B5D4E]"
+                : "text-gray-500"
             }`}
           >
             Pick-up
@@ -115,7 +130,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
                 className="w-12 h-12 object-cover rounded-md"
               />
               <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-800 truncate">{item.name}</p>
+                <p className="text-sm font-semibold text-gray-800 truncate">
+                  {item.name}
+                </p>
                 <p className="text-[11px] text-gray-500 italic">
                   {item.description?.split(". ")[0] || "Standard"}
                 </p>
@@ -129,15 +146,21 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
             <div className="flex flex-col items-end ml-2">
               <div className="flex items-center border border-gray-300 rounded-full px-1">
                 <button
-                  onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                  onClick={() =>
+                    handleUpdateQuantity(item.id, item.quantity - 1)
+                  }
                   disabled={item.quantity <= 1}
                   className="p-0.5 text-gray-600 hover:bg-[#FFF9EE] rounded-full disabled:opacity-50"
                 >
                   <Minus size={12} />
                 </button>
-                <span className="px-1 text-xs font-semibold text-gray-900">{item.quantity}</span>
+                <span className="px-1 text-xs font-semibold text-gray-900">
+                  {item.quantity}
+                </span>
                 <button
-                  onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                  onClick={() =>
+                    handleUpdateQuantity(item.id, item.quantity + 1)
+                  }
                   className="p-0.5 bg-green-50 text-green-600 hover:bg-green-100 rounded-full"
                 >
                   <Plus size={12} />
@@ -186,15 +209,21 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout}) => {
           <div className="space-y-1 text-xs text-gray-600 mb-2 border-t pt-1">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>{currency}. {subtotal.toLocaleString()}</span>
+              <span>
+                {currency}. {subtotal.toLocaleString()}
+              </span>
             </div>
             <div className="flex justify-between">
               <span>Delivery Fee {isDelivery ? "" : "(N/A)"}</span>
-              <span>{isDelivery ? `${currency}. ${deliveryFee}` : `${currency}. 0`}</span>
+              <span>
+                {isDelivery ? `${currency}. ${deliveryFee}` : `${currency}. 0`}
+              </span>
             </div>
             <div className="flex justify-between">
               <span>Tax (5%)</span>
-              <span>{currency}. {tax.toFixed(2)}</span>
+              <span>
+                {currency}. {tax.toFixed(2)}
+              </span>
             </div>
           </div>
         )}

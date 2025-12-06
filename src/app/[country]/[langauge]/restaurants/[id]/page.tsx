@@ -43,7 +43,7 @@ const mockSimilarRestaurants: SimilarRestaurant[] = [
       "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
     promoText: "Free Delivery",
   },
-    {
+  {
     id: "Q2",
     name: "Quattro Uno",
     rating: 4.5,
@@ -55,7 +55,7 @@ const mockSimilarRestaurants: SimilarRestaurant[] = [
       "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
     promoText: "Free Delivery",
   },
-    {
+  {
     id: "Q3",
     name: "Quattro Uno",
     rating: 4.5,
@@ -67,7 +67,7 @@ const mockSimilarRestaurants: SimilarRestaurant[] = [
       "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
     promoText: "Free Delivery",
   },
-    {
+  {
     id: "Q4",
     name: "Quattro Uno",
     rating: 4.5,
@@ -79,7 +79,7 @@ const mockSimilarRestaurants: SimilarRestaurant[] = [
       "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format",
     promoText: "Free Delivery",
   },
-    {
+  {
     id: "Q5",
     name: "Quattro Uno",
     rating: 4.5,
@@ -107,7 +107,7 @@ interface DynamicParams {
   country: string;
   langauge: string;
   id: string;
-  currency:any;
+  currency: any;
   [key: string]: string;
 }
 interface FoodCardProps {
@@ -125,7 +125,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ item, onAddItem, onClick }) => {
       className="group relative bg-[#E8F4F1] border border-[#FFF9EE] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer max-w-sm flex"
     >
       {/* Image */}
-      <div className="relative w-28 h-28 overflow-hidden rounded-l-xl flex-shrink-0">
+      <div className="relative w-28 h-28 overflow-hidden rounded-l-xl shrink-0">
         <img
           src={item.imageUrl}
           alt={item.name}
@@ -143,11 +143,13 @@ const FoodCard: React.FC<FoodCardProps> = ({ item, onAddItem, onClick }) => {
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col justify-between flex-grow">
+      <div className="p-4 flex flex-col justify-between grow">
         <h4 className="font-semibold text-gray-900 text-sm truncate">
           {item.name}
         </h4>
-        <p className="text-gray-500 text-xs mt-1 line-clamp-3">{item.description}</p>
+        <p className="text-gray-500 text-xs mt-1 line-clamp-3">
+          {item.description}
+        </p>
         <p className="text-green-600 font-bold mt-2 text-sm">
           {`${currency} ${item.price}`}
         </p>
@@ -156,26 +158,28 @@ const FoodCard: React.FC<FoodCardProps> = ({ item, onAddItem, onClick }) => {
   );
 };
 
-
 export default function RestaurantPage() {
   const router = useRouter();
-  const {id} = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const cart = useSelector((state: RootState) => state.cart.items);
   const [activeTab, setActiveTab] = useState("Popular (5)");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const { setCLC, country, currency, language } = useCLC();
-const params = useParams();
+  const params = useParams();
 
-useEffect(() => {
-  let c = Array.isArray(params?.country) ? params.country[0] : params?.country || (getCookie("NEXT_COUNTRY") as string) || "US";
-  let l = Array.isArray(params?.language) ? params.language[0] : params?.language || (getCookie("NEXT_LOCALE") as string) || "en";
-  const cur = (getCookie("NEXT_CURRENCY") as string) || "$";
+  useEffect(() => {
+    let c = Array.isArray(params?.country)
+      ? params.country[0]
+      : params?.country || (getCookie("NEXT_COUNTRY") as string) || "US";
+    let l = Array.isArray(params?.language)
+      ? params.language[0]
+      : params?.language || (getCookie("NEXT_LOCALE") as string) || "en";
+    const cur = (getCookie("NEXT_CURRENCY") as string) || "$";
 
-  setCLC({ country: c.toUpperCase(), currency: cur, language: l });
-}, [params?.country, params?.language]);
-
+    setCLC({ country: c.toUpperCase(), currency: cur, language: l });
+  }, [params?.country, params?.language]);
 
   // --- Mock Menu Items ---
   const menuSections = [
@@ -262,16 +266,15 @@ useEffect(() => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-40">
         {/* Breadcrumb */}
-     <div className="text-sm text-gray-500 mb-4 hidden md:block">
-  {country?.toUpperCase()} &gt; {language?.toUpperCase()} &gt; 
-  <span className="font-semibold text-gray-700">{id}</span>
-</div>
-
+        <div className="text-sm text-gray-500 mb-4 hidden md:block">
+          {country?.toUpperCase()} &gt; {language?.toUpperCase()} &gt;
+          <span className="font-semibold text-gray-700">{id}</span>
+        </div>
 
         {/* Restaurant Header */}
         <div className="flex items-start pb-4">
           <img
-            src="/images/subway-logo.png"
+            src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&auto=format"
             alt="Subway Logo"
             className="w-24 h-24 rounded-full mr-4 object-cover ring-4 ring-green-100 shadow-md"
           />
@@ -283,7 +286,8 @@ useEffect(() => {
             <div className="flex items-center text-sm text-gray-500 mt-3 space-x-6">
               <span className="text-green-600 font-semibold">★ 4.7 Rating</span>
               <span className="flex items-center">
-                <ShoppingBag size={14} className="mr-1" /> {currency} 189 delivery fee
+                <ShoppingBag size={14} className="mr-1" /> {currency} 189
+                delivery fee
               </span>
               <span className="flex items-center">
                 <Clock size={14} className="mr-1" /> 30 Min
@@ -330,15 +334,14 @@ useEffect(() => {
           {/* Menu */}
           <div className="max-w-4xl mx-auto px-4 py-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {filteredMenu.map((item:any) => (
+              {filteredMenu.map((item: any) => (
                 <FoodCard
                   key={item.id}
-                   item={{ ...item, currency }}
+                  item={{ ...item, currency }}
                   onAddItem={handleAddToCart}
                   onClick={() => setSelectedItem(item)}
                 />
               ))}
-              
             </div>
           </div>
 

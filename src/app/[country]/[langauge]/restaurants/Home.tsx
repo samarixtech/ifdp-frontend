@@ -4,6 +4,10 @@ import React, { useEffect, useState } from "react";
 import image from "./../../../../../public/logo.png";
 import Image from "next/image";
 import { useAutoLocation } from "@/hooks/useAutoLocation";
+import GPSLoader from "@/components/ui/restaurants/GpsLoader";
+import Loader from "@/components/ui/restaurants/Loader";
+import ErrorState from "@/components/ui/restaurants/ErrorState";
+import { motion } from "framer-motion";
 
 const cuisines = [
   {
@@ -213,35 +217,40 @@ const Home: React.FC = () => {
       <SectionTitle title="New on Jayak Hub" />
 
       {loading ? (
-        <div className="text-center py-8">
-          <p className="text-gray-600">
-            {isDetectingLocation
-              ? "Detecting your location..."
-              : "Loading restaurants..."}
-          </p>
-        </div>
+        isDetectingLocation ? (
+          <GPSLoader />
+        ) : (
+          <Loader count={4} />
+        )
       ) : error ? (
-        <div className="text-center py-8">
-          <p className="text-red-600">Error: {error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-2 bg-[#0B5D4E] text-white px-4 py-2 rounded-md"
-          >
-            Retry
-          </button>
-        </div>
+        <ErrorState message={error} onRetry={() => window.location.reload()} />
       ) : restaurants.length === 0 ? (
-        <div className="text-center py-8">
-          <p className="text-gray-600">No restaurants found in your area.</p>
+        <div className="text-center py-12">
+          <img
+            src="/empty-food.svg"
+            className="w-32 h-32 mx-auto mb-4 opacity-70"
+          />
+          <p className="text-gray-600 text-lg font-medium">
+            No restaurants found in your area.
+          </p>
+          <p className="text-gray-500 text-sm mt-1">
+            Try adjusting your filters or location.
+          </p>
         </div>
       ) : (
         <HorizontalScroller>
-          {restaurants.map((restaurant) => (
-            <div
+          {restaurants.map((restaurant, index) => (
+            <motion.div
               key={restaurant.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.05, // stagger fade-in
+              }}
               onClick={() =>
                 router.push(
-                  `/${country}/${language}/restaurants/${restaurant.id}`
+                  `/${country}/${language}/restaurants/${restaurant.nameEn}`
                 )
               }
               className="cursor-pointer"
@@ -251,7 +260,7 @@ const Home: React.FC = () => {
                 currency={currency}
                 language={language}
               />
-            </div>
+            </motion.div>
           ))}
         </HorizontalScroller>
       )}
