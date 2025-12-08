@@ -278,7 +278,7 @@ const SidebarFilters = () => {
   return (
     <>
       {/* MOBILE BUTTON */}
-      <button
+         <button
         onClick={() => setIsOpen(true)}
         className="fixed right-4 bottom-4 z-50 p-2 bg-[#0B5D4E] text-white rounded-md shadow-lg lg:hidden"
       >

@@ -155,179 +155,99 @@
 }
 
 /* ---------------------------------------
-   SOFT PREMIUM SCROLLBAR
+   SCROLL (WORKS BUT HIDDEN)
 ----------------------------------------- */
+
+html, body {
+  overflow: auto !important;     /* Scroll enabled */
+}
+
+/* Hide scrollbar (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-  width: 8px;
+  display: none !important;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--secondary);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(11, 93, 78, 0.75);
-  border-radius: 10px;
-  border: 2px solid var(--secondary);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(11, 93, 78, 0.95);
-}
-
-/* Firefox */
+/* Hide scrollbar (Firefox) */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(131, 163, 157, 0.229) var(--secondary);
+  scrollbar-width: none !important;
 }
 
 /* ---------------------------------------
    ANIMATIONS
 ----------------------------------------- */
 @keyframes fadeSlide {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
-.animate-fadeSlide {
-  animation: fadeSlide 0.3s ease-out;
-}
+.animate-fadeSlide { animation: fadeSlide 0.3s ease-out; }
 
 @keyframes floatGentle {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
-.animate-float {
-  animation: floatGentle 4s ease-in-out infinite;
-}
+.animate-float { animation: floatGentle 4s ease-in-out infinite; }
 
 @keyframes scaleIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  0% { opacity: 0; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
 }
-.animate-scaleIn {
-  animation: scaleIn 0.25s ease-out;
-}
+.animate-scaleIn { animation: scaleIn 0.25s ease-out; }
 
 /* ---------------------------------------
    DRAWER SLIDE ANIMATION
 ----------------------------------------- */
 @keyframes slideInLeft {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
 }
-.animate-slideInLeft {
-  animation: slideInLeft 0.28s ease-out;
+.animate-slideInLeft { animation: slideInLeft 0.28s ease-out; }
+
+/* ---------------------------------------
+   SHIMMER EFFECT
+----------------------------------------- */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer {
+  animation: shimmer 1.8s infinite linear;
 }
 
 /* ---------------------------------------
-   SHIMMER EFFECT ON RESTAURANTS CARD
+   RTL / LTR SUPPORT
 ----------------------------------------- */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-shimmer {
-  animation: shimmer 1.8s infinite linear;
-/* globals.css */
-
-/* 1️⃣ Default text and layout */
 body {
   font-family: var(--font-geist-sans), sans-serif;
-  line-height: 1.6;
   margin: 0;
   padding: 0;
 }
 
-/* 2️⃣ Direction based */
-html[dir="ltr"] {
-  direction: ltr;
-  text-align: left;
-}
+html[dir="ltr"] { direction: ltr; text-align: left; }
+html[dir="rtl"] { direction: rtl; text-align: right; }
 
-html[dir="rtl"] {
-  direction: rtl;
-  text-align: right;
-}
-
-/* 3️⃣ Global helpers for margins/paddings */
 html[dir="ltr"] .ml-auto { margin-left: auto; }
 html[dir="ltr"] .mr-auto { margin-right: auto; }
 
 html[dir="rtl"] .ml-auto { margin-right: auto; }
 html[dir="rtl"] .mr-auto { margin-left: auto; }
 
-/* 4️⃣ Floating elements */
 html[dir="ltr"] .float-left { float: left; }
 html[dir="ltr"] .float-right { float: right; }
 
 html[dir="rtl"] .float-left { float: right; }
 html[dir="rtl"] .float-right { float: left; }
 
-/* 5️⃣ Flexbox direction adjustments */
-html[dir="ltr"] .flex-row { flex-direction: row; }
-html[dir="ltr"] .flex-row-reverse { flex-direction: row-reverse; }
-
-html[dir="rtl"] .flex-row { flex-direction: row-reverse; }
-html[dir="rtl"] .flex-row-reverse { flex-direction: row; }
-
-/* 6️⃣ Text alignment utility */
 html[dir="ltr"] .text-left { text-align: left; }
 html[dir="ltr"] .text-right { text-align: right; }
 
 html[dir="rtl"] .text-left { text-align: right; }
 html[dir="rtl"] .text-right { text-align: left; }
-/* Global styles for text alignment based on direction */
-body.ltr {
-  text-align: left;
-  direction: ltr;
-}
 
-body.rtl {
-  text-align: right;
-  direction: rtl;
-}
+body.ltr { direction: ltr; text-align: left; }
+body.rtl { direction: rtl; text-align: right; }
 
-/* Example: Sidebar placement */
-.sidebar {
-  float: left; /* LTR */
-}
+.sidebar { float: left; }
+body.rtl .sidebar { float: right; }
 
-body.rtl .sidebar {
-  float: right; /* RTL */
-}
-
-/* Padding and margin flip */
-.ltr-padding {
-  padding-left: 16px;
-}
-.rtl-padding {
-  padding-right: 16px;
-}
-}
+.ltr-padding { padding-left: 16px; }
+.rtl-padding { padding-right: 16px; }

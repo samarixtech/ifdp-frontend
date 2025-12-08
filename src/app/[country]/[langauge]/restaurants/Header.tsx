@@ -214,7 +214,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     >
       <button
         onClick={toggleDropdown}
-        className={`flex items-center w-full p-3 rounded-lg border transition-all duration-200 bg-[#E8F4F1] shadow-sm hover:shadow-md focus:outline-none focus:ring-2 ${
+        className={`flex items-center w-full md:p-3 p-1 rounded-lg border transition-all duration-200 bg-[#E8F4F1] shadow-sm hover:shadow-md focus:outline-none focus:ring-2 ${
           isOpen
             ? "border-[#0B5D4E] ring-[#0B5D4E]"
             : "border-[#FFF9EE] hover:border-[#0B5D4E] hover:ring-1 hover:ring-[#0B5D4E]"
@@ -236,7 +236,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           absolute top-full mt-2 rounded-b-2xl shadow-2xl bg-[#E8F4F1] p-4 transition-all duration-300 origin-top z-50 overflow-auto border border-[#FFF9EE]
           ${
             isLocation
-              ? "w-full sm:w-[350px] right-0 lg:left-0"
+              ? "w-full sm:w-[300px] right-0 lg:left-0"
               : "w-40 right-0"
           }
           ${
@@ -461,13 +461,13 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
 
   // Content for the Location Dropdown
   const locationContent = (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col md:space-y-4 space-y-2">
       <h3 className="text-lg font-bold text-gray-800">{tLocation("title")}</h3>
 
       <button
         onClick={getCurrentLocation}
         // MODIFIED: Use theme green for primary action button
-        className="w-full p-3 bg-[#0B5D4E] text-[#E8F4F1] font-bold rounded-lg hover:bg-[#084838] transition"
+        className="w-full md:p-3 p-1 bg-[#0B5D4E] text-[#E8F4F1] font-bold text-sm rounded-lg hover:bg-[#084838] transition"
       >
         Use Current Location
       </button>
@@ -476,12 +476,12 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
         type="text"
         placeholder={tLocation("placeholder")}
         // MODIFIED: Use theme green for focus ring/border
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] transition"
+        className="w-full md:p-3 p-1 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0B5D4E] focus:border-[#0B5D4E] transition"
       />
 
       <div className="text-sm text-gray-500 mt-2">
         Current:{" "}
-        <span className="font-semibold text-gray-700">{currentAddress}</span>
+        <span className="font-semibold text-gray-700 text-[12px]">{currentAddress}</span>
       </div>
     </div>
   );
@@ -534,8 +534,8 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 shadow-lg">
-        <div className="bg-[#0B5D4E] text-[#E8F4F1] text-sm py-2 px-4 shadow-md">
+      <header className="fixed top-0 left-0 w-full z-50 shadow-lg ">
+        <div className="bg-[#0B5D4E] text-[#E8F4F1] text-sm py-2 md:px-4 shadow-md px-5 ">
           <div className="max-w-7xl mx-auto flex justify-between items-center h-10">
             <Link href="/home" className="flex items-center">
               <Image
@@ -547,10 +547,10 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
                 priority
               />
             </Link>
-            <div className="flex items-center space-x-2 text-xs sm:text-sm">
+            <div className="flex items-center space-x-2 text-xs md:text-sm  text-[12px]">
               <Link
                 href="/partner"
-                className="py-1 px-2 border border-[#E8F4F1] hover:bg-[#084838] transition duration-150 rounded-md shrink-0"
+                className="hidden sm:block py-1 px-2 border border-[#E8F4F1] hover:bg-[#084838] transition duration-150 rounded-md shrink-0"
               >
                 {tHeader("topBar.partnerSignup")}
               </Link>
@@ -560,13 +560,19 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
               >
                 {tHeader("topBar.businessSignup")}
               </Link>
+                 <Dropdown
+                  label={activeLang.code.toUpperCase()}
+                  icon={Globe}
+                  content={languageContent}
+                />
+
             </div>
           </div>
         </div>
         <nav className="bg-[#E8F4F1] shadow-xl">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
             <div className="flex justify-between items-center h-12 space-x-2">
-              <div className="flex items-center space-x-3 lg:space-x-12 w-full lg:w-[360px]">
+              <div className="flex items-center space-x-2 lg:space-x-12 w-full lg:w-[360px]">
                 <Dropdown
                   label={currentAddress}
                   icon={MapPin}
@@ -595,15 +601,18 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
                 )}
 
                 {/* Language Dropdown (Kept it small) */}
-                <Dropdown
+            <div className="hidden sm:block">
+                  <Dropdown
                   label={activeLang.code.toUpperCase()}
                   icon={Globe}
                   content={languageContent}
                 />
+            </div>
 
                 <button
                   onClick={() => setIsDrawerOpen(true)}
-                  className="relative p-3 bg-[#0B5D4E] rounded-full hover:bg-[#084838] transition duration-150 focus:outline-none focus:ring-2 focus:ring-[#0B5D4E]"
+                  
+                  className="relative hidden sm:block  p-3 bg-[#0B5D4E] rounded-full hover:bg-[#084838] transition duration-150 focus:outline-none focus:ring-2 focus:ring-[#0B5D4E]"
                   aria-label="Cart"
                 >
                   <FiShoppingBag className="w-6 h-6 text-[#E8F4F1]" />
