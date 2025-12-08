@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { XIcon, SearchIcon, ClockIcon } from "lucide-react";
+import { XIcon, SearchIcon, ClockIcon, Filter } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const Section = ({ title, children }: any) => (
@@ -269,11 +269,11 @@ const SidebarFilters = () => {
   return (
     <>
       {/* MOBILE BUTTON */}
-      <button
+         <button
         onClick={() => setIsOpen(true)}
-        className="fixed right-4 bottom-4 z-50 p-4 bg-[#0B5D4E] text-white rounded-full shadow-lg lg:hidden"
+        className="fixed right-4 bottom-4 z-50 p-2 bg-[#0B5D4E] text-white rounded-md shadow-lg lg:hidden"
       >
-        {t("filters.openButton")}
+        <Filter />
       </button>
 
       {/* DESKTOP SIDEBAR */}
