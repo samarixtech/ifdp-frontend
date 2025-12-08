@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { XIcon, SearchIcon, ClockIcon } from "lucide-react";
+import { XIcon, SearchIcon, ClockIcon, Filter } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const Section = ({ title, children }: any) => (
@@ -85,7 +85,7 @@ const SidebarFilters = () => {
     "Fast Food",
     "Halwa Puri",
     "Desserts",
-    "Burgers"
+    "Burgers",
   ];
 
   const quickOptions = [
@@ -95,7 +95,7 @@ const SidebarFilters = () => {
     "new",
     "nearby",
     "pureVeg",
-    "halal"
+    "halal",
   ];
 
   const offerOptions = ["freeDelivery", "deals", "voucherAccepted", "bogo"];
@@ -114,7 +114,6 @@ const SidebarFilters = () => {
 
   const SidebarContent = (
     <div className="flex flex-col h-full">
-
       <div className="flex justify-between items-center lg:hidden p-4 border-b">
         <h1 className="text-xl font-bold">{t("filters.title")}</h1>
         <button onClick={() => setIsOpen(false)}>
@@ -123,7 +122,6 @@ const SidebarFilters = () => {
       </div>
 
       <div className="p-6 overflow-y-auto scrollbar-hide flex-1">
-
         {/* SORT BY */}
         <Section title={t("sortBy.title")}>
           {["relevance", "fastest", "topRated", "nearest"].map((key) => (
@@ -149,7 +147,9 @@ const SidebarFilters = () => {
                 active={quickFilters.includes(key)}
                 onClick={() =>
                   setQuickFilters((prev) =>
-                    prev.includes(key) ? prev.filter((x) => x !== key) : [...prev, key]
+                    prev.includes(key)
+                      ? prev.filter((x) => x !== key)
+                      : [...prev, key]
                   )
                 }
               >
@@ -162,18 +162,20 @@ const SidebarFilters = () => {
         {/* OFFERS */}
         <Section title={t("offers.title")}>
           <div className="flex flex-col gap-3">
-          {offerOptions.map((key) => (
-            <FilterItem
-              key={key}
-              label={t(`offers.${key}`)}
-              checked={offers.includes(key)}
-              onChange={() =>
-                setOffers((prev) =>
-                  prev.includes(key) ? prev.filter((x) => x !== key) : [...prev, key]
-                )
-              }
-            />
-          ))}
+            {offerOptions.map((key) => (
+              <FilterItem
+                key={key}
+                label={t(`offers.${key}`)}
+                checked={offers.includes(key)}
+                onChange={() =>
+                  setOffers((prev) =>
+                    prev.includes(key)
+                      ? prev.filter((x) => x !== key)
+                      : [...prev, key]
+                  )
+                }
+              />
+            ))}
           </div>
         </Section>
 
@@ -184,17 +186,17 @@ const SidebarFilters = () => {
 
         {/* DELIVERY TIME */}
         <Section title={t("deliveryTime.title")}>
-            <div className="flex gap-2 flex-wrap">
-          {["any", "15_30", "30_45", "45_60"].map((key) => (
-            <Pill
-              key={key}
-              active={deliveryTime === key}
-              onClick={() => setDeliveryTime(key)}
-            >
-              <ClockIcon className="w-4 h-4 inline-block mr-1" />
-              {t(`deliveryTime.${key}`)}
-            </Pill>
-          ))}
+          <div className="flex gap-2 flex-wrap">
+            {["any", "15_30", "30_45", "45_60"].map((key) => (
+              <Pill
+                key={key}
+                active={deliveryTime === key}
+                onClick={() => setDeliveryTime(key)}
+              >
+                <ClockIcon className="w-4 h-4 inline-block mr-1" />
+                {t(`deliveryTime.${key}`)}
+              </Pill>
+            ))}
           </div>
         </Section>
 
@@ -217,7 +219,9 @@ const SidebarFilters = () => {
 
           <div className="flex flex-col gap-3 max-h-48 overflow-y-auto scrollbar-hide">
             {allCuisines
-              .filter((c) => c.toLowerCase().includes(cuisineSearch.toLowerCase()))
+              .filter((c) =>
+                c.toLowerCase().includes(cuisineSearch.toLowerCase())
+              )
               .map((c) => (
                 <FilterItem
                   key={c}
@@ -225,7 +229,9 @@ const SidebarFilters = () => {
                   checked={cuisines.includes(c)}
                   onChange={() =>
                     setCuisines((prev) =>
-                      prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]
+                      prev.includes(c)
+                        ? prev.filter((x) => x !== c)
+                        : [...prev, c]
                     )
                   }
                 />
@@ -235,15 +241,18 @@ const SidebarFilters = () => {
 
         {/* PRICE */}
         <Section title={t("price.title")}>
-             <div className="flex gap-2">
-          {["low", "medium", "high"].map((key) => (
-            <Pill key={key} active={price === t(`price.${key}`)} onClick={() => setPrice(key)}>
-              {t(`price.${key}`)}
-            </Pill>
-          ))}
+          <div className="flex gap-2">
+            {["low", "medium", "high"].map((key) => (
+              <Pill
+                key={key}
+                active={price === t(`price.${key}`)}
+                onClick={() => setPrice(key)}
+              >
+                {t(`price.${key}`)}
+              </Pill>
+            ))}
           </div>
         </Section>
-
       </div>
 
       <div className="p-4 border-t bg-white sticky bottom-0">
@@ -271,9 +280,9 @@ const SidebarFilters = () => {
       {/* MOBILE BUTTON */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed right-4 bottom-4 z-50 p-4 bg-[#0B5D4E] text-white rounded-full shadow-lg lg:hidden"
+        className="fixed right-4 bottom-4 z-50 p-2 bg-[#0B5D4E] text-white rounded-md shadow-lg lg:hidden"
       >
-        {t("filters.openButton")}
+        <Filter />
       </button>
 
       {/* DESKTOP SIDEBAR */}
@@ -288,7 +297,10 @@ const SidebarFilters = () => {
         className={`fixed inset-0 z-50 transition-all duration-300 lg:hidden
           ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
       >
-        <div onClick={() => setIsOpen(false)} className="absolute inset-0 bg-black/40"></div>
+        <div
+          onClick={() => setIsOpen(false)}
+          className="absolute inset-0 bg-black/40"
+        ></div>
 
         <div
           className={`absolute left-0 top-0 h-full w-[310px] bg-white rounded-r-xl shadow-xl 
