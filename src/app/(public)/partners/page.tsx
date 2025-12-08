@@ -15,9 +15,6 @@ import { useTranslations } from "next-intl";
 
 const Partners = () => {
   const t = useTranslations("Partners");
-
-  // Color theme
-  // const primaryyellow = "#0B5D4E";
   const softPrimaryText = "text-[#0B5D4E]";
   const softAccent = "bg-[#61a5c2]";
   const softAccentText = "text-[#0B5D4E]";
