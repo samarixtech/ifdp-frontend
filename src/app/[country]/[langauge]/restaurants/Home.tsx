@@ -165,7 +165,7 @@ const Home: React.FC = () => {
             Sign up for free delivery on your first order
           </h2>
 
-          <button className="bg-[#E8F4F1] text-[#0B5D4E] px-7 py-2 rounded-md font-semibold hover:bg-[#0B5D4E] hover:text-white transition w-full md:w-auto">
+          <button className="bg-[#E8F4F1] text-[#0B5D4E] px-7 py-2 rounded-md font-semibold  transition w-full md:w-auto">
             Sign up
           </button>
         </div>

@@ -77,7 +77,7 @@ const NotFoundPage = () => {
 
       {/* Footer */}
       <p className="absolute bottom-6 text-sm text-gray-500">
-        © {new Date().getFullYear()} IFDP. All rights reserved.
+        © {new Date().getFullYear()} JAHAK HUB All rights reserved.
       </p>
 
       <style jsx>{`

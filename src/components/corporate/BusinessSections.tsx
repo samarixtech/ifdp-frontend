@@ -80,7 +80,7 @@ const BusinessSections: React.FC = () => {
           {/* LEFT TEXT SIDE */}
           <div className="order-2 lg:order-1">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10">
-              Why <span className="text-[#0B5D4E]">IFDP</span> for business?
+              Why <span className="text-[#0B5D4E]">JAHAK HUB</span> for business?
             </h2>
 
             {/* VALUE BLOCKS */}

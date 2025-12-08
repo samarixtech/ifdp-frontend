@@ -2,11 +2,11 @@
 import { Send, MapPin, Phone, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import ChatWidgetPortal from "./ai/ChatWidgetPortal";
+import { useTranslations } from "next-intl";
 
-
-const primaryyellow = "#0B5D4E"; // Dark yellow for main accent (Primary)
-const secondaryyellow = "#2a6f97"; // Mid yellow for features/stats (Secondary)
-const tertiaryyellow = "#61a5c2"; // Light yellow for lighter accents/hovers
+const primaryyellow = "#0B5D4E";
+const secondaryyellow = "#2a6f97";
+const tertiaryyellow = "#61a5c2";
 
 const FooterLink = ({ href, children }: any) => (
   <a
@@ -27,115 +27,95 @@ const FooterSection = ({ title, children }: any) => (
 );
 
 const Footer = () => {
-  const softPrimaryBg = `bg-[${primaryyellow}]`; // Use the primary dark yellow for the footer background
+  const t = useTranslations("Footer");
 
   return (
-    <footer
-      className={`${softPrimaryBg} text-[#E8F4F1] pt-16 pb-8 border-t border-[#0B5D4E]/20`}
-    >  <ChatWidgetPortal />
-      
+    <footer className={`bg-[${primaryyellow}] text-[#E8F4F1] pt-16 pb-8 border-t border-[#0B5D4E]/20`}>
+      <ChatWidgetPortal />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* GRID */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 border-b border-[#E8F4F1]/20 pb-12">
+
+          {/* BRAND */}
           <div className="col-span-2 md:col-span-2 pr-8">
             <h3 className="text-3xl font-extrabold mb-4 flex items-center">
-              <span className={`text-[${tertiaryyellow}] mr-2`}>Deliver</span>
-              <span className="text-[#E8F4F1]">Now</span>
+              <span className={`text-[${tertiaryyellow}] mr-2`}>{t("brand.accent")}</span>
+              <span className="text-[#E8F4F1]">{t("brand.main")}</span>
             </h3>
+
             <p className="text-gray-300 text-lg mb-6 leading-relaxed">
-              Empowering global food logistics with speed, security, and
-              seamless technology. Your trusted partner in delivery.
+              {t("brand.description")}
             </p>
+
             <div className="flex space-x-4">
-              <a
-                href="#"
-                aria-label="Subscribe"
-                className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}] transition-colors duration-300`}
-              >
+              <a className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}]`}>
                 <Send className="w-5 h-5 text-[#E8F4F1]" />
               </a>
-              <a
-                href="#"
-                aria-label="Location"
-                className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}] transition-colors duration-300`}
-              >
+
+              <a className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}]`}>
                 <MapPin className="w-5 h-5 text-[#E8F4F1]" />
               </a>
-              <a
-                href="#"
-                aria-label="Contact"
-                className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}] transition-colors duration-300`}
-              >
+
+              <a className={`p-3 rounded-full bg-[#E8F4F1]/10 hover:bg-[${tertiaryyellow}]`}>
                 <Phone className="w-5 h-5 text-[#E8F4F1]" />
               </a>
             </div>
           </div>
 
-          {/* Quick Links Section */}
-          <FooterSection title="Quick Links">
-            <FooterLink href="/about">About Us</FooterLink>
-            <FooterLink href="/features">Our Features</FooterLink>
-            <FooterLink href="/privacyPolicy">Privacy & Policy</FooterLink>
-            <FooterLink href="/press">Press & Media</FooterLink>
+          {/* QUICK LINKS */}
+          <FooterSection title={t("quick_links.title")}>
+            <FooterLink href="/about">{t("quick_links.about")}</FooterLink>
+            <FooterLink href="/features">{t("quick_links.features")}</FooterLink>
+            <FooterLink href="/privacyPolicy">{t("quick_links.privacy")}</FooterLink>
+            <FooterLink href="/press">{t("quick_links.press")}</FooterLink>
           </FooterSection>
 
-          {/* Solutions Section */}
-          <FooterSection title="Solutions">
-            <FooterLink href="/enterprise">Enterprise</FooterLink>
-            <FooterLink href="/partner-network">Partner Network</FooterLink>
-            <FooterLink href="/api">Developer API</FooterLink>
-            <FooterLink href="/logistics">Smart Logistics</FooterLink>
+          {/* SOLUTIONS */}
+          <FooterSection title={t("solutions.title")}>
+            <FooterLink href="/enterprise">{t("solutions.enterprise")}</FooterLink>
+            <FooterLink href="/partner-network">{t("solutions.partner")}</FooterLink>
+            <FooterLink href="/api">{t("solutions.api")}</FooterLink>
+            <FooterLink href="/logistics">{t("solutions.logistics")}</FooterLink>
           </FooterSection>
 
-          {/* Contact Section */}
-          <FooterSection title="Support">
+          {/* SUPPORT */}
+          <FooterSection title={t("support.title")}>
             <div className="flex items-center mb-3">
-              <Phone
-                className={`w-5 h-5 text-[${tertiaryyellow}] mr-3 shrink-0`}
-              />
-              <span className="text-[#E8F4F1]">(800) 123-4567</span>
+              <Phone className={`w-5 h-5 text-[${tertiaryyellow}] mr-3`} />
+              <span className="text-[#E8F4F1]">{t("support.phone")}</span>
             </div>
+
             <div className="flex items-center mb-3">
-              <Send
-                className={`w-5 h-5 text-[${tertiaryyellow}] mr-3 shrink-0`}
-              />
-              <span className="text-[#E8F4F1]">support@deliverynow.com</span>
+              <Send className={`w-5 h-5 text-[${tertiaryyellow}] mr-3`} />
+              <span className="text-[#E8F4F1]">{t("support.email")}</span>
             </div>
+
             <div className="mt-5">
               <Link
                 href="/contact"
-                className={`inline-flex items-center px-5 py-2 text-sm font-semibold rounded-full bg-[${secondaryyellow}] hover:bg-[${tertiaryyellow}] transition-colors duration-300 shadow-md`}
+                className={`inline-flex items-center px-5 py-2 text-sm font-semibold rounded-full bg-[${secondaryyellow}] hover:bg-[${tertiaryyellow}]`}
               >
                 <MessageSquare className="w-4 h-4 mr-2" />
-                Live Chat
+                {t("support.live_chat")}
               </Link>
             </div>
           </FooterSection>
+
         </div>
 
-        {/* Bottom Copyright & Legal */}
+        {/* BOTTOM */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 text-sm text-gray-400">
-          <p className="mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} DeliverNow Inc. All rights
-            reserved.
-          </p>
+          <p>&copy; {new Date().getFullYear()} {t("bottom.copyright")}</p>
+
           <div className="flex space-x-6">
-            <Link
-              href="/privacyPolicy"
-              className="hover:text-[#E8F4F1] transition-colors"
-            >
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="hover:text-[#E8F4F1] transition-colors">
-              Terms of Service
-            </Link>
-            <Link
-              href="/cookies"
-              className="hover:text-[#E8F4F1] transition-colors"
-            >
-              Cookie Settings
-            </Link>
+            <Link href="/privacyPolicy">{t("bottom.privacy")}</Link>
+            <Link href="/terms">{t("bottom.terms")}</Link>
+            <Link href="/cookies">{t("bottom.cookies")}</Link>
           </div>
         </div>
+
       </div>
     </footer>
   );

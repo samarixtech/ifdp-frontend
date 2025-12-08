@@ -9,7 +9,7 @@ import Header from '@/components/partner/TopHeader';
 const articlesData = [
   {
     id: 1,
-    title: "Easy Steps to List Your Restaurant on IFDP",
+    title: "Easy Steps to List Your Restaurant on JAHAK HUB",
     category: "PARTNER",
     date: "August 14, 2024",
     imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Placeholder image path

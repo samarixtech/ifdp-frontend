@@ -56,9 +56,9 @@ const HomePage: React.FC = () => {
   return (
     <div>
       {/* <Banner /> */}
-      <p>
+      {/* <p>
         Current Country: {locale?.country}, Language: {locale?.language}
-      </p>
+      </p> */}
     </div>
   );
 };

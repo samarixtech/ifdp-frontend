@@ -17,7 +17,7 @@ export default function Banner() {
           style={{ animationDelay: "0.1s" }}
         >
           <h2 className="text-4xl md:text-5xl font-extrabold leading-tight drop-shadow-lg">
-            Partner with <span className="text-yellow-300">IFDP</span> today
+            Partner with <span className="text-yellow-300">JAHAK HUB</span> today
           </h2>
 
           <p className="text-white text-lg leading-relaxed">
@@ -36,7 +36,7 @@ export default function Banner() {
         <div className="relative rounded-xl overflow-hidden shadow-2xl animate-fadeInUp" style={{ animationDelay: "0.3s" }}>
           {/* <Image
             src="https://media.istockphoto.com/id/2195526262/photo/diverse-young-women-enjoying-self-service-restaurant.webp?a=1&b=1&s=612x612&w=0&k=20&c=iluxqVd3EOf2_NO6xG3QQ76QG3ZSUZk-7itKze-d_fU="
-            alt="Partner with IFDP"
+            alt="Partner with JAHAK HUB"
             width={800}
             height={600}
             className="object-cover w-full h-[360px] md:h-[420px]"

@@ -9,8 +9,8 @@ import { FaQuoteLeft } from 'react-icons/fa';
 const yellow_COLOR = "text-[#0B5D4E]";
 const yellow_BG = "bg-[#0B5D4E]";
 const faqData = [
-    { id: 1, question: "Why should I partner with IFDP?", answer: "Partnering with JAYAK HUB  expands your reach, increases order volume, and utilizes our delivery network." },
-    { id: 2, question: "Is my restaurant a good fit for IFDP?", answer: "JAYAK HUB  welcomes a variety of cuisines and restaurant types." },
+    { id: 1, question: "Why should I partner with JAHAK HUB?", answer: "Partnering with JAYAK HUB  expands your reach, increases order volume, and utilizes our delivery network." },
+    { id: 2, question: "Is my restaurant a good fit for JAHAK HUB?", answer: "JAYAK HUB  welcomes a variety of cuisines and restaurant types." },
     { id: 3, question: "What are the requirements to become a partner?", answer: "Key requirements usually include valid business registration, necessary licenses, and an attractive menu." },
     { id: 4, question: "Can I join without a physical storefront?", answer: "Yes, JAYAK HUB  supports cloud kitchens (delivery-only) models." },
     { id: 5, question: "How do I get started?", answer: "You can start by filling out the online application form on our partner portal." },

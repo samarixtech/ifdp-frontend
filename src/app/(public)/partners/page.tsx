@@ -92,7 +92,7 @@ const Partners = () => {
   };
 
   return (
-    <div className={`min-h-screen ${softNeutralBg}`}>
+    <div className={`${softNeutralBg}`}>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background Image and Overlay */}
@@ -100,12 +100,12 @@ const Partners = () => {
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&auto=format&fit=crop')",
+              "url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&auto=format&fit=crop')",
           }}
         ></div>
-        <div className="absolute inset-0 bg-[#2C2C2C]/25 z-10"></div>
+        <div className="absolute inset-0 bg-[#2C2C2C]/50 z-10"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40 z-20 text-center text-[#E8F4F1]">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-10 z-20 text-center text-[#E8F4F1]">
           <p className="text-lg font-semibold text-yellow-300 mb-3 uppercase tracking-wider animate-fade-in-up">
             {t("hero_tagline")}
           </p>
@@ -130,7 +130,7 @@ const Partners = () => {
 
       {/* Why Partner With Us Section */}
       <section className={`py-20 ${softSectionBg}`}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section 1 - Image Left, Content Right */}
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-25">
             {/* Image */}

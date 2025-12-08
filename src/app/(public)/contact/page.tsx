@@ -33,7 +33,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#f0f9ff] via-[#e0f2fe] to-[#E8F4F1]">
+    <div className="bg-linear-to-b from-[#f0f9ff] via-[#e0f2fe] to-[#E8F4F1]">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background Image and Overlay */}
@@ -46,7 +46,7 @@ const Contact = () => {
         ></div>
         <div className="absolute inset-0 bg-linear-to-b from-[#2C2C2C]/60 via-[#2C2C2C]/40 to-[#2C2C2C]/30 z-10"></div>
 
-        <div className="relative z-20 max-w-5xl mx-auto px-6 py-40 text-center text-[#E8F4F1]">
+        <div className="relative z-20 max-w-5xl mx-auto px-6 py-30 text-center text-[#E8F4F1]">
           <p className="text-yellow-300 font-semibold uppercase tracking-wider mb-3 animate-fade-in-up">
             {t("hero_tagline")}
           </p>
@@ -63,7 +63,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Info Section */}
-      <section className="py-24 bg-[#E8F4F1] relative z-20">
+      <section className="py-14 bg-[#E8F4F1] relative z-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             title={t("info_heading")}
@@ -190,11 +190,11 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="py-20 bg-[#E8F4F1]">
+      {/* <section className="py-20 bg-[#E8F4F1]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl overflow-hidden shadow-[0_0_35px_#bae6fd] border border-yellow-100">
             <iframe
-              // Map URL placeholder
+              Map URL placeholder
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019025274348!2d-122.4013775236881!3d37.79292761218107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858064f2d91e8d%3A0x8deebca2c2e9c8d8!2sSalesforce%20Tower!5e0!3m2!1sen!2sus!4v1697200000000!5m2!1sen!2sus"
               width="100%"
               height="420"
@@ -204,7 +204,7 @@ const Contact = () => {
             ></iframe>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Animations */}
       <style jsx>{`

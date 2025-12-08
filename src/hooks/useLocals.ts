@@ -1,4 +1,3 @@
-// hooks/useLocale.ts - Updated version
 "use client";
 
 import { useEffect, useState } from "react";
@@ -31,6 +30,7 @@ interface Locale {
   latitude: number;
   longitude: number;
   language: string;
+  dir: "rtl" | "ltr";
   ip: string | null;
   loading: boolean;
   error?: string;
@@ -47,19 +47,52 @@ export default function useLocale(): Locale {
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [dir, setDir] = useState<"rtl" | "ltr">("ltr");
   const [error, setError] = useState<string>("");
+
+  // ---------- Country → Language Mapping ----------
+  const countryToLanguage: Record<string, string> = {
+    PK: "en",
+    IN: "en",
+    IQ: "ar",
+    SA: "ar",
+    AE: "ar",
+    JO: "ar",
+    TR: "tr",
+  };
 
   useEffect(() => {
     async function fetchLocale() {
-      try {
-        // Get browser language
-        const browserLang = navigator.language?.split("-")[0] || "en";
-        setLanguage(browserLang);
+      console.log("🌍 Fetching locale from IP API...");
 
-        // Fetch IP location data
+      try {
         const res = await axios.get<IPApiData>("http://ip-api.com/json", {
           timeout: 10000,
         });
+
+        // const res = {
+        //   data: {
+        //     AS: "AS17557 Iraq Telecom Company Limited",
+        //     city: "Baghdad",
+        //     country: "Iraq",
+        //     countryCode: "IQ",
+        //     language: "ar",
+        //     dir: "rtl",
+        //     isp: "Iraq Telecom Company Limited",
+        //     lat: 33.3152,
+        //     lon: 44.3661,
+        //     org: "Iraq National Telecom Project",
+        //     query: "62.201.252.0/23",
+        //     region: "BG",
+        //     regionName: "Baghdad Governorate",
+        //     status: "success",
+        //     timezone: "Asia/Baghdad",
+        //     zip: "10001",
+        //     message: "hh",
+        //   },
+        // };
+
+        console.log("📥 Raw API Response:", res.data);
 
         if (res.data?.status === "success") {
           setIP(res.data.query || null);
@@ -71,26 +104,56 @@ export default function useLocale(): Locale {
           setLatitude(res.data.lat || 0);
           setLongitude(res.data.lon || 0);
 
-          console.log("Location data:", {
-            city: res.data.city,
+          console.log("🗺 Location Details:", {
+            country: res.data.country,
+            countryCode: res.data.countryCode,
             region: res.data.regionName,
+            city: res.data.city,
+            zip: res.data.zip,
             lat: res.data.lat,
             lon: res.data.lon,
           });
+
+          // ---------- Auto Language ----------
+          const autoLang = countryToLanguage[res.data.countryCode];
+
+          setLanguage(autoLang);
+          console.log("🌐 Auto-selected language:", autoLang);
+
+          // ---------- RTL / LTR ----------
+          const direction = autoLang === "ar" ? "rtl" : "ltr";
+          setDir(direction);
+          console.log("↔ Text direction:", direction);
         } else {
           setError(res.data?.message || "Failed to get location");
-          console.warn("IP API failed:", res.data?.message);
+          console.warn("⚠ IP API failed:", res.data?.message);
         }
       } catch (err: any) {
-        console.error("Failed to fetch locale:", err);
+        console.error("❌ Failed to fetch locale:", err);
         setError(err.message || "Network error");
       } finally {
         setLoading(false);
+        console.log("✅ Locale detection finished");
       }
     }
 
     fetchLocale();
   }, []);
+
+  console.log("📤 Final Locale State Returned:", {
+    country,
+    countryCode,
+    region,
+    city,
+    zip,
+    latitude,
+    longitude,
+    language,
+    dir,
+    ip,
+    loading,
+    error,
+  });
 
   return {
     country,
@@ -101,6 +164,7 @@ export default function useLocale(): Locale {
     latitude,
     longitude,
     language,
+    dir,
     ip,
     loading,
     error,

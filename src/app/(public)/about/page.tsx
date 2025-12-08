@@ -243,66 +243,77 @@ const AboutPage = () => {
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1762652847337-d0bb9764308b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&q=60&w=600')",
+              "url('https://images.unsplash.com/photo-1762652847337-d0bb9764308b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&q=60&w=1600')",
           }}
         ></div>
 
-        <div className="absolute inset-0 bg-[#2C2C2C]/25 z-10"></div>
+        {/* Dark Overlay for readability */}
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-black/20 z-10"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40 z-20 text-center text-[#E8F4F1]">
-          <p className="text-lg font-semibold text-yellow-300 mb-3 uppercase tracking-wider animate-fade-in-up">
+        {/* Content */}
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 md:py-13 z-20 text-center text-white">
+          <p className="text-lg font-semibold text-yellow-400 mb-3 uppercase tracking-widest animate-fade-in-up">
             {t("hero_tagline")}
           </p>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight animate-fade-in-up">
             {t("hero_title_p1")}
-            <span
-              className={`block bg-linear-to-r ${statGradient} bg-clip-text text-transparent`}
-            >
+            <span className={`text-yellow-500 ml-2 inline-block`}>
               {t("hero_title_p2")}
             </span>
           </h1>
-          <p className="text-xl md:text-2xl mb-10 text-[#E8F4F1]/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
+
+          <p className="text-lg sm:text-xl md:text-2xl mb-12 text-white/90 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
             {t("hero_subtitle")}
           </p>
+
           {/* CTA Button */}
           <button
-            className={`group px-8 py-4 ${softAccent} ${softAccentText} font-semibold rounded-xl hover:bg-[#89c2d9] transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center space-x-2 mx-auto w-max animate-fade-in-up animation-delay-400`}
+            className={`group px-10 py-4 bg-gradient-to-r from-yellow-500 to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-500 flex items-center justify-center space-x-3 mx-auto animate-fade-in-up animation-delay-400`}
           >
             <span>{t("hero_cta")}</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
           </button>
         </div>
       </section>
 
       {/* About Story Section */}
-      <section className={`py-20 ${softSectionBg}`}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Image Placeholder */}
-            <div className="rounded-2xl overflow-hidden shadow-2xl">
-              <div
-                className="w-full h-96 bg-cover bg-center transition-transform duration-500 hover:scale-[1.03]"
-                style={{
-                  backgroundImage:
-                    "url('https://images.unsplash.com/photo-1762652847337-d0bb9764308b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&q=60&w=600 ')",
-                }}
-              ></div>
-            </div>
+ <section className={`py-20 ${softSectionBg}`}>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid md:grid-cols-2 gap-10 items-center">
+      {/* Image */}
+      <div className="rounded-2xl overflow-hidden shadow-2xl">
+        <div
+          className="w-full h-96 sm:h-[28rem] md:h-96 bg-cover bg-center transition-transform duration-500 hover:scale-105"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1762652847337-d0bb9764308b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&q=60&w=600')",
+          }}
+        ></div>
+      </div>
 
-            {/* Text Content */}
-            <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-                {t("story_title")}
-              </h2>
-              <p className="text-lg text-gray-600">{t("story_p1")}</p>
-              <p className="text-lg font-medium text-gray-700 border-l-4 border-yellow-400 pl-4">
-                {t("story_quote")}
-              </p>
-              <p className="text-lg text-gray-600">{t("story_p2")}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Text Content */}
+      <div className="space-y-6">
+        <h2 className="text-4xl sm:text-5xl md:text-5xl font-extrabold leading-tight text-green-500">
+          {t("story_title")}
+        </h2>
+
+        <p className="text-lg text-black">
+          {t("story_p1")}
+        </p>
+
+        <p className="text-lg font-medium border-l-4 border-yellow-400 pl-4 text-yellow-400 italic">
+          {t("story_quote")}
+        </p>
+
+        <p className="text-lg  text-black">
+          {t("story_p2")}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Core Values/Features Section */}
       <section className={`py-20 ${softNeutralBg}`}>

@@ -255,4 +255,79 @@
 
 .animate-shimmer {
   animation: shimmer 1.8s infinite linear;
+/* globals.css */
+
+/* 1️⃣ Default text and layout */
+body {
+  font-family: var(--font-geist-sans), sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2️⃣ Direction based */
+html[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+html[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* 3️⃣ Global helpers for margins/paddings */
+html[dir="ltr"] .ml-auto { margin-left: auto; }
+html[dir="ltr"] .mr-auto { margin-right: auto; }
+
+html[dir="rtl"] .ml-auto { margin-right: auto; }
+html[dir="rtl"] .mr-auto { margin-left: auto; }
+
+/* 4️⃣ Floating elements */
+html[dir="ltr"] .float-left { float: left; }
+html[dir="ltr"] .float-right { float: right; }
+
+html[dir="rtl"] .float-left { float: right; }
+html[dir="rtl"] .float-right { float: left; }
+
+/* 5️⃣ Flexbox direction adjustments */
+html[dir="ltr"] .flex-row { flex-direction: row; }
+html[dir="ltr"] .flex-row-reverse { flex-direction: row-reverse; }
+
+html[dir="rtl"] .flex-row { flex-direction: row-reverse; }
+html[dir="rtl"] .flex-row-reverse { flex-direction: row; }
+
+/* 6️⃣ Text alignment utility */
+html[dir="ltr"] .text-left { text-align: left; }
+html[dir="ltr"] .text-right { text-align: right; }
+
+html[dir="rtl"] .text-left { text-align: right; }
+html[dir="rtl"] .text-right { text-align: left; }
+/* Global styles for text alignment based on direction */
+body.ltr {
+  text-align: left;
+  direction: ltr;
+}
+
+body.rtl {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Example: Sidebar placement */
+.sidebar {
+  float: left; /* LTR */
+}
+
+body.rtl .sidebar {
+  float: right; /* RTL */
+}
+
+/* Padding and margin flip */
+.ltr-padding {
+  padding-left: 16px;
+}
+.rtl-padding {
+  padding-right: 16px;
+}
 }

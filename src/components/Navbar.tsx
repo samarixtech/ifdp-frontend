@@ -68,7 +68,6 @@ const Navbar: React.FC = () => {
 
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [countries, setCountries] = useState<Country[]>([]);
-
   const [isDesktopLangOpen, setIsDesktopLangOpen] = useState(false);
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -274,30 +273,9 @@ const changeLanguage = useCallback(
   if (!selectedCountry) {
     return (
       <nav className="bg-[#0B5D4E] h-20 flex items-center justify-center">
-        {/* <p className="text-[#E8F4F1]">Loading Navigation...</p> */}
       </nav>
     );
   }
-
-  // const handleNavigationChange = (
-  //   newCountryCode: string,
-  //   newLangCode: string,
-  //   newTime?: string
-  // ) => {
-  //   let newPath = `/${newCountryCode.toLowerCase()}/${newLangCode.toLowerCase()}/restaurants`;
-
-  //   if (newTime) {
-  //     newPath += `/${newTime.toLowerCase()}`;
-  //   }
-
-  //   console.log("🔹 Navigation updated to:", newPath);
-  //   setCookie("NEXT_LOCALE", newLangCode, {
-  //     maxAge: 60 * 60 * 24 * 30,
-  //     path: "/",
-  //   });
-
-  //   window.open(newPath, "_blank");
-  // };
 
   return (
     <nav className="bg-[#0B5D4E] shadow-lg sticky top-0 z-50">

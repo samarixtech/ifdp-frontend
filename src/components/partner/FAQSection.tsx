@@ -5,12 +5,12 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 const faqData = [
   { 
     id: 1, 
-    question: "Why should I partner with IFDP?", 
+    question: "Why should I partner with JAHAK HUB?", 
     answer: "Partnering with JAYAK HUB  expands your reach, increases order volume, and utilizes our delivery network." 
   },
   { 
     id: 2, 
-    question: "Is my restaurant a good fit for IFDP?", 
+    question: "Is my restaurant a good fit for JAHAK HUB?", 
     answer: "JAYAK HUB  welcomes a variety of cuisines and restaurant types, including physical stores and cloud kitchens." 
   },
   { 

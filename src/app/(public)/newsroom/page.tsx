@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Tag, Calendar, ChevronDown, Rss } from "lucide-react";
+import Link from "next/link";
 
 // --- Theme Constants (Using Tailwind Classes) ---
 const PRIMARY_yellow = "#0B5D4E";
@@ -85,63 +86,6 @@ const NewsCard = ({ type, title, date, image, tags, large = false }: any) => {
   );
 };
 
-// --- Mock Data Generator (Sanitized) ---
-// const generateMockNews = (count, baseTitle, type, tags, dateStart) => {
-//   const news = [];
-//   const startYear = parseInt(dateStart.split(" ")[2]);
-//   const monthNames = [
-//     "Jan",
-//     "Feb",
-//     "Mar",
-//     "Apr",
-//     "May",
-//     "Jun",
-//     "Jul",
-//     "Aug",
-//     "Sep",
-//     "Oct",
-//     "Nov",
-//     "Dec",
-//   ];
-//   const startMonthIndex = monthNames.indexOf(dateStart.split(" ")[1]);
-
-//   for (let i = 0; i < count; i++) {
-//     const day = ((29 - i) % 28) + 1; // Simple date variation
-//     const totalMonths = startYear * 12 + startMonthIndex - i;
-//     const year = Math.floor(totalMonths / 12);
-//     const month = monthNames[totalMonths % 12];
-
-//     news.push({
-//       type: type[i % type.length],
-//       title: `${baseTitle} - Lorem ipsum dolor sit amet, consectetur adipiscing elit ${
-//         i + 1
-//       }`,
-//       date: `${day} ${month} ${year}`,
-//       // Using generic image URLs, adding an index to the query for unique image requests
-//       image: `https://images.unsplash.com/photo-1542036440-6d0c75ff39d0?q=80&w=800&auto=format&fit=crop&t=${
-//         i + 1
-//       }`,
-//       tags: tags[i % tags.length],
-//     });
-//   }
-//   return news;
-// };
-
-// const types = [
-//   "PRESS RELEASE",
-//   "BUSINESS",
-//   "RESEARCH",
-//   "EDITORIAL",
-//   "PARTNERSHIP",
-// ];
-// const tagsList = [
-//   ["CORPORATE", "INNOVATION"],
-//   ["FINTECH", "E-COMMERCE"],
-//   ["STRATEGY", "MARKETS"],
-//   ["ESG", "SUSTAINABILITY"],
-//   ["LOGISTICS", "OPERATIONS"],
-//   ["CAMPAIGN", "CUSTOMER_FOCUS"],
-// ];
 
 const mainHeadline = {
   type: "STRATEGY",
@@ -149,7 +93,7 @@ const mainHeadline = {
     "Aliquam Tincidunt: Global Platform Integrates Secure Payment Solutions Across Continental Markets",
   date: "29 Oct 2024",
   image:
-    "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
 };
 
 const latestNews = [
@@ -159,7 +103,7 @@ const latestNews = [
       "Vestibulum Ante: Company Strengthens Regional Alliances Through New Memorandum of Understanding",
     date: "27 Jan 2024",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["CORPORATE", "PARTNERSHIP"],
   },
   {
@@ -168,7 +112,7 @@ const latestNews = [
       "Donec Elementum: Annual Report 2024 Key Performance Indicators Unveiled",
     date: "27 Jan 2024",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["REPORTS", "INFOGRAPHICS"],
   },
   {
@@ -177,7 +121,7 @@ const latestNews = [
       "Mauris Euismod: New Partnership Enables Streamlined and Secure Digital Transactions Across Asia",
     date: "29 Oct 2024",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["FINTECH", "PRESS RELEASE"],
   },
   {
@@ -186,7 +130,7 @@ const latestNews = [
       "Nullam Dignissim: Inaugural Safety Campaign Launched in Collaboration with Local Authorities",
     date: "07 Dec 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["SAFETY", "OPERATIONS"],
   },
   {
@@ -195,7 +139,7 @@ const latestNews = [
       "Curabitur Aliquet: Regional Division Initiates Program for Flexible Income Opportunities",
     date: "14 Aug 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["WORKFORCE", "REGIONAL"],
   },
   {
@@ -204,7 +148,7 @@ const latestNews = [
       "Praesent Velit: Strategic Initiative Brings Specialty Goods to Local Neighborhoods with Free Delivery Incentives",
     date: "12 Aug 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["CAMPAIGN", "LOGISTICS"],
   },
 ];
@@ -216,7 +160,7 @@ const additionalNews = [
       "Integer Lacinia: Company Collaborates with Regional Telco to Support Partner Vendors",
     date: "08 Jul 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["PARTNERSHIP", "ECOSYSTEM"],
   },
   {
@@ -225,7 +169,7 @@ const additionalNews = [
       "Fusce Quisque: Supporting Community Growth and Welfare for Delivery Partners and their Families",
     date: "05 Jul 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["CSR", "COMMUNITY"],
   },
   {
@@ -234,7 +178,7 @@ const additionalNews = [
       "Vivamus Ipsum: Driving Partner Expansion to Enhance Customer Choice and Experience",
     date: "29 Jun 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["CUSTOMER EXPERIENCE"],
   },
 ];
@@ -246,7 +190,7 @@ const bottomNews = [
       "Sed Dictum: Launch of Optimized Meal Options for Solo Consumers Across Multiple Regions",
     date: "07 Jul 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["CAMPAIGN", "MARKETING"],
   },
   {
@@ -255,7 +199,7 @@ const bottomNews = [
       "Proin Adipiscing: Unveiling Subscription Tier with Unlimited Shipping and Exclusive Promotions",
     date: "07 Jul 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["SUBSCRIPTION"],
   },
   {
@@ -264,7 +208,7 @@ const bottomNews = [
       "Etiam Commodo: Asia Pacific Division Aids Vendors in Enhancing Digital Presence for Quick-Commerce",
     date: "04 Jul 2023",
     image:
-      "https://images.unsplash.com/photo-1762699660493-319b6371a99d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      "https://plus.unsplash.com/premium_photo-1673590981810-894dadc93a6d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     tags: ["E-COMMERCE", "VENDOR_SUPPORT"],
   },
 ];
@@ -276,42 +220,45 @@ const NewsroomPage = () => {
 
   return (
     <div className={`min-h-screen ${softNeutralBg}`}>
-      <section
-        className={`py-24 md:py-32 ${softSectionBg} shadow-md`}
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.8)), url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1800&auto=format&fit=crop')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+<section
+  className={`relative py-24 md:py-32 shadow-md ${softSectionBg}`}
+  style={{
+    backgroundImage:
+      "url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1800&auto=format&fit=crop')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/40 z-0"></div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h1 className="text-6xl md:text-7xl font-[#2C2C2C] text-gray-900 mb-4 tracking-tighter">
+          <h1 className="text-6xl md:text-7xl  text-gray-100 mb-4 tracking-tighter">
             📰 Corporate Newsroom
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mb-8">
+          <p className="text-xl text-gray-100 max-w-3xl mb-8">
             Stay informed with our official press releases, in-depth reports,
             and company updates.
           </p>
-          <div className="flex flex-wrap gap-x-8 gap-y-2 text-gray-700 text-lg font-semibold border-t pt-4 border-[#FFF9EE]">
-            <a
+          <div className="flex flex-wrap gap-x-8 gap-y-2 text-gray-200 text-lg font-semibold border-t pt-4 border-[#FFF9EE]">
+            <Link
               href="#"
               className="hover:text-yellow-600 transition-colors relative after:absolute after:h-0.5 after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
             >
               Press Releases
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="hover:text-yellow-600 transition-colors relative after:absolute after:h-0.5 after:bg-yellow-500 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300"
             >
               Research & Insights
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="hover:text-yellow-600 transition-colors flex items-center"
             >
               Subscribe <Rss className="w-4 h-4 ml-2" />
-            </a>
+            </Link>
           </div>
         </div>
       </section>

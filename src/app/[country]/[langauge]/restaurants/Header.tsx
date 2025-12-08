@@ -324,22 +324,44 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // -------- Language --------
-  const [activeLang, setActiveLang] = useState<Language>(
-    languages.find((l) => l.code === currentLangCode) || languages[0]
-  );
+// Detect language from URL
+const pathname = typeof window !== "undefined" ? window.location.pathname : "";
+const segments = pathname.split("/").filter(Boolean);
+const detectedLang = segments[1] || "en";
 
-  const changeLanguage = (newCode: string) => {
-    const lang = languages.find((l) => l.code === newCode);
-    if (!lang) return;
+// Initial language state
+const [activeLang, setActiveLang] = useState<Language>(() => {
+  return languages.find((l) => l.code === detectedLang) || languages[0];
+});
+
+// Update DOM when URL language changes
+useEffect(() => {
+  const lang = languages.find((l) => l.code === detectedLang);
+  if (lang) {
     setActiveLang(lang);
-    setCookie("NEXT_LOCALE", lang.code, {
-      maxAge: 60 * 60 * 24 * 30,
-      path: "/",
-    });
+    document.documentElement.lang = lang.code;
+    document.documentElement.dir = lang.dir;
+  }
+}, [detectedLang]);
+
+// Change language function
+const changeLanguage = (newCode: string) => {
+  const lang = languages.find((l) => l.code === newCode);
+  if (!lang) return;
+
+  setActiveLang(lang);
+  setCookie("NEXT_LOCALE", lang.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
+
+  // Replace only the language part of the URL
+  const seg = [...segments];
+  seg[1] = newCode;
+
+  router.push("/" + seg.join("/"));
     document.documentElement.lang = lang.code;
     document.documentElement.dir = lang.dir;
     router.refresh(); 
-  };
+};
+
 
   const languageContent = (
     <div className="flex flex-col space-y-2">
@@ -360,27 +382,81 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   );
 
   // -------- Location --------
+
+
+  const [loading, setLoading] = useState(false);
+
   const getCurrentLocation = () => {
     if (!navigator.geolocation) {
       setCurrentAddress("Geolocation not supported");
       return;
     }
-    setCurrentAddress("Fetching location...");
+
+    setLoading(true);
+    setCurrentAddress("Fetching current location...");
+
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const { latitude, longitude } = pos.coords;
-        const apiKey = "YOUR_GOOGLE_MAPS_API_KEY";
-        const res = await fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
-        );
-        const data = await res.json();
-        setCurrentAddress(
-          data.results[0]?.formatted_address || "Address not found"
-        );
+        const apiKey = "958d98442a434df9bcf5638fddd9088a";
+
+        try {
+          const res = await fetch(
+            `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
+          );
+
+          const data = await res.json();
+
+          if (data.results && data.results.length) {
+            
+            const address = data.results[0].components;
+            
+        const locationDetails = {
+          city: address.city || address.town || address.village,
+          continent: "Asia",
+          country: address.country,
+          country_code: address.country_code,
+          county: address.county,
+          municipality: address.municipality,
+          neighbourhood: address.neighbourhood,
+          postcode: address.postcode,
+          road: address.road,
+          state: address.state,
+          state_code: address.state_code,
+          state_district: address.state_district,
+          town: address.town,
+        };
+
+        console.log(locationDetails,"locationDetails");
+        setCurrentAddress(data.results[0].formatted);
+          }
+        } catch (err) {
+          setCurrentAddress("Error fetching address");
+        }
+
+        setLoading(false);
       },
-      () => setCurrentAddress("Location permission denied")
+      (err) => {
+        setCurrentAddress("Location permission deny ho gayi");
+        setLoading(false);
+      }
     );
   };
+
+//   const getCurrentLocation = () => {
+//   if (!navigator.geolocation) {
+//     setCurrentAddress("Geolocation not supported");
+//     return;
+//   }
+
+//   navigator.geolocation.getCurrentPosition(
+//     (pos) => {
+//       const { latitude, longitude } = pos.coords;
+//       setCurrentAddress(`Lat: ${latitude}, Lng: ${longitude}`);
+//     },
+//     () => setCurrentAddress("Location permission denied")
+//   );
+// };
 
   // Content for the Location Dropdown
   const locationContent = (
