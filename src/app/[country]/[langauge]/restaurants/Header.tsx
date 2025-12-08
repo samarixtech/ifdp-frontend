@@ -324,44 +324,47 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // -------- Language --------
-// Detect language from URL
-const pathname = typeof window !== "undefined" ? window.location.pathname : "";
-const segments = pathname.split("/").filter(Boolean);
-const detectedLang = segments[1] || "en";
+  // Detect language from URL
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "";
+  const segments = pathname.split("/").filter(Boolean);
+  const detectedLang = segments[1] || "en";
 
-// Initial language state
-const [activeLang, setActiveLang] = useState<Language>(() => {
-  return languages.find((l) => l.code === detectedLang) || languages[0];
-});
+  // Initial language state
+  const [activeLang, setActiveLang] = useState<Language>(() => {
+    return languages.find((l) => l.code === detectedLang) || languages[0];
+  });
 
-// Update DOM when URL language changes
-useEffect(() => {
-  const lang = languages.find((l) => l.code === detectedLang);
-  if (lang) {
+  // Update DOM when URL language changes
+  useEffect(() => {
+    const lang = languages.find((l) => l.code === detectedLang);
+    if (lang) {
+      setActiveLang(lang);
+      document.documentElement.lang = lang.code;
+      document.documentElement.dir = lang.dir;
+    }
+  }, [detectedLang]);
+
+  // Change language function
+  const changeLanguage = (newCode: string) => {
+    const lang = languages.find((l) => l.code === newCode);
+    if (!lang) return;
+
     setActiveLang(lang);
+    setCookie("NEXT_LOCALE", lang.code, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+    });
+
+    // Replace only the language part of the URL
+    const seg = [...segments];
+    seg[1] = newCode;
+
+    router.push("/" + seg.join("/"));
     document.documentElement.lang = lang.code;
     document.documentElement.dir = lang.dir;
-  }
-}, [detectedLang]);
-
-// Change language function
-const changeLanguage = (newCode: string) => {
-  const lang = languages.find((l) => l.code === newCode);
-  if (!lang) return;
-
-  setActiveLang(lang);
-  setCookie("NEXT_LOCALE", lang.code, { maxAge: 60 * 60 * 24 * 30, path: "/" });
-
-  // Replace only the language part of the URL
-  const seg = [...segments];
-  seg[1] = newCode;
-
-  router.push("/" + seg.join("/"));
-    document.documentElement.lang = lang.code;
-    document.documentElement.dir = lang.dir;
-    router.refresh(); 
-};
-
+    router.refresh();
+  };
 
   const languageContent = (
     <div className="flex flex-col space-y-2">
@@ -382,7 +385,6 @@ const changeLanguage = (newCode: string) => {
   );
 
   // -------- Location --------
-
 
   const [loading, setLoading] = useState(false);
 
@@ -408,27 +410,26 @@ const changeLanguage = (newCode: string) => {
           const data = await res.json();
 
           if (data.results && data.results.length) {
-            
             const address = data.results[0].components;
-            
-        const locationDetails = {
-          city: address.city || address.town || address.village,
-          continent: "Asia",
-          country: address.country,
-          country_code: address.country_code,
-          county: address.county,
-          municipality: address.municipality,
-          neighbourhood: address.neighbourhood,
-          postcode: address.postcode,
-          road: address.road,
-          state: address.state,
-          state_code: address.state_code,
-          state_district: address.state_district,
-          town: address.town,
-        };
 
-        console.log(locationDetails,"locationDetails");
-        setCurrentAddress(data.results[0].formatted);
+            const locationDetails = {
+              city: address.city || address.town || address.village,
+              continent: "Asia",
+              country: address.country,
+              country_code: address.country_code,
+              county: address.county,
+              municipality: address.municipality,
+              neighbourhood: address.neighbourhood,
+              postcode: address.postcode,
+              road: address.road,
+              state: address.state,
+              state_code: address.state_code,
+              state_district: address.state_district,
+              town: address.town,
+            };
+
+            console.log(locationDetails, "locationDetails");
+            setCurrentAddress(data.results[0].formatted);
           }
         } catch (err) {
           setCurrentAddress("Error fetching address");
@@ -443,20 +444,20 @@ const changeLanguage = (newCode: string) => {
     );
   };
 
-//   const getCurrentLocation = () => {
-//   if (!navigator.geolocation) {
-//     setCurrentAddress("Geolocation not supported");
-//     return;
-//   }
+  //   const getCurrentLocation = () => {
+  //   if (!navigator.geolocation) {
+  //     setCurrentAddress("Geolocation not supported");
+  //     return;
+  //   }
 
-//   navigator.geolocation.getCurrentPosition(
-//     (pos) => {
-//       const { latitude, longitude } = pos.coords;
-//       setCurrentAddress(`Lat: ${latitude}, Lng: ${longitude}`);
-//     },
-//     () => setCurrentAddress("Location permission denied")
-//   );
-// };
+  //   navigator.geolocation.getCurrentPosition(
+  //     (pos) => {
+  //       const { latitude, longitude } = pos.coords;
+  //       setCurrentAddress(`Lat: ${latitude}, Lng: ${longitude}`);
+  //     },
+  //     () => setCurrentAddress("Location permission denied")
+  //   );
+  // };
 
   // Content for the Location Dropdown
   const locationContent = (
@@ -523,7 +524,7 @@ const changeLanguage = (newCode: string) => {
       </Link>
       <hr className="border-[#FFF9EE]" />
       <button
-        onClick={handleLogout} 
+        onClick={handleLogout}
         className="flex items-center p-3 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition w-full text-left"
       >
         {tProfile("link.logout")}
@@ -602,7 +603,6 @@ const changeLanguage = (newCode: string) => {
 
                 <button
                   onClick={() => setIsDrawerOpen(true)}
-                  
                   className="relative p-3 bg-[#0B5D4E] rounded-full hover:bg-[#084838] transition duration-150 focus:outline-none focus:ring-2 focus:ring-[#0B5D4E]"
                   aria-label="Cart"
                 >

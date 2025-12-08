@@ -166,20 +166,20 @@
     "info_subheading": "Reach out to our team — we’re here to help with partnerships, support, or general inquiries.",
 
     "card_address_title": "Our Office",
-    "card_address_line1": "123 Ocean Avenue, Innovation District, San Francisco, CA",
+    "card_address_line1": "320 Decker Suite 100, Irving Texas 75062",
 
     "card_phone_title": "Call Us",
-    "card_phone_line1": "+1 (234) 567-8901",
+    "card_phone_line1": "+1 (469) 422-5944",
     "card_phone_line2": "Mon - Fri, 9:00 AM - 6:00 PM",
 
     "card_email_title": "Email",
-    "card_email_line1": "support@yourcompany.com",
-    "card_email_line2": "info@yourcompany.com",
+    "card_email_line1": "support@jayakhub.com",
+    "card_email_line2": "info@jayakhub.com",
 
     "form_tagline": "Send us a message",
     "form_title": "We’d love to hear from you 💬",
     "form_subtitle": "Whether you have feedback, need help, or are exploring partnership opportunities, just drop us a message and our team will get back to you shortly.",
-    "form_hq_label": "Global Headquarters — San Francisco, USA",
+    "form_hq_label": "Global Headquarters: Irving Texas 75062",
 
     "field_name_label": "Name",
     "field_name_placeholder": "Your Name",
@@ -488,8 +488,7 @@
       "delete_info": "This action cannot be undone. All your data will be immediately and permanently removed",
       "button_delete": "Delete My Account"
     }
-  }
-  ,
+  },
   "filters": {
     "openButton": "Filters",
     "title": "Filters",
@@ -563,9 +562,7 @@
     "low": "$",
     "medium": "$$",
     "high": "$$$"
-  }
-,
-
+  },
   "Footer": {
     "brand": {
       "accent": "Deliver",
@@ -588,136 +585,130 @@
     },
     "support": {
       "title": "Support",
-      "phone": "(800) 123-4567",
-      "email": "support@deliverynow.com",
+      "phone": "+1 (469) 422-5944",
+      "email": "info@jayakhub.com",
       "live_chat": "Live Chat"
     },
     "bottom": {
-      "copyright": "DeliverNow Inc. All rights reserved.",
+      "copyright": "Build by Samarix. All rights reserved.",
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",
       "cookies": "Cookie Settings"
     }
+  },
+  "services": {
+    "hero": {
+      "title_part1": "Delivering",
+      "title_highlight": "Innovation",
+      "title_part2": "at Every Step",
+      "subtitle": "JAYAK HUB combines technology, AI, and design to make delivery smarter, faster, and effortless.",
+      "cta": "Get Started Today"
+    },
+
+    "metrics": {
+      "active_users": "Active Users",
+      "deliveries": "Deliveries/month",
+      "partners": "Partner Restaurants",
+      "rating": "User Rating"
+    },
+
+    "core": {
+      "section_title": "Smarter Solutions for Modern Delivery",
+      "section_tag": "Our Platform",
+      "section_desc": "Empowering logistics with automation and clarity across all touchpoints.",
+
+      "customer_journey": {
+        "title": "Seamless Customer Journey",
+        "desc": "Smooth user flow from login to delivery tracking."
+      },
+      "tracking": {
+        "title": "Live Tracking",
+        "desc": "Real-time GPS updates and smart route optimization."
+      },
+      "restaurant_dashboard": {
+        "title": "Smart Restaurant Dashboard",
+        "desc": "Manage menus, orders, and analytics in one place."
+      },
+      "ai_dispatch": {
+        "title": "AI-Driven Dispatch",
+        "desc": "Reduce delivery time with predictive driver assignments."
+      },
+      "loyalty": {
+        "title": "Loyalty & Rewards",
+        "desc": "Engage users with automatic points and cashback."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "desc": "AI + human support for instant issue resolution."
+      }
+    },
+
+    "why_us": {
+      "tag": "Why Choose Us",
+      "title": "Built for Performance and Trust",
+
+      "fast_api": {
+        "title": "Fast APIs",
+        "desc": "200ms average response time globally."
+      },
+      "uptime": {
+        "title": "99.9% Uptime",
+        "desc": "Redundant servers for seamless experience."
+      },
+      "security": {
+        "title": "Secure Infrastructure",
+        "desc": "End-to-end encryption and fraud detection."
+      }
+    },
+
+    "pricing": {
+      "tag": "Pricing",
+      "title": "Flexible Plans for Every Team",
+      "desc": "Choose the plan that fits your needs and scale your delivery operations effortlessly.",
+
+      "starter": {
+        "name": "Starter",
+        "features": ["Basic analytics", "Live tracking", "Email support"]
+      },
+      "pro": {
+        "name": "Pro",
+        "popular": "Most Popular",
+        "features": ["Loyalty system", "Priority support", "Advanced dashboard"]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "features": ["Dedicated servers", "24/7 SLA", "Custom branding"]
+      },
+
+      "choose_plan": "Choose Plan"
+    },
+
+    "testimonials": {
+      "tag": "Testimonials",
+      "title": "What Our Clients Say",
+      "desc": "Trusted by thousands of restaurants and logistics partners worldwide.",
+
+      "t1": {
+        "quote": "The JAYAK HUB platform streamlined our operations instantly. Super intuitive!",
+        "name": "Alex Johnson",
+        "job": "CEO, QuickBites Inc."
+      },
+      "t2": {
+        "quote": "Incredible speed and uptime. We've never missed a delivery window.",
+        "name": "Maria Gomez",
+        "job": "CFO, Foodie Hub"
+      },
+      "t3": {
+        "quote": "The analytics dashboard is a game-changer for our business decisions.",
+        "name": "Rahul Singh",
+        "job": "Owner, Spice Route"
+      }
+    },
+
+    "cta": {
+      "title": "Ready to Transform Your Delivery Business?",
+      "desc": "Join the growing community of businesses optimizing their delivery operations with IFDP.",
+      "button": "Contact Sales"
+    }
   }
-,
-"services": {
-  "hero": {
-    "title_part1": "Delivering",
-    "title_highlight": "Innovation",
-    "title_part2": "at Every Step",
-    "subtitle": "JAYAK HUB combines technology, AI, and design to make delivery smarter, faster, and effortless.",
-    "cta": "Get Started Today"
-  },
-
-  "metrics": {
-    "active_users": "Active Users",
-    "deliveries": "Deliveries/month",
-    "partners": "Partner Restaurants",
-    "rating": "User Rating"
-  },
-
-  "core": {
-    "section_title": "Smarter Solutions for Modern Delivery",
-    "section_tag": "Our Platform",
-    "section_desc": "Empowering logistics with automation and clarity across all touchpoints.",
-
-    "customer_journey": {
-      "title": "Seamless Customer Journey",
-      "desc": "Smooth user flow from login to delivery tracking."
-    },
-    "tracking": {
-      "title": "Live Tracking",
-      "desc": "Real-time GPS updates and smart route optimization."
-    },
-    "restaurant_dashboard": {
-      "title": "Smart Restaurant Dashboard",
-      "desc": "Manage menus, orders, and analytics in one place."
-    },
-    "ai_dispatch": {
-      "title": "AI-Driven Dispatch",
-      "desc": "Reduce delivery time with predictive driver assignments."
-    },
-    "loyalty": {
-      "title": "Loyalty & Rewards",
-      "desc": "Engage users with automatic points and cashback."
-    },
-    "support": {
-      "title": "24/7 Support",
-      "desc": "AI + human support for instant issue resolution."
-    }
-  },
-
-  "why_us": {
-    "tag": "Why Choose Us",
-    "title": "Built for Performance and Trust",
-
-    "fast_api": {
-      "title": "Fast APIs",
-      "desc": "200ms average response time globally."
-    },
-    "uptime": {
-      "title": "99.9% Uptime",
-      "desc": "Redundant servers for seamless experience."
-    },
-    "security": {
-      "title": "Secure Infrastructure",
-      "desc": "End-to-end encryption and fraud detection."
-    }
-  },
-
-  "pricing": {
-    "tag": "Pricing",
-    "title": "Flexible Plans for Every Team",
-    "desc": "Choose the plan that fits your needs and scale your delivery operations effortlessly.",
-    
-    "starter": {
-      "name": "Starter",
-      "features": ["Basic analytics", "Live tracking", "Email support"]
-    },
-    "pro": {
-      "name": "Pro",
-      "popular": "Most Popular",
-      "features": [
-        "Loyalty system",
-        "Priority support",
-        "Advanced dashboard"
-      ]
-    },
-    "enterprise": {
-      "name": "Enterprise",
-      "features": ["Dedicated servers", "24/7 SLA", "Custom branding"]
-    },
-
-    "choose_plan": "Choose Plan"
-  },
-
-  "testimonials": {
-    "tag": "Testimonials",
-    "title": "What Our Clients Say",
-    "desc": "Trusted by thousands of restaurants and logistics partners worldwide.",
-
-    "t1": {
-      "quote": "The JAYAK HUB platform streamlined our operations instantly. Super intuitive!",
-      "name": "Alex Johnson",
-      "job": "CEO, QuickBites Inc."
-    },
-    "t2": {
-      "quote": "Incredible speed and uptime. We've never missed a delivery window.",
-      "name": "Maria Gomez",
-      "job": "CFO, Foodie Hub"
-    },
-    "t3": {
-      "quote": "The analytics dashboard is a game-changer for our business decisions.",
-      "name": "Rahul Singh",
-      "job": "Owner, Spice Route"
-    }
-  },
-
-  "cta": {
-    "title": "Ready to Transform Your Delivery Business?",
-    "desc": "Join the growing community of businesses optimizing their delivery operations with IFDP.",
-    "button": "Contact Sales"
-  }
-}
-
 }

@@ -70,6 +70,7 @@ export default function useLocale(): Locale {
           timeout: 10000,
         });
 
+        // // FOR IRAQ
         // const res = {
         //   data: {
         //     AS: "AS17557 Iraq Telecom Company Limited",
@@ -88,6 +89,29 @@ export default function useLocale(): Locale {
         //     status: "success",
         //     timezone: "Asia/Baghdad",
         //     zip: "10001",
+        //     message: "hh",
+        //   },
+        // };
+
+        // // FOR PAKISTAN
+        // const res = {
+        //   data: {
+        //     AS: "AS45595 Pakistan Telecommunication Company Limited",
+        //     city: "Hyderabad",
+        //     country: "Pakistan",
+        //     countryCode: "PK",
+        //     language: "en", // English is a common official language
+        //     dir: "ltr", // Left-to-right for English
+        //     isp: "Pakistan Telecommunication Company Limited",
+        //     lat: 25.3963, // Latitude for Hyderabad, Sindh
+        //     lon: 68.3578, // Longitude for Hyderabad, Sindh
+        //     org: "Pakistan Telecommunication Company Limited", // Example Organization
+        //     query: "119.150.150.0/24", // Example IP range
+        //     region: "SD", // Region code for Sindh
+        //     regionName: "Sindh",
+        //     status: "success",
+        //     timezone: "Asia/Karachi", // Same timezone as Hyderabad, PK
+        //     zip: "71000", // Example postal code for Hyderabad
         //     message: "hh",
         //   },
         // };
