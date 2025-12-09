@@ -481,7 +481,9 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
 
       <div className="text-sm text-gray-500 mt-2">
         Current:{" "}
-        <span className="font-semibold text-gray-700 text-[12px]">{currentAddress}</span>
+        <span className="font-semibold text-gray-700 text-[12px]">
+          {currentAddress}
+        </span>
       </div>
     </div>
   );
@@ -560,12 +562,11 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
               >
                 {tHeader("topBar.businessSignup")}
               </Link>
-                 <Dropdown
-                  label={activeLang.code.toUpperCase()}
-                  icon={Globe}
-                  content={languageContent}
-                />
-
+              <Dropdown
+                label={activeLang.code.toUpperCase()}
+                icon={Globe}
+                content={languageContent}
+              />
             </div>
           </div>
         </div>
@@ -601,17 +602,16 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
                 )}
 
                 {/* Language Dropdown (Kept it small) */}
-            <div className="hidden sm:block">
+                <div className="hidden sm:block">
                   <Dropdown
-                  label={activeLang.code.toUpperCase()}
-                  icon={Globe}
-                  content={languageContent}
-                />
-            </div>
+                    label={activeLang.code.toUpperCase()}
+                    icon={Globe}
+                    content={languageContent}
+                  />
+                </div>
 
                 <button
                   onClick={() => setIsDrawerOpen(true)}
-                  
                   className="relative hidden sm:block  p-3 bg-[#0B5D4E] rounded-full hover:bg-[#084838] transition duration-150 focus:outline-none focus:ring-2 focus:ring-[#0B5D4E]"
                   aria-label="Cart"
                 >

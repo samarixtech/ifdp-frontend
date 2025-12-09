@@ -34,6 +34,8 @@ interface Locale {
   ip: string | null;
   loading: boolean;
   error?: string;
+  iso_code: string;
+  name: string;
 }
 
 export default function useLocale(): Locale {
@@ -61,14 +63,30 @@ export default function useLocale(): Locale {
     TR: "tr",
   };
 
+  function applyFallback() {
+    setIP("62.201.252.0/23");
+    setCountry("Pakistan");
+    setCountryCode("PK");
+    setRegion("Sindh");
+    setCity("Hyderabad");
+    setZip("17000");
+    setLatitude(33.3152);
+    setLongitude(44.3661);
+    setLanguage("en");
+    setDir("ltr");
+  }
+
   useEffect(() => {
     async function fetchLocale() {
       console.log("🌍 Fetching locale from IP API...");
 
       try {
-        const res = await axios.get<IPApiData>("http://ip-api.com/json", {
-          timeout: 10000,
-        });
+        const res = await axios.get<IPApiData>(
+          "http://192.168.100.29:5000/api/countries/by-ip",
+          {
+            timeout: 10000,
+          }
+        );
 
         // // FOR IRAQ
         // const res = {
@@ -116,17 +134,16 @@ export default function useLocale(): Locale {
         //   },
         // };
 
-        console.log("📥 Raw API Response:", res.data);
-
-        if (res.data?.status === "success") {
-          setIP(res.data.query || null);
-          setCountry(res.data.country || "");
-          setCountryCode(res.data.countryCode || "");
-          setRegion(res.data.regionName || res.data.region || "");
-          setCity(res.data.city || "");
-          setZip(res.data.zip || "");
-          setLatitude(res.data.lat || 0);
-          setLongitude(res.data.lon || 0);
+        const resp = res.data?.country;
+        if (resp) {
+          // setIP(resp?.query || null);
+          setCountry(resp?.name || "");
+          setCountryCode(resp?.iso_code || "");
+          // setRegion(resp?.regionName || res.data.region || "");
+          // setCity(resp?.city || "");
+          // setZip(resp?.zip || "");
+          // setLatitude(res.data.lat || 0);
+          // setLongitude(res.data.lon || 0);
 
           console.log("🗺 Location Details:", {
             country: res.data.country,
@@ -149,12 +166,14 @@ export default function useLocale(): Locale {
           setDir(direction);
           console.log("↔ Text direction:", direction);
         } else {
-          setError(res.data?.message || "Failed to get location");
-          console.warn("⚠ IP API failed:", res.data?.message);
+          // setError(res.data?.message || "Failed to get location");
+          // console.warn("⚠ IP API failed:", res.data?.message);
+          applyFallback();
         }
       } catch (err: any) {
-        console.error("❌ Failed to fetch locale:", err);
-        setError(err.message || "Network error");
+        // console.error("❌ Failed to fetch locale:", err);
+        // setError(err.message || "Network error");
+        applyFallback();
       } finally {
         setLoading(false);
         console.log("✅ Locale detection finished");
@@ -162,6 +181,7 @@ export default function useLocale(): Locale {
     }
 
     fetchLocale();
+    applyFallback();
   }, []);
 
   console.log("📤 Final Locale State Returned:", {

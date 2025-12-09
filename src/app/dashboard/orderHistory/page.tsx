@@ -315,7 +315,7 @@ export default function FoodOrdersPage() {
               </p>
             </div>
 
-            {/* Search and Filter Section (Unchanged) */}
+            {/* Search and Filter Section */}
             <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto w-full">
               <div className="relative flex-1 min-w-0">
                 <Search
@@ -326,15 +326,15 @@ export default function FoodOrdersPage() {
                   type="text"
                   placeholder="Search orders..."
                   value={searchQuery}
-                  onChange={handleSearchChange}
-                  className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
+                  onChange={handleSearchChange} //bg-[#0B5D4E]
+                  className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent text-sm sm:text-base"
                 />
               </div>
 
               <div className="relative w-full sm:w-auto" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
+                  className="w-full sm:w-auto pl-10 pr-10 py-2 sm:py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0B5D4E] focus:border-transparent cursor-pointer flex items-center gap-2 hover:bg-gray-50 transition-all min-w-[140px] sm:min-w-[180px]"
                 >
                   <Filter
                     className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -365,11 +365,11 @@ export default function FoodOrdersPage() {
                     <button
                       key={option.value}
                       onClick={() => handleFilterChange(option.value)}
-                      className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-blue-50 transition-colors group ${
+                      className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left flex items-center justify-between hover:bg-green-50 transition-colors group ${
                         index !== filterOptions.length - 1
                           ? "border-b border-gray-100"
                           : ""
-                      } ${statusFilter === option.value ? "bg-blue-50" : ""}`}
+                      } ${statusFilter === option.value ? "bg-green-50" : ""}`}
                       style={{
                         transitionDelay: isDropdownOpen
                           ? `${index * 50}ms`
@@ -380,8 +380,8 @@ export default function FoodOrdersPage() {
                         <div
                           className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center transition-all ${
                             statusFilter === option.value
-                              ? "border-blue-600 bg-blue-600"
-                              : "border-gray-300 group-hover:border-blue-400"
+                              ? "border-[#0B5D4E] bg-[#0B5D4E]"
+                              : "border-gray-300 group-hover:border-[#0B5D4E]"
                           }`}
                         >
                           {statusFilter === option.value && (
@@ -395,8 +395,8 @@ export default function FoodOrdersPage() {
                         <span
                           className={`font-medium transition-colors text-sm sm:text-base ${
                             statusFilter === option.value
-                              ? "text-blue-700"
-                              : "text-gray-700 group-hover:text-blue-600"
+                              ? "text-[#0B5D4E]"
+                              : "text-gray-700 group-hover:text-[#0B5D4E]"
                           }`}
                         >
                           {option.label}
@@ -405,8 +405,8 @@ export default function FoodOrdersPage() {
                       <span
                         className={`text-xs sm:text-sm px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full transition-all ${
                           statusFilter === option.value
-                            ? "bg-blue-200 text-blue-700"
-                            : "bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-600"
+                            ? "bg-green-100 text-[#0B5D4E]"
+                            : "bg-green-100 text-gray-600 group-hover:bg-green-100 group-hover:text-[#0B5D4E]"
                         }`}
                       >
                         {option.count}
@@ -418,7 +418,7 @@ export default function FoodOrdersPage() {
             </div>
           </header>
 
-          {/* Active Order Section (Unchanged) */}
+          {/* Active Order Section */}
           <section aria-labelledby="active-order-heading">
             <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 shadow-sm">
               <div className="flex flex-col sm:flex-row gap-4">
@@ -445,7 +445,7 @@ export default function FoodOrdersPage() {
                       <div className="text-lg font-semibold text-gray-900">
                         {activeOrder.total}
                       </div>
-                      <div className="flex items-center gap-1 text-sm text-blue-600 mt-1">
+                      <div className="flex items-center gap-1 text-sm text-[#0B5D4E] mt-1">
                         <Clock size={14} />
                         <span>ETA: {activeOrder.eta}</span>
                       </div>
@@ -460,7 +460,7 @@ export default function FoodOrdersPage() {
                     </div>
                     <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-blue-600 rounded-full transition-all duration-500"
+                        className="h-full bg-[#0B5D4E] rounded-full transition-all duration-500"
                         style={{ width: `${activeOrder.progress}%` }}
                       />
                     </div>
@@ -515,7 +515,7 @@ export default function FoodOrdersPage() {
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="text-blue-600 hover:text-blue-700 text-sm font-medium self-start sm:self-auto"
+                  className="text-green-700 hover:text-[#0B5D4E] text-sm font-medium self-start sm:self-auto"
                 >
                   Clear search
                 </button>
@@ -614,7 +614,7 @@ export default function FoodOrdersPage() {
                             className="flex gap-1 sm:gap-2 self-end sm:self-auto"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm font-medium flex items-center gap-1">
+                            <button className="px-2 sm:px-3 py-1.5 sm:py-2 bg-green-700 text-white rounded-lg hover:bg-[#0B5D4E] transition-colors text-xs sm:text-sm font-medium flex items-center gap-1">
                               <RefreshCw size={12} />
                               <span className="hidden xs:inline">Reorder</span>
                             </button>
@@ -634,7 +634,7 @@ export default function FoodOrdersPage() {
               </div>
             )}
 
-            {/* Pagination (Unchanged) */}
+            {/* Pagination */}
             {filteredOrders.length > ordersPerPage && (
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 sm:pt-6 border-t border-gray-200">
                 <div className="text-sm text-gray-700 order-2 sm:order-1">
@@ -667,7 +667,7 @@ export default function FoodOrdersPage() {
                         onClick={() => paginate(pageNumber)}
                         className={`min-w-8 sm:min-w-10 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border transition-colors text-xs sm:text-sm ${
                           currentPage === pageNumber
-                            ? "bg-blue-600 text-white border-blue-600"
+                            ? "bg-[#0B5D4E] text-white border-[#0B5D4E]"
                             : "border-gray-200 hover:bg-gray-50 text-gray-700"
                         }`}
                       >
