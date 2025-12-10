@@ -3,9 +3,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+interface CountryInfo {
+  name: string;
+  iso_code: string;
+  language_code: string;
+}
+
 interface IPApiData {
   status: "success" | "fail";
-  country: string;
+  country: CountryInfo;
   countryCode: string;
   region: string;
   regionName: string;
@@ -34,7 +40,6 @@ interface Locale {
   ip: string | null;
   loading: boolean;
   error?: string;
-  iso_code: string;
   name: string;
 }
 
@@ -53,15 +58,15 @@ export default function useLocale(): Locale {
   const [error, setError] = useState<string>("");
 
   // ---------- Country → Language Mapping ----------
-  const countryToLanguage: Record<string, string> = {
-    PK: "en",
-    IN: "en",
-    IQ: "ar",
-    SA: "ar",
-    AE: "ar",
-    JO: "ar",
-    TR: "tr",
-  };
+  // const countryToLanguage: Record<string, string> = {
+  //   PK: "en",
+  //   IN: "en",
+  //   IQ: "ar",
+  //   SA: "ar",
+  //   AE: "ar",
+  //   JO: "ar",
+  //   TR: "tr",
+  // };
 
   function applyFallback() {
     setIP("62.201.252.0/23");
@@ -145,24 +150,25 @@ export default function useLocale(): Locale {
           // setLatitude(res.data.lat || 0);
           // setLongitude(res.data.lon || 0);
 
-          console.log("🗺 Location Details:", {
-            country: res.data.country,
-            countryCode: res.data.countryCode,
-            region: res.data.regionName,
-            city: res.data.city,
-            zip: res.data.zip,
-            lat: res.data.lat,
-            lon: res.data.lon,
-          });
+          // console.log("🗺 Location Details:", {
+          //   country: res.data.country,
+          //   countryCode: res.data.countryCode,
+          //   language: resp.language_code,
+          //   region: res.data.regionName,
+          //   city: res.data.city,
+          //   zip: res.data.zip,
+          //   lat: res.data.lat,
+          //   lon: res.data.lon,
+          // });
 
           // ---------- Auto Language ----------
-          const autoLang = countryToLanguage[res.data.countryCode];
+          // const autoLang = countryToLanguage[resp.language_code];
 
-          setLanguage(autoLang);
-          console.log("🌐 Auto-selected language:", autoLang);
+          setLanguage(resp.language_code);
+          // console.log("🌐 Auto-selected language:", autoLang);
 
           // ---------- RTL / LTR ----------
-          const direction = autoLang === "ar" ? "rtl" : "ltr";
+          const direction = language === "ar" ? "rtl" : "ltr";
           setDir(direction);
           console.log("↔ Text direction:", direction);
         } else {
