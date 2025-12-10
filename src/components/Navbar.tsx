@@ -11,7 +11,9 @@ import { useRouter, usePathname, useParams } from "next/navigation";
 import { setCookie, getCookie } from "cookies-next";
 import { countryCurrencyMap } from "@/app/utils/country";
 import CountrySelector from "./ui/CountrySelector";
-import image from "./../../public/logo2.png";
+import image from "./../../public/ArbicLogo (2).png";
+import image2 from "./../../public/EngLogo (2).png";
+
 interface Language {
   code: string;
   name: string;
@@ -276,15 +278,20 @@ const changeLanguage = useCallback(
       </nav>
     );
   }
+    const isArabic = activeLangState.code === "ar";
 
   return (
     <nav className="bg-[#0B5D4E] shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto  lg:px-6">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href={getNewPath(selectedCountry.code, activeLangState.code)}>
-            <Image src={image} alt="Logo" width={220} />
-          </Link>
+      <Image
+        src={isArabic ? image : image2} 
+        alt="Logo"
+        width={270}
+      />
+    </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
