@@ -143,49 +143,50 @@ const Navbar: React.FC = () => {
     ]
   );
 
-const changeLanguage = useCallback(
-  (newLocale: string) => {
-    const newLang = languages.find((l) => l.code === newLocale) || languages[0];
+  const changeLanguage = useCallback(
+    (newLocale: string) => {
+      const newLang =
+        languages.find((l) => l.code === newLocale) || languages[0];
 
-    setCurrentLocaleState(newLocale);
-    setActiveLangState(newLang);
-    setIsDesktopLangOpen(false);
-    setIsMobileLangDropdownOpen(false);
+      setCurrentLocaleState(newLocale);
+      setActiveLangState(newLang);
+      setIsDesktopLangOpen(false);
+      setIsMobileLangDropdownOpen(false);
 
-    setCookie("NEXT_LOCALE", newLocale, {
-      maxAge: 60 * 60 * 24 * 30,
-      path: "/",
-    });
+      setCookie("NEXT_LOCALE", newLocale, {
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
 
-    document.documentElement.lang = newLang.code;
-    document.documentElement.dir = newLang.dir;
+      document.documentElement.lang = newLang.code;
+      document.documentElement.dir = newLang.dir;
 
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("locale", newLocale);
-      router.refresh();
-    }
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("locale", newLocale);
+        router.refresh();
+      }
 
-    if (selectedCountry) {
-      const newPath = getNewPath(selectedCountry.code, newLocale);
-      router.replace(newPath);
-      
-    } else {
-      router.refresh();
-    }
+      if (selectedCountry) {
+        const newPath = getNewPath(selectedCountry.code, newLocale);
+        router.refresh();
+      } else {
+        router.refresh();
+      }
 
-    if (isMobileMenuOpen) {
-      handleCloseMobileMenu();
-    }
-  },
-  [
-    selectedCountry,
-    getNewPath,
-    router,
-    isMobileMenuOpen,
-    handleCloseMobileMenu,
-    languages,
-  ]
-);
+      if (isMobileMenuOpen) {
+        handleCloseMobileMenu();
+      }
+    },
+    [
+      selectedCountry,
+      getNewPath,
+      router,
+      isMobileMenuOpen,
+      handleCloseMobileMenu,
+      languages,
+      activeLangState,
+    ]
+  );
 
   useEffect(() => {
     const initialize = async () => {
@@ -274,8 +275,7 @@ const changeLanguage = useCallback(
 
   if (!selectedCountry) {
     return (
-      <nav className="bg-[#0B5D4E] h-20 flex items-center justify-center">
-      </nav>
+      <nav className="bg-[#0B5D4E] h-20 flex items-center justify-center"></nav>
     );
   }
     const isArabic = activeLangState.code === "ar";

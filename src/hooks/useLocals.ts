@@ -29,6 +29,7 @@ interface IPApiData {
 
 interface Locale {
   country: string;
+  name?: string;
   countryCode: string;
   region: string;
   city: string;
@@ -40,7 +41,6 @@ interface Locale {
   ip: string | null;
   loading: boolean;
   error?: string;
-  name: string;
 }
 
 export default function useLocale(): Locale {

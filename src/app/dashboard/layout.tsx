@@ -4,6 +4,7 @@
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/dashboard/DashboardHeader";
+import ProtectedRoute from "@/components/services/ProtectedRoutes";
 
 export default function DashboardLayout({
   children,
@@ -26,7 +27,9 @@ export default function DashboardLayout({
         <Header setIsSidebarOpen={setIsSidebarOpen} />
 
         {/* Content */}
-        <main className="flex-1 p-6 overflow-auto">{children}</main>
+        <main className="flex-1 p-6 overflow-auto">
+          <ProtectedRoute>{children}</ProtectedRoute>
+        </main>
       </div>
     </div>
   );

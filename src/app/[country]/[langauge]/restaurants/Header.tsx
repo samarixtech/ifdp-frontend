@@ -11,8 +11,9 @@ import { RootState } from "@/redux/store/store";
 import CartDrawer from "@/components/CartDrawer";
 import AuthModal from "@/components/AuthModal";
 import useLocale from "@/hooks/useLocals";
-import image from "./../../../../../public/logo2.png";
-import { setCookie, getCookie } from "cookies-next";
+import image from "./../../../../../public/EngLogo (2).png";
+import arabicLogo from "./../../../../../public/ArbicLogo (2).png";
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
 interface UserData {
@@ -62,23 +63,23 @@ const ChevronDown = (props: React.SVGProps<SVGSVGElement>) => (
     <path d="m6 9 6 6 6-6" />
   </svg>
 );
-const ShoppingBagIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    viewBox="0 0 24 24"
-  >
-    <path d="M6 2L3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5Z" />
-    <line x1="3" x2="21" y1="7" y2="7" />
-    <path d="M12 22v-3" />
-    <path d="M12 7V2" />
-  </svg>
-);
+// const ShoppingBagIcon = (props: React.SVGProps<SVGSVGElement>) => (
+//   <svg
+//     {...props}
+//     xmlns="http://www.w3.org/2000/svg"
+//     fill="none"
+//     stroke="currentColor"
+//     strokeWidth="2"
+//     strokeLinecap="round"
+//     strokeLinejoin="round"
+//     viewBox="0 0 24 24"
+//   >
+//     <path d="M6 2L3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5Z" />
+//     <line x1="3" x2="21" y1="7" y2="7" />
+//     <path d="M12 22v-3" />
+//     <path d="M12 7V2" />
+//   </svg>
+// );
 const Globe = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
@@ -95,44 +96,45 @@ const Globe = (props: React.SVGProps<SVGSVGElement>) => (
     <line x1="2" x2="22" y1="12" y2="12" />
   </svg>
 );
-const Bike = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    viewBox="0 0 24 24"
-  >
-    <circle cx="12" cy="18" r="4" />
-    <path d="M19 18a2 2 0 0 0 0-4H7a2 2 0 0 0 0 4" />
-    <path d="M22 18h-2l-1-4h-2" />
-    <path d="m14 14 1 4h5" />
-    <path d="m5 18-1-4h-2" />
-    <path d="m3 7 3 2 4-5 5 5 1-2" />
-    <path d="M13 10V4" />
-  </svg>
-);
-const Package = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    viewBox="0 0 24 24"
-  >
-    <path d="m7.5 4.27 9.5.5c.42 0 .78-.35.8-.76V2.5A.5.5 0 0 0 18 2h-9c-.48 0-.82.3-.87.72V4.2c0-.06-.02-.12-.02-.18" />
-    <path d="m20 10-8-5-8 5V21l8-4 8 4Z" />
-    <path d="m12 17 8 4M12 17 4 21M4 21V10M20 10v11" />
-  </svg>
-);
+// const Bike = (props: React.SVGProps<SVGSVGElement>) => (
+//   <svg
+//     {...props}
+//     xmlns="http://www.w3.org/2000/svg"
+//     fill="none"
+//     stroke="currentColor"
+//     strokeWidth="2"
+//     strokeLinecap="round"
+//     strokeLinejoin="round"
+//     viewBox="0 0 24 24"
+//   >
+//     <circle cx="12" cy="18" r="4" />
+//     <path d="M19 18a2 2 0 0 0 0-4H7a2 2 0 0 0 0 4" />
+//     <path d="M22 18h-2l-1-4h-2" />
+//     <path d="m14 14 1 4h5" />
+//     <path d="m5 18-1-4h-2" />
+//     <path d="m3 7 3 2 4-5 5 5 1-2" />
+//     <path d="M13 10V4" />
+//   </svg>
+// );
+// const Package = (props: React.SVGProps<SVGSVGElement>) => (
+//   <svg
+//     {...props}
+//     xmlns="http://www.w3.org/2000/svg"
+//     fill="none"
+//     stroke="currentColor"
+//     strokeWidth="2"
+//     strokeLinecap="round"
+//     strokeLinejoin="round"
+//     viewBox="0 0 24 24"
+//   >
+//     <path d="m7.5 4.27 9.5.5c.42 0 .78-.35.8-.76V2.5A.5.5 0 0 0 18 2h-9c-.48 0-.82.3-.87.72V4.2c0-.06-.02-.12-.02-.18" />
+//     <path d="m20 10-8-5-8 5V21l8-4 8 4Z" />
+//     <path d="m12 17 8 4M12 17 4 21M4 21V10M20 10v11" />
+//   </svg>
+// );
 
 // ---------------- Profile Dropdown ----------------
+
 interface ProfileDropdownProps {
   profileContent: React.ReactNode;
 }
@@ -259,16 +261,13 @@ interface IFDPHeaderProps {
   currentLangCode?: string;
 }
 
-const IFDPHeader: React.FC<IFDPHeaderProps> = ({
-  currentCountryCode = "PK",
-  currentLangCode = "en",
-}) => {
+const IFDPHeader: React.FC<IFDPHeaderProps> = () => {
   const tHeader = useTranslations("idfpHeader");
   const tLocation = useTranslations("location.dropdown");
-  const tLanguage = useTranslations("language.dropdown");
+  // const tLanguage = useTranslations("language.dropdown");
   const tProfile = useTranslations("profile");
   const [currentAddress, setCurrentAddress] = useState("Detecting location...");
-  const { country, language } = useLocale();
+  const { country, language, dir } = useLocale();
   const router = useRouter();
 
   // -------- Auth State --------
@@ -541,10 +540,10 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
           <div className="max-w-7xl mx-auto flex justify-between items-center h-10">
             <Link href="/home" className="flex items-center">
               <Image
-                src={image}
+                src={activeLang.code === "ar" ? arabicLogo : image}
                 alt="Logo"
-                width={160}
-                height={90}
+                width={250}
+                height={150}
                 className="object-contain"
                 priority
               />
@@ -562,18 +561,20 @@ const IFDPHeader: React.FC<IFDPHeaderProps> = ({
               >
                 {tHeader("topBar.businessSignup")}
               </Link>
-              <Dropdown
-                label={activeLang.code.toUpperCase()}
-                icon={Globe}
-                content={languageContent}
-              />
+              <div className="md:hidden lg:hidden">
+                <Dropdown
+                  label={activeLang.code.toUpperCase()}
+                  icon={Globe}
+                  content={languageContent}
+                />
+              </div>
             </div>
           </div>
         </div>
         <nav className="bg-[#E8F4F1] shadow-xl">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
             <div className="flex justify-between items-center h-12 space-x-2">
-              <div className="flex items-center space-x-2 lg:space-x-12 w-full lg:w-[360px]">
+              <div className="flex items-start space-x-2 lg:space-x-12 w-full lg:w-[360px]">
                 <Dropdown
                   label={currentAddress}
                   icon={MapPin}
