@@ -1,7 +1,8 @@
 import { useCLC } from "@/app/context/CLCContext.tsx";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import image from "./../../../../../public/logo.png";
+import image from "./../../../../../public/EngLogo (2).png";
+import arabicLogo from "./../../../../../public/ArbicLogo (2).png";
 import Image from "next/image";
 import { useAutoLocation } from "@/hooks/useAutoLocation";
 import GPSLoader from "@/components/ui/restaurants/GpsLoader";
@@ -172,11 +173,11 @@ const Home: React.FC = () => {
 
         {/* Image */}
         <Image
-          src={image || "/default-mascot.png"}
+          src={language == "en" ? image : arabicLogo}
           alt="JAYAK HUB mascot"
-          width={350}
+          width={400}
           height={150}
-          className="rounded-xl object-contain mx-auto md:ml-auto w-40 sm:w-52 md:w-72 lg:w-80"
+          className="rounded-xl object-contain mx-auto md:ml-auto "
           priority={false}
         />
       </div>

@@ -11,21 +11,20 @@ export default function ProtectedRoute({
 }) {
   const { country, language } = useLocale();
   const router = useRouter();
-  const [isChecking, setIsChecking] = useState(true); // ✅ track token check
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     const token = sessionStorage.getItem("authToken");
 
     if (!token) {
-      router.replace("/"); // redirect if no token
+      router.replace("/");
     } else {
-      setIsChecking(false); // allow rendering if token exists
+      setIsChecking(false);
     }
   }, [router]);
 
-  // ✅ Block rendering until token is checked
   if (isChecking) {
-    return <h1>loading</h1>; // or a loader component if you want
+    return <h1>loading</h1>;
   }
 
   return <>{children}</>;
